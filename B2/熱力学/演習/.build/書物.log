@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.euc) (TeX Live 2025) (preloaded format=platex 2025.6.13)  25 NOV 2026 15:25
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.00-250202-2.6 (utf8.euc) (TeX Live 2025) (preloaded format=platex 2025.6.13)  26 NOV 2026 16:40
 entering extended mode
  restricted \write18 enabled.
  Source specials enabled.
@@ -671,28 +671,28 @@ File: l3backend-dvipdfmx.def 2025-04-14 L3 backend support: dvipdfmx
 ) (.build/書物.aux)
 \openout1 = `書物.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
@@ -733,49 +733,49 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 27.
+Package hyperref Info: Link coloring ON on input line 26.
 (.build/書物.out) (.build/書物.out)
 \@outlinefile=\write4
 \openout4 = `書物.out'.
 
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 29.
+(Font)              scaled to size 16.60605pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 16.60605pt on input line 29.
+(Font)              scaled to size 16.60605pt on input line 28.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 29.
+(Font)              scaled to size 11.53198pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 29.
+(Font)              scaled to size 11.53198pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 5.76599pt on input line 29.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 29.
+(Font)              scaled to size 5.76599pt on input line 28.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 28.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 29.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 28.
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 29.
+(Font)              scaled to size 8.64899pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 29.
+(Font)              scaled to size 8.64899pt on input line 28.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 29.
+(Font)              scaled to size 8.64899pt on input line 28.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 8.64899pt on input line 29.
+(Font)              scaled to size 8.64899pt on input line 28.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 32.
+(Font)              scaled to size 9.60999pt on input line 31.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 32.
+(Font)              scaled to size 9.60999pt on input line 31.
 LaTeX Font Info:    Font shape `JT1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 32.
+(Font)              scaled to size 13.83836pt on input line 31.
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 32.
+(Font)              scaled to size 13.83836pt on input line 31.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 32.
+(Font)              scaled to size 13.83836pt on input line 31.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 13.83836pt on input line 32.
+(Font)              scaled to size 13.83836pt on input line 31.
 (.build/書物.toc
 LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
 (Font)              scaled to size 6.72699pt on input line 2.
@@ -793,9 +793,9 @@ LaTeX Font Info:    Font shape `JY1/mc/m/n' will be
 
 [2]
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 42.
+(Font)              scaled to size 11.53198pt on input line 41.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 11.53198pt on input line 42.
+(Font)              scaled to size 11.53198pt on input line 41.
 
 
 [3]
@@ -807,11 +807,11 @@ LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
 [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
+(hyperref)                removing `math shift' on input line 149.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 150.
+(hyperref)                removing `math shift' on input line 149.
 
 
 
@@ -820,19 +820,19 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [8]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 216.
+(hyperref)                removing `math shift' on input line 215.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 216.
+(hyperref)                removing `subscript' on input line 215.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 216.
+(hyperref)                removing `subscript' on input line 215.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 216.
+(hyperref)                removing `math shift' on input line 215.
 
 
 
@@ -850,13 +850,13 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 [15]
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 437.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 436.
 LaTeX Font Info:    Font shape `JT1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 437.
+(Font)              scaled to size 9.60999pt on input line 436.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 437.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 436.
 LaTeX Font Info:    Font shape `JY1/gt/m/n' will be
-(Font)              scaled to size 9.60999pt on input line 437.
+(Font)              scaled to size 9.60999pt on input line 436.
 
 
 [16]
@@ -879,10 +879,10 @@ Package rerunfilecheck Info: File `書物.out' has not changed.
 Here is how much of TeX's memory you used:
  23559 strings out of 468530
  436377 string characters out of 5449390
- 830029 words of memory out of 5000000
+ 830030 words of memory out of 5000000
  51720 multiletter control sequences out of 15000+600000
  697341 words of font info for 118 fonts, out of 8000000 for 9000
  934 hyphenation exceptions out of 8191
- 84i,11n,93p,478b,547s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,11n,93p,478b,533s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on .build/書物.dvi (18 pages, 104796 bytes).
+Output written on .build/書物.dvi (18 pages, 104844 bytes).
