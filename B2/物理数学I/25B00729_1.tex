@@ -1,0 +1,63 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学I演習レポート1}
+\author{嶋田 悠音}
+\date{2026年5月6日}
+
+\begin{document}
+  \maketitle
+  \subsection*{問題 7.1}
+  
+  \subsubsection*{(i) $\sin z$ の Maclaurin 展開と収束半径}
+  $\sin z$ の Maclaurin 展開は、以下の級数で与えられる。
+  \begin{align*}
+    \sin z = \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} z^{2n+1} = z - \frac{z^3}{3!} + \frac{z^5}{5!} - \dots
+  \end{align*}
+  この級数の第 $n$ 項を $a_n$ とすると、ダランベールの収束判定法により、
+  \begin{align*}
+    \lim_{n \to \infty} \left| \frac{a_{n+1}}{a_n} \right| = \lim_{n \to \infty} \left| \frac{z^2}{(2n+2)(2n+3)} \right| = 0
+  \end{align*}
+  となる。これが任意の複素数 $z$ に対して成り立つため、この級数は複素平面全体で収束する。したがって、収束半径 $R$ は無限大（$R = \infty$）である。
+
+  \subsubsection*{(ii) $1/\sin z$ の Laurent 展開の導出}
+  (i) で求めた展開式を用いると、$1/\sin z$ は次のように書ける(oはランダウの記号)。
+  \begin{align*}
+    \frac{1}{\sin z} &= \frac{1}{z - \frac{z^3}{6} + \frac{z^5}{120} - o(z^5)} \\
+    &= \frac{1}{z} \cdot \frac{1}{1 - \left( \frac{z^2}{6} - \frac{z^4}{120} + o(z^4) \right)}
+  \end{align*}
+  ここで、$\alpha = \frac{z^2}{6} - \frac{z^4}{120} + o(z^4)$ とおく。$|z|$ が十分に小さいとき $|\alpha| < 1$ とみなせるため、べき級数の展開公式
+  \begin{align*}
+    \frac{1}{1-\alpha} = 1 + \alpha + \alpha^2 + \alpha^3 + \dots
+  \end{align*}
+  を適用することができる。これを $z^4$ の次数まで考慮して展開すると、以下のようになる。
+  \begin{align*}
+    \frac{1}{\sin z} &= \frac{1}{z} \left[ 1 + \left( \frac{z^2}{6} - \frac{z^4}{120} \right) + \left( \frac{z^2}{6} - \frac{z^4}{120} \right)^2 + o(z^4) \right] \\
+    &= \frac{1}{z} \left[ 1 + \frac{z^2}{6} - \frac{z^4}{120} + \left( \frac{z^4}{36} + o(z^6) \right) + 0(z^4) \right] \\
+    &= \frac{1}{z} \left[ 1 + \frac{z^2}{6} + \left( \frac{-3 + 10}{360} \right) z^4 + o(z^4) \right] \\
+    &= \frac{1}{z} + \frac{z}{6} + \frac{7}{360} z^3 + o(z^3)
+  \end{align*}
+  以上より、求める Laurent 展開の $z^3$ の項までの結果は、
+  \begin{align*}
+    \frac{1}{\sin z} = \frac{1}{z} + \frac{z}{6} + \frac{7}{360} z^3 + \dots
+  \end{align*}
+  である。
+
+  \subsubsection*{(iii) 展開の有効範囲}
+  関数 $f(z) = \frac{1}{\sin z}$ は、分母が零となる点、すなわち $\sin z = 0$ を満たす $z = n\pi$ （$n$ は整数）において孤立特異点を持つ。
+  Laurent 展開 $0 < |z - z_0| < R$ が有効となる半径 $R$ は、中心 $z_0 = 0$ から最も近い特異点までの距離に等しい。
+  原点以外で最も原点に近い特異点は $z = \pi$ および $z = -\pi$ である。
+  したがって、この Laurent 展開が有効な範囲は、中心の極 $z=0$ を除いた以下の領域となる。
+  \begin{align*}
+    0 < |z| < \pi
+  \end{align*}
+\end{document}

@@ -1,0 +1,426 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{物理数学II演習レポート10}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+  \maketitle
+  \section*{問題3}
+
+  \subsection*{I.(i)}
+  
+  本問では、初め一様な温度$T_0$に保たれていた半径$a$の球を、時刻$t=0$から表面温度が$0$の熱浴に接触させたときの温度分布を求める。初期温度および境界条件は球対称であるため、球内部の温度を$T(r,t)$と書けば、これは動径座標$r$と時刻$t$のみに依存する。\\
+  球対称な関数に対するLaplacianは、球座標を用いて次のように書ける：
+  \begin{align*}
+    \nabla^2T=\frac{1}{r^2}\hb{}{r}\left(r^2\hb{T}{r}\right)=\nhb{2}{T}{r}+\frac{2}{r}\hb{T}{r}。
+  \end{align*}
+  したがって、球内部における熱伝導方程式は、
+  \begin{align*}
+    \hb{T}{t}=\kappa\left(\nhb{2}{T}{r}+\frac{2}{r}\hb{T}{r}\right)。
+  \end{align*}
+  この方程式を変数分離法によって解く。温度分布を動径方向と時間方向の関数の積として、
+  \begin{align*}
+    T(r,t)=R(r)\tau(t)
+  \end{align*}
+  とおく。これを熱伝導方程式に代入する：
+  \begin{align*}
+    R(r)\bbn{\tau}{t}=\kappa\tau(t)\left(\nbbn{2}{R}{r}+\frac{2}{r}\bbn{R}{r}\right)。
+  \end{align*}
+  両辺を$\kappa R(r)\tau(t)$で割る：
+  \begin{align*}
+    \frac{1}{\kappa\tau}\bbn{\tau}{t}=\frac{1}{R}\left(\nbbn{2}{R}{r}+\frac{2}{r}\bbn{R}{r}\right)。
+  \end{align*}
+  左辺は$t$のみ、右辺は$r$のみの関数であるため、両辺は変数によらない同一の定数に等しくなければならない。時間とともに減衰する解を得るため、分離定数を $-k^2$ とおく：
+  \begin{align*}
+    \frac{1}{\kappa\tau}\bbn{\tau}{t}=\frac{1}{R}\left(\nbbn{2}{R}{r}+\frac{2}{r}\bbn{R}{r}\right)=-k^2。
+  \end{align*}
+  まず、時間方向の方程式は、
+  \begin{align*}
+    \bbn{\tau}{t}&=-\kappa k^2\tau。
+  \end{align*}
+  これを解くことにより、
+  \begin{align*}
+    \tau(t)&=C e^{-\kappa k^2t}
+  \end{align*}
+  を得る。一方、動径方向の方程式は、
+  \begin{align*}
+    \nbbn{2}{R}{r}+\frac{2}{r}\bbn{R}{r}+k^2R&=0。
+  \end{align*}
+  この方程式に含まれる一階微分の項を消去するため、
+  \begin{align*}
+    R(r)&=\frac{f(r)}{r}
+  \end{align*}
+  とおく。このとき、$R(r)$の一階および二階微分は、
+  \begin{align*}
+    \bbn{R}{r}
+    &=\frac{f'}{r}-\frac{f}{r^2},\\
+    \nbbn{2}{R}{r}
+    &=\frac{f''}{r}-\frac{2f'}{r^2}+\frac{2f}{r^3}。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    \nbbn{2}{R}{r}+\frac{2}{r}\bbn{R}{r}
+    &=\frac{f''}{r}-\frac{2f'}{r^2}+\frac{2f}{r^3}
+      +\frac{2}{r}\left(\frac{f'}{r}-\frac{f}{r^2}\right)\\
+    &=\frac{f''}{r}。
+  \end{align*}
+  これを動径方向の方程式に代入する：
+  \begin{align*}
+    \frac{1}{r}\left(f''+k^2f\right)&=0。
+  \end{align*}
+  よって、$f(r)$が満たす方程式は
+  \begin{align*}
+    \nbbn{2}{f}{r}+k^2f&=0
+  \end{align*}
+  であり、その一般解は次のようになる：
+  \begin{align*}
+    f(r)&=A\sin kr+B\cos kr。
+  \end{align*}
+  したがって、動径方向の関数は次のように表される：
+  \begin{align*}
+    R(r)&=\frac{A\sin kr+B\cos kr}{r}。
+  \end{align*}
+  球の中心$r=0$において、物理的な温度は有限でなければならない。$r\to0$における各項の極限を調べると、
+  \begin{align*}
+    \lim_{r\to0}\frac{\sin kr}{r}&=k,\\
+    \lim_{r\to0}\frac{\cos kr}{r}&=\infty。
+  \end{align*}
+  したがって、中心における発散を避けるためには$B=0$でなければならない。よって、動径方向の解は次のようになる：
+  \begin{align*}
+    R(r)&=A\frac{\sin kr}{r}。
+  \end{align*}
+  時刻$t=0$以降、球面は温度$0$の熱浴に接しているため、境界条件は次のようになる：
+  \begin{align*}
+    T(a,t)&=0\qquad (t>0)。
+  \end{align*}
+  これを変数分離解に課す：
+  \begin{align*}
+    R(a)&=0。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    \sin ka&=0
+  \end{align*}
+  となり、許される波数は次のようになる：
+  \begin{align*}
+    k=k_n=\frac{n\pi}{a}\qquad (n=1,2,3,\ldots)。
+  \end{align*}
+  各 $n$ に対応する独立な解の線形結合として、球の中心で有限かつ球面で温度が$0$となる一般解は次のようになる：
+  \begin{align*}
+    T(r,t)&=\sum_{n=1}^{\infty}C_n\frac{\sin(n\pi r/a)}{r}e^{-\kappa n^2\pi^2t/a^2}。
+  \end{align*}
+  以上より、境界条件を満たす球対称な熱伝導方程式の一般解が得られた。
+  \subsection*{I.(ii)}
+  次に、時刻$t=0$において球全体が一様な温度$T_0$に保たれているという初期条件を用いて、一般解に含まれる係数$C_n$を決定する。初期条件は、
+  \begin{align*}
+    T(r,0)&=T_0\qquad (0\leq r<a)。
+  \end{align*}
+  一般解に$t=0$を代入する：
+  \begin{align*}
+    T_0
+    &=\sum_{n=1}^{\infty}
+      C_n\frac{\sin(n\pi r/a)}{r}。
+  \end{align*}
+  両辺に$r$を掛ける：
+  \begin{align*}
+    T_0r
+    &=\sum_{n=1}^{\infty}
+      C_n\sin\frac{n\pi r}{a}。
+  \end{align*}
+  したがって、関数$T_0r$を区間$0\leq r\leq a$においてFourier正弦級数に展開すればよい。\\
+  区間$0\leq r\leq a$における正弦関数の直交関係は、
+  \begin{align*}
+    \int_0^a
+    \sin\frac{m\pi r}{a}
+    \sin\frac{n\pi r}{a}\,dr
+    &=\frac{a}{2}\delta_{mn}。
+  \end{align*}
+  初期条件を表す級数の両辺に$\sin(m\pi r/a)$を掛け、$0$から$a$まで積分する：
+  \begin{align*}
+    T_0\int_0^a
+    r\sin\frac{m\pi r}{a}\,dr
+    &=\frac{a}{2}C_m。
+  \end{align*}
+  よって、添字を$n$と書き直すと、
+  \begin{align*}
+    C_n
+    &=\frac{2T_0}{a}
+      \int_0^a r\sin\frac{n\pi r}{a}\,dr。
+  \end{align*}
+  ここで、右辺の積分を部分積分によって計算する：
+  \begin{align*}
+    \int_0^a r\sin\frac{n\pi r}{a}\,dr
+    &=\left[
+      -\frac{ar}{n\pi}\cos\frac{n\pi r}{a}
+    \right]_0^a
+    +\frac{a}{n\pi}
+    \int_0^a\cos\frac{n\pi r}{a}\,dr\\
+    &=-\frac{a^2}{n\pi}\cos n\pi
+      +\frac{a^2}{n^2\pi^2}
+      \left[
+        \sin\frac{n\pi r}{a}
+      \right]_0^a\\
+    &=-\frac{a^2}{n\pi}(-1)^n。
+  \end{align*}
+  したがって、展開係数は、
+  \begin{align*}
+    C_n
+    &=\frac{2T_0}{a}
+      \left\{
+        -\frac{a^2}{n\pi}(-1)^n
+      \right\}\\
+    &=\frac{2aT_0}{n\pi}(-1)^{n+1}。
+  \end{align*}
+  この係数を一般解に代入することにより、球内部の温度分布の時間変化は次のように求められる：
+  \begin{align*}
+    T(r,t)
+    &=\frac{2aT_0}{\pi r}
+      \sum_{n=1}^{\infty}
+      \frac{(-1)^{n+1}}{n}
+      \sin\frac{n\pi r}{a}
+      e^{-\kappa n^2\pi^2t/a^2}。
+  \end{align*}
+  
+  \subsection*{II.(i)}
+  
+  次に、半径$a$の無限に長い円柱を、球の場合と同様に表面から冷却する場合を考える。円柱は軸方向に無限に長く、初期条件および境界条件は円柱軸のまわりで対称である。そのため、温度は円柱座標の動径座標$\rho$と時刻$t$のみに依存する。温度を$T(\rho,t)$と書けば、軸対称かつ軸方向に一様な関数に対するLaplacianは次のようになる：
+  \begin{align*}
+    \nabla^2T
+    &=\frac{1}{\rho}\hb{}{\rho}\left(\rho\hb{T}{\rho}\right)=\nhb{2}{T}{\rho}+\frac{1}{\rho}\hb{T}{\rho}。
+  \end{align*}
+  したがって、円柱内部の熱伝導方程式は、
+  \begin{align*}
+    \hb{T}{t}=\kappa\left(\nhb{2}{T}{\rho}+\frac{1}{\rho}\hb{T}{\rho}\right)。
+  \end{align*}
+  球の場合と同様に、変数分離形
+  \begin{align*}
+    T(\rho,t)&=R(\rho)\tau(t)
+  \end{align*}
+  を仮定する。これを熱伝導方程式に代入し、両辺を$\kappa R\tau$で割る：
+  \begin{align*}
+    \frac{1}{\kappa\tau}\bbn{\tau}{t}=\frac{1}{R}\left(\nbbn{2}{R}{\rho}+\frac{1}{\rho}\bbn{R}{\rho}\right)=-k^2。
+  \end{align*}
+  時間方向の方程式は、
+  \begin{align*}
+    \bbn{\tau}{t}&=-\kappa k^2\tau
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \tau(t)&=C e^{-\kappa k^2t}
+  \end{align*}
+  を得る。一方、動径方向の方程式は、
+  \begin{align*}
+    \nbbn{2}{R}{\rho}+\frac{1}{\rho}\bbn{R}{\rho}+k^2R&=0。
+  \end{align*}
+  ここで、無次元変数
+  \begin{align*}
+    x=k\rho
+  \end{align*}
+  を導入する。このとき、
+  \begin{align*}
+    \bbn{R}{\rho}=k\bbn{R}{x},\quad\nbbn{2}{R}{\rho}=k^2\nbbn{2}{R}{x}
+  \end{align*}
+  である。これらを動径方向の方程式に代入する：
+  \begin{align*}
+    k^2\nbbn{2}{R}{x}+\frac{k}{\rho}\bbn{R}{x}+k^2R=0。
+  \end{align*}
+  ここで$\rho=x/k$を用い、全体を$k^2$で割る：
+  \begin{align*}
+    \nbbn{2}{R}{x}+\frac{1}{x}\bbn{R}{x}+R=0。
+  \end{align*}
+  さらに両辺に$x^2$を掛ける：
+  \begin{align*}
+    x^2\nbbn{2}{R}{x}
+    +x\bbn{R}{x}
+    +x^2R&=0。
+  \end{align*}
+  これは$0$次のBessel方程式である。したがって、その一般解は次のようになる：
+  \begin{align*}
+    R(\rho)
+    &=A J_0(k\rho)+B Y_0(k\rho)。
+  \end{align*}
+  ここで、$J_0$は第1種 Bessel 関数、$Y_0$は第2種Bessel関数である。\\
+  第2種Bessel関数$Y_0(k\rho)$は$\rho\to0$において発散する。円柱の中心軸で温度が有限であるためには$B=0$でなければならない。したがって、動径方向の解は次のようになる：
+  \begin{align*}
+    R(\rho)&=A J_0(k\rho)
+  \end{align*}
+  円柱表面を温度$0$に保つため、境界条件は次のようになる：
+  \begin{align*}
+    T(a,t)&=0\qquad (t>0)。
+  \end{align*}
+  これを変数分離解に課す：
+  \begin{align*}
+    J_0(ka)&=0。
+  \end{align*}
+  $J_0(x)$の$n$番目の正の零点を$x_n$と書けば、
+  \begin{align*}
+    k_na&=x_n
+  \end{align*}
+  であるから、許される波数は次のようになる：
+  \begin{align*}
+    k_n&=\frac{x_n}{a}。
+  \end{align*}
+  各固有モードの線形結合として、円柱内部の温度分布の一般解は次のようになる：
+  \begin{align*}
+    T(\rho,t)
+    &=\sum_{n=1}^{\infty}
+      A_nJ_0\left(\frac{x_n\rho}{a}\right)
+      e^{-\kappa x_n^2t/a^2}。
+  \end{align*}
+  以上より、円柱の中心軸で有限かつ表面で温度が $0$ となる一般解が得られた。
+  
+  \subsection*{II.(ii)}
+  
+  時刻 $t=0$ において円柱全体は一様な温度 $T_0$ に保たれている。したがって、初期条件は次のようになる：
+  \begin{align*}
+    T(\rho,0)&=T_0\qquad (0\leq\rho<a)。
+  \end{align*}
+  一般解に $t=0$ を代入する：
+  \begin{align*}
+    T_0
+    &=\sum_{n=1}^{\infty}
+      A_nJ_0\left(\frac{x_n\rho}{a}\right)。
+  \end{align*}
+  ここで、問題文で与えられた Bessel 関数の直交関係は次である：
+  \begin{align*}
+    \int_0^a
+    J_0\left(\frac{x_m\rho}{a}\right)
+    J_0\left(\frac{x_n\rho}{a}\right)
+    \rho\,d\rho
+    &=\delta_{mn}\frac{a^2}{2}[J_1(x_n)]^2。
+  \end{align*}
+  初期条件を表す級数の両辺に$J_0(x_m\rho/a)\rho$を掛け、$0$から$a$まで積分する：
+  \begin{align*}
+    T_0\int_0^a
+    J_0\left(\frac{x_m\rho}{a}\right)
+    \rho\,d\rho
+    &=\sum_{n=1}^{\infty}
+      A_n\int_0^a
+      J_0\left(\frac{x_m\rho}{a}\right)
+      J_0\left(\frac{x_n\rho}{a}\right)
+      \rho\,d\rho\\
+    &=A_m\frac{a^2}{2}[J_1(x_m)]^2。
+  \end{align*}
+  したがって、添字を $n$ と書き直せば、
+  \begin{align*}
+    A_n
+    &=\frac{2T_0}{a^2[J_1(x_n)]^2}
+      \int_0^a
+      J_0\left(\frac{x_n\rho}{a}\right)
+      \rho\,d\rho。
+  \end{align*}
+  問題文で与えられた積分公式は次である：
+  \begin{align*}
+    \int \rho J_0(k\rho)\,d\rho
+    &=\frac{\rho}{k}J_1(k\rho)。
+  \end{align*}
+  ここで$k=x_n/a$とおく：
+  \begin{align*}
+    \int_0^a
+    J_0\left(\frac{x_n\rho}{a}\right)
+    \rho\,d\rho
+    &=\left[
+      \frac{a\rho}{x_n}
+      J_1\left(\frac{x_n\rho}{a}\right)
+    \right]_0^a\\
+    &=\frac{a^2}{x_n}J_1(x_n)。
+  \end{align*}
+  これを展開係数の式に代入する：
+  \begin{align*}
+    A_n
+    &=\frac{2T_0}{a^2[J_1(x_n)]^2}
+      \frac{a^2}{x_n}J_1(x_n)\\
+    &=\frac{2T_0}{x_nJ_1(x_n)}。
+  \end{align*}
+  したがって、初期条件および境界条件を満たす円柱内部の温度分布は次のようになる：
+  \begin{align*}
+    T(\rho,t)
+    &=2T_0\sum_{n=1}^{\infty}
+      \frac{J_0(x_n\rho/a)}{x_nJ_1(x_n)}
+      e^{-\kappa x_n^2t/a^2}。
+  \end{align*}
+  
+  \subsection*{II.(iii)}
+  最後に、球の中心温度と円柱の中心軸上の温度を比較する。長時間が経過すると、大きな固有値に対応する高次の項は速やかに減衰するため、温度の時間変化は最小の固有値に対応する第1項によって支配される。\\
+  まず、球の中心温度は、I.(ii)で得た結果から次のようになる：
+  \begin{align*}
+    T_{\mathrm{s}}(0,t)
+    &=2T_0\sum_{n=1}^{\infty}
+      (-1)^{n+1}
+      e^{-\kappa n^2\pi^2t/a^2}。
+  \end{align*}
+  長時間では$n=1$の項が支配的であるため、
+  \begin{align*}
+    T_{\mathrm{s}}(0,t)
+    &\sim 2T_0e^{-\kappa\pi^2t/a^2}。
+  \end{align*}
+  一方、円柱の中心軸では$\rho=0$であり、$J_0(0)=1$である。したがって、II.(ii)で得た温度分布から次のようになる：
+  \begin{align*}
+    T_{\mathrm{c}}(0,t)
+    &=2T_0\sum_{n=1}^{\infty}
+      \frac{1}{x_nJ_1(x_n)}
+      e^{-\kappa x_n^2t/a^2}。
+  \end{align*}
+  長時間では同様に$n=1$の項が支配的であるため、
+  \begin{align*}
+    T_{\mathrm{c}}(0,t)
+    &\sim
+      \frac{2T_0}{x_1J_1(x_1)}
+      e^{-\kappa x_1^2t/a^2}。
+  \end{align*}
+  球と円柱のどちらが速く冷えるかを判定するため、それぞれの指数関数の減衰率を比較する。球の減衰率は $\kappa\pi^2/a^2$、円柱の減衰率は $\kappa x_1^2/a^2$ である。問題文で与えられた値 $x_1\simeq2.405$ を用いると、
+  \begin{align*}
+    x_1^2&\simeq(2.405)^2\simeq5.784,\\
+    \pi^2&\simeq9.870。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    x_1^2&<\pi^2 \therefore \frac{\kappa x_1^2}{a^2}<\frac{\kappa\pi^2}{a^2}
+  \end{align*}
+  であり、球の中心温度のほうが、円柱の中心軸温度より早く冷えることがわかる。
+\end{document}

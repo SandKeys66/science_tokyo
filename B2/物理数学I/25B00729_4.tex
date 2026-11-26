@@ -1,0 +1,101 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学演習Iレポート4}
+\author{嶋田 悠音}
+\date{2026年5月17日}
+
+\begin{document}
+  \maketitle
+  \subsection*{10.1}
+
+  \subsubsection*{(i)}
+  定積分 $I = \int_{-\infty}^{\infty} \frac{e^{ikx}}{x^2+a^2} dx$ ($a>0, k \in \mathbb{R}$) を求める。
+  複素関数 $f(z) = \frac{e^{ikz}}{z^2+a^2}$ を考え、実軸上の区間 $[-R, R]$ と半径 $R$ の半円からなる閉曲線 $\mathcal{C}$ を積分路とする。 $k$ の符号によって半円を上下のどちらに取るかを分ける。
+
+  \begin{enumerate}
+      \item $k > 0$ の場合：
+      上半平面の半円 $C_R$ を積分路とする。ジョルダンの補助定理より、$R \to \infty$ のとき $C_R$ 上の積分は $0$ に収束する。
+      $\mathcal{C}$ の内部にある極は $z = ia$（1位の極）のみである。この点における留数は、
+      \begin{align*}
+      \text{Res}(f, ia) = \lim_{z \to ia} (z-ia) \frac{e^{ikz}}{(z-ia)(z+ia)} = \frac{e^{-ka}}{2ia}
+      \end{align*}
+      留数定理より、
+      \begin{align*}
+      I = 2\pi i \cdot \text{Res}(f, ia) = 2\pi i \left( \frac{e^{-ka}}{2ia} \right) = \frac{\pi e^{-ka}}{a}
+      \end{align*}
+
+      \item $k < 0$ の場合：
+      下半平面の半円 $C_R'$ を時計回りの向きに選ぶ。ジョルダンの補助定理より、$R \to \infty$ で $C_R'$ 上の積分は $0$ に収束する。
+      内部にある極は $z = -ia$（1位の極）のみである。この点における留数は、
+      \begin{align*}
+      \text{Res}(f, -ia) = \lim_{z \to -ia} (z+ia) \frac{e^{ikz}}{(z-ia)(z+ia)} = \frac{e^{ka}}{-2ia}
+      \end{align*}
+      積分路の向きが時計回り（負の向き）であることに注意して留数定理を適用すると、
+      \begin{align*}
+      I = -2\pi i \cdot \text{Res}(f, -ia) = -2\pi i \left( \frac{e^{ka}}{-2ia} \right) = \frac{\pi e^{ka}}{a}
+      \end{align*}
+
+      \item $k = 0$ の場合：
+      上記の両式において $k=0$ とすると $\frac{\pi}{a}$ となり一致する。
+  \end{enumerate}
+  以上を絶対値を用いてまとめると、求める積分値は以下のようになる。
+  \begin{align*}
+  I = \frac{\pi e^{-|k|a}}{a}
+  \end{align*}
+
+  \subsubsection*{(ii)}
+  定積分 $I = \int_{-\infty}^{\infty} \frac{e^{ax}}{1+e^x} dx$ ($0<a<1$) を求める。
+  複素関数 $f(z) = \frac{e^{az}}{1+e^z}$ を考え、頂点が $-R, R, R+2\pi i, -R+2\pi i$ である長方形の閉曲線 $\mathcal{C}$ を積分路とする。
+
+  $1+e^z = 0$ より、$\mathcal{C}$ の内部にある極は $z = \pi i$（1位の極）のみである。この点における留数は、
+  \begin{align*}
+  \text{Res}(f, \pi i) = \lim_{z \to \pi i} (z-\pi i) \frac{e^{az}}{1+e^z} = \frac{e^{ia\pi}}{\frac{d}{dz}(1+e^z)\big|_{z=\pi i}} = \frac{e^{ia\pi}}{e^{i\pi}} = -e^{ia\pi}
+  \end{align*}
+  留数定理より、$\oint_{\mathcal{C}} f(z) dz = -2\pi i e^{ia\pi}$ である。
+  一方、長方形の各辺における積分の寄与を考えると、$R \to \infty$ のとき左右の縦辺（$x = \pm R$）上の積分は $0$ に収束する。
+  下辺（$z=x$）と上辺（$z=x+2\pi i$、右から左へ積分）の寄与より、
+  \begin{align*}
+  \int_{-\infty}^{\infty} \frac{e^{ax}}{1+e^x} dx + \int_{\infty}^{-\infty} \frac{e^{a(x+2\pi i)}}{1+e^{x+2\pi i}} dx &= -2\pi i e^{ia\pi} \\
+  (1 - e^{2\pi i a}) I &= -2\pi i e^{ia\pi}
+  \end{align*}
+  これより $I$ について解くと、
+  \begin{align*}
+  I = \frac{-2\pi i e^{ia\pi}}{1 - e^{2\pi i a}} = \frac{2\pi i}{e^{ia\pi} - e^{-ia\pi}} = \frac{\pi}{\sin a\pi}
+  \end{align*}
+  となる。
+
+  \subsubsection*{(iii)}
+  定積分 $I = \int_{0}^{\infty} \frac{dx}{x^n+1}$ ($n \in \mathbb{Z}, n \ge 2$) を求める。
+  複素関数 $f(z) = \frac{1}{z^n+1}$ を考え、原点 $O$、実軸上の点 $R$、および複素平面上の点 $R e^{i\frac{2\pi}{n}}$ を頂点とする扇形の閉曲線 $\mathcal{C}$ を積分路とする。
+
+  $z^n+1 = 0$ より、この扇形の内部に含まれる極は $z = e^{i\frac{\pi}{n}}$（1位の極）のみである。この点における留数は、
+  \begin{align*}
+  \text{Res}(f, e^{i\frac{\pi}{n}}) = \frac{1}{\frac{d}{dz}(z^n+1)\big|_{z=e^{i\frac{\pi}{n}}}} = \frac{1}{n z^{n-1}}\Big|_{z=e^{i\frac{\pi}{n}}} = \frac{z}{n z^n}\Big|_{z=e^{i\frac{\pi}{n}}} = -\frac{1}{n} e^{i\frac{\pi}{n}}
+  \end{align*}
+  留数定理より、$\oint_{\mathcal{C}} f(z) dz = -\frac{2\pi i}{n} e^{i\frac{\pi}{n}}$ である。
+  $R \to \infty$ のとき、扇形の弧の部分における積分は $0$ に収束する。
+  実軸上の往路（$z=x$）と、角度 $\theta = \frac{2\pi}{n}$ の直線上の復路（$z = x e^{i\frac{2\pi}{n}}$）の積分の寄与を考えると、
+  \begin{align*}
+  \int_{0}^{\infty} \frac{dx}{x^n+1} + \int_{\infty}^{0} \frac{e^{i\frac{2\pi}{n}}}{ (x e^{i\frac{2\pi}{n}})^n + 1 } dx &= -\frac{2\pi i}{n} e^{i\frac{\pi}{n}} \\
+  (1 - e^{i\frac{2\pi}{n}}) I &= -\frac{2\pi i}{n} e^{i\frac{\pi}{n}}
+  \end{align*}
+  両辺を $-e^{i\frac{\pi}{n}}$ で割って整理すると、
+  \begin{align*}
+  (e^{i\frac{\pi}{n}} - e^{-i\frac{\pi}{n}}) I = \frac{2\pi i}{n}
+  \end{align*}
+  これより、求める積分値は以下のようになる。
+  \begin{align*}
+  I = \frac{\pi}{n \sin \frac{\pi}{n}}
+  \end{align*}
+\end{document}

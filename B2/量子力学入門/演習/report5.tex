@@ -1,0 +1,197 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+\usepackage[%
+  dvipdfmx,%
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\#2\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{量子力学入門演習レポート5}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+
+\subsection*{7.2}
+\subsection*{(1)}
+
+まず、任意の演算子 \(\hat{X}\)、\(\hat{Y}\)、\(\hat{Z}\) に対する交換子の積の公式
+\begin{align*}
+  [\hat{X},\hat{Y}\hat{Z}]=[\hat{X},\hat{Y}]\hat{Z}+\hat{Y}[\hat{X},\hat{Z}]
+\end{align*}
+を用いて、
+\begin{align*}
+  [\hat{a},(\hat{a}^{\dagger})^n]=n(\hat{a}^{\dagger})^{n-1}
+\end{align*}
+を数学的帰納法によって示す。\(n=1\) の場合は、与えられた交換関係から
+\begin{align*}
+  [\hat{a},\hat{a}^{\dagger}]=1
+\end{align*}
+であるため、主張は成り立つ。次に、ある正の整数 \(n\) に対して
+\begin{align*}
+  [\hat{a},(\hat{a}^{\dagger})^n]=n(\hat{a}^{\dagger})^{n-1}
+\end{align*}
+が成り立つと仮定する。このとき、交換子の積の公式を用いる：
+\begin{align*}
+  [\hat{a},(\hat{a}^{\dagger})^{n+1}]&=[\hat{a},(\hat{a}^{\dagger})^n]\hat{a}^{\dagger}+(\hat{a}^{\dagger})^n[\hat{a},\hat{a}^{\dagger}]=n(\hat{a}^{\dagger})^n+(\hat{a}^{\dagger})^n=(n+1)(\hat{a}^{\dagger})^n。
+\end{align*}
+したがって、数学的帰納法により、すべての正の整数 \(n\) に対して
+\begin{align*}
+  [\hat{a},(\hat{a}^{\dagger})^n]=n(\hat{a}^{\dagger})^{n-1}
+\end{align*}
+が成り立つ。
+次に、交換子の積の公式と先ほど示した結果を用いる：
+\begin{align*}
+  [\hat{a}^{\dagger}\hat{a},(\hat{a}^{\dagger})^n]&=\hat{a}^{\dagger}[\hat{a},(\hat{a}^{\dagger})^n]+[\hat{a}^{\dagger},(\hat{a}^{\dagger})^n]\hat{a}=n(\hat{a}^{\dagger})^n+0=n(\hat{a}^{\dagger})^n。
+\end{align*}
+よって、
+\begin{align*}
+  [\hat{a}^{\dagger}\hat{a},(\hat{a}^{\dagger})^n]=n(\hat{a}^{\dagger})^n
+\end{align*}
+を得る。
+また、最初に示した交換関係の Hermite 共役を取ると、
+\begin{align*}
+  [\hat{a}^n,\hat{a}^{\dagger}]=n\hat{a}^{n-1}
+\end{align*}
+が成り立つ。したがって、
+\begin{align*}
+  [\hat{a}^{\dagger},\hat{a}^n]=-n\hat{a}^{n-1}
+\end{align*}
+である。これと交換子の積の公式を用いる：
+\begin{align*}
+  [\hat{a}^{\dagger}\hat{a},\hat{a}^n]&=\hat{a}^{\dagger}[\hat{a},\hat{a}^n]+[\hat{a}^{\dagger},\hat{a}^n]\hat{a}=-n\hat{a}^n。
+\end{align*}
+よって、
+\begin{align*}
+  [\hat{a}^{\dagger}\hat{a},\hat{a}^n]=-n\hat{a}^n
+\end{align*}
+が示された。なお、\(n=0\) の場合はいずれも恒等演算子との交換子となるため、両辺は \(0\) である。
+
+\subsection*{(2)}
+
+状態 \(\ket|0>\) および \(\ket|n>\) は、
+\begin{align*}
+  \hat{a}\ket|0>=0,\qquad \braket<0|0>=1,\qquad \ket|n>=C_n(\hat{a}^{\dagger})^n\ket|0>
+\end{align*}
+によって定義される。まず、\(\hat{a}\ket|0>=0\) より、
+\begin{align*}
+  \hat{N}\ket|0>=\hat{a}^{\dagger}\hat{a}\ket|0>=0
+\end{align*}
+が成り立つ。交換子の定義から、
+\begin{align*}
+  \hat{N}(\hat{a}^{\dagger})^n=(\hat{a}^{\dagger})^n\hat{N}+[\hat{N},(\hat{a}^{\dagger})^n]=(\hat{a}^{\dagger})^n\hat{N}+n(\hat{a}^{\dagger})^n
+\end{align*}
+である。したがって、\(\ket|n>\) に \(\hat{N}\) を作用させる：
+\begin{align*}
+  \hat{N}\ket|n>&=C_n\hat{N}(\hat{a}^{\dagger})^n\ket|0>=C_n\left\{(\hat{a}^{\dagger})^n\hat{N}+n(\hat{a}^{\dagger})^n\right\}\ket|0>=nC_n(\hat{a}^{\dagger})^n\ket|0>=n\ket|n>。
+\end{align*}
+よって、状態 \(\ket|n>\) は数演算子 \(\hat{N}=\hat{a}^{\dagger}\hat{a}\) の固有状態であり、その固有値は \(n\) である。
+
+\subsection*{(3)}
+
+規格化条件 \(\braket<n|n>=1\) から定数 \(C_n\) を定める。\(\ket|n>=C_n(\hat{a}^{\dagger})^n\ket|0>\) の Hermite 共役を取ると、
+\begin{align*}
+  \bra<n|=C_n^*\bra<0|\hat{a}^n
+\end{align*}
+であるため、
+\begin{align*}
+  \braket<n|n>=|C_n|^2\braket<0|\hat{a}^n(\hat{a}^{\dagger})^n|0>
+\end{align*}
+を得る。ここで、(1) の結果から、
+\begin{align*}
+  \hat{a}(\hat{a}^{\dagger})^n=(\hat{a}^{\dagger})^n\hat{a}+n(\hat{a}^{\dagger})^{n-1}
+\end{align*}
+である。最右辺の \(\hat{a}\) が \(\ket|0>\) に作用する項は消えるため、
+\begin{align*}
+  \braket<0|\hat{a}^n(\hat{a}^{\dagger})^n|0>&=n\braket<0|\hat{a}^{n-1}(\hat{a}^{\dagger})^{n-1}|0>=n(n-1)\braket<0|\hat{a}^{n-2}(\hat{a}^{\dagger})^{n-2}|0>=\cdots=n!\braket<0|0>=n!。
+\end{align*}
+したがって、規格化条件は
+\begin{align*}
+  1=|C_n|^2n!
+\end{align*}
+となるので、
+\begin{align*}
+  |C_n|=\frac{1}{\sqrt{n!}}
+\end{align*}
+を得る。\(C_n\) を正の実数に選ぶと、
+\begin{align*}
+  C_n=\frac{1}{\sqrt{n!}}。
+\end{align*}
+よって、規格化された状態は
+\begin{align*}
+  \ket|n>=\frac{1}{\sqrt{n!}}(\hat{a}^{\dagger})^n\ket|0>
+\end{align*}
+と表される。
+
+\subsection*{(4)}
+
+まず、生成演算子 \(\hat{a}^{\dagger}\) を \(\ket|n>\) に作用させる：
+\begin{align*}
+  \hat{a}^{\dagger}\ket|n>&=\frac{1}{\sqrt{n!}}(\hat{a}^{\dagger})^{n+1}\ket|0>=\sqrt{n+1}\frac{1}{\sqrt{(n+1)!}}(\hat{a}^{\dagger})^{n+1}\ket|0>=\sqrt{n+1}\ket|n+1>。
+\end{align*}
+したがって、
+\begin{align*}
+  A_n=\sqrt{n+1}
+\end{align*}
+である。
+
+次に、\(n\geq1\) に対して消滅演算子 \(\hat{a}\) を \(\ket|n>\) に作用させる。交換子の定義と (1) の結果から、
+\begin{align*}
+  \hat{a}(\hat{a}^{\dagger})^n=(\hat{a}^{\dagger})^n\hat{a}+n(\hat{a}^{\dagger})^{n-1}
+\end{align*}
+であるため、
+\begin{align*}
+  \hat{a}\ket|n>&=\frac{1}{\sqrt{n!}}\hat{a}(\hat{a}^{\dagger})^n\ket|0>=\frac{n}{\sqrt{n!}}(\hat{a}^{\dagger})^{n-1}\ket|0>=\sqrt{n}\frac{1}{\sqrt{(n-1)!}}(\hat{a}^{\dagger})^{n-1}\ket|0>=\sqrt{n}\ket|n-1>。
+\end{align*}
+また、\(n=0\) の場合は定義より \(\hat{a}\ket|0>=0\) である。したがって、
+\begin{align*}
+  B_n=\sqrt{n}
+\end{align*}
+を得る。以上より、昇降演算子の作用は
+\begin{align*}
+  \hat{a}^{\dagger}\ket|n>=\sqrt{n+1}\ket|n+1>,\qquad \hat{a}\ket|n>=\sqrt{n}\ket|n-1>
+\end{align*}
+であり、\(\hat{a}^{\dagger}\) は数演算子の固有値を \(1\) 増加させ、\(\hat{a}\) は固有値を \(1\) 減少させることが示された。
+
+\end{document}

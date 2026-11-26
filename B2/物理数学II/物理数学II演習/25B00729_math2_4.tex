@@ -1,0 +1,565 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学II演習レポート4}
+\author{嶋田 悠音}
+\date{2026年6月29日}
+
+\begin{document}
+  \maketitle
+  \subsection*{問題3}
+
+  本問では、Legendreの微分方程式
+  \begin{align*}
+    (1-x^2)y''-2xy'+\nu(\nu+1)y=0
+  \end{align*}
+  について考える。この微分方程式の確定特異点を調べ、特異点$x=1$のまわりの級数解を求める。さらに、$\nu$が非負整数$n$である場合に得られるLegendre多項式$P_n(x)$について、Rodriguesの公式と直交性を示す。
+
+  \subsubsection*{(i)}
+  まず、Legendreの微分方程式
+  \begin{align*}
+    (1-x^2)y''-2xy'+\nu(\nu+1)y=0
+  \end{align*}
+  の確定特異点を調べる。標準形に直すために、両辺を$1-x^2$で割る：
+  \begin{align*}
+    y''-\frac{2x}{1-x^2}y'
+    +\frac{\nu(\nu+1)}{1-x^2}y=0。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    p_1(x)=-\frac{2x}{1-x^2},\qquad
+    p_2(x)=\frac{\nu(\nu+1)}{1-x^2}
+  \end{align*}
+  である。有限の特異点は、分母$1-x^2$が$0$となる点であるから、
+  \begin{align*}
+    x=1,\qquad x=-1
+  \end{align*}
+  である。
+  
+  まず、$x=1$について調べる。$x=1$が確定特異点であるかを判定するために、$(x-1)p_1(x)$と$(x-1)^2p_2(x)$を計算する：
+  \begin{align*}
+    (x-1)p_1(x)
+    &=(x-1)\left(-\frac{2x}{(1-x)(1+x)}\right) \\
+    &=\frac{2x}{1+x},
+  \end{align*}
+  また、
+  \begin{align*}
+    (x-1)^2p_2(x)
+    &=(x-1)^2\frac{\nu(\nu+1)}{(1-x)(1+x)} \\
+    &=-\frac{(x-1)\nu(\nu+1)}{1+x}。
+  \end{align*}
+  これらはいずれも$x=1$で正則である。したがって、$x=1$は確定特異点である。
+  
+  次に、$x=1$における指数$\lambda$を求める。$x=1$の近くで
+  \begin{align*}
+    y=(x-1)^\lambda
+  \end{align*}
+  という最低次の形を仮定する。このとき、
+  \begin{align*}
+    y'&=\lambda(x-1)^{\lambda-1},\\
+    y''&=\lambda(\lambda-1)(x-1)^{\lambda-2}
+  \end{align*}
+  である。これらをLegendreの微分方程式に代入する。$x=1$の近くでは、
+  \begin{align*}
+    1-x^2=(1-x)(1+x)=-(x-1)(1+x)
+  \end{align*}
+  であるから、代入結果の最低次の項は
+  \begin{align*}
+    (1-x^2)y''
+    &=
+    -(x-1)(1+x)\lambda(\lambda-1)(x-1)^{\lambda-2} \\
+    &=
+    -\lambda(\lambda-1)(1+x)(x-1)^{\lambda-1},
+  \end{align*}
+  また、
+  \begin{align*}
+    -2xy'
+    =
+    -2x\lambda(x-1)^{\lambda-1}
+  \end{align*}
+  である。最後の項$\nu(\nu+1)y$は$(x-1)^\lambda$に比例するので、上の2項より1次高い。したがって、最も低い次数である$(x-1)^{\lambda-1}$の係数だけを取り出すと、
+  \begin{align*}
+    -\lambda(\lambda-1)(1+x)-2x\lambda
+  \end{align*}
+  である。これを$x=1$で評価して、最低次の係数が$0$となる条件を課す：
+  \begin{align*}
+    -2\lambda(\lambda-1)-2\lambda=0。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    -2\lambda^2=0
+  \end{align*}
+  であり、
+  \begin{align*}
+    \lambda=0
+  \end{align*}
+  を得る。これは重根である。
+  
+  次に、$x=-1$について調べる。$x=-1$が確定特異点であるかを判定するために、$(x+1)p_1(x)$と$(x+1)^2p_2(x)$を計算する：
+  \begin{align*}
+    (x+1)p_1(x)
+    &=(x+1)\left(-\frac{2x}{(1-x)(1+x)}\right) \\
+    &=-\frac{2x}{1-x},
+  \end{align*}
+  また、
+  \begin{align*}
+    (x+1)^2p_2(x)
+    &=(x+1)^2\frac{\nu(\nu+1)}{(1-x)(1+x)} \\
+    &=\frac{(x+1)\nu(\nu+1)}{1-x}。
+  \end{align*}
+  これらはいずれも$x=-1$で正則である。したがって、$x=-1$も確定特異点である。
+  
+  $x=-1$における指数を求めるために、
+  \begin{align*}
+    y=(x+1)^\lambda
+  \end{align*}
+  とおく。このとき、
+  \begin{align*}
+    y'&=\lambda(x+1)^{\lambda-1},\\
+    y''&=\lambda(\lambda-1)(x+1)^{\lambda-2}
+  \end{align*}
+  である。$x=-1$の近くでは、
+  \begin{align*}
+    1-x^2=(1-x)(1+x)
+  \end{align*}
+  であるから、Legendreの微分方程式に代入したときの最低次の項は
+  \begin{align*}
+    (1-x^2)y''
+    &=(1-x)(x+1)\lambda(\lambda-1)(x+1)^{\lambda-2} \\
+    &=(1-x)\lambda(\lambda-1)(x+1)^{\lambda-1},
+  \end{align*}
+  また、
+  \begin{align*}
+    -2xy'=-2x\lambda(x+1)^{\lambda-1}
+  \end{align*}
+  である。$\nu(\nu+1)y$は$(x+1)^\lambda$に比例し、最低次には寄与しない。したがって、$(x+1)^{\lambda-1}$の係数は
+  \begin{align*}
+    (1-x)\lambda(\lambda-1)-2x\lambda
+  \end{align*}
+  である。これを$x=-1$で評価して、最低次の係数が$0$となる条件を課す：
+  \begin{align*}
+    2\lambda(\lambda-1)+2\lambda=0。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    2\lambda^2=0
+  \end{align*}
+  であり、
+  \begin{align*}
+    \lambda=0
+  \end{align*}
+  を得る。これも重根である。
+  
+  最後に、$x=\infty$について調べる。無限遠点を調べるために、
+  \begin{align*}
+    z=\frac{1}{x},\qquad y(x)=Y(z)
+  \end{align*}
+  とおく。このとき、
+  \begin{align*}
+    \bbn{y}{x}
+    &=-z^2\bbn{Y}{z},\\
+    \bbbn{y}{x}
+    &=z^4\bbbn{Y}{z}+2z^3\bbn{Y}{z}
+  \end{align*}
+  である。これらをLegendreの微分方程式に代入する：
+  \begin{align*}
+    0
+    &=
+    \left(1-\frac{1}{z^2}\right)
+    \left(z^4\bbbn{Y}{z}+2z^3\bbn{Y}{z}\right)
+    -\frac{2}{z}\left(-z^2\bbn{Y}{z}\right)
+    +\nu(\nu+1)Y \\
+    &=
+    z^2(z^2-1)\bbbn{Y}{z}+2z^3\bbn{Y}{z}+\nu(\nu+1)Y。
+  \end{align*}
+  したがって、$z=0$、すなわち$x=\infty$のまわりでは、
+  \begin{align*}
+    z^2(z^2-1)Y''+2z^3Y'+\nu(\nu+1)Y=0
+  \end{align*}
+  を考えればよい。
+  
+  ここで、$z=0$における指数を求めるために、
+  \begin{align*}
+    Y=z^\lambda
+  \end{align*}
+  とおく。このとき、
+  \begin{align*}
+    Y'&=\lambda z^{\lambda-1},\\
+    Y''&=\lambda(\lambda-1)z^{\lambda-2}
+  \end{align*}
+  である。これらを代入する：
+  \begin{align*}
+    0
+    &=
+    z^2(z^2-1)\lambda(\lambda-1)z^{\lambda-2}
+    +2z^3\lambda z^{\lambda-1}
+    +\nu(\nu+1)z^\lambda \\
+    &=
+    \lambda(\lambda-1)(z^2-1)z^\lambda
+    +2\lambda z^{\lambda+2}
+    +\nu(\nu+1)z^\lambda。
+  \end{align*}
+  $z=0$の近くで最低次の項は$z^\lambda$である。その係数を取り出すと、
+  \begin{align*}
+    -\lambda(\lambda-1)+\nu(\nu+1)=0
+  \end{align*}
+  である。したがって、
+  \begin{align*}
+    \lambda(\lambda-1)-\nu(\nu+1)=0
+  \end{align*}
+  を得る。これを解くと、
+  \begin{align*}
+    \lambda=\nu+1,\qquad \lambda=-\nu
+  \end{align*}
+  である。
+  
+  以上より、確定特異点は
+  \begin{align*}
+    x=1,\qquad x=-1,\qquad x=\infty
+  \end{align*}
+  である。$x=1$と$x=-1$での指数はいずれも$\lambda=0$の重根であり、$x=\infty$では指数が
+  \begin{align*}
+    \lambda=\nu+1,\qquad \lambda=-\nu
+  \end{align*}
+  である。
+
+
+  \subsubsection*{(ii)}
+
+  次に、$x=1$のまわりの級数解の一つを求める。(i)で見たように、$x=1$における指数は$\lambda=0$である。したがって、$x=1$で正則な解を
+  \begin{align*}
+    y=\ssum{k}{0}{\infty}c_k(x-1)^k
+  \end{align*}
+  の形に仮定する。ただし、$c_0\neq0$である。このとき、
+  \begin{align*}
+    y'
+    &=\ssum{k}{1}{\infty}kc_k(x-1)^{k-1},\\
+    y''
+    &=\ssum{k}{2}{\infty}k(k-1)c_k(x-1)^{k-2}
+  \end{align*}
+  である。
+  
+  Legendreの微分方程式を、$x=1$のまわりで扱いやすい形に直す。まず、
+  \begin{align*}
+    1-x^2
+    &=(1-x)(1+x)\\
+    &=-(x-1)(x+1)
+  \end{align*}
+  であるから、
+  \begin{align*}
+    (1-x^2)y''-2xy'+\nu(\nu+1)y=0
+  \end{align*}
+  は
+  \begin{align*}
+    -(x-1)(x+1)y''-2xy'+\nu(\nu+1)y=0
+  \end{align*}
+  と書ける。さらに、$x+1=(x-1)+2$、$x=(x-1)+1$を用いる：
+  \begin{align*}
+    -\{(x-1)^2+2(x-1)\}y''
+    -2\{(x-1)+1\}y'
+    +\nu(\nu+1)y=0。
+  \end{align*}
+  ここに級数展開を代入し、$(x-1)^k$の係数を比較する。まず、
+  \begin{align*}
+    -2(x-1)y''
+    &=
+    -2\ssum{k}{2}{\infty}k(k-1)c_k(x-1)^{k-1}\\
+    &=
+    -2\ssum{k}{1}{\infty}(k+1)kc_{k+1}(x-1)^k
+  \end{align*}
+  である。また、
+  \begin{align*}
+    -2y'
+    &=
+    -2\ssum{k}{1}{\infty}kc_k(x-1)^{k-1}\\
+    &=
+    -2\ssum{k}{0}{\infty}(k+1)c_{k+1}(x-1)^k
+  \end{align*}
+  である。さらに、
+  \begin{align*}
+    -(x-1)^2y''
+    &=
+    -\ssum{k}{2}{\infty}k(k-1)c_k(x-1)^k,\\
+    -2(x-1)y'
+    &=
+    -2\ssum{k}{1}{\infty}kc_k(x-1)^k,\\
+    \nu(\nu+1)y
+    &=
+    \ssum{k}{0}{\infty}\nu(\nu+1)c_k(x-1)^k
+  \end{align*}
+  である。したがって、$(x-1)^k$の係数をまとめると、
+  \begin{align*}
+    -2(k+1)kc_{k+1}-2(k+1)c_{k+1}
+    -k(k-1)c_k-2kc_k+\nu(\nu+1)c_k=0
+  \end{align*}
+  を得る。これを整理する：
+  \begin{align*}
+    -2(k+1)^2c_{k+1}+\{\nu(\nu+1)-k(k+1)\}c_k=0。
+  \end{align*}
+  よって、係数の漸化式は
+  \begin{align*}
+    c_{k+1}
+    =
+    \frac{\nu(\nu+1)-k(k+1)}{2(k+1)^2}c_k
+    =
+    \frac{(\nu-k)(\nu+k+1)}{2(k+1)^2}c_k
+  \end{align*}
+  である。
+  
+  ここで、$x=1$での値を$1$に規格化するために$c_0=1$とおく。このとき、漸化式を繰り返し用いることで、
+  \begin{align*}
+    c_k
+    =
+    \frac{\nu(\nu-1)\cdots(\nu-k+1)(\nu+1)(\nu+2)\cdots(\nu+k)}
+         {2^k(k!)^2}
+  \end{align*}
+  を得る。ただし、$k=0$の項は$1$と読む。したがって、$x=1$のまわりで正則な級数解は
+  \begin{align*}
+    y
+    =
+    \ssum{k}{0}{\infty}
+    \frac{\nu(\nu-1)\cdots(\nu-k+1)(\nu+1)(\nu+2)\cdots(\nu+k)}
+         {2^k(k!)^2}
+    (x-1)^k
+  \end{align*}
+  である。この解は$x=1$で$1$となる正則解である。
+  
+  \subsubsection*{(iii)}
+  
+  ここでは、$\nu=n$が非負整数である場合を考える。このとき、前問で得た漸化式は
+  \begin{align*}
+    c_{k+1}
+    =
+    \frac{(n-k)(n+k+1)}{2(k+1)^2}c_k
+  \end{align*}
+  となる。ここで、$k=n$を代入すると、
+  \begin{align*}
+    c_{n+1}
+    =
+    \frac{(n-n)(n+n+1)}{2(n+1)^2}c_n=0
+  \end{align*}
+  である。したがって、
+  \begin{align*}
+    c_{n+1}=0
+  \end{align*}
+  である。さらに、漸化式より、それ以後の係数もすべて$0$となる：
+  \begin{align*}
+    c_{n+2}=c_{n+3}=\cdots=0。
+  \end{align*}
+  よって、級数は有限項で打ち切られ、
+  \begin{align*}
+    y
+    =
+    \ssum{k}{0}{n}c_k(x-1)^k
+  \end{align*}
+  となる。これは$x$について$n$次以下の多項式である。また、$c_n$は一般に$0$でないので、この解は$n$次多項式である。以上より、$\nu=n=0,1,2,\ldots$のとき、$x=1$での値を$1$に規格化した解は$n$次多項式となる。この多項式をLegendre多項式と呼び、$P_n(x)$で表す。
+  
+  \subsubsection*{(iv)}
+  
+  次に、Legendre多項式が次の式で与えられることを示す：
+  \begin{align*}
+    P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n}(x^2-1)^n。\tag{*}
+  \end{align*}
+  
+  まず、
+  \begin{align*}
+    u(x)=(x^2-1)^n
+  \end{align*}
+  とおく。この関数は
+  \begin{align*}
+    (x^2-1)u'-2nxu=0
+  \end{align*}
+  を満たす。実際、
+  \begin{align*}
+    u'
+    &=2nx(x^2-1)^{n-1}
+  \end{align*}
+  であるから、
+  \begin{align*}
+    (x^2-1)u'-2nxu
+    &=(x^2-1)2nx(x^2-1)^{n-1}-2nx(x^2-1)^n\\
+    &=0
+  \end{align*}
+  である。
+  
+  この等式を$x$で$n+1$回微分する。Leibnizの公式を用いると、
+  \begin{align*}
+    \frac{d^{n+1}}{dx^{n+1}}\{(x^2-1)u'\}
+    &=(x^2-1)u^{(n+2)}+2(n+1)xu^{(n+1)}+n(n+1)u^{(n)},\\
+    \frac{d^{n+1}}{dx^{n+1}}\{2nxu\}
+    &=2n\{xu^{(n+1)}+(n+1)u^{(n)}\}
+  \end{align*}
+  である。したがって、
+  \begin{align*}
+    0
+    &=(x^2-1)u^{(n+2)}+2(n+1)xu^{(n+1)}+n(n+1)u^{(n)}
+      -2n\{xu^{(n+1)}+(n+1)u^{(n)}\}\\
+    &=(x^2-1)u^{(n+2)}+2xu^{(n+1)}-n(n+1)u^{(n)}
+  \end{align*}
+  となる。両辺に$-1$を掛けると、
+  \begin{align*}
+    (1-x^2)u^{(n+2)}-2xu^{(n+1)}+n(n+1)u^{(n)}=0
+  \end{align*}
+  である。
+  
+  ここで、
+  \begin{align*}
+    R_n(x)=\frac{1}{2^n n!}u^{(n)}(x)
+  \end{align*}
+  と定めると、上式は
+  \begin{align*}
+    (1-x^2)R_n''-2xR_n'+n(n+1)R_n=0
+  \end{align*}
+  となる。したがって、$R_n(x)$は$\nu=n$のLegendreの微分方程式を満たす。
+  
+  さらに、$R_n(1)$を計算する。$u(x)$は
+  \begin{align*}
+    u(x)=(x-1)^n(x+1)^n
+  \end{align*}
+  である。$x=1$で$n$階微分した値を考えると、$(x-1)^n$をちょうど$n$回微分する項だけが残る。したがって、
+  \begin{align*}
+    u^{(n)}(1)=n!2^n
+  \end{align*}
+  である。よって、
+  \begin{align*}
+    R_n(1)=\frac{1}{2^n n!}u^{(n)}(1)=1
+  \end{align*}
+  である。
+  
+  以上より、$R_n(x)$は$\nu=n$のLegendreの微分方程式を満たし、かつ$x=1$で$1$となる$n$次多項式である。したがって、(iii)で定義したLegendre多項式$P_n(x)$と一致する。ゆえに、
+  \begin{align*}
+    P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n}(x^2-1)^n
+  \end{align*}
+  が示された。
+  
+  \subsubsection*{(v)}
+  
+  最後に、Legendre多項式の直交性を示す。Legendreの微分方程式は
+  \begin{align*}
+    \frac{d}{dx}\left\{(1-x^2)\frac{dP_n}{dx}\right\}+n(n+1)P_n=0
+  \end{align*}
+  と書ける。同様に、
+  \begin{align*}
+    \frac{d}{dx}\left\{(1-x^2)\frac{dP_m}{dx}\right\}+m(m+1)P_m=0
+  \end{align*}
+  である。
+  
+  前者に$P_m$を掛け、後者に$P_n$を掛けて引き算する：
+  \begin{align*}
+    P_m\frac{d}{dx}\left\{(1-x^2)\frac{dP_n}{dx}\right\}
+    -
+    P_n\frac{d}{dx}\left\{(1-x^2)\frac{dP_m}{dx}\right\}
+    +\{n(n+1)-m(m+1)\}P_nP_m=0。
+  \end{align*}
+  左辺第1項と第2項は全微分にまとめられる：
+  \begin{align*}
+    \frac{d}{dx}\left[
+      (1-x^2)\left(
+        P_m\frac{dP_n}{dx}-P_n\frac{dP_m}{dx}
+      \right)
+    \right]
+    +\{n(n+1)-m(m+1)\}P_nP_m=0。
+  \end{align*}
+  これを$x=-1$から$x=1$まで積分する：
+  \begin{align*}
+    \left[
+      (1-x^2)\left(
+        P_m\frac{dP_n}{dx}-P_n\frac{dP_m}{dx}
+      \right)
+    \right]_{-1}^{1}
+    +\{n(n+1)-m(m+1)\}
+    \int_{-1}^{1}P_n(x)P_m(x)\,dx=0。
+  \end{align*}
+  境界$x=\pm1$では$1-x^2=0$であり、$P_n,P_m$は多項式なので有限である。したがって、境界項は$0$である。よって、
+  \begin{align*}
+    \{n(n+1)-m(m+1)\}
+    \int_{-1}^{1}P_n(x)P_m(x)\,dx=0
+  \end{align*}
+  となる。$n\neq m$ならば$n(n+1)\neq m(m+1)$であるから、
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)P_m(x)\,dx=0
+  \end{align*}
+  が成り立つ。
+  
+  次に、$n=m$の場合の規格化を求める。(*)式を用いると、
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)^2\,dx
+    =
+    \frac{1}{2^n n!}
+    \int_{-1}^{1}P_n(x)\frac{d^n}{dx^n}(x^2-1)^n\,dx
+  \end{align*}
+  である。ここで部分積分を$n$回行う。$(x^2-1)^n$およびその$n-1$階までの導関数は$x=\pm1$で消えるので、境界項は現れない。したがって、
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)^2\,dx
+    =
+    \frac{(-1)^n}{2^n n!}
+    \int_{-1}^{1}\frac{d^nP_n}{dx^n}(x^2-1)^n\,dx
+  \end{align*}
+  である。
+  
+  ここで、$P_n(x)$の最高次係数を求める。(*)式において、$(x^2-1)^n$の最高次項は$x^{2n}$であるから、
+  \begin{align*}
+    P_n(x)
+    =
+    \frac{1}{2^n n!}\frac{d^n}{dx^n}x^{2n}+\text{低次の項}
+    =
+    \frac{(2n)!}{2^n(n!)^2}x^n+\text{低次の項}
+  \end{align*}
+  である。したがって、
+  \begin{align*}
+    \frac{d^nP_n}{dx^n}
+    =
+    n!\frac{(2n)!}{2^n(n!)^2}
+    =
+    \frac{(2n)!}{2^n n!}
+  \end{align*}
+  である。これを代入する：
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)^2\,dx
+    &=
+    \frac{(-1)^n}{2^n n!}
+    \frac{(2n)!}{2^n n!}
+    \int_{-1}^{1}(x^2-1)^n\,dx\\
+    &=
+    \frac{(2n)!}{2^{2n}(n!)^2}
+    \int_{-1}^{1}(1-x^2)^n\,dx。
+  \end{align*}
+  最後に、
+  \begin{align*}
+    \int_{-1}^{1}(1-x^2)^n\,dx
+    =
+    \frac{2^{2n+1}(n!)^2}{(2n+1)!}
+  \end{align*}
+  を用いると、
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)^2\,dx
+    &=
+    \frac{(2n)!}{2^{2n}(n!)^2}
+    \frac{2^{2n+1}(n!)^2}{(2n+1)!}\\
+    &=
+    \frac{2}{2n+1}
+  \end{align*}
+  となる。
+  
+  以上より、
+  \begin{align*}
+    \int_{-1}^{1}P_n(x)P_m(x)\,dx
+    =
+    \frac{2}{2n+1}\delta_{mn}
+  \end{align*}
+  が示された。
+  
+\end{document}

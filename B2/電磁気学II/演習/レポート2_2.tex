@@ -1,0 +1,148 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+
+\section*{アンテナ線・オーディオ接続コードに表示される$\Omega$の意味}
+
+同軸ケーブルや平行フィーダー線には、$50\,\Omega$、$75\,\Omega$、$300\,\Omega$などの表示がある。この値は、通常はケーブルの直流抵抗ではなく、伝送線路としての特性インピーダンスを表している。ただし、オーディオ機器に表示される$\Omega$には、機器の入出力インピーダンスやスピーカーの負荷インピーダンスを表すものもあるため、これらを区別する必要がある。
+
+\subsection*{1．特性インピーダンス}
+
+長いケーブルや高周波信号を扱うケーブルでは、抵抗、インダクタンス、静電容量などが線路全体に分布している。そのため、ケーブルを単位長さあたりの直列抵抗$R$、直列インダクタンス$L$、並列コンダクタンス$G$、並列静電容量$C$をもつ分布定数回路として扱う。
+
+ケーブル上の電圧を$V(x,t)$、電流を$I(x,t)$とする。ケーブルの微小区間にKirchhoffの法則を適用すると、次の電信方程式を得る：
+\begin{align*}
+  \hb{V}{x}
+  &=-RI-L\hb{I}{t}, \\
+  \hb{I}{x}
+  &=-GV-C\hb{V}{t}。
+\end{align*}
+
+角周波数$\omega$の正弦波を考えてフェーザ表示すると、電信方程式は次のようになる：
+\begin{align*}
+  \bbn{V}{x}
+  &=-(R+j\omega L)I, \\
+  \bbn{I}{x}
+  &=-(G+j\omega C)V。
+\end{align*}
+これらを組み合わせると、進行波における電圧と電流の比は次式で与えられる：
+\begin{align*}
+  Z_0
+  &=\frac{V^+}{I^+}
+   =\sqrt{\frac{R+j\omega L}{G+j\omega C}}。
+\end{align*}
+この$Z_0$を特性インピーダンスという。損失を無視できる場合には$R=G=0$であるから、次式を得る：
+\begin{align*}
+  Z_0
+  &=\sqrt{\frac{L}{C}}。
+\end{align*}
+
+したがって、$75\,\Omega$のケーブルとは、ケーブル中を一方向へ進む電圧波と電流波の比が$75\,\Omega$であることを表している。これはケーブルの端から端までの直流抵抗が$75\,\Omega$であるという意味ではない。また、特性インピーダンスは主として導体の太さや間隔、絶縁体の誘電率などによって決まり、理想的に一様なケーブルでは長さによらない。
+
+\subsection*{2．インピーダンス整合と反射}
+
+特性インピーダンスが$Z_0$の伝送線路に負荷インピーダンス$Z_L$を接続すると、終端における電圧反射係数$\Gamma$は次式で与えられる：
+\begin{align*}
+  \Gamma
+  &=\frac{Z_L-Z_0}{Z_L+Z_0}。
+\end{align*}
+負荷インピーダンスが特性インピーダンスと等しい場合には、
+\begin{align*}
+  Z_L=Z_0
+\end{align*}
+であるから、$\Gamma=0$となり、反射波は生じない。一方、$Z_L\neq Z_0$であれば反射が生じ、進行波と反射波の重ね合わせによって線路上に定在波が生じる。
+
+したがって、アンテナを接続する場合には、送受信機、ケーブル、アンテナを同じインピーダンス系にそろえることが重要である。例えば、$75\,\Omega$の同軸ケーブルを用いる場合には、受信機やアンテナも$75\,\Omega$系に合わせることで反射を小さくできる。
+
+\subsection*{3．アナログオーディオ機器の接続}
+
+一般的なアナログオーディオ信号の周波数は約$20\,\mathrm{Hz}$から$20\,\mathrm{kHz}$である。ケーブル中の伝搬速度を$2.0\times10^8\,\mathrm{m/s}$とすれば、$20\,\mathrm{kHz}$における波長は次のようになる：
+\begin{align*}
+  \lambda
+  &=\frac{2.0\times10^8}{2.0\times10^4}
+   =1.0\times10^4\,\mathrm{m}
+   =10\,\mathrm{km}。
+\end{align*}
+通常のオーディオケーブルは数$\mathrm{m}$程度であり、この波長に比べて十分に短い。そのため、一般的なアナログオーディオ接続では反射の影響はほとんどなく、ケーブルを伝送線路として厳密に整合させる必要はない。
+
+アナログオーディオのライン接続では、出力インピーダンス$Z_{\mathrm{out}}$を入力インピーダンス$Z_{\mathrm{in}}$より十分小さくする：
+\begin{align*}
+  Z_{\mathrm{out}}
+  &\ll Z_{\mathrm{in}}。
+\end{align*}
+入力機器に加わる電圧$V_{\mathrm{in}}$は、信号源電圧を$V_s$とすると次式で与えられる：
+\begin{align*}
+  V_{\mathrm{in}}
+  &=V_s\frac{Z_{\mathrm{in}}}
+  {Z_{\mathrm{out}}+Z_{\mathrm{in}}}。
+\end{align*}
+$Z_{\mathrm{in}}\gg Z_{\mathrm{out}}$であれば、$V_{\mathrm{in}}\simeq V_s$となり、信号電圧をほとんど低下させずに次の機器へ送ることができる。したがって、アナログオーディオでは入出力インピーダンスを等しくするのではなく、低い出力インピーダンスで高い入力インピーダンスを駆動する。
+
+また、スピーカーに表示される$4\,\Omega$や$8\,\Omega$は、スピーカーの公称負荷インピーダンスであり、スピーカーケーブルの特性インピーダンスではない。スピーカー接続では、ケーブルの特性インピーダンスをスピーカーに合わせるのではなく、ケーブルの導体抵抗を十分小さくして電圧降下や電力損失を抑えることが重要である。
+
+\subsection*{4．デジタルオーディオ機器の接続}
+
+S/PDIFなどのデジタルオーディオ接続では、音声信号そのものではなく、立ち上がりの速いデジタルパルスを伝送する。そのため、高周波成分を含む伝送線路として扱う必要がある。
+
+例えば、同軸S/PDIFでは$75\,\Omega$の同軸ケーブルが用いられ、AES3では一般に$110\,\Omega$の平衡ケーブルが用いられる。規定と異なる特性インピーダンスのケーブルを使用すると、コネクターや終端で反射が生じ、波形の乱れ、受信エラー、クリックノイズ、音切れなどの原因となる可能性がある。
+
+したがって、デジタルオーディオ接続では、外形が同じRCAケーブルであっても、規格に対応した特性インピーダンスのケーブルを使用することが重要である。
+
+\subsection*{5．結論}
+
+同軸ケーブルや平行フィーダー線に表示される$\Omega$は、通常はケーブルの直流抵抗ではなく、進行する電圧波と電流波の比である特性インピーダンスを表している。アンテナ線やデジタルオーディオ線では、負荷とケーブルのインピーダンスを整合させ、信号の反射を防ぐことが重要である。
+
+一方、一般的なアナログオーディオのライン接続では、ケーブル長が信号の波長に比べて十分短いため、特性インピーダンスの整合はほとんど必要ない。この場合には、低い出力インピーダンスで高い入力インピーダンスを駆動することが重要である。また、スピーカーの$\Omega$表示は負荷インピーダンスを表しており、ケーブルの特性インピーダンスとは異なる。
+
+以上より、同じ$\Omega$表示であっても、アンテナ線やデジタル信号線では特性インピーダンス、アナログオーディオ機器では入出力インピーダンス、スピーカーでは負荷インピーダンスを表しており、接続する機器と信号の種類に応じて意味を区別する必要がある。
+
+\end{document}

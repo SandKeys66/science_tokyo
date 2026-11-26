@@ -1,0 +1,72 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学演習Iレポート5}
+\author{嶋田 悠音}
+\date{2026年5月20日}
+
+\begin{document}
+  \maketitle
+  \subsection*{11.1}
+
+  \subsubsection*{(i)}
+  積分 $I = \oint_{|z|=1} \frac{dz}{z(z+2)}$ を計算する。被積分関数を $f(z) = \frac{1}{z(z+2)}$ とおく。
+
+  \subsubsubsection*{1. 内側}
+  積分路 $|z|=1$ の内部にある極は $z=0$ のみである。
+  \begin{align*}
+  \text{Res}(f, 0) = \lim_{z \to 0} z \cdot \frac{1}{z(z+2)} = \frac{1}{2}
+  \end{align*}
+  留数定理より、積分値は次のようになる：
+  \begin{align*}
+  I = 2\pi i \cdot \text{Res}(f, 0) = 2\pi i \cdot \frac{1}{2} = \pi i
+  \end{align*}
+
+  \subsubsubsection*{2. 外側}
+  積分路 $|z|=1$ の外側（無限遠点を含む）にある極は $z=-2$ と $z=\infty$ である。
+  \begin{align*}
+  \text{Res}(f, -2) &= \lim_{z \to -2} (z+2) \cdot \frac{1}{z(z+2)} = -\frac{1}{2} \\
+  \text{Res}(f, \infty) &= -\lim_{z \to \infty} z f(z) = -\lim_{z \to \infty} \frac{z}{z(z+2)} = 0
+  \end{align*}
+  今回は閉曲線の外側の竜数を用いているので、$-2\pi i$倍する：
+  \begin{align*}
+  I = -2\pi i \left( \text{Res}(f, -2) + \text{Res}(f, \infty) \right) = -2\pi i \left( -\frac{1}{2} + 0 \right) = \pi i
+  \end{align*}
+  双方の計算結果は $\pi i$ で一致する。
+
+  \subsubsection*{(ii)}
+  積分 $I = \frac{1}{2\pi i} \oint_{C} \frac{a^{2}-z^{2}}{a^{2}+z^{2}} \frac{dz}{z}$ を計算する。被積分関数を $f(z) = \frac{a^2-z^2}{z(z^2+a^2)}$ とおく。
+
+  \subsubsubsection*{1. 内側}
+  積分路 $C$ の内部には極 $z=0, \pm ia$ がすべて含まれる。
+  \begin{align*}
+  \text{Res}(f, 0) &= \lim_{z \to 0} z f(z) = \frac{a^2}{a^2} = 1 \\
+  \text{Res}(f, ia) &= \lim_{z \to ia} (z-ia) f(z) = \frac{a^2-(ia)^2}{ia(2ia)} = \frac{2a^2}{-2a^2} = -1 \\
+  \text{Res}(f, -ia) &= \lim_{z \to -ia} (z+ia) f(z) = \frac{a^2-(-ia)^2}{-ia(-2ia)} = \frac{2a^2}{-2a^2} = -1
+  \end{align*}
+  留数定理より、積分値は内側の留数の総和となる：
+  \begin{align*}
+  I = \frac{1}{2\pi i} \cdot 2\pi i \left( \text{Res}(f, 0) + \text{Res}(f, ia) + \text{Res}(f, -ia) \right) = 1 + (-1) + (-1) = -1
+  \end{align*}
+
+  \subsubsubsection*{2. 外側}
+  積分路 $C$ の外側にある極は無限遠点 $z=\infty$ のみである。
+  \begin{align*}
+  \text{Res}(f, \infty) = - \lim_{z \to \infty} z f(z) = - \lim_{z \to \infty} \frac{z(a^2-z^2)}{z(z^2+a^2)} = -(-1) = 1
+  \end{align*}
+  外側なので留数の和の$-2\pi i$倍となる：
+  \begin{align*}
+  I = \frac{1}{2\pi i} \cdot \left( -2\pi i \cdot \text{Res}(f, \infty) \right) = -\text{Res}(f, \infty) = -1
+  \end{align*}
+  双方の計算結果は $-1$ で一致する。
+\end{document}

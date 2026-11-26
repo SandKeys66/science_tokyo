@@ -1,0 +1,81 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\usepackage{typearea}
+\typearea{12}
+
+\usepackage[top=10truemm,bottom=10truemm]{geometry}
+
+\title{English6 Assignment}
+\author{Shimada Yuon, Tomoaki Ozaki}
+
+\begin{document}
+  \maketitle
+  \section*{The Yahiko Shrine Stampede}
+
+  \subsection*{History of the Event}
+  
+  The Yahiko Shrine Stampede occurred just after midnight on January 1, 1956, at Yahiko Shrine in Niigata Prefecture, Japan. During \textit{Hatsumode}, the traditional first shrine visit of the New Year, between 35,000 and 40,000 people gathered at the shrine. A crowd crush developed on the steep staircase leading to the main shrine building, resulting in 124 deaths and 75 injuries.
+  
+  \subsection*{When Things Went Wrong}
+  
+  The disaster developed in several stages. First, too many people were allowed to gather in a confined area around the staircase. Because the staircase was narrow and surrounded by stone walls, there was little room for movement or escape.
+  
+  The situation became more dangerous when priests began throwing \textit{mochi} rice cakes into the crowd as part of a traditional ceremony. Some people moved suddenly to catch the \textit{mochi}, while others continued pushing toward the shrine. This created conflicting flows of people in an already crowded space.
+  
+  The final failure occurred when crowd pressure increased on the staircase. As congestion worsened, the stone walls beside the stairs collapsed. Many people fell, became trapped, or were crushed by the crowd.
+  
+  \subsection*{Possible Solutions}
+  
+  The first opportunity to prevent the disaster was before people entered the staircase area. Organizers could have limited the number of visitors allowed onto the stairs and introduced one-way routes. This would have reduced crowd density and lowered the risk of a crush.
+  
+  A second opportunity came before the \textit{mochi}-throwing ceremony. Instead of throwing rice cakes into the crowd, the organizers could have distributed them by hand or held the ceremony in a larger open space. This would have reduced the sudden movement that triggered the dangerous congestion.
+  
+  A third opportunity occurred when crowd pressure began to increase. Security personnel could have stopped additional visitors from entering the staircase and instructed the crowd to remain stationary until the congestion eased. Although this may not have completely prevented the accident, it could have reduced the pressure on the crowd.
+  
+  \subsection*{Strengths and Weaknesses of the Analysis}
+  
+  One strength of this analysis is that the proposed measures were practical and achievable with the resources available in 1956. Limiting access, controlling pedestrian flow, and modifying event procedures are all realistic safety measures.
+  
+  However, this analysis is based on hindsight. The organizers may not have fully understood the risks of extreme crowd density, and it is impossible to know whether any single measure would have completely prevented the tragedy.
+  
+  \subsection*{Conclusion}
+  
+  In my opinion, the most important point at which the sequence of events could have been changed was before the \textit{mochi}-throwing ceremony began. By that time, the staircase was already crowded, and any sudden movement could have become dangerous. Better crowd control and small changes to the ceremony would probably have prevented the tragedy. The Yahiko Shrine Stampede demonstrates the importance of careful planning and crowd management at large public gatherings.
+\end{document}

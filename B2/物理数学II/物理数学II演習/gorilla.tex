@@ -1,0 +1,764 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage[%
+ dvipdfmx,%
+ setpagesize=false,%
+ bookmarks=true,%
+ bookmarksdepth=tocdepth,%
+ bookmarksnumbered=true,%
+ colorlinks=false,%
+ pdftitle={物理数学II期末試験解答},%
+ pdfsubject={2023年度から2025年度},%
+ pdfauthor={},%
+ pdfkeywords={}%
+]{hyperref}
+\usepackage{pxjahyper}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+\newcommand{\ssum}[3]{\sum_{#1=#2}^{#3}}
+
+\begin{document}
+
+\section*{物理数学II期末試験解答}
+
+\section*{2023年度}
+
+\subsection*{問題1}
+
+区間 $-\pi\leq x<\pi$ における $f(x)=x$ の Fourier 級数を求める。周期 $2\pi$ の Fourier 級数を：
+\begin{align*}
+  f(x)
+  &=\frac{a_0}{2}+\sum_{n=1}^{\infty}\left(a_n\cos nx+b_n\sin nx\right)
+\end{align*}
+とする。$f(x)=x$ は奇関数であるため、$a_0=a_n=0$ である。正弦係数は：
+\begin{align*}
+  b_n
+  &=\frac{1}{\pi}\int_{-\pi}^{\pi}x\sin nx\,dx
+   =\frac{2}{\pi}\int_0^\pi x\sin nx\,dx。
+\end{align*}
+部分積分を用いる：
+\begin{align*}
+  \int_0^\pi x\sin nx\,dx
+  &=\left[-\frac{x\cos nx}{n}\right]_0^\pi
+    +\frac{1}{n}\int_0^\pi\cos nx\,dx \\
+  &=-\frac{\pi(-1)^n}{n}。
+\end{align*}
+したがって：
+\begin{align*}
+  b_n
+  &=\frac{2(-1)^{n+1}}{n}。
+\end{align*}
+以上より：
+\begin{align*}
+  x
+  &=2\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}\sin nx
+  \qquad (-\pi<x<\pi)。
+\end{align*}
+
+\subsection*{問題2}
+
+領域 $-\infty<x<\infty$, $0\leq t<\infty$ において、熱方程式：
+\begin{align*}
+  \hb{u(x,t)}{t}
+  &=\kappa\nhb{2}{u(x,t)}{x}
+\end{align*}
+を、初期条件 $u(x,0)=\delta(x)$ の下で解く。
+
+\subsubsection*{1}
+
+問題文に従い、逆 Fourier 変換を：
+\begin{align*}
+  u(x,t)
+  &=\frac{1}{2\pi}\int_{-\infty}^{\infty}U(k,t)e^{ikx}\,dk
+\end{align*}
+とする。これを熱方程式へ代入する：
+\begin{align*}
+  \frac{1}{2\pi}\int_{-\infty}^{\infty}\hb{U(k,t)}{t}e^{ikx}\,dk
+  &=-\frac{\kappa}{2\pi}\int_{-\infty}^{\infty}k^2U(k,t)e^{ikx}\,dk。
+\end{align*}
+Fourier 変換の一意性から：
+\begin{align*}
+  \hb{U(k,t)}{t}
+  &=-\kappa k^2U(k,t)。
+\end{align*}
+また、$t=0$ において：
+\begin{align*}
+  \delta(x)
+  &=\frac{1}{2\pi}\int_{-\infty}^{\infty}U(k,0)e^{ikx}\,dk
+\end{align*}
+である。デルタ関数の Fourier 表示と比較すると：
+\begin{align*}
+  U(k,0)&=1。
+\end{align*}
+
+\subsubsection*{2}
+
+得られた微分方程式を変数分離する：
+\begin{align*}
+  \frac{1}{U}\hb{U}{t}
+  &=-\kappa k^2。
+\end{align*}
+$t$ について積分し、初期条件を課す：
+\begin{align*}
+  U(k,t)
+  &=A(k)e^{-\kappa k^2t}
+   =e^{-\kappa k^2t}。
+\end{align*}
+
+\subsubsection*{3}
+
+逆 Fourier 変換へ戻す：
+\begin{align*}
+  u(x,t)
+  &=\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{-\kappa k^2t+ikx}\,dk。
+\end{align*}
+指数部分を平方完成する：
+\begin{align*}
+  -\kappa tk^2+ikx
+  &=-\kappa t\left(k-\frac{ix}{2\kappa t}\right)^2-\frac{x^2}{4\kappa t}。
+\end{align*}
+積分路を平行移動した後、Gauss 積分を用いる：
+\begin{align*}
+  u(x,t)
+  &=\frac{e^{-x^2/(4\kappa t)}}{2\pi}
+    \int_{-\infty}^{\infty}e^{-\kappa tk^2}\,dk \\
+  &=\frac{1}{\sqrt{4\pi\kappa t}}
+    \exp\left(-\frac{x^2}{4\kappa t}\right)。
+\end{align*}
+以上より、求める解は：
+\begin{align*}
+  u(x,t)
+  &=\frac{1}{\sqrt{4\pi\kappa t}}
+    \exp\left(-\frac{x^2}{4\kappa t}\right)
+  \qquad (t>0)
+\end{align*}
+である。
+
+\subsection*{問題3}
+
+Rodrigues の公式：
+\begin{align*}
+  P_n(x)
+  &=\frac{1}{2^nn!}\nbbn{n}{}{x}(x^2-1)^n
+\end{align*}
+を用いる。低次の Legendre 多項式は：
+\begin{align*}
+  P_0(x)&=1,\\
+  P_1(x)&=\frac{1}{2}\bbn{}{x}(x^2-1)=x,\\
+  P_2(x)&=\frac{1}{8}\nbbn{2}{}{x}(x^2-1)^2=\frac{1}{2}(3x^2-1),\\
+  P_3(x)&=\frac{1}{48}\nbbn{3}{}{x}(x^2-1)^3=\frac{1}{2}(5x^3-3x)。
+\end{align*}
+次に、$x^3$ は奇関数であるため：
+\begin{align*}
+  x^3
+  &=aP_1(x)+bP_3(x)
+\end{align*}
+と置ける。具体形を代入して係数を比較する：
+\begin{align*}
+  x^3
+  &=ax+\frac{b}{2}(5x^3-3x)。
+\end{align*}
+したがって：
+\begin{align*}
+  \frac{5b}{2}&=1,
+  &a-\frac{3b}{2}&=0
+\end{align*}
+であるから、$b=2/5$, $a=3/5$ を得る。以上より：
+\begin{align*}
+  x^3
+  &=\frac{3}{5}P_1(x)+\frac{2}{5}P_3(x)。
+\end{align*}
+
+\subsection*{問題4}
+
+Bessel 関数を：
+\begin{align*}
+  J_n(z)
+  &=\frac{1}{\pi}\int_0^\pi\cos(z\sin\theta-n\theta)\,d\theta,
+  \qquad n=0,\pm1,\pm2,\ldots
+\end{align*}
+で定義する。
+
+\subsubsection*{1}
+
+$n$ を $-n$ に置き換え、$\theta=\pi-\varphi$ と変数変換する：
+\begin{align*}
+  J_{-n}(z)
+  &=\frac{1}{\pi}\int_0^\pi\cos(z\sin\varphi+n\pi-n\varphi)\,d\varphi \\
+  &=(-1)^nJ_n(z)。
+\end{align*}
+
+\subsubsection*{2}
+
+定義式を $z$ で微分する：
+\begin{align*}
+  \bbn{J_n(z)}{z}
+  &=-\frac{1}{\pi}\int_0^\pi\sin\theta\sin(z\sin\theta-n\theta)\,d\theta。
+\end{align*}
+一方、三角関数の加法定理から：
+\begin{align*}
+  J_{n-1}(z)-J_{n+1}(z)
+  &=-\frac{2}{\pi}\int_0^\pi\sin\theta\sin(z\sin\theta-n\theta)\,d\theta。
+\end{align*}
+したがって：
+\begin{align*}
+  \bbn{J_n(z)}{z}
+  &=\frac{1}{2}\left(J_{n-1}(z)-J_{n+1}(z)\right)。
+\end{align*}
+
+\subsubsection*{3}
+
+次の全微分を用いる：
+\begin{align*}
+  \bbn{}{\theta}\sin(z\sin\theta-n\theta)
+  &=(z\cos\theta-n)\cos(z\sin\theta-n\theta)。
+\end{align*}
+両辺を $0$ から $\pi$ まで積分すると境界項は零であるため：
+\begin{align*}
+  nJ_n(z)
+  &=\frac{z}{\pi}\int_0^\pi\cos\theta\cos(z\sin\theta-n\theta)\,d\theta。
+\end{align*}
+また、加法定理から：
+\begin{align*}
+  J_{n-1}(z)+J_{n+1}(z)
+  &=\frac{2}{\pi}\int_0^\pi\cos\theta\cos(z\sin\theta-n\theta)\,d\theta。
+\end{align*}
+よって：
+\begin{align*}
+  \frac{n}{z}J_n(z)
+  &=\frac{1}{2}\left(J_{n-1}(z)+J_{n+1}(z)\right)。
+\end{align*}
+
+\subsubsection*{4}
+
+問2と問3から：
+\begin{align*}
+  J_{n-1}(z)&=J_n'(z)+\frac{n}{z}J_n(z),\\
+  J_{n+1}(z)&=-J_n'(z)+\frac{n}{z}J_n(z)。
+\end{align*}
+問2を微分し、隣接次数にも問2を適用する：
+\begin{align*}
+  J_n''
+  &=\frac{1}{2}\left(J_{n-1}'-J_{n+1}'\right) \\
+  &=\frac{1}{4}\left(J_{n-2}-2J_n+J_{n+2}\right)。
+\end{align*}
+問3から：
+\begin{align*}
+  J_{n-2}+J_n&=\frac{2(n-1)}{z}J_{n-1},\\
+  J_n+J_{n+2}&=\frac{2(n+1)}{z}J_{n+1}
+\end{align*}
+である。これらを代入する：
+\begin{align*}
+  J_n''
+  &=-J_n+\frac{n-1}{2z}J_{n-1}+\frac{n+1}{2z}J_{n+1} \\
+  &=-J_n-\frac{1}{z}J_n'+\frac{n^2}{z^2}J_n。
+\end{align*}
+したがって：
+\begin{align*}
+  \nbbn{2}{J_n}{z}
+  +\frac{1}{z}\bbn{J_n}{z}
+  +\left(1-\frac{n^2}{z^2}\right)J_n
+  &=0。
+\end{align*}
+
+\section*{2024年度}
+
+\subsection*{問題1}
+
+\subsubsection*{1}
+
+$f(x)=|x|$ は偶関数であるため、Fourier 級数には余弦項のみが現れる。定数項は：
+\begin{align*}
+  a_0
+  &=\frac{2}{\pi}\int_0^\pi x\,dx
+   =\pi。
+\end{align*}
+$n\geq1$ に対して：
+\begin{align*}
+  a_n
+  &=\frac{2}{\pi}\int_0^\pi x\cos nx\,dx \\
+  &=\frac{2}{\pi n^2}\left((-1)^n-1\right)。
+\end{align*}
+したがって、偶数 $n$ では $a_n=0$、奇数 $n$ では $a_n=-4/(\pi n^2)$ である。以上より：
+\begin{align*}
+  |x|
+  &=\frac{\pi}{2}-\frac{4}{\pi}\sum_{m=0}^{\infty}
+    \frac{\cos(2m+1)x}{(2m+1)^2}。
+\end{align*}
+
+\subsubsection*{2}
+
+Fourier 級数を：
+\begin{align*}
+  f(x)&=\sum_{m=-\infty}^{\infty}a_me^{imx},
+  &g(x)&=\sum_{n=-\infty}^{\infty}b_ne^{inx}
+\end{align*}
+とする。畳み込みの定義へ代入する：
+\begin{align*}
+  h(x)
+  &=\frac{1}{2\pi}\int_{-\pi}^{\pi}f(y)g(x-y)\,dy \\
+  &=\sum_{m,n}a_mb_ne^{inx}\frac{1}{2\pi}
+    \int_{-\pi}^{\pi}e^{i(m-n)y}\,dy。
+\end{align*}
+複素指数関数の直交関係を用いる：
+\begin{align*}
+  \frac{1}{2\pi}\int_{-\pi}^{\pi}e^{i(m-n)y}\,dy
+  &=\delta_{mn}。
+\end{align*}
+したがって：
+\begin{align*}
+  h(x)
+  &=\sum_{n=-\infty}^{\infty}a_nb_ne^{inx}。
+\end{align*}
+以上より：
+\begin{align*}
+  c_n&=a_nb_n。
+\end{align*}
+
+\subsection*{問題2}
+
+\subsubsection*{1}
+
+任意の滑らかな試験関数 $\varphi(x)$ に対して、部分積分を用いる：
+\begin{align*}
+  \int_{-\infty}^{\infty}\bbn{\Theta(x-x')}{x}\varphi(x)\,dx
+  &=-\int_{-\infty}^{\infty}\Theta(x-x')\varphi'(x)\,dx \\
+  &=-\int_{x'}^\infty\varphi'(x)\,dx
+   =\varphi(x')。
+\end{align*}
+これはデルタ関数の定義と一致するため、超関数の意味で：
+\begin{align*}
+  \bbn{\Theta(x-x')}{x}
+  &=\delta(x-x')。
+\end{align*}
+
+\subsubsection*{2}
+
+$x<x'$ で零となる形として：
+\begin{align*}
+  G(x,x')
+  &=-(x-x')\Theta(x-x')
+\end{align*}
+と置く。超関数の公式 $(x-x')\delta(x-x')=0$ を用いる：
+\begin{align*}
+  \hb{G(x,x')}{x}
+  &=-\Theta(x-x'),\\
+  \nhb{2}{G(x,x')}{x}
+  &=-\delta(x-x')。
+\end{align*}
+また、$x<x'$ では $\Theta(x-x')=0$ である。したがって：
+\begin{align*}
+  G(x,x')
+  &=-(x-x')\Theta(x-x')
+\end{align*}
+が求める Green 関数である。
+
+\subsection*{問題3}
+
+生成関数を：
+\begin{align*}
+  G(x,t)
+  &=\frac{1}{\sqrt{1-2tx+t^2}}
+   =\sum_{n=0}^{\infty}P_n(x)t^n
+\end{align*}
+とする。
+
+\subsubsection*{1}
+
+二項展開を $t^2$ まで行う：
+\begin{align*}
+  G(x,t)
+  &=1+xt+\frac{1}{2}(3x^2-1)t^2+O(t^3)。
+\end{align*}
+よって：
+\begin{align*}
+  P_0(x)&=1,
+  &P_1(x)&=x,
+  &P_2(x)&=\frac{1}{2}(3x^2-1)。
+\end{align*}
+
+\subsubsection*{2}
+
+生成関数を $t$ で微分する：
+\begin{align*}
+  \hb{G}{t}
+  &=(x-t)(1-2tx+t^2)^{-3/2}。
+\end{align*}
+したがって：
+\begin{align*}
+  (1-2tx+t^2)\hb{G}{t}
+  &=(x-t)G。
+\end{align*}
+級数表示を代入し、$t^n$ の係数を比較する：
+\begin{align*}
+  (n+1)P_{n+1}(x)
+  &=(2n+1)xP_n(x)-nP_{n-1}(x)。
+\end{align*}
+
+\subsubsection*{3}
+
+生成関数の偏微分を計算する：
+\begin{align*}
+  \hb{G}{x}
+  &=t(1-2tx+t^2)^{-3/2},\\
+  \nhb{2}{G}{x}
+  &=3t^2(1-2tx+t^2)^{-5/2},\\
+  \hb{G}{t}
+  &=(x-t)(1-2tx+t^2)^{-3/2},\\
+  \nhb{2}{G}{t}
+  &=-(1-2tx+t^2)^{-3/2}
+    +3(x-t)^2(1-2tx+t^2)^{-5/2}。
+\end{align*}
+これらを代入し、分母をそろえて整理すると：
+\begin{align*}
+  (1-x^2)\nhb{2}{G}{x}-2x\hb{G}{x}
+  &=-t^2\nhb{2}{G}{t}-2t\hb{G}{t}
+\end{align*}
+を得る。なお、もし問題用紙の右辺に負号が印刷されていない場合、その式は $P_1(x)=x$ を代入しただけでも成立しない。生成関数から直接得られる恒等式は上式である。
+
+\subsubsection*{4}
+
+級数表示を問3の偏微分方程式へ代入する。左辺は：
+\begin{align*}
+  (1-x^2)\nhb{2}{G}{x}-2x\hb{G}{x}
+  &=\sum_{n=0}^{\infty}\left((1-x^2)P_n''(x)-2xP_n'(x)\right)t^n。
+\end{align*}
+右辺は：
+\begin{align*}
+  -t^2\nhb{2}{G}{t}-2t\hb{G}{t}
+  &=-\sum_{n=0}^{\infty}n(n+1)P_n(x)t^n。
+\end{align*}
+$t^n$ の係数を比較する：
+\begin{align*}
+  (1-x^2)P_n''(x)-2xP_n'(x)+n(n+1)P_n(x)
+  &=0。
+\end{align*}
+以上より、Legendre 多項式の満たす微分方程式が示された。
+
+\subsection*{問題4}
+
+問題の定義および各設問は2023年度問題4と同一である。したがって、同じ導出により：
+\begin{align*}
+  J_{-n}(z)
+  &=(-1)^nJ_n(z),\\
+  \bbn{J_n(z)}{z}
+  &=\frac{1}{2}\left(J_{n-1}(z)-J_{n+1}(z)\right),\\
+  \frac{n}{z}J_n(z)
+  &=\frac{1}{2}\left(J_{n-1}(z)+J_{n+1}(z)\right),\\
+  \nbbn{2}{J_n}{z}
+  +\frac{1}{z}\bbn{J_n}{z}
+  +\left(1-\frac{n^2}{z^2}\right)J_n
+  &=0。
+\end{align*}
+
+\section*{2025年度}
+
+\subsection*{問題1}
+
+1次元 Poisson 方程式の Green 関数は：
+\begin{align*}
+  \nhb{2}{G(x,x')}{x}
+  &=-\delta(x-x')
+\end{align*}
+を満たす。
+
+\subsubsection*{1}
+
+問題文の Fourier 表示：
+\begin{align*}
+  G(x,x')
+  &=\frac{1}{2\pi}\int_{-\infty}^{\infty}g(k)e^{ik(x-x')}\,dk,\\
+  \delta(x-x')
+  &=\frac{1}{2\pi}\int_{-\infty}^{\infty}e^{ik(x-x')}\,dk
+\end{align*}
+を用いる。Green 関数を $x$ で2回微分する：
+\begin{align*}
+  \nhb{2}{G(x,x')}{x}
+  &=-\frac{1}{2\pi}\int_{-\infty}^{\infty}k^2g(k)e^{ik(x-x')}\,dk。
+\end{align*}
+Poisson 方程式と比較すると：
+\begin{align*}
+  k^2g(k)&=1。
+\end{align*}
+したがって：
+\begin{align*}
+  g(k)&=\frac{1}{k^2}。
+\end{align*}
+ただし、$k=0$ の特異点があるため、逆変換には境界条件に応じた処方が必要である。
+
+\subsubsection*{2}
+
+$x<x'$ で零となる形として：
+\begin{align*}
+  G(x,x')
+  &=A(x-x')\Theta(x-x')
+\end{align*}
+と置く。微分すると：
+\begin{align*}
+  \hb{G}{x}
+  &=A\Theta(x-x'),\\
+  \nhb{2}{G}{x}
+  &=A\delta(x-x')。
+\end{align*}
+Poisson 方程式と比較して $A=-1$ を得る。したがって：
+\begin{align*}
+  G(x,x')
+  &=-(x-x')\Theta(x-x') \\
+  &=\begin{cases}
+    0 & x<x',\\
+    -(x-x') & x\geq x'
+  \end{cases}。
+\end{align*}
+
+\subsection*{問題2}
+
+区間 $0\leq x\leq L$, $0\leq t<\infty$ において、熱方程式：
+\begin{align*}
+  \hb{u(x,t)}{t}
+  &=\kappa\nhb{2}{u(x,t)}{x}
+\end{align*}
+を、初期条件 $u(x,0)=f(x)$ および Neumann 境界条件：
+\begin{align*}
+  \hb{u(0,t)}{x}&=0,
+  &\hb{u(L,t)}{x}&=0
+\end{align*}
+の下で解く。
+
+\subsubsection*{1}
+
+変数分離形 $u(x,t)=X(x)T(t)$ を代入する：
+\begin{align*}
+  X(x)T'(t)
+  &=\kappa X''(x)T(t)。
+\end{align*}
+両辺を $\kappa X(x)T(t)$ で割る：
+\begin{align*}
+  \frac{1}{\kappa T(t)}\bbn{T(t)}{t}
+  &=\frac{1}{X(x)}\nbbn{2}{X(x)}{x}
+   =-\lambda。
+\end{align*}
+したがって：
+\begin{align*}
+  \nbbn{2}{X}{x}+\lambda X&=0,\\
+  \bbn{T}{t}+\kappa\lambda T&=0。
+\end{align*}
+
+\subsubsection*{2}
+
+$\lambda=k^2>0$ のとき：
+\begin{align*}
+  X(x)&=A\cos kx+B\sin kx。
+\end{align*}
+$X'(0)=0$ から $B=0$ を得る。さらに $X'(L)=0$ から：
+\begin{align*}
+  \sin kL&=0,
+  &k_n&=\frac{n\pi}{L}
+\end{align*}
+を得る。したがって：
+\begin{align*}
+  X_n(x)&=\cos\frac{n\pi x}{L},\\
+  T_n(t)&=\exp\left[-\kappa\left(\frac{n\pi}{L}\right)^2t\right]
+  \qquad (n\geq1)。
+\end{align*}
+また、$\lambda=0$ のときは $X_0(x)=1$, $T_0(t)=1$ である。$\lambda<0$ では Neumann 境界条件を満たす非自明解は存在しない。
+
+\subsubsection*{3}
+
+各固有モードを重ね合わせる：
+\begin{align*}
+  u(x,t)
+  &=A_0+\sum_{n=1}^{\infty}A_n
+    \exp\left[-\kappa\left(\frac{n\pi}{L}\right)^2t\right]
+    \cos\frac{n\pi x}{L}。
+\end{align*}
+$t=0$ で初期条件を課すと、$f(x)$ の Fourier 余弦級数を得る。直交関係から：
+\begin{align*}
+  A_0
+  &=\frac{1}{L}\int_0^Lf(\xi)\,d\xi,\\
+  A_n
+  &=\frac{2}{L}\int_0^Lf(\xi)\cos\frac{n\pi\xi}{L}\,d\xi
+  \qquad (n\geq1)。
+\end{align*}
+したがって：
+\begin{align*}
+  u(x,t)
+  &=\frac{1}{L}\int_0^Lf(\xi)\,d\xi \\
+  &\quad+\frac{2}{L}\sum_{n=1}^{\infty}
+    \left(\int_0^Lf(\xi)\cos\frac{n\pi\xi}{L}\,d\xi\right)
+    \exp\left[-\kappa\left(\frac{n\pi}{L}\right)^2t\right]
+    \cos\frac{n\pi x}{L}。
+\end{align*}
+
+\subsubsection*{4}
+
+$n\geq1$ のモードは $t\to+\infty$ で減衰するため：
+\begin{align*}
+  \lim_{t\to+\infty}u(x,t)
+  &=\frac{1}{L}\int_0^Lf(\xi)\,d\xi。
+\end{align*}
+これは初期温度の空間平均であり、十分な時間の後には一様な温度分布へ近づく。実際、Neumann 境界条件により：
+\begin{align*}
+  \bbn{}{t}\int_0^Lu(x,t)\,dx
+  &=\kappa\left[\hb{u}{x}\right]_0^L
+   =0
+\end{align*}
+であるから、区間内の全熱量は保存される。
+
+\subsection*{問題3}
+
+Legendre 多項式を Rodrigues の公式：
+\begin{align*}
+  P_n(x)
+  &=\frac{1}{2^nn!}\nbbn{n}{}{x}(x^2-1)^n
+\end{align*}
+によって定義する。
+
+\subsubsection*{1}
+
+Rodrigues の公式へ $n=0,1,2$ を代入する：
+\begin{align*}
+  P_0(x)&=1,\\
+  P_1(x)&=x,\\
+  P_2(x)&=\frac{1}{2}(3x^2-1)。
+\end{align*}
+
+\subsubsection*{2}
+
+$0\leq m<n$ とする。Rodrigues の公式を代入する：
+\begin{align*}
+  \int_{-1}^{1}x^mP_n(x)\,dx
+  &=\frac{1}{2^nn!}\int_{-1}^{1}x^m\nbbn{n}{}{x}(x^2-1)^n\,dx。
+\end{align*}
+部分積分を $n$ 回行う。$(x^2-1)^n$ は $x=\pm1$ に $n$ 重の零点を持つため、すべての境界項は消える：
+\begin{align*}
+  \int_{-1}^{1}x^mP_n(x)\,dx
+  &=\frac{(-1)^n}{2^nn!}\int_{-1}^{1}\nbbn{n}{x^m}{x}(x^2-1)^n\,dx。
+\end{align*}
+$m<n$ では $\nbbn{n}{x^m}{x}=0$ である。したがって：
+\begin{align*}
+  \int_{-1}^{1}x^mP_n(x)\,dx
+  &=0
+  \qquad (0\leq m<n)。
+\end{align*}
+
+\subsubsection*{3}
+
+まず、$P_n(x)$ の最高次係数を求める。Rodrigues の公式における最高次項から：
+\begin{align*}
+  P_n(x)
+  &=\frac{(2n)!}{2^n(n!)^2}x^n+\text{低次の項}。
+\end{align*}
+最高次係数を：
+\begin{align*}
+  c_n&=\frac{(2n)!}{2^n(n!)^2}
+\end{align*}
+とする。$x^n=P_n(x)/c_n+q_{n-1}(x)$ と書け、問2の直交性から：
+\begin{align*}
+  \int_{-1}^{1}P_n(x)^2\,dx
+  &=c_n\int_{-1}^{1}x^nP_n(x)\,dx。
+\end{align*}
+右辺の積分へ Rodrigues の公式を代入し、部分積分を $n$ 回行う：
+\begin{align*}
+  \int_{-1}^{1}x^nP_n(x)\,dx
+  &=\frac{1}{2^n}\int_{-1}^{1}(1-x^2)^n\,dx。
+\end{align*}
+ここで、$x=2y-1$ と置く：
+\begin{align*}
+  \int_{-1}^{1}(1-x^2)^n\,dx
+  &=2^{2n+1}\int_0^1y^n(1-y)^n\,dy \\
+  &=2^{2n+1}\frac{(n!)^2}{(2n+1)!}。
+\end{align*}
+したがって：
+\begin{align*}
+  \int_{-1}^{1}P_n(x)^2\,dx
+  &=\frac{(2n)!}{2^n(n!)^2}
+    \frac{2^{n+1}(n!)^2}{(2n+1)!} \\
+  &=\frac{2}{2n+1}。
+\end{align*}
+
+\subsection*{問題4}
+
+Bessel 関数 $J_0(x)$ を：
+\begin{align*}
+  J_0(x)
+  &=\frac{1}{2\pi}\int_0^{2\pi}e^{ix\cos\theta}\,d\theta
+\end{align*}
+で定義する。Laplace 変換を：
+\begin{align*}
+  L(s)
+  &=\int_0^\infty e^{-sx}J_0(x)\,dx
+\end{align*}
+とする。ただし、$\operatorname{Re}s>0$ とする。
+
+\subsubsection*{1}
+
+固定した $\theta$ に対して：
+\begin{align*}
+  \int_0^\infty e^{-sx}e^{ix\cos\theta}\,dx
+  &=\int_0^\infty e^{-(s-i\cos\theta)x}\,dx \\
+  &=\frac{1}{s-i\cos\theta}。
+\end{align*}
+
+\subsubsection*{2}
+
+積分順序を交換し、問1の結果を用いる：
+\begin{align*}
+  L(s)
+  &=\frac{1}{2\pi}\int_0^{2\pi}\frac{d\theta}{s-i\cos\theta}。
+\end{align*}
+$z=e^{i\theta}$ と置く。このとき：
+\begin{align*}
+  d\theta&=\frac{dz}{iz},
+  &\cos\theta&=\frac{1}{2}\left(z+\frac{1}{z}\right)。
+\end{align*}
+したがって：
+\begin{align*}
+  L(s)
+  &=\frac{1}{2\pi}\oint_{|z|=1}\frac{2\,dz}{z^2+2isz+1}。
+\end{align*}
+分母の零点は：
+\begin{align*}
+  z_\pm
+  &=-is\pm i\sqrt{s^2+1}。
+\end{align*}
+$s>0$ では：
+\begin{align*}
+  z_+
+  &=i\left(\sqrt{s^2+1}-s\right)
+\end{align*}
+のみが単位円内にある。被積分関数の $z=z_+$ における留数は：
+\begin{align*}
+  \mathop{\mathrm{Res}}_{z=z_+}\frac{2}{(z-z_+)(z-z_-)}
+  &=\frac{2}{z_+-z_-}
+   =\frac{1}{i\sqrt{s^2+1}}。
+\end{align*}
+留数定理を用いる：
+\begin{align*}
+  L(s)
+  &=\frac{1}{2\pi}\,2\pi i\,
+    \frac{1}{i\sqrt{s^2+1}} \\
+  &=\frac{1}{\sqrt{s^2+1}}。
+\end{align*}
+以上より：
+\begin{align*}
+  \int_0^\infty e^{-sx}J_0(x)\,dx
+  &=\frac{1}{\sqrt{s^2+1}}
+  \qquad (\operatorname{Re}s>0)
+\end{align*}
+である。
+
+\end{document}

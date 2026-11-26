@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>対戦タイマー</title>
+
+<style>
+:root{
+  --red:#cb302d;
+  --red2:#a91820;
+  --deep:#571014;
+  --gold:#f4d35e;
+  --ivory:#fff9e8;
+  --ink:#17100d;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+}
+
+body{
+  color:var(--ivory);
+  background:linear-gradient(
+    180deg,
+    #d53b33 0%,
+    var(--red) 48%,
+    #b92127 100%
+  );
+  font-family:
+    system-ui,
+    -apple-system,
+    "Hiragino Sans",
+    "Noto Sans JP",
+    sans-serif;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+
+.wrap{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100vh;
+  height:100dvh;
+  padding:14px 18px 13px;
+  gap:10px;
+  border:4px solid var(--gold);
+}
+
+.top{
+  display:flex;
+  flex:0 0 auto;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:7px 10px;
+  background:var(--red2);
+  border:3px solid var(--gold);
+  border-radius:12px;
+}
+
+.duration-label{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:var(--gold);
+  font-size:15px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+input{
+  width:70px;
+  min-width:0;
+  padding:7px 8px;
+  color:var(--ink);
+  background:var(--ivory);
+  border:3px solid var(--ink);
+  border-radius:7px;
+  outline:none;
+  font-size:15px;
+  font-weight:800;
+  user-select:text;
+  -webkit-user-select:text;
+}
+
+input:focus{
+  border-color:var(--gold);
+}
+
+button{
+  min-height:38px;
+  padding:7px 11px;
+  color:var(--ink);
+  background:linear-gradient(
+    180deg,
+    #f8df79,
+    var(--gold)
+  );
+  border:3px solid var(--ink);
+  border-radius:8px;
+  font-size:14px;
+  font-weight:900;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+button:hover{
+  filter:brightness(1.06);
+}
+
+button:active{
+  transform:translateY(1px);
+}
+
+.primary{
+  color:var(--ink);
+  background:linear-gradient(
+    180deg,
+    #f8df79,
+    var(--gold)
+  );
+}
+
+.danger{
+  color:#fff;
+  background:linear-gradient(
+    180deg,
+    #b51d29,
+    #7d1017
+  );
+}
+
+.ghost{
+  color:var(--gold);
+  background:linear-gradient(
+    180deg,
+    #5c1418,
+    #351013
+  );
+}
+
+.board{
+  display:grid;
+  flex:1;
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(0,1fr);
+  min-height:0;
+  gap:12px;
+  overflow:hidden;
+}
+
+.player{
+  position:relative;
+  display:flex;
+  min-width:0;
+  min-height:0;
+  padding:14px;
+  overflow:hidden;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background:linear-gradient(
+    180deg,
+    #8f151c,
+    #591014
+  );
+  border:5px solid var(--gold);
+  border-radius:14px;
+  cursor:pointer;
+  transition:
+    filter .12s,
+    background .12s,
+    opacity .12s;
+}
+
+.player::before{
+  position:absolute;
+  inset:9px;
+  content:"";
+  pointer-events:none;
+  border:1px solid #f4d35e77;
+  border-radius:8px;
+}
+
+.player.active{
+  background:linear-gradient(
+    180deg,
+    #d83d35,
+    #b51d26
+  );
+  border-color:#ffe47a;
+  filter:brightness(1.08);
+  opacity:1;
+}
+
+.player.active::after{
+  position:absolute;
+  top:14px;
+  right:16px;
+  padding:5px 10px;
+  content:"手番";
+  color:var(--ink);
+  background:var(--gold);
+  border:2px solid var(--ink);
+  border-radius:999px;
+  font-size:13px;
+  font-weight:900;
+}
+
+.player.wait{
+  background:linear-gradient(
+    180deg,
+    #742027,
+    #431014
+  );
+  filter:saturate(.7);
+  opacity:.76;
+}
+
+.name{
+  z-index:1;
+  width:100%;
+  overflow:hidden;
+  color:var(--gold);
+  font-size:clamp(22px,3.5vw,54px);
+  font-weight:900;
+  text-align:center;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.time{
+  z-index:1;
+  width:100%;
+  overflow:hidden;
+  color:var(--ivory);
+  font-size:clamp(48px,9vw,150px);
+  font-weight:950;
+  font-variant-numeric:tabular-nums;
+  line-height:.95;
+  letter-spacing:-.06em;
+  text-align:center;
+  white-space:nowrap;
+}
+
+.state{
+  z-index:1;
+  width:100%;
+  overflow:hidden;
+  color:var(--gold);
+  font-size:clamp(14px,1.7vw,22px);
+  font-weight:900;
+  text-align:center;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.hint{
+  flex:0 0 auto;
+  overflow:hidden;
+  color:var(--gold);
+  font-size:11px;
+  font-weight:800;
+  text-align:center;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#250507dd;
+  backdrop-filter:blur(5px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.panel{
+  width:min(520px,100%);
+  padding:24px;
+  color:var(--ivory);
+  background:linear-gradient(
+    145deg,
+    #c62b2d,
+    #8f151c
+  );
+  border:4px solid var(--gold);
+  border-radius:16px;
+}
+
+.panel h2{
+  margin:0 0 16px;
+  color:var(--gold);
+  font-size:28px;
+}
+
+.row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 0;
+}
+
+.row label{
+  flex-shrink:0;
+  width:120px;
+  color:var(--gold);
+  font-weight:900;
+}
+
+.row input{
+  flex:1;
+  width:auto;
+}
+
+@media(max-width:900px){
+  .wrap{
+    padding:10px 13px 9px;
+    gap:7px;
+    border-width:3px;
+  }
+
+  .top{
+    gap:5px;
+    padding:5px 7px;
+    border-width:2px;
+  }
+
+  .duration-label{
+    font-size:13px;
+  }
+
+  input{
+    width:60px;
+    padding:5px 6px;
+    border-width:2px;
+    font-size:13px;
+  }
+
+  button{
+    min-height:32px;
+    padding:5px 8px;
+    border-width:2px;
+    font-size:12px;
+  }
+
+  .board{
+    gap:8px;
+  }
+
+  .player{
+    gap:8px;
+    padding:9px;
+    border-width:4px;
+  }
+
+  .time{
+    font-size:clamp(38px,8.7vw,100px);
+  }
+}
+
+@media(max-width:600px){
+  .wrap{
+    padding:8px;
+    gap:5px;
+  }
+
+  .top{
+    gap:3px;
+    padding:4px;
+  }
+
+  .duration-label{
+    font-size:11px;
+  }
+
+  input{
+    width:48px;
+    padding:4px;
+    font-size:11px;
+  }
+
+  button{
+    min-height:28px;
+    padding:4px 6px;
+    font-size:10px;
+  }
+
+  .board{
+    gap:5px;
+  }
+
+  .player{
+    gap:5px;
+    padding:5px;
+    border-width:3px;
+    border-radius:9px;
+  }
+
+  .player::before{
+    inset:5px;
+  }
+
+  .player.active::after{
+    top:8px;
+    right:8px;
+    padding:3px 6px;
+    font-size:9px;
+  }
+
+  .name{
+    font-size:clamp(16px,5vw,28px);
+  }
+
+  .time{
+    font-size:clamp(28px,8.5vw,58px);
+  }
+
+  .state{
+    font-size:clamp(10px,2.5vw,14px);
+  }
+
+  .hint{
+    font-size:9px;
+  }
+}
+
+@media(max-height:600px){
+  .wrap{
+    padding:8px 11px 7px;
+    gap:5px;
+  }
+
+  .top{
+    padding:3px 6px;
+    gap:4px;
+  }
+
+  input{
+    padding:4px 6px;
+    font-size:12px;
+  }
+
+  button{
+    min-height:28px;
+    padding:4px 7px;
+    font-size:11px;
+  }
+
+  .player{
+    gap:4px;
+    padding:6px;
+  }
+
+  .name{
+    font-size:clamp(17px,3vw,34px);
+  }
+
+  .time{
+    font-size:clamp(35px,8.3vw,94px);
+  }
+
+  .state{
+    font-size:12px;
+  }
+
+  .hint{
+    font-size:9px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="top">
+    <label class="duration-label">
+      持ち時間
+
+      <input
+        id="minutes"
+        type="number"
+        min="0"
+        step="1"
+        value="1"
+      >分
+
+      <input
+        id="seconds"
+        type="number"
+        min="0"
+        max="3599"
+        step="1"
+        value="0"
+      >秒
+    </label>
+
+    <button class="primary" id="new">
+      新しく開始
+    </button>
+
+    <button class="primary" id="startA">
+      Aから開始
+    </button>
+
+    <button class="primary" id="startB">
+      Bから開始
+    </button>
+
+    <button class="ghost" id="pause">
+      一時停止
+    </button>
+
+    <button class="danger" id="reset">
+      リセット
+    </button>
+
+    <button class="ghost" id="settings">
+      名前設定
+    </button>
+  </div>
+
+  <div class="board">
+    <section class="player wait" id="p0">
+      <div class="name" id="name0">
+        A
+      </div>
+
+      <div class="time" id="time0">
+        01:00.0
+      </div>
+
+      <div class="state" id="state0">
+        待機中
+      </div>
+    </section>
+
+    <section class="player wait" id="p1">
+      <div class="name" id="name1">
+        B
+      </div>
+
+      <div class="time" id="time1">
+        02:00.0
+      </div>
+
+      <div class="state" id="state1">
+        待機中
+      </div>
+    </section>
+  </div>
+
+  <div class="hint">
+    A／Bから開始：開始側を選択　Space：交代　R：リセット　F：全画面
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="panel">
+    <h2>名前設定</h2>
+
+    <div class="row">
+      <label for="set0">
+        プレイヤーA
+      </label>
+
+      <input id="set0" value="A">
+    </div>
+
+    <div class="row">
+      <label for="set1">
+        プレイヤーB
+      </label>
+
+      <input id="set1" value="B">
+    </div>
+
+    <div class="row">
+      <button class="primary" id="save">
+        保存
+      </button>
+
+      <button class="ghost" id="close">
+        閉じる
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id =>
+  document.getElementById(id);
+
+function getDuration(){
+  const minutes = Math.max(
+    0,
+    parseInt(
+      $("minutes").value,
+      10
+    ) || 0
+  );
+
+  const seconds = Math.max(
+    0,
+    parseInt(
+      $("seconds").value,
+      10
+    ) || 0
+  );
+
+  return (
+    minutes * 60 +
+    seconds
+  ) * 1000;
+}
+
+let duration = getDuration();
+
+let remain = [
+  duration,
+  duration
+];
+
+let active = -1;
+let running = false;
+let last = performance.now();
+
+function fmt(milliseconds){
+  milliseconds = Math.max(
+    0,
+    milliseconds
+  );
+
+  const totalSeconds =
+    Math.floor(
+      milliseconds / 1000
+    );
+
+  const minutes =
+    Math.floor(
+      totalSeconds / 60
+    );
+
+  const seconds =
+    totalSeconds % 60;
+
+  const tenth =
+    Math.floor(
+      milliseconds % 1000 / 100
+    );
+
+  return (
+    String(minutes)
+      .padStart(2,"0") +
+    ":" +
+    String(seconds)
+      .padStart(2,"0") +
+    "." +
+    tenth
+  );
+}
+
+function render(){
+  $("time0").textContent =
+    fmt(remain[0]);
+
+  $("time1").textContent =
+    fmt(remain[1]);
+
+  $("p0").className =
+    "player " +
+    (
+      running &&
+      active === 0
+        ? "active"
+        : "wait"
+    );
+
+  $("p1").className =
+    "player " +
+    (
+      running &&
+      active === 1
+        ? "active"
+        : "wait"
+    );
+
+  $("state0").textContent =
+    remain[0] <= 0
+      ? "TIME UP"
+      : running &&
+        active === 0
+        ? "▶ START中"
+        : "待機中";
+
+  $("state1").textContent =
+    remain[1] <= 0
+      ? "TIME UP"
+      : running &&
+        active === 1
+        ? "▶ START中"
+        : "待機中";
+
+  $("pause").textContent =
+    running
+      ? "一時停止"
+      : active >= 0
+        ? "再開"
+        : "一時停止";
+}
+
+function applyElapsed(
+  now = performance.now()
+){
+  if(
+    !running ||
+    active < 0
+  ){
+    return;
+  }
+
+  remain[active] =
+    Math.max(
+      0,
+      remain[active] -
+        (now - last)
+    );
+
+  last = now;
+}
+
+function startFrom(player){
+  if(running){
+    applyElapsed();
+  }
+
+  if(remain[player] <= 0){
+    return;
+  }
+
+  active = player;
+  running = true;
+  last = performance.now();
+
+  render();
+}
+
+function switchPlayer(){
+  if(
+    !running ||
+    active < 0
+  ){
+    return;
+  }
+
+  applyElapsed();
+
+  if(remain[active] <= 0){
+    running = false;
+    render();
+    return;
+  }
+
+  const next = 1 - active;
+
+  if(remain[next] <= 0){
+    running = false;
+  }else{
+    active = next;
+    last = performance.now();
+  }
+
+  render();
+}
+
+function resetTimer(){
+  duration = getDuration();
+
+  remain = [
+    duration,
+    duration
+  ];
+
+  active = -1;
+  running = false;
+  last = performance.now();
+
+  render();
+}
+
+function loop(now){
+  if(
+    running &&
+    active >= 0
+  ){
+    remain[active] -=
+      now - last;
+
+    last = now;
+
+    if(remain[active] <= 0){
+      remain[active] = 0;
+      running = false;
+    }
+  }else{
+    last = now;
+  }
+
+  render();
+  requestAnimationFrame(loop);
+}
+
+$("startA").onclick = () =>
+  startFrom(0);
+
+$("startB").onclick = () =>
+  startFrom(1);
+
+$("pause").onclick = () => {
+  if(active < 0){
+    return;
+  }
+
+  if(running){
+    applyElapsed();
+    running = false;
+  }else if(
+    remain[active] > 0
+  ){
+    running = true;
+    last = performance.now();
+  }
+
+  render();
+};
+
+$("reset").onclick =
+  resetTimer;
+
+$("new").onclick =
+  resetTimer;
+
+$("p0").onclick = () => {
+  if(
+    running &&
+    active === 0
+  ){
+    switchPlayer();
+  }
+};
+
+$("p1").onclick = () => {
+  if(
+    running &&
+    active === 1
+  ){
+    switchPlayer();
+  }
+};
+
+document.addEventListener(
+  "keydown",
+  event => {
+    if(
+      event.target.matches(
+        "input"
+      )
+    ){
+      return;
+    }
+
+    if(event.code === "Space"){
+      event.preventDefault();
+
+      if(running){
+        switchPlayer();
+      }else if(active === -1){
+        startFrom(
+          event.shiftKey
+            ? 1
+            : 0
+        );
+      }else if(
+        remain[active] > 0
+      ){
+        running = true;
+        last = performance.now();
+
+        render();
+      }
+    }
+
+    if(
+      event.key
+        .toLowerCase() === "r"
+    ){
+      resetTimer();
+    }
+
+    if(
+      event.key
+        .toLowerCase() === "f" &&
+      !event.ctrlKey &&
+      !event.metaKey
+    ){
+      if(
+        document.fullscreenElement
+      ){
+        document
+          .exitFullscreen?.();
+      }else{
+        document
+          .documentElement
+          .requestFullscreen?.();
+      }
+    }
+  }
+);
+
+$("settings").onclick = () => {
+  $("set0").value =
+    $("name0").textContent;
+
+  $("set1").value =
+    $("name1").textContent;
+
+  $("modal")
+    .classList
+    .add("show");
+};
+
+$("close").onclick = () => {
+  $("modal")
+    .classList
+    .remove("show");
+};
+
+$("save").onclick = () => {
+  $("name0").textContent =
+    $("set0").value.trim() ||
+    "A";
+
+  $("name1").textContent =
+    $("set1").value.trim() ||
+    "B";
+
+  $("modal")
+    .classList
+    .remove("show");
+};
+
+render();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

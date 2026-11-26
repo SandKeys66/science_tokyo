@@ -1,0 +1,412 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\subsection*{(1)}
+
+電流密度を
+
+\begin{align*}
+  \vect{J}(\vect{r},t)
+  =
+  I(t)\delta l\,\vect{e}_z\,\delta^{(3)}(\vect{r})
+\end{align*}
+
+とおく。遅延ベクトルポテンシャルは
+
+\begin{align*}
+  \vect{A}(\vect{r},t)
+  =
+  \frac{\mu_0}{4\pi}
+  \int
+  \frac{\vect{J}(\vect{r}',t-R/c)}{R}
+  d^3r'
+\end{align*}
+
+で与えられる。ただし
+
+\begin{align*}
+  R=|\vect{r}-\vect{r}'|
+\end{align*}
+
+である。原点に局在した電流であるため、デルタ関数を用いて積分を実行すると
+
+\begin{align*}
+  \vect{A}(\vect{r},t)
+  =
+  \frac{\mu_0\delta l}{4\pi r}
+  I\!\left(t-\frac{r}{c}\right)
+  \vect{e}_z
+\end{align*}
+
+を得る。以後、
+
+\begin{align*}
+  t_r=t-\frac{r}{c}
+\end{align*}
+
+を遅延時刻とする。
+
+ここで
+
+\begin{align*}
+  \vect{e}_z
+  =
+  \cos\theta\,\vect{e}_r
+  -
+  \sin\theta\,\vect{e}_\theta
+\end{align*}
+
+を用いると、
+
+\begin{align*}
+  A_r
+  &=
+  \frac{\mu_0\delta l}{4\pi r}
+  I(t_r)\cos\theta,\\
+  A_\theta
+  &=
+  -\frac{\mu_0\delta l}{4\pi r}
+  I(t_r)\sin\theta
+\end{align*}
+
+となる。
+
+ローレンツゲージ条件
+
+\begin{align*}
+  \nabla\cdot\vect{A}
+  +
+  \frac{1}{c^2}
+  \hb{\phi}{t}
+  =
+  0
+\end{align*}
+
+を用いる。球座標における発散
+
+\begin{align*}
+  \nabla\cdot\vect{A}
+  =
+  \frac{1}{r^2}
+  \hb{}{r}\!\left(r^2A_r\right)
+  +
+  \frac{1}{r\sin\theta}
+  \hb{}{\theta}\!\left(\sin\theta A_\theta\right)
+\end{align*}
+
+に代入すると
+
+\begin{align*}
+  \nabla\cdot\vect{A}
+  &=
+  \frac{\mu_0\delta l\cos\theta}{4\pi}
+  \left(
+    -\frac{\dot I(t_r)}{cr}
+    -\frac{I(t_r)}{r^2}
+  \right)
+\end{align*}
+
+を得る。したがって
+
+\begin{align*}
+  \hb{\phi}{t}
+  =
+  \frac{\delta l\cos\theta}{4\pi\varepsilon_0}
+  \left(
+    \frac{\dot I(t_r)}{cr}
+    +
+    \frac{I(t_r)}{r^2}
+  \right)
+\end{align*}
+
+であり、時間積分すると
+
+\begin{align*}
+  \phi
+  =
+  \frac{\delta l\cos\theta}{4\pi\varepsilon_0}
+  \left(
+    \frac{I(t_r)}{cr}
+    +
+    \frac{1}{r^2}
+    \int^t I(t_r)\,dt
+  \right)
+\end{align*}
+
+となる。
+
+ここで電気双極子モーメント
+
+\begin{align*}
+  p(t)
+  =
+  \delta l
+  \int^t I(t')\,dt'
+\end{align*}
+
+を導入すると
+
+\begin{align*}
+  \phi
+  =
+  \frac{\cos\theta}{4\pi\varepsilon_0}
+  \left(
+    \frac{\dot p(t_r)}{cr}
+    +
+    \frac{p(t_r)}{r^2}
+  \right)
+\end{align*}
+
+と書ける。
+
+磁場は
+
+\begin{align*}
+  \vect{B}
+  =
+  \nabla\times\vect{A}
+\end{align*}
+
+より求まる。軸対称性のため \(\phi\) 成分のみが残り、
+
+\begin{align*}
+  B_\phi
+  &=
+  \frac{1}{r}
+  \left[
+    \hb{}{r}(rA_\theta)
+    -
+    \hb{A_r}{\theta}
+  \right] \\
+  &=
+  \frac{\mu_0\sin\theta}{4\pi}
+  \left(
+    \frac{\dot p(t_r)}{r^2}
+    +
+    \frac{\ddot p(t_r)}{cr}
+  \right)
+\end{align*}
+
+を得る。
+
+次に
+
+\begin{align*}
+  \vect{E}
+  =
+  -\nabla\phi
+  -
+  \hb{\vect{A}}{t}
+\end{align*}
+
+を計算する。
+
+まず動径成分について、
+
+\begin{align*}
+  E_r
+  &=
+  -\hb{\phi}{r} \\
+  &=
+  \frac{\cos\theta}{2\pi\varepsilon_0}
+  \left(
+    \frac{p(t_r)}{r^3}
+    +
+    \frac{\dot p(t_r)}{cr^2}
+  \right)
+\end{align*}
+
+を得る。
+
+さらに極角成分は
+
+\begin{align*}
+  E_\theta
+  &=
+  -\frac{1}{r}\hb{\phi}{\theta}
+  -\hb{A_\theta}{t} \\
+  &=
+  \frac{\sin\theta}{4\pi\varepsilon_0}
+  \left(
+    \frac{p(t_r)}{r^3}
+    +
+    \frac{\dot p(t_r)}{cr^2}
+    +
+    \frac{\ddot p(t_r)}{c^2r}
+  \right)
+\end{align*}
+
+となる。
+
+したがって求める電磁場は
+
+\begin{align*}
+  E_r
+  &=
+  \frac{\cos\theta}{2\pi\varepsilon_0}
+  \left(
+    \frac{p(t_r)}{r^3}
+    +
+    \frac{\dot p(t_r)}{cr^2}
+  \right),\\
+  E_\theta
+  &=
+  \frac{\sin\theta}{4\pi\varepsilon_0}
+  \left(
+    \frac{p(t_r)}{r^3}
+    +
+    \frac{\dot p(t_r)}{cr^2}
+    +
+    \frac{\ddot p(t_r)}{c^2r}
+  \right),\\
+  B_\phi
+  &=
+  \frac{\mu_0\sin\theta}{4\pi}
+  \left(
+    \frac{\dot p(t_r)}{r^2}
+    +
+    \frac{\ddot p(t_r)}{cr}
+  \right)
+\end{align*}
+
+で与えられる。
+
+\subsection*{(2)}
+
+得られた電磁場を距離依存性で分類する。
+
+まず
+
+\begin{align*}
+  \frac{p(t_r)}{r^3}
+\end{align*}
+
+に比例する項は静的双極子電場
+
+\begin{align*}
+  \vect{E}
+  \propto
+  \frac{p}{r^3}
+\end{align*}
+
+と同じ形をもつ。したがってこの項は電荷分布そのものに起因する静電場である。
+
+次に
+
+\begin{align*}
+  \frac{\dot p(t_r)}{r^2}
+\end{align*}
+
+に比例する項は、時間変化する電流によって生じる誘導電磁場である。この項は静電場と放射場の中間的な性質をもち、源の近傍にエネルギーを蓄積したり戻したりする成分に対応する。
+
+最後に
+
+\begin{align*}
+  \frac{\ddot p(t_r)}{r}
+\end{align*}
+
+に比例する項は放射電磁場である。実際、
+
+\begin{align*}
+  E_\theta
+  =
+  \frac{\sin\theta}{4\pi\varepsilon_0}
+  \frac{\ddot p(t_r)}{c^2r},
+  \qquad
+  B_\phi
+  =
+  \frac{\mu_0\sin\theta}{4\pi}
+  \frac{\ddot p(t_r)}{cr}
+\end{align*}
+
+より
+
+\begin{align*}
+  E_\theta
+  =
+  cB_\phi
+\end{align*}
+
+が成り立つ。また \(\vect{E}\)、\(\vect{B}\)、伝播方向 \(\vect{e}_r\) は互いに直交する。
+
+さらにポインティングベクトル
+
+\begin{align*}
+  \vect{S}
+  =
+  \frac{1}{\mu_0}
+  \vect{E}\times\vect{B}
+\end{align*}
+
+は
+
+\begin{align*}
+  S
+  \propto
+  \frac{1}{r^2}
+\end{align*}
+
+となる。したがって半径 \(r\) の球面を通過する全エネルギー流
+
+\begin{align*}
+  \int S\,dA
+\end{align*}
+
+は \(r\) に依らず一定であり、エネルギーが無限遠まで運ばれることが分かる。
+
+以上より、\(1/r^3\) 項は静電場、\(1/r^2\) 項は誘導電磁場、\(1/r\) 項は電磁放射に対応することが示された。
+\end{document}

@@ -1,0 +1,347 @@
+\iffalse
+============================================================
+Cursor Tab / AI 補助用レポート執筆指示
+============================================================
+
+このTeXファイルでは、大学物理の演習レポートとして、内容の正しさと記述の明晰性を同じ重みで重視する。
+レポート単体を読めば、問題設定、定義、式変形、結論までの流れを追えるように書く。
+読者は、前提科目は履修済みだが、この科目を学び始めたばかりの物理学科学生を想定する。
+
+------------------------------------------------------------
+文体
+------------------------------------------------------------
+
+文末は「〜である」「〜が成り立つ」「〜が示された」「〜を得る」を基本とする。
+「まず」「ここで」「よって」「したがって」「以上より」などを用いて、論理展開を明示する。
+突然数式だけを書き始めない。
+文頭を剥き出しの数式で始めない。
+体言止めを避ける。
+「計算すればわかる」「明らか」などで重要な式変形を省略しない。
+一般的な模範解答調に寄せすぎず、自然な演習レポート調で書く。
+
+------------------------------------------------------------
+句読点とコロン
+------------------------------------------------------------
+
+日本語の句読点は必ず「、」「。」を用いる。
+コロンは必ず全角「：」を用いる。
+半角コロンは原則として使わない。
+TeX本文中の日本語文でも、この規則を守る。
+
+------------------------------------------------------------
+文章と表示数式の接続
+------------------------------------------------------------
+
+表示数式は文章の一部として扱う。
+表示数式の直前では、原則として全角コロン「：」を用いて数式を導入する。
+「〜すると、」の直後に表示数式を書き、その後で「となる。」と続ける形は避ける。
+句点「。」は、原則として表示数式環境内部の最後の式の末尾に置く。
+複数行のalign*環境では、最後の行の末尾に句点「。」を置く。
+
+良い書き方の例：
+ここに(1)式を代入する：
+\begin{align*}
+  A &= B+C \\
+    &= D。
+\end{align*}
+
+悪い書き方の例：
+ここに(1)式を代入すると、
+\begin{align*}
+  A = B
+\end{align*}
+となる。
+
+------------------------------------------------------------
+数式環境
+------------------------------------------------------------
+
+表示数式は基本的にalign*環境を用いる。
+存在しないalign**環境は絶対に使わない。
+複数行の式変形では、= の位置を揃える。
+ただし、=を書くためだけに無駄な改行を入れない。
+手書きで一行に書ける程度の式は、TeXでも一行に保つ。
+見切れてもよいので、短い式を縦長に分解しない。
++ や - の前後だけを理由に機械的に改行しない。
+式変形として意味のある段階を示す場合にのみ、=で改行する。
+
+悪い書き方の例：
+\begin{align*}
+  A &= B \\
+    &\quad + C \\
+    &\quad - D。
+\end{align*}
+
+良い書き方の例：
+\begin{align*}
+  A &= B+C-D。
+\end{align*}
+
+良い書き方の例：
+\begin{align*}
+  A &= B+C-D \\
+    &= E。
+\end{align*}
+
+------------------------------------------------------------
+表示数式前後の段落
+------------------------------------------------------------
+
+表示数式の前後に不要な空行や段落分けを入れない。
+同一の論理の流れに属する文章は、同一段落内で自然につなげる。
+レポート全体の分量が不用意に増えないようにする。
+
+------------------------------------------------------------
+マクロと表記
+------------------------------------------------------------
+
+ベクトルは原則として \vect{} を用いる。
+\vec{}、\mathbf{}、\boldsymbol{} などを混在させない。
+
+1階偏微分は \hb{}{} を用いる。
+1階常微分は \bbn{}{} を用いる。
+2階以上の偏微分は \nhb{次数}{対象}{変数} を用いる。
+2階以上の常微分は \nbbn{次数}{対象}{変数} を用いる。
+たとえば、2階偏微分は \nhb{2}{f}{x}、2階常微分は \nbbn{2}{f}{x} と書く。
+\hhb{}{} や \bbbn{}{} は使わない。
+
+標準的に読みやすい場合は、文脈を壊さない範囲で通常のプライムやドットを使ってよい。
+\dot{\varphi_1} のように添字までドットの中に入れない。
+必ず \dot{\varphi}_1 と書く。
+\ddot{\varphi_1} ではなく、\ddot{\varphi}_1 と書く。
+
+\sin、\cos、\tan、\log、\ln、\arccos などはLaTeX標準演算子を用いる。
+指数関数については、文脈上指定がある場合は e^{...} を優先する。
+変数名、添字、定数名は物理・数学の慣用に従い、意味が分かるものを使う。
+HTMLエスケープ文字列である &amp;、&lt;、&gt; をTeXコード内に絶対に入れない。
+TeXでは &, <, > をそのまま使う。
+
+------------------------------------------------------------
+図、画像、TikZ
+------------------------------------------------------------
+
+図番号を進めたい図にはfigure環境を使う。
+図をその場に固定したい場合は、floatパッケージを使える前提でfigure[H]を用いる。
+図番号を進めたくない概形図や補助図は、center環境やminipage環境を用いる。
+番号なしキャプションが必要な場合は、captionパッケージの \captionof*{figure}{...} を用いる。
+graphicxで画像を入れる場合、platex+dvipdfmx環境なので \usepackage[dvipdfmx]{graphicx} を前提とする。
+jpgでBounding Boxが崩れる場合はpngへの変換を優先する。
+figure内のminipageでは、画像幅に \linewidth を使う方針を優先する。
+
+TikZで関数を描く場合、plot内では \frac を使わない。
+例えば、-1/(\x)+1/(\x*\x) のような計算式で書く。
+発散点を含む関数では、domain=0:... のように特異点を含めず、domain=0.45:... のように避ける。
+番号を進めたくないTikZ図は、以下の形式を基本とする。
+
+\begin{center}
+  \begin{minipage}{0.75\textwidth}
+    \centering
+    \begin{tikzpicture}
+      ...
+    \end{tikzpicture}
+    \captionof*{figure}{...}
+  \end{minipage}
+\end{center}
+
+------------------------------------------------------------
+解答構成
+------------------------------------------------------------
+
+各小問は、原則として問題番号だけを見出しにする。
+例：
+\subsection*{(v)}
+
+各小問の冒頭では、何を示す問題かを簡潔に述べる。
+問題文を全文転記する必要はないが、レポート内部だけで主題が分かるようにする。
+
+定義式や基本方程式から出発し、必要十分な式変形を示す。
+Gaussの発散定理、Stokesの定理、ベクトル恒等式、Euler-Lagrange方程式、Fourier変換、Routhian、Legendre多項式などを用いる場合は、その都度どの定理・方法を使ったかを明示する。
+
+楕円の通径、離心率、近日点など、問題で示せと言われている概念は前提にしない。
+まず式変形で曲線の種類を示す。
+その後で、定義に戻って、問題中の量が通径、離心率、近日点などに対応することを示す。
+
+答えを知っていないと出てこないような変数変換を突然導入しない。
+自然な動機がある場合だけ変数変換を導入する。
+
+Routhianなど、符号が紛らわしい概念では、単純代入との差を明示し、なぜその項を引くかを説明する。
+
+級数解で指数を求める場合は、公式を突然出さない。
+先頭項を代入して指数方程式を導く。
+なぜ先頭項を見るのかについて、必要なら「最初の非零項は高次項で打ち消せないため」と説明する。
+
+------------------------------------------------------------
+細かい注意
+------------------------------------------------------------
+
+\boxed{} や box 系環境は、特別な指定がない限り使わない。
+結論は文章の流れで自然に示す。
+「よって、〜が示された。」のように閉じる。
+
+暗算で追う必要がある大きな式変形は避ける。
+ただし、不要な中間式を増やしすぎない。
+短い代数変形は一行に保つ。
+長い式でも、+ や - の直前直後で機械的に改行しない。
+式変形の段階が本当に変わるときだけ改行する。
+見切れてもよいから、無駄に改行しない。
+
+------------------------------------------------------------
+出力形式
+------------------------------------------------------------
+
+本文だけを書く場合は、documentclassやbegin documentを書かない。
+TeX全文を書く場合は、最新プリアンブルからend documentまで書く。
+修正指示があった場合は、説明だけで終わらず、すぐに修正版を提示する。
+謝罪やメタ説明は最小限にする。
+指摘された箇所だけでなく、同じ種類のミスが他にもありそうなら、該当範囲全体を同じ方針で修正する。
+
+============================================================
+\fi
+
+
+
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学II演習レポート6}
+\author{嶋田 悠音}
+\date{2026年7月6日}
+
+\begin{document}
+  \maketitle
+  
+  \section*{問題3}
+  
+  \subsection*{I(i)}
+  本小問では、定義された球面調和関数について、$l=0,1$の場合を具体的に書き下す。球面調和関数は次のように定義される：
+  \begin{align*}
+    Y_{l,m}(\theta,\phi)=i^{|m|+m}\sqrt{\frac{2l+1}{4\pi}\frac{(l-|m|)!}{(l+|m|)!}}P_l^{|m|}(\cos\theta)e^{im\phi}。
+  \end{align*}
+  まず$l=0$では$m=0$のみであり、$P_0^0(\cos\theta)=1$であるから、
+  \begin{align*}
+    Y_{0,0}(\theta,\phi)=\frac{1}{\sqrt{4\pi}}。
+  \end{align*}
+  次に$l=1$の場合を考える。このとき$m=-1,0,1$である。ここで、$P_1^0(\cos\theta)=\cos\theta$、$P_1^1(\cos\theta)=\sin\theta$を用いる。したがって、
+  \begin{align*}
+    Y_{1,0}(\theta,\phi)=\sqrt{\frac{3}{4\pi}}\cos\theta,
+    \qquad
+    Y_{1,1}(\theta,\phi)=-\sqrt{\frac{3}{8\pi}}\sin\theta\,e^{i\phi},
+    \qquad
+    Y_{1,-1}(\theta,\phi)=\sqrt{\frac{3}{8\pi}}\sin\theta\,e^{-i\phi}。
+  \end{align*}
+  以上より、$l=0,1$の球面調和関数がすべて得られた。
+  
+  \subsection*{I(ii)}
+  本小問では、球面調和関数の加法定理を用いて、任意の点に置かれた点電荷の電位を展開する。問題2(iii)で得た電位から、極角のみに依存することがわかる。よって原点から$\vect{r'}$の方向に軸を取れば、相対角$\gamma$が$\vect{r}$の極角にあたる。よって$\theta$を$\gamma$に置き換えれば、電位は次のようになる：
+  \begin{align*}
+    V(\vect{r})=\frac{q}{4\pi\epsilon_0 r_>}\ssum{l}{0}{\infty}\left(\frac{r_<}{r_>}\right)^lP_l(\cos\gamma)。
+  \end{align*}
+  ここで、球面調和関数の加法定理
+  \begin{align*}
+    P_l(\cos\gamma)=\frac{4\pi}{2l+1}\ssum{m}{-l}{l}Y_{l,m}^*(\theta',\phi')Y_{l,m}(\theta,\phi)
+  \end{align*}
+  を用いる。この式を電位の展開に代入する：
+  \begin{align*}
+    V(\vect{r})=\frac{q}{\epsilon_0 r_>}\ssum{l}{0}{\infty}\ssum{m}{-l}{l}\frac{1}{2l+1}\left(\frac{r_<}{r_>}\right)^lY_{l,m}^*(\theta',\phi')Y_{l,m}(\theta,\phi)。
+  \end{align*}
+  以上より、点$\vect{r}'=(r',\theta',\phi')$に置かれた電荷$q$が点$\vect{r}=(r,\theta,\phi)$に作る電位は、球面調和関数を用いて上のように展開される。
+  
+  \subsection*{II(iii)}
+  本小問では、半径$a$の球面上に電荷分布$q\cos\theta\,d\Omega$が置かれたとき、球の外側での電位を求める。ここで$d\Omega=\sin\theta\,d\theta\,d\phi$である。前小問の点電荷の結果を連続分布に対して積分する。球外では$r>a$であるから、$r_>=r,\ r_<=a$である。したがって電位は、
+  \begin{align*}
+    V(r,\theta,\phi)=\frac{1}{\epsilon_0 r}\ssum{l}{0}{\infty}\ssum{m}{-l}{l}\frac{1}{2l+1}\left(\frac{a}{r}\right)^lY_{l,m}(\theta,\phi)\int q\cos\theta'Y_{l,m}^*(\theta',\phi')\,d\Omega'。
+  \end{align*}
+  ここで、被積分関数中の球面調和関数はI(i)の定義より$Y_{l,m}^*(\theta',\phi')\propto e^{-im\phi'}$という$\phi'$依存性を持つ。一方、電荷分布$q\cos\theta'$は$\phi'$に依存しない。したがって$\phi'$積分は
+  \begin{align*}
+    \int_{-\pi}^{\pi}e^{-im\phi'}\,d\phi'=
+    \begin{cases}
+      2\pi & (m=0),\\
+      0 & (m\neq 0)
+    \end{cases}
+  \end{align*}
+  となり、$m=0$の項だけが残る。次に$l$について考える。$m=0$のとき$Y_{l,0}^*(\theta',\phi')=\sqrt{\frac{2l+1}{4\pi}}P_l(\cos\theta')$であるから、残る積分は
+  \begin{align*}
+    \int q\cos\theta'Y_{l,0}^*(\theta',\phi')\,d\Omega'=2\pi q\sqrt{\frac{2l+1}{4\pi}}\int_{0}^{\pi}\cos\theta'P_l(\cos\theta')\sin\theta'd\theta'=2\pi q\sqrt{\frac{2l+1}{4\pi}}\int_{-1}^{1}xP_l(x)\,dx
+  \end{align*}
+  となる。ここで$x=P_1(x)$であり、あえて書くならば上の積分は
+  \begin{align*}
+    \int_{-1}^1 P_1(x)P_l(x)\,dx
+  \end{align*}
+  である（係数は省略）。Legendre多項式の直交性より$l=1$のときのみ非零になる。よって$l=1$とすると必要な積分は次のようになる：
+  \begin{align*}
+    \int q\cos\theta'Y_{1,0}^*(\theta',\phi')\,d\Omega'=2\pi q\sqrt{\frac{3}{4\pi}}\int_{-1}^{1}x^2\,dx=q\frac{4\pi}{3}\sqrt{\frac{3}{4\pi}}。
+  \end{align*}
+  したがって電位は、
+  \begin{align*}
+    V(r,\theta,\phi)=\frac{1}{\epsilon_0 r}\frac{1}{3}\frac{a}{r}\sqrt{\frac{3}{4\pi}}\cos\theta\cdot q\sqrt{\frac{3}{4\pi}}\frac{4\pi}{3}=\frac{qa}{3\epsilon_0}\frac{\cos\theta}{r^2}。
+  \end{align*}
+  以上より、球の外側での電位は次のようになる：
+  \begin{align*}
+    V(r,\theta,\phi)=\frac{qa\cos\theta}{3\epsilon_0 r^2}\qquad (r>a)。
+  \end{align*}
+  
+  \subsection*{II(iv)}
+  本小問では、水素原子の$1s$軌道にある電子の球対称な電荷分布が作る電位を求める。与えられた電荷分布は球対称なので、電位は$r$のみに依存する。体積電荷密度を
+  \begin{align*}
+    \rho(r)=\frac{e}{\pi a_0^3}e^{-2r/a_0}
+  \end{align*}
+  と読むと、半径$r$より内側の電荷は次のようになる：
+  \begin{align*}
+    Q_{\mathrm{in}}(r)=4\pi\int_0^r\rho(r')r'^2\,dr'=e\left\{1-e^{-2r/a_0}\left(1+\frac{2r}{a_0}+\frac{2r^2}{a_0^2}\right)\right\}。
+  \end{align*}
+  また、半径$r$より外側の球殻が半径$r$の位置に作る電位の寄与は次のようになる：
+  \begin{align*}
+    4\pi\int_r^\infty \rho(r')r'\,dr'=e e^{-2r/a_0}\left(\frac{2r}{a_0^2}+\frac{1}{a_0}\right)。
+  \end{align*}
+  球対称電荷分布の電位は、内側の電荷による寄与と外側の球殻による寄与の和として次のように書ける：
+  \begin{align*}
+    V(r)=\frac{1}{4\pi\epsilon_0}\left\{\frac{Q_{\mathrm{in}}(r)}{r}+4\pi\int_r^\infty \rho(r')r'\,dr'\right\}。
+  \end{align*}
+  これに上で求めた式を代入して整理する：
+  \begin{align*}
+    V(r)
+    &=\frac{e}{4\pi\epsilon_0}\left[\frac{1}{r}\left\{1-e^{-2r/a_0}\left(1+\frac{2r}{a_0}+\frac{2r^2}{a_0^2}\right)\right\}+e^{-2r/a_0}\left(\frac{2r}{a_0^2}+\frac{1}{a_0}\right)\right] \\
+    &=\frac{e}{4\pi\epsilon_0}\left\{\frac{1}{r}-e^{-2r/a_0}\left(\frac{1}{r}+\frac{1}{a_0}\right)\right\}。
+  \end{align*}
+  よって、水素原子の$1s$軌道の電子分布が作る電位は、
+  \begin{align*}
+    V(r)=\frac{e}{4\pi\epsilon_0 r}\left\{1-\left(1+\frac{r}{a_0}\right)e^{-2r/a_0}\right\}。
+  \end{align*}
+  電子の電荷を$-e$として扱う場合は、右辺全体に(-)を付ければよい。
+\end{document}

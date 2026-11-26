@@ -1,0 +1,422 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+\usepackage{amsmath,amsfonts,amssymb,braket}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float,tikz,caption}
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+\begin{document}
+\section*{第1回}
+\subsection*{1.1}
+\paragraph{(1)} $m^a e^b\varepsilon_0^c$の次元は$M^{a-c}L^{-3c}T^{b+4c}I^{b+2c}$である。これが$L$に等しいとすると、$a-c=0$, $-3c=1$, $b+4c=0$, $b+2c=0$を得る。後二式から$c=0$となり$-3c=1$と矛盾する。したがって、$m,e,\varepsilon_0$のみから長さは作れない。
+\paragraph{(2)} $m^a e^b\varepsilon_0^c h^d$について次元を比較すると、$a=-1$, $b=-2$, $c=1$, $d=2$である。よって、長さの次元を持つ量は：
+\begin{align*}
+ \frac{\varepsilon_0h^2}{me^2}。
+\end{align*}
+\paragraph{(3)} Bohr半径は：
+\begin{align*}
+ a_0=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=\frac{\varepsilon_0h^2}{\pi me^2}\simeq5.29\times10^{-11}\,\mathrm{m}。
+\end{align*}
+したがって、(2)の結果と無次元係数を除いて一致する。
+\subsection*{1.2}
+\paragraph{(1)} 極値条件を用いる：
+\begin{align*}
+ \bbn{E}{r_*}&=-\frac{\hbar^2}{mr_*^3}+\frac{e^2}{4\pi\varepsilon_0r_*^2}=0,\\
+ r_*&=\frac{4\pi\varepsilon_0\hbar^2}{me^2}。
+\end{align*}
+この点では$E''(r_*)=\hbar^2/(mr_*^4)>0$であるため極小である。
+\paragraph{(2)} $r_*=a_0$である。
+
+\section*{第2回}
+\subsection*{2.1}
+\paragraph{(1)}
+\begin{align*}
+ f_\psi(\alpha_1\ket{\phi_1}+\alpha_2\ket{\phi_2})
+ &=\alpha_1f_\psi(\ket{\phi_1})+\alpha_2f_\psi(\ket{\phi_2})。
+\end{align*}
+また、$f_\psi=f_\chi$ならば$f_\psi(\ket{\psi}-\ket{\chi})-f_\chi(\ket{\psi}-\ket{\chi})=\|\ket{\psi}-\ket{\chi}\|^2=0$である。よって、$\ket{\psi}\neq\ket{\chi}$ならば$f_\psi\neq f_\chi$である。
+\paragraph{(2)} 正規直交基底$\{\ket{e_i}\}$を用いて：
+\begin{align*}
+ \ket{\psi}=\sum_i f(\ket{e_i})^*\ket{e_i}
+\end{align*}
+とおけば、任意の$\ket{\phi}=\sum_i\phi_i\ket{e_i}$に対して$\braket{\psi|\phi}=\sum_i f(\ket{e_i})\phi_i=f(\ket{\phi})$である。一意性は差ベクトルのノルムを取れば従う。
+\paragraph{(3)} 以上より$H$と$H^*$は一対一に対応する。また、$(\alpha f+\beta g)(\ket{\phi})=\alpha f(\ket{\phi})+\beta g(\ket{\phi})$と定めれば線形性が保たれるため、$H^*$は複素線形空間である。
+\subsection*{2.2}
+\paragraph{(1)}
+\begin{align*}
+ \bra{\psi}=f_\psi,\qquad
+ \alpha\ket{\psi}+\beta\ket{\phi}\longleftrightarrow
+ \alpha^*\bra{\psi}+\beta^*\bra{\phi}。
+\end{align*}
+\paragraph{(2)}
+\begin{align*}
+ \braket{\psi|\alpha\phi+\beta\chi}&=\alpha\braket{\psi|\phi}+\beta\braket{\psi|\chi},\\
+ \braket{\alpha\phi+\beta\chi|\psi}&=\alpha^*\braket{\phi|\psi}+\beta^*\braket{\chi|\psi},\\
+ \braket{\psi|\phi}^*&=\braket{\phi|\psi},\qquad
+ \braket{\psi|\psi}\geq0,\qquad
+ \braket{\psi|\psi}=0\Longleftrightarrow\ket{\psi}=0。
+\end{align*}
+\subsection*{2.3}
+\paragraph{(1)} 定義$\braket{\psi|A|\phi}=\braket{A^\dagger\psi|\phi}$を順に用いると：
+\begin{align*}
+ (A^\dagger)^\dagger=A,\qquad
+ (\alpha A+\beta B)^\dagger=\alpha^*A^\dagger+\beta^*B^\dagger,\qquad
+ (AB)^\dagger=B^\dagger A^\dagger。
+\end{align*}
+積については$\braket{\psi|AB|\phi}=\braket{A^\dagger\psi|B|\phi}=\braket{B^\dagger A^\dagger\psi|\phi}$である。
+\paragraph{(2)}
+\begin{align*}
+ A\ket{\psi}&\longleftrightarrow\bra{\psi}A^\dagger,\\
+ \alpha ABC\ket{\psi}+\beta D\ket{\phi}
+ &\longleftrightarrow
+ \alpha^*\bra{\psi}C^\dagger B^\dagger A^\dagger+\beta^*\bra{\phi}D^\dagger。
+\end{align*}
+\paragraph{(3)}
+\begin{align*}
+ \bra{\psi}(A\ket{\phi})=(\bra{\psi}A)\ket{\phi}=\bra{\psi}A\ket{\phi}。
+\end{align*}
+\paragraph{(4)}
+\begin{align*}
+ \braket{\phi|A|\psi}^*=\braket{\psi|A^\dagger|\phi}。
+\end{align*}
+\subsection*{2.4}
+\paragraph{(1)} 正規直交性と完全性は：
+\begin{align*}
+ \braket{e_i|e_j}=\delta_{ij},\qquad \sum_i\ket{e_i}\bra{e_i}=\hat 1。
+\end{align*}
+完全性は任意の$\ket{\psi}$に作用させると$\sum_i\ket{e_i}\braket{e_i|\psi}=\ket{\psi}$となることから従う。
+\paragraph{(2)}
+\begin{align*}
+ \ket{\psi}=\sum_i\psi_i\ket{e_i},\qquad \psi_i=\braket{e_i|\psi}。
+\end{align*}
+\paragraph{(3)}
+\begin{align*}
+ \bra{\phi}=\sum_i\phi_i^*\bra{e_i},\qquad \phi_i^*=\braket{\phi|e_i},\qquad
+ \braket{\phi|\psi}=\sum_i\phi_i^*\psi_i。
+\end{align*}
+\paragraph{(4)} $A_{ij}=\braket{e_i|A|e_j}$とすれば：
+\begin{align*}
+ \braket{\phi|A|\psi}=\sum_{i,j}\phi_i^*A_{ij}\psi_j
+ =\begin{pmatrix}\phi_1^*&\cdots&\phi_N^*\end{pmatrix}(A_{ij})
+ \begin{pmatrix}\psi_1\\ \vdots\\ \psi_N\end{pmatrix}。
+\end{align*}
+\subsection*{2.5}
+\paragraph{(1)}
+\begin{align*}
+ \braket{\lambda|\lambda'}=\delta(\lambda-\lambda'),\qquad
+ \int_{-\infty}^{\infty}d\lambda\,\ket{\lambda}\bra{\lambda}=\hat1。
+\end{align*}
+\paragraph{(2)}
+\begin{align*}
+ \ket{\psi}=\int d\lambda\,\psi(\lambda)\ket{\lambda},\qquad
+ \psi(\lambda)=\braket{\lambda|\psi}。
+\end{align*}
+\paragraph{(3)}
+\begin{align*}
+ \ket{\phi}=\int d\lambda\,\phi(\lambda)\ket{\lambda},\qquad
+ \braket{\phi|\psi}=\int d\lambda\,\phi(\lambda)^*\psi(\lambda)。
+\end{align*}
+\paragraph{(4)} $A(\lambda,\lambda')=\braket{\lambda|A|\lambda'}$とすれば：
+\begin{align*}
+ \braket{\phi|A|\psi}=\int d\lambda\,d\lambda'\,\phi(\lambda)^*A(\lambda,\lambda')\psi(\lambda')。
+\end{align*}
+
+\section*{第3回}
+\subsection*{3.1}
+\paragraph{(1)}
+\begin{align*}
+ \bra{\lambda}L^\dagger=\lambda^*\bra{\lambda}。
+\end{align*}
+\paragraph{(2)} 有限次元では、右固有値は$\det(L-\lambda I)=0$の根であり、左固有値は$\det(L^{\mathsf T}-\sigma I)=0$の根である。$\det(L^{\mathsf T}-\sigma I)=\det(L-\sigma I)$であるため、両者の集合は一致する。
+\subsection*{3.2}
+\paragraph{(1)} $L=L^\dagger$より$L\ket{\lambda}=\lambda\ket{\lambda}$の共役は$\bra{\lambda}L=\lambda^*\bra{\lambda}$である。また：
+\begin{align*}
+ (\lambda_j-\lambda_i^*)\braket{\lambda_i|\lambda_j}=0。
+\end{align*}
+$i=j$とすれば$\lambda_i=\lambda_i^*$であり固有値は実数である。異なる固有値では内積が0であり、縮退部分空間内ではGram--Schmidt法を用いることで$\braket{\lambda_i|\lambda_j}=\delta_{ij}$と取れる。
+\paragraph{(2)} 完全性から：
+\begin{align*}
+ \hat1&=\sum_i\ket{a_i}\bra{a_i}+\int d\lambda\,\ket{\lambda}\bra{\lambda},\\
+ L&=L\hat1=\sum_i a_i\ket{a_i}\bra{a_i}+\int d\lambda\,\lambda\ket{\lambda}\bra{\lambda}。
+\end{align*}
+\subsection*{3.3}
+\paragraph{(1)} $U\ket{\psi}=u\ket{\psi}$ならば$\|U\psi\|^2=|u|^2\|\psi\|^2=\|\psi\|^2$である。よって$|u|=1$であり、$u=e^{i\theta}$と書ける。
+\paragraph{(2)} 冪級数を直接掛け、Cauchy積と二項定理を用いる：
+\begin{align*}
+ U(a)^\dagger&=\sum_{n=0}^\infty\frac{(-ia)^n}{n!}A^n=U(-a),\\
+ U(a)U(a')&=\sum_{k=0}^\infty\frac{i^k(a+a')^k}{k!}A^k=U(a+a'),\\
+ \bbn{U(a)}a&=iAU(a)=iU(a)A。
+\end{align*}
+したがって$U(a)U(a)^\dagger=U(0)=\hat1$である。
+\paragraph{(3)} $U=\sum_i\ket{e_i}\bra{f_i}$とすると：
+\begin{align*}
+ UU^\dagger=\sum_i\ket{e_i}\bra{e_i}=\hat1,\qquad
+ U^\dagger U=\sum_i\ket{f_i}\bra{f_i}=\hat1。
+\end{align*}
+\paragraph{(4)} $F=\sum_i f_i\ket{f_i}\bra{f_i}$より：
+\begin{align*}
+ UFU^\dagger=\sum_i f_i\ket{e_i}\bra{e_i}。
+\end{align*}
+\subsection*{3.4}
+\paragraph{(1)} 共通固有基底$\ket{n}$があれば$[X,Y]\ket n=(x_ny_n-y_nx_n)\ket n=0$である。逆に$[X,Y]=0$ならば、$X$の各固有空間は$Y$で不変である。各固有空間内でHermite演算子$Y$を対角化すれば共通固有基底を得る。
+\paragraph{(2)} 共通固有基底を$\ket n$とすれば：
+\begin{align*}
+ X=\sum_nx_n\ket n\bra n,\qquad Y=\sum_ny_n\ket n\bra n。
+\end{align*}
+縮退がある場合も、同時固有値$(x_n,y_n)$ごとの射影を用いて同様に表せる。
+\paragraph{(3)}
+\begin{align*}
+ [A,B]&=-[B,A],\\
+ [A,B+C]&=[A,B]+[A,C],\\
+ [A,BC]&=[A,B]C+B[A,C],\\
+ [AB,C]&=A[B,C]+[A,C]B,\\
+ [A,B]^\dagger&=[B^\dagger,A^\dagger]。
+\end{align*}
+いずれも$[A,B]=AB-BA$を代入して展開すれば従う。
+\subsection*{3.5}
+\paragraph{(1)} 測定確率は$|\braket{a_i|\psi}|^2/\braket{\psi|\psi}$である。$\ket\psi\to\lambda\ket\psi$では分子と分母がともに$|\lambda|^2$倍されるため不変である。
+\paragraph{(2)} 規格化状態では、固有値$a_i$を得る確率と期待値は：
+\begin{align*}
+ p_i=|\braket{a_i|\psi}|^2,\qquad
+ \sum_i p_i=1,\qquad
+ \langle A\rangle=\sum_i a_ip_i=\braket{\psi|A|\psi}。
+\end{align*}
+\subsection*{3.6}
+\paragraph{(1)} $P_\psi=\ket\psi\bra\psi$とする。ただし$\braket{\psi|\psi}=1$である。このとき：
+\begin{align*}
+ P_\psi^\dagger=P_\psi,\qquad P_\psi^2=P_\psi,\qquad
+ P_\psi\ket\phi=\ket\psi\braket{\psi|\phi}。
+\end{align*}
+\paragraph{(2)} 固有空間への射影を$P_a=\sum_{\alpha}\ket{a,\alpha}\bra{a,\alpha}$とすれば、測定確率と測定後状態は：
+\begin{align*}
+ p(a)=\braket{\psi|P_a|\psi},\qquad
+ \ket{\psi_a}=\frac{P_a\ket\psi}{\sqrt{p(a)}}。
+\end{align*}
+また、$P_aP_b=\delta_{ab}P_a$および$\sum_aP_a=\hat1$が成り立つ。
+
+\section*{第4回}
+\subsection*{4.1}
+$\Delta A=A-\langle A\rangle$、$\Delta B=B-\langle B\rangle$とする。Cauchy--Schwarz不等式から：
+\begin{align*}
+ (\Delta A)^2(\Delta B)^2&\geq|\braket{\psi|\Delta A\Delta B|\psi}|^2\\
+ &\geq\frac14|\braket{\psi|[A,B]|\psi}|^2。
+\end{align*}
+したがって：
+\begin{align*}
+ \Delta A\Delta B\geq\frac12|\langle[A,B]\rangle|。
+\end{align*}
+特に$[x,p]=i\hbar$より$\Delta x\Delta p\geq\hbar/2$である。
+\subsection*{4.2}
+古典確率$p_i$で状態$\ket{\psi_i}$が準備される混合状態は：
+\begin{align*}
+ \rho=\sum_ip_i\ket{\psi_i}\bra{\psi_i},\qquad
+ \rho^\dagger=\rho,\quad \rho\geq0,\quad \mathrm{Tr}\rho=1。
+\end{align*}
+期待値は$\langle A\rangle=\mathrm{Tr}(\rho A)$である。純粋状態では$\rho^2=\rho$および$\mathrm{Tr}\rho^2=1$、非自明な混合状態では$\mathrm{Tr}\rho^2<1$である。
+\subsection*{4.3}
+\paragraph{(1)} $[x,p]=i\hbar$の位置固有状態間の行列要素を取る：
+\begin{align*}
+ (x-x')\braket{x|p|x'}=i\hbar\delta(x-x')。
+\end{align*}
+$z\delta'(z)=-\delta(z)$を用いると：
+\begin{align*}
+ \braket{x|p|x'}=-i\hbar\delta'(x-x')。
+\end{align*}
+同様に：
+\begin{align*}
+ \braket{p|x|p'}=i\hbar\delta'(p-p')。
+\end{align*}
+\paragraph{(2)} $\braket{x|p|p}=p\braket{x|p}$と(1)を完全性に代入すると：
+\begin{align*}
+ -i\hbar\hb{}{x}\braket{x|p}=p\braket{x|p}。
+\end{align*}
+よって$\braket{x|p}=Ce^{ipx/\hbar}$である。$\braket{p|p'}=\delta(p-p')$から$|C|=(2\pi\hbar)^{-1/2}$であるため：
+\begin{align*}
+ \braket{x|p}=\frac{e^{i\theta_p}}{\sqrt{2\pi\hbar}}e^{ipx/\hbar}。
+\end{align*}
+\subsection*{4.4}
+\paragraph{(1)} 完全性を挿入し、$\theta_p=0$とする：
+\begin{align*}
+ \psi(x)&=\frac1{\sqrt{2\pi\hbar}}\int dp\,e^{ipx/\hbar}\widetilde\psi(p),\\
+ \widetilde\psi(p)&=\frac1{\sqrt{2\pi\hbar}}\int dx\,e^{-ipx/\hbar}\psi(x)。
+\end{align*}
+\paragraph{(2)}
+\begin{align*}
+ \braket{x|x|\psi}&=x\psi(x),&
+ \braket{x|p|\psi}&=-i\hbar\hb{\psi(x)}x,\\
+ \braket{p|x|\psi}&=i\hbar\hb{\widetilde\psi(p)}p,&
+ \braket{p|p|\psi}&=p\widetilde\psi(p)。
+\end{align*}
+\subsection*{4.5}
+\paragraph{(1)}
+\begin{align*}
+ |\psi(x)|^2=\frac1{\sqrt{2\pi\sigma^2}}e^{-x^2/(2\sigma^2)},\qquad
+ \int dx\,|\psi(x)|^2=1。
+\end{align*}
+したがって、$|\psi(x)|^2$は平均0、分散$\sigma^2$の確率密度である。
+\paragraph{(2)} Fourier変換により：
+\begin{align*}
+ \widetilde\psi(p)=\left(\frac{2\sigma^2}{\pi\hbar^2}\right)^{1/4}e^{-\sigma^2p^2/\hbar^2}。
+\end{align*}
+\paragraph{(3)} $\langle x\rangle=0$、$\langle x^2\rangle=\sigma^2$より$\Delta x=\sigma$である。
+\paragraph{(4)} $\langle p\rangle=0$、$\langle p^2\rangle=\hbar^2/(4\sigma^2)$より：
+\begin{align*}
+ \Delta p=\frac{\hbar}{2\sigma},\qquad \Delta x\Delta p=\frac\hbar2。
+\end{align*}
+\subsection*{4.6}
+テンソル積では：
+\begin{align*}
+ (A_1\otimes A_2)(\ket\psi_1\otimes\ket\phi_2)
+ =(A_1\ket\psi_1)\otimes(A_2\ket\phi_2),
+\end{align*}
+および：
+\begin{align*}
+ \braket{\psi_1\psi_2|A_1\otimes A_2|\phi_1\phi_2}
+ =\braket{\psi_1|A_1|\phi_1}\braket{\psi_2|A_2|\phi_2}。
+\end{align*}
+異なる部分系の演算子は$[A_1\otimes1,1\otimes A_2]=0$を満たす。
+\subsection*{4.7}
+二体系の純粋状態はSchmidt分解により：
+\begin{align*}
+ \ket\Psi=\sum_k\sqrt{\lambda_k}\ket{u_k}_1\ket{v_k}_2,
+ \qquad \lambda_k\geq0,\quad\sum_k\lambda_k=1。
+\end{align*}
+非零の$\lambda_k$が一つなら積状態、二つ以上ならエンタングル状態である。Bell状態$(\ket{00}+\ket{11})/\sqrt2$ではSchmidt係数が二つあるため積状態には分解できない。
+\subsection*{4.8}
+未知状態を$\ket\psi_1=\alpha\ket0_1+\beta\ket1_1$、共有Bell対を$\ket{\Phi^+}_{23}=(\ket{00}+\ket{11})/\sqrt2$とする。CNOT$_{12}$とHadamard演算の後：
+\begin{align*}
+ (H_1\otimes1)\mathrm{CNOT}_{12}\ket\psi_1\ket{\Phi^+}_{23}
+ =\frac12\{&\ket{00}_{12}\ket\psi_3+\ket{01}_{12}X\ket\psi_3\\
+ &+\ket{10}_{12}Z\ket\psi_3+\ket{11}_{12}XZ\ket\psi_3\}。
+\end{align*}
+したがって、Aliceの測定結果が$00,01,10,11$ならば、Bobはそれぞれ$1,X,Z,ZX$を作用させることで$\ket\psi$を復元する。問題の$\ket+_1\ket+_2$が計算基底の$00$に対応する規約では、Bobの状態はそのまま$\ket\psi$である。
+
+\section*{第5回}
+\subsection*{5.1}
+\paragraph{(1)} 位置表示のSchrödinger方程式は：
+\begin{align*}
+ i\hbar\hb{\psi(t,x)}t=\left[-\frac{\hbar^2}{2m}\nhb{2}{}{x}+V(x)\right]\psi(t,x)。
+\end{align*}
+\paragraph{(2)} $H\ket{E_n}=E_n\ket{E_n}$ならば：
+\begin{align*}
+ \ket{\psi_n(t)}=e^{-iE_nt/\hbar}\ket{E_n}。
+\end{align*}
+\paragraph{(3)} $\ket{\psi(0)}=\sum_nc_n\ket{E_n}$、$c_n=\braket{E_n|\psi(0)}$より：
+\begin{align*}
+ \ket{\psi(t)}=\sum_nc_ne^{-iE_nt/\hbar}\ket{E_n}。
+\end{align*}
+\paragraph{(4)} 単一のエネルギー固有状態では$\psi_n(t,x)=e^{-iE_nt/\hbar}\phi_n(x)$であるため、$|\psi_n(t,x)|^2=|\phi_n(x)|^2$である。
+\subsection*{5.2}
+\paragraph{(1)}
+\begin{align*}
+ U(t)=\sum_{n=0}^\infty\frac1{n!}\left(-\frac{itH}{\hbar}\right)^n,
+ \qquad \ket{\psi(t)}=U(t)\ket{\psi(0)}。
+\end{align*}
+微分すると$i\hbar\bbn{U}{t}=HU$であり、初期条件$U(0)=1$も満たす。
+\paragraph{(2)} $U^\dagger U=1$より$\braket{\psi(t)|\psi(t)}=\braket{\psi(0)|\psi(0)}$である。
+\paragraph{(3)} Heisenberg描像では：
+\begin{align*}
+ \ket{\psi_H}=\ket{\psi_S(0)},\qquad A_H(t)=U^\dagger(t)A_SU(t),
+\end{align*}
+したがって：
+\begin{align*}
+ \bbn{A_H}{t}=\frac{i}{\hbar}[H,A_H]+U^\dagger\left(\hb{A_S}{t}\right)U。
+\end{align*}
+\paragraph{(4)}
+\begin{align*}
+ \braket{\psi_S(t)|A_S|\psi_S(t)}
+ =\braket{\psi_H|A_H(t)|\psi_H}。
+\end{align*}
+\subsection*{5.3}
+\paragraph{(1)} $[A_S,H]=0$かつ$\partial A_S/\partial t=0$ならば$dA_H/dt=0$である。
+\paragraph{(2)} $H=p^2/(2m)+V(x)$と$[x,p]=i\hbar$を用いる：
+\begin{align*}
+ \dot x&=\frac{i}{\hbar}[H,x]=\frac pm,\\
+ \dot p&=\frac{i}{\hbar}[H,p]=-V'(x)。
+\end{align*}
+\paragraph{(3)} $V(x)=m\omega^2x^2/2$では：
+\begin{align*}
+ x(t)&=x(0)\cos\omega t+\frac{p(0)}{m\omega}\sin\omega t,\\
+ p(t)&=p(0)\cos\omega t-m\omega x(0)\sin\omega t。
+\end{align*}
+\paragraph{(4)} $[x(0),p(0)]=i\hbar$を用いると：
+\begin{align*}
+ [x(t),p(t')]=i\hbar\cos\{\omega(t-t')\}。
+\end{align*}
+\subsection*{5.4}
+\paragraph{(1)} Schrödinger方程式とその複素共役から：
+\begin{align*}
+ \hb{\rho}{t}+\hb{j}{x}=0,
+ \qquad
+ j=\frac{\hbar}{2mi}\left(\psi^*\hb\psi x-\psi\hb{\psi^*}x\right)。
+\end{align*}
+ここで第2項は$\partial j/\partial x$の意味である。
+\paragraph{(2)} 両辺を全空間で積分し、無限遠で$j=0$とすれば：
+\begin{align*}
+ \bbn{}{t}\int_{-\infty}^{\infty}\rho\,dx=-[j]_{-\infty}^{\infty}=0。
+\end{align*}
+\paragraph{(3)} $\psi=\sqrt\rho e^{i\phi}$を代入すると：
+\begin{align*}
+ j=\frac{\hbar}{m}\rho\hb\phi x。
+\end{align*}
+\subsection*{5.5}
+\paragraph{(1)} 自由粒子では$H=p^2/(2m)$であり、運動量固有状態$\ket p$は同時にエネルギー固有状態である：
+\begin{align*}
+ H\ket p=\frac{p^2}{2m}\ket p。
+\end{align*}
+\paragraph{(2)}
+\begin{align*}
+ \phi_p(x)=\frac1{\sqrt{2\pi\hbar}}e^{ipx/\hbar},\qquad E_p=\frac{p^2}{2m}。
+\end{align*}
+\paragraph{(3)} 初期運動量分布を平均$p_0$、位置幅$\sigma$のGaussianとすると、Gaussian積分から：
+\begin{align*}
+ \psi(t,x)=\frac{1}{(2\pi\sigma^2)^{1/4}}\frac{1}{\sqrt{1+i\hbar t/(2m\sigma^2)}}
+ \exp\left[-\frac{(x-p_0t/m)^2}{4\sigma^2(1+i\hbar t/(2m\sigma^2))}
+ +\frac{i}{\hbar}\left(p_0x-\frac{p_0^2t}{2m}\right)\right]。
+\end{align*}
+\subsection*{5.6}
+\paragraph{(1)}
+\begin{align*}
+ \rho(t,x)=\frac1{\sqrt{2\pi}\,\bar\sigma(t)}
+ \exp\left[-\frac{(x-p_0t/m)^2}{2\bar\sigma(t)^2}\right],
+ \qquad
+ \bar\sigma(t)=\sigma\sqrt{1+\left(\frac{\hbar t}{2m\sigma^2}\right)^2}。
+\end{align*}
+したがって中心は速度$p_0/m$で移動し、幅は時間とともに増大する。
+\paragraph{(2)} 例えば$p_0=0$として$t=0$, $2m\sigma^2/\hbar$, $4m\sigma^2/\hbar$を選べば、幅はそれぞれ$\sigma$, $\sqrt2\sigma$, $\sqrt5\sigma$となる。
+\paragraph{(3)} $t=9.5\times10^7\,\mathrm{s}$、$\hbar=1.0\times10^{-34}\,\mathrm{J\,s}$、$\sigma=5.3\times10^{-11}\,\mathrm m$を代入する：
+\begin{align*}
+ \frac{\bar\sigma(t)}\sigma
+ &=\sqrt{1+\left(\frac{\hbar t}{2m\sigma^2}\right)^2}\\
+ &\sim1.9\times10^{24}\quad\text{（電子）},\\
+ &\sim1\quad\text{（質量$60\,\mathrm{kg}$の人間）}。
+\end{align*}
+\subsection*{5.7}
+\paragraph{(1)} 恒等変換、並進の合成、逆変換から：
+\begin{align*}
+ U(0)=1,
+ \qquad U(a)U(a')=U(a+a'),
+ \qquad U(a)^{-1}=U(-a)。
+\end{align*}
+\paragraph{(2)} $U(a)=1+aK+O(a^2)$と置く。ユニタリー性から$K^\dagger=-K$であるため、Hermite演算子$P=i\hbar K$を用いて：
+\begin{align*}
+ U(a)=1-\frac{i}{\hbar}aP+O(a^2)。
+\end{align*}
+\paragraph{(3)} $U^\dagger xU=x+a$および$U^\dagger pU=p$を一次まで展開すると：
+\begin{align*}
+ [x,P]=i\hbar,\qquad[p,P]=0。
+\end{align*}
+\paragraph{(4)} $[x,P-p]=[p,P-p]=0$である。既約な位置・運動量表現ではSchurの補題から$P-p=c1$である。定数$c$は$U(a)$の全体位相に吸収できるため、$P=p$と取れる。
+\paragraph{(5)} 群性から有限並進は：
+\begin{align*}
+ U(a)=e^{-iap/\hbar}。
+\end{align*}
+また、$xU(a)\ket x=U(a)(x+a)\ket x=(x+a)U(a)\ket x$であるため：
+\begin{align*}
+ U(a)\ket x=\ket{x+a}
+\end{align*}
+と位相規約を選べる。
+\end{document}

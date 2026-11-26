@@ -1,0 +1,154 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学演習Iレポート6}
+\author{嶋田 悠音}
+\date{2026年5月24日}
+
+\begin{document}
+  \maketitle
+
+  \subsection*{問題12.3}
+
+  \subsubsection*{(i)}
+
+  一般に一次分数変換$w=\frac{az+b}{cz+d}$を考える。すると、
+  \begin{align*}
+    w-w_i=\frac{az+b}{cz+d}-\frac{az_i+b}{cz_i+d}=\frac{(az+b)(cz_i+d)-(az_i+b)(cz+d)}{(cz+d)(cz_i+d)}
+  \end{align*}
+  である。分子を展開すると、
+  \begin{align*}
+    w-w_i=\frac{acz z_i+adz+bcz_i+bd-acz_i z-adz_i-bcz-bd}{(cz+d)(cz_i+d)}
+  \end{align*}
+  となる。ここで、$acz z_i-acz_i z=0$であるから、
+  \begin{align*}
+    w-w_i=\frac{ad(z-z_i)-bc(z-z_i)}{(cz+d)(cz_i+d)}=\frac{(ad-bc)(z-z_i)}{(cz+d)(cz_i+d)}
+  \end{align*}
+  を得る。
+
+  したがって、
+  \begin{align*}
+    \frac{w-w_1}{w-w_2}=\frac{\dfrac{(ad-bc)(z-z_1)}{(cz+d)(cz_1+d)}}{\dfrac{(ad-bc)(z-z_2)}{(cz+d)(cz_2+d)}}=\frac{(z-z_1)(cz_2+d)}{(z-z_2)(cz_1+d)}
+  \end{align*}
+  である。同様に、
+  \begin{align*}
+    \frac{w_2-w_3}{w_3-w_1}=\frac{\dfrac{(ad-bc)(z_2-z_3)}{(cz_2+d)(cz_3+d)}}{\dfrac{(ad-bc)(z_3-z_1)}{(cz_3+d)(cz_1+d)}}=\frac{(z_2-z_3)(cz_1+d)}{(z_3-z_1)(cz_2+d)}
+  \end{align*}
+  となる。
+
+  以上より、
+  \begin{align*}
+    \frac{(w-w_1)(w_2-w_3)}{(w-w_2)(w_3-w_1)}=\frac{w-w_1}{w-w_2}\cdot\frac{w_2-w_3}{w_3-w_1}
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \frac{(w-w_1)(w_2-w_3)}{(w-w_2)(w_3-w_1)}=\frac{(z-z_1)(cz_2+d)}{(z-z_2)(cz_1+d)}\cdot\frac{(z_2-z_3)(cz_1+d)}{(z_3-z_1)(cz_2+d)}=\frac{(z-z_1)(z_2-z_3)}{(z-z_2)(z_3-z_1)}
+  \end{align*}
+  を得る。
+
+  よって、
+  \begin{align*}
+    \frac{(w-w_1)(w_2-w_3)}{(w-w_2)(w_3-w_1)}=\frac{(z-z_1)(z_2-z_3)}{(z-z_2)(z_3-z_1)}
+  \end{align*}
+  が示された。
+
+  \subsubsection*{(ii)}
+
+  $z_1=-1,\ z_2=-i,\ z_3=1$を$w_1=-1,\ w_2=0,\ w_3=1$へ写す一次分数変換を求める。(i)の結果より、
+  \begin{align*}
+    \frac{(w+1)(0-1)}{(w-0)(1-(-1))}=\frac{(z+1)((-i)-1)}{(z+i)(1-(-1))}=-\frac{(1+i)(z+1)}{2(z+i)}
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \frac{w+1}{w}=\frac{(1+i)(z+1)}{z+i}
+  \end{align*}
+  を得る。両辺に$w(z+i)$を掛けると、
+  \begin{align*}
+    (w+1)(z+i)=w(1+i)(z+1)
+  \end{align*}
+  となる。両辺を展開すると、
+  \begin{align*}
+    wz+wi+z+i=wz+iwz+w+iw
+  \end{align*}
+  である。ここで、$wi=iw$であるから、
+  \begin{align*}
+    z+i=iwz+w=w(iz+1)
+  \end{align*}
+  となる。よって、
+  \begin{align*}
+    w=\frac{z+i}{iz+1}
+  \end{align*}
+  を得る。
+
+  実際に、$z=-1\Rightarrow w=-1,\ z=-i\Rightarrow w=0,\ z=1\Rightarrow w=1$であり、条件を満たしている。
+
+  次に、この変換が単位円内部を上半平面へ写すことを示す。$z=re^{i\theta}$とおく。ただし、$0\le r<1,\ 0<\theta<2\pi$である。このとき、
+  \begin{align*}
+    w=\frac{re^{i\theta}+i}{ire^{i\theta}+1}
+  \end{align*}
+  である。ここで、分母の複素共役$1-ire^{-i\theta}$を分子分母に掛けると、
+  \begin{align*}
+    w=\frac{(re^{i\theta}+i)(1-ire^{-i\theta})}{(ire^{i\theta}+1)(1-ire^{-i\theta})}
+  \end{align*}
+  となる。分子を展開すると、
+  \begin{align*}
+    (re^{i\theta}+i)(1-ire^{-i\theta})=re^{i\theta}-ir^2+i+re^{-i\theta}
+  \end{align*}
+  であり、分母を展開すると、
+  \begin{align*}
+    (ire^{i\theta}+1)(1-ire^{-i\theta})=1+r^2+ir(e^{i\theta}-e^{-i\theta})
+  \end{align*}
+  となる。ここで、$e^{i\theta}+e^{-i\theta}=2\cos\theta,\ e^{i\theta}-e^{-i\theta}=2i\sin\theta$を用いると、
+  \begin{align*}
+    w=\frac{2r\cos\theta+i(1-r^2)}{1+r^2-2r\sin\theta}
+  \end{align*}
+  を得る。
+
+  したがって、
+  \begin{align*}
+    \mathrm{Im} w=\frac{1-r^2}{1+r^2-2r\sin\theta}
+  \end{align*}
+  である。ここで、
+  \begin{align*}
+    1+r^2-2r\sin\theta=(r-\sin\theta)^2+\cos^2\theta
+  \end{align*}
+  であるから、分母は常に正である。また、$0\le r<1$であるから、
+  \begin{align*}
+    1-r^2>0
+  \end{align*}
+  である。よって、
+  \begin{align*}
+    \mathrm{Im} w>0
+  \end{align*}
+  となる。したがって、単位円内部は上半平面へ写される。
+
+  上半平面において、境界条件を満たす調和関数として
+  \begin{align*}
+    \phi(w)=\frac{V_0}{\pi}\arg\frac{w-1}{w+1}
+  \end{align*}
+  を取る。実際、$-1<w<1$では$\dfrac{w-1}{w+1}<0$であるから、$\arg\dfrac{w-1}{w+1}=\pi$となり、$\phi=V_0$である。一方、$w<-1$または$w>1$では$\dfrac{w-1}{w+1}>0$であるから、$\arg\dfrac{w-1}{w+1}=0$となり、$\phi=0$である。したがって、境界条件を満たしている。
+
+  最後に、$w$を$z$で表すと、
+  \begin{align*}
+    \frac{w-1}{w+1}=\frac{\dfrac{z+i}{iz+1}-1}{\dfrac{z+i}{iz+1}+1}=\frac{z+i-(iz+1)}{z+i+(iz+1)}=\frac{(1-i)(z-1)}{(1+i)(z+1)}=-i\frac{z-1}{z+1}
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \phi(x,y)=\frac{V_0}{\pi}\arg\left(-i\frac{z-1}{z+1}\right),\qquad z=x+iy
+  \end{align*}
+  を得る。
+
+  これが求めるポテンシャル分布である。
+\end{document}

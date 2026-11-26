@@ -1,0 +1,4005 @@
+\iffalse
+============================================================
+Cursor Tab / AI 補助用レポート執筆指示
+============================================================
+
+このTeXファイルでは、大学物理の演習レポートとして、内容の正しさと記述の明晰性を同じ重みで重視する。
+レポート単体を読めば、問題設定、定義、式変形、結論までの流れを追えるように書く。
+読者は、前提科目は履修済みだが、この科目を学び始めたばかりの物理学科学生を想定する。
+
+------------------------------------------------------------
+文体
+------------------------------------------------------------
+
+文末は「〜である」「〜が成り立つ」「〜が示された」「〜を得る」を基本とする。
+「まず」「ここで」「よって」「したがって」「以上より」などを用いて、論理展開を明示する。
+突然数式だけを書き始めない。
+文頭を剥き出しの数式で始めない。
+体言止めを避ける。
+「計算すればわかる」「明らか」などで重要な式変形を省略しない。
+一般的な模範解答調に寄せすぎず、自然な演習レポート調で書く。
+
+------------------------------------------------------------
+句読点とコロン
+------------------------------------------------------------
+
+日本語の句読点は必ず「、」「。」を用いる。
+コロンは必ず全角「：」を用いる。
+半角コロンは原則として使わない。
+TeX本文中の日本語文でも、この規則を守る。
+
+------------------------------------------------------------
+文章と表示数式の接続
+------------------------------------------------------------
+
+表示数式は文章の一部として扱う。
+表示数式の直前では、原則として全角コロン「：」を用いて数式を導入する。
+「〜すると、」の直後に表示数式を書き、その後で「となる。」と続ける形は避ける。
+句点「。」は、原則として表示数式環境内部の最後の式の末尾に置く。
+複数行のalign*環境では、最後の行の末尾に句点「。」を置く。
+
+良い書き方の例：
+ここに(1)式を代入する：
+\begin{align*}
+  A &= B+C \\
+    &= D。
+\end{align*}
+
+悪い書き方の例：
+ここに(1)式を代入すると、
+\begin{align*}
+  A = B
+\end{align*}
+となる。
+
+------------------------------------------------------------
+数式環境
+------------------------------------------------------------
+
+表示数式は基本的にalign*環境を用いる。
+存在しないalign**環境は絶対に使わない。
+複数行の式変形では、= の位置を揃える。
+ただし、=を書くためだけに無駄な改行を入れない。
+手書きで一行に書ける程度の式は、TeXでも一行に保つ。
+見切れてもよいので、短い式を縦長に分解しない。
++ や - の前後だけを理由に機械的に改行しない。
+式変形として意味のある段階を示す場合にのみ、=で改行する。
+
+悪い書き方の例：
+\begin{align*}
+  A &= B \\
+    &\quad + C \\
+    &\quad - D。
+\end{align*}
+
+良い書き方の例：
+\begin{align*}
+  A &= B+C-D。
+\end{align*}
+
+良い書き方の例：
+\begin{align*}
+  A &= B+C-D \\
+    &= E。
+\end{align*}
+
+------------------------------------------------------------
+表示数式前後の段落
+------------------------------------------------------------
+
+表示数式の前後に不要な空行や段落分けを入れない。
+同一の論理の流れに属する文章は、同一段落内で自然につなげる。
+レポート全体の分量が不用意に増えないようにする。
+
+------------------------------------------------------------
+マクロと表記
+------------------------------------------------------------
+
+ベクトルは原則として \vect{} を用いる。
+\vec{}、\mathbf{}、\boldsymbol{} などを混在させない。
+
+1階偏微分は \hb{}{} を用いる。
+1階常微分は \bbn{}{} を用いる。
+2階以上の偏微分は \nhb{次数}{対象}{変数} を用いる。
+2階以上の常微分は \nbbn{次数}{対象}{変数} を用いる。
+たとえば、2階偏微分は \nhb{2}{f}{x}、2階常微分は \nbbn{2}{f}{x} と書く。
+\hhb{}{} や \bbbn{}{} は使わない。
+
+標準的に読みやすい場合は、文脈を壊さない範囲で通常のプライムやドットを使ってよい。
+\dot{\varphi_1} のように添字までドットの中に入れない。
+必ず \dot{\varphi}_1 と書く。
+\ddot{\varphi_1} ではなく、\ddot{\varphi}_1 と書く。
+
+\sin、\cos、\tan、\log、\ln、\arccos などはLaTeX標準演算子を用いる。
+指数関数については、文脈上指定がある場合は e^{...} を優先する。
+変数名、添字、定数名は物理・数学の慣用に従い、意味が分かるものを使う。
+HTMLエスケープ文字列である &amp;、&lt;、&gt; をTeXコード内に絶対に入れない。
+TeXでは &, <, > をそのまま使う。
+
+------------------------------------------------------------
+図、画像、TikZ
+------------------------------------------------------------
+
+図番号を進めたい図にはfigure環境を使う。
+図をその場に固定したい場合は、floatパッケージを使える前提でfigure[H]を用いる。
+図番号を進めたくない概形図や補助図は、center環境やminipage環境を用いる。
+番号なしキャプションが必要な場合は、captionパッケージの \captionof*{figure}{...} を用いる。
+graphicxで画像を入れる場合、platex+dvipdfmx環境なので \usepackage[dvipdfmx]{graphicx} を前提とする。
+jpgでBounding Boxが崩れる場合はpngへの変換を優先する。
+figure内のminipageでは、画像幅に \linewidth を使う方針を優先する。
+
+TikZで関数を描く場合、plot内では \frac を使わない。
+例えば、-1/(\x)+1/(\x*\x) のような計算式で書く。
+発散点を含む関数では、domain=0:... のように特異点を含めず、domain=0.45:... のように避ける。
+番号を進めたくないTikZ図は、以下の形式を基本とする。
+
+\begin{center}
+  \begin{minipage}{0.75\textwidth}
+    \centering
+    \begin{tikzpicture}
+      ...
+    \end{tikzpicture}
+    \captionof*{figure}{...}
+  \end{minipage}
+\end{center}
+
+------------------------------------------------------------
+解答構成
+------------------------------------------------------------
+
+各小問は、原則として問題番号だけを見出しにする。
+例：
+\subsection*{(v)}
+
+各小問の冒頭では、何を示す問題かを簡潔に述べる。
+問題文を全文転記する必要はないが、レポート内部だけで主題が分かるようにする。
+
+定義式や基本方程式から出発し、必要十分な式変形を示す。
+Gaussの発散定理、Stokesの定理、ベクトル恒等式、Euler-Lagrange方程式、Fourier変換、Routhian、Legendre多項式などを用いる場合は、その都度どの定理・方法を使ったかを明示する。
+
+楕円の通径、離心率、近日点など、問題で示せと言われている概念は前提にしない。
+まず式変形で曲線の種類を示す。
+その後で、定義に戻って、問題中の量が通径、離心率、近日点などに対応することを示す。
+
+答えを知っていないと出てこないような変数変換を突然導入しない。
+自然な動機がある場合だけ変数変換を導入する。
+
+Routhianなど、符号が紛らわしい概念では、単純代入との差を明示し、なぜその項を引くかを説明する。
+
+級数解で指数を求める場合は、公式を突然出さない。
+先頭項を代入して指数方程式を導く。
+なぜ先頭項を見るのかについて、必要なら「最初の非零項は高次項で打ち消せないため」と説明する。
+
+------------------------------------------------------------
+細かい注意
+------------------------------------------------------------
+
+\boxed{} や box 系環境は、特別な指定がない限り使わない。
+結論は文章の流れで自然に示す。
+「よって、〜が示された。」のように閉じる。
+
+暗算で追う必要がある大きな式変形は避ける。
+ただし、不要な中間式を増やしすぎない。
+短い代数変形は一行に保つ。
+長い式でも、+ や - の直前直後で機械的に改行しない。
+式変形の段階が本当に変わるときだけ改行する。
+見切れてもよいから、無駄に改行しない。
+
+------------------------------------------------------------
+出力形式
+------------------------------------------------------------
+
+本文だけを書く場合は、documentclassやbegin documentを書かない。
+TeX全文を書く場合は、最新プリアンブルからend documentまで書く。
+修正指示があった場合は、説明だけで終わらず、すぐに修正版を提示する。
+謝罪やメタ説明は最小限にする。
+指摘された箇所だけでなく、同じ種類のミスが他にもありそうなら、該当範囲全体を同じ方針で修正する。
+
+============================================================
+\fi
+% 以下は同一階層にある次のpdfについてのレポートである：解析力学/演習/AM04_Hamilton_formalism.pdf
+
+
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+  \maketitle
+  \begingroup
+  \hypersetup{hidelinks}
+  \tableofcontents
+  \endgroup
+  
+  \begingroup
+  \hypersetup{hidelinks}
+  \setcounter{section}{-1}
+  \section{自己採点表}
+  \begin{center}
+    \begin{tabular}{
+      p{2.1cm}@{：}c
+      |p{2.1cm}@{：}c
+      |p{2.1cm}@{：}c
+    }
+      \hline
+      \hyperref[Q4-1-i]{Q4-1 (i)}     & ○ & \hyperref[Q4-14-i]{Q4-14 (i)}     & ○ & \hyperref[Q4-24-vi]{Q4-24 (vi)}   & ○ \\
+      \hyperref[Q4-1-ii]{Q4-1 (ii)}   & ○ & \hyperref[Q4-14-ii]{Q4-14 (ii)}   & ○ & \hyperref[Q4-25]{Q4-25}            & × \\
+      \hyperref[Q4-1-iii]{Q4-1 (iii)} & ○ & \hyperref[Q4-15-i]{Q4-15 (i)}     & ○ & \hyperref[Q4-26-i]{Q4-26 (i)}     & ○ \\
+      \hyperref[Q4-2-i]{Q4-2 (i)}     & ○ & \hyperref[Q4-15-ii]{Q4-15 (ii)}   & ○ & \hyperref[Q4-26-ii]{Q4-26 (ii)}   & ○ \\
+      \hyperref[Q4-2-ii]{Q4-2 (ii)}   & ○ & \hyperref[Q4-16-i]{Q4-16 (i)}     & ○ & \hyperref[Q4-26-iii]{Q4-26 (iii)} & ○ \\
+      \hyperref[Q4-2-iii]{Q4-2 (iii)} & ○ & \hyperref[Q4-16-ii]{Q4-16 (ii)}   & ○ & \hyperref[Q4-27]{Q4-27}            & ○ \\
+      \hyperref[Q4-2-iv]{Q4-2 (iv)}   & ○ & \hyperref[Q4-17-i]{Q4-17 (i)}     & ○ & \hyperref[Q4-28]{Q4-28}            & × \\
+      \hyperref[Q4-2-v]{Q4-2 (v)}     & ○ & \hyperref[Q4-17-ii]{Q4-17 (ii)}   & ○ & \hyperref[Q4-29-i]{Q4-29 (i)}     & ○ \\
+      \hyperref[Q4-3-i]{Q4-3 (i)}     & ○ & \hyperref[Q4-18-i]{Q4-18 (i)}     & ○ & \hyperref[Q4-29-ii]{Q4-29 (ii)}   & ○ \\
+      \hyperref[Q4-3-ii]{Q4-3 (ii)}   & ○ & \hyperref[Q4-18-ii]{Q4-18 (ii)}   & ○ & \hyperref[Q4-30-i]{Q4-30 (i)}     & ○ \\
+      \hyperref[Q4-4]{Q4-4}           & ○ & \hyperref[Q4-18-iii]{Q4-18 (iii)} & ○ & \hyperref[Q4-30-ii]{Q4-30 (ii)}   & ○ \\
+      \hyperref[Q4-5]{Q4-5}           & ○ & \hyperref[Q4-19-i]{Q4-19 (i)}     & ○ & \hyperref[Q4-31-i]{Q4-31 (i)}     & ○ \\
+      \hyperref[Q4-6]{Q4-6}           & ○ & \hyperref[Q4-19-ii]{Q4-19 (ii)}   & ○ & \hyperref[Q4-31-ii]{Q4-31 (ii)}   & ○ \\
+      \hyperref[Q4-7-i]{Q4-7 (i)}     & ○ & \hyperref[Q4-19-iii]{Q4-19 (iii)} & ○ & \hyperref[Q4-31-iii]{Q4-31 (iii)} & ○ \\
+      \hyperref[Q4-7-ii]{Q4-7 (ii)}   & ○ & \hyperref[Q4-20]{Q4-20}           & ○ & \hyperref[Q4-31-iv]{Q4-31 (iv)}   & ○ \\
+      \hyperref[Q4-7-iii]{Q4-7 (iii)} & ○ & \hyperref[Q4-21-i]{Q4-21 (i)}     & ○ & \hyperref[Q4-32]{Q4-32}            & ○ \\
+      \hyperref[Q4-8]{Q4-8}           & ○ & \hyperref[Q4-21-ii]{Q4-21 (ii)}   & ○ & \hyperref[Q4-33]{Q4-33}            & ○ \\
+      \hyperref[Q4-9]{Q4-9}           & ○ & \hyperref[Q4-22-i]{Q4-22 (i)}     & ○ & \hyperref[Q4-34]{Q4-34}            & ○ \\
+      \hyperref[Q4-10-i]{Q4-10 (i)}   & ○ & \hyperref[Q4-22-ii]{Q4-22 (ii)}   & ○ & \hyperref[Q4-35-i]{Q4-35 (i)}     & ○ \\
+      \hyperref[Q4-10-ii]{Q4-10 (ii)} & ○ & \hyperref[Q4-23-i]{Q4-23 (i)}     & ○ & \hyperref[Q4-35-ii]{Q4-35 (ii)}   & ○ \\
+      \hyperref[Q4-10-iii]{Q4-10 (iii)} & ○ & \hyperref[Q4-23-ii]{Q4-23 (ii)}   & ○ & \hyperref[Q4-35-iii]{Q4-35 (iii)} & ○ \\
+      \hyperref[Q4-11-i]{Q4-11 (i)}   & ○ & \hyperref[Q4-23-iii]{Q4-23 (iii)} & ○ & \hyperref[Q4-35-iv]{Q4-35 (iv)}   & ○ \\
+      \hyperref[Q4-11-ii]{Q4-11 (ii)} & ○ & \hyperref[Q4-23-iv]{Q4-23 (iv)}   & ○ & \hyperref[Q4-35-v]{Q4-35 (v)}     & ○ \\
+      \hyperref[Q4-12]{Q4-12}         & ○ & \hyperref[Q4-24-i]{Q4-24 (i)}     & ○ & \hyperref[Q4-36]{Q4-36}            & ○ \\
+      \hyperref[Q4-13-i]{Q4-13 (i)}   & ○ & \hyperref[Q4-24-ii]{Q4-24 (ii)}   & ○ & \hyperref[Q4-37]{Q4-37}            & ○ \\
+      \hyperref[Q4-13-ii]{Q4-13 (ii)} & ○ & \hyperref[Q4-24-iii]{Q4-24 (iii)} & ○ & \hyperref[Q4-38]{Q4-38}            & ○ \\
+      \hyperref[Q4-13-iii]{Q4-13 (iii)} & ○ & \hyperref[Q4-24-iv]{Q4-24 (iv)}   & ○ & \hyperref[Q4-39]{Q4-39}            & ○ \\
+      \hyperref[Q4-13-iv]{Q4-13 (iv)} & ○ & \hyperref[Q4-24-v]{Q4-24 (v)}     & ○ & \hyperref[Q4-40]{Q4-40}            & ○ \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \endgroup
+  \clearpage
+
+
+
+
+  \section{Euler-Lagrange方程式と一般座標変換の限界}\label{sec:1}
+  まず、古典力学のEuler-Lagrange形式を復習しておく。自由度$f$の物理系の力学は適当に選んだ一般座標$q_1,\dots,q_f$と対応した一般速度$\dot{q}_1,\dots,\dot{q}_f$を引数とするLagrange関数
+  \begin{align*}
+    L=L(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)\tag{1}\label{eq:1}
+  \end{align*}
+  によって記述された。この系の運動方程式は次のEuler-Lagrange方程式により与えられた：
+  \begin{align*}
+    \hb{L}{q_i}-\bbn{}{t}\hb{L}{\dot{q}_i}=0\quad(i=1,\dots,f)。\tag{2}\label{eq:2}
+  \end{align*}
+  古典力学のEuler-Lagrange形式の長所はEuler-Lagrange方程式が一般座標変換によって不変に保たれることにある。古い一般座標$q_1,\dots,q_f$から新しい一般座標$Q_1,\dots,Q_f$への一般座標変換とは次の形をした任意の変数変換である：
+  \begin{align*}
+    Q_i=Q_i(q_1,\dots,q_f;t)\quad(i=1,\dots,f)。\tag{3}\label{eq:3}
+  \end{align*}
+  ただし、変換は特異的でない、つまり、\eqref{eq:3}式は逆に解けるとする：
+  \begin{align*}
+    q_i=q_i(Q_1,\dots,Q_f;t)\quad(i=1,\dots,f)。\tag{4}\label{eq:4}
+  \end{align*}
+  この変換が一般座標変換であるという制限は、\eqref{eq:3}式の右辺の関数の引数に一般速度$\dot{q}_i\,(i=1,\dots,f)$が一切現れていないということにある。このとき、\eqref{eq:4}式の右辺の関数の引数にも一般速度$\dot{Q}_i\,(i=1,\dots,f)$は一切現れない。
+  このような一般座標変換を施すと、新しい一般座標$Q_1,\dots,Q_f$と対応する一般速度$\dot{Q}_1,\dots,\dot{Q}_f$を用いて、Lagrange関数$L$が表される：
+  \begin{align*}
+    L=L(Q_1,\dots,Q_f;\dot{Q}_1,\dots,\dot{Q}_f;t)。\tag{5}\label{eq:5}
+  \end{align*}
+  ここで、時間$t$に関するより高階の導関数である一般加速度$\ddot{Q}_1,\dots,\ddot{Q}_f$などが一切現れていないことに注意。\eqref{eq:5}式が与えられた関数$L$はLagrange関数であると言える範囲に確かに留まっている。そして、新しい一般座標と一般速度で表した運動方程式は、再び、Euler-Lagrange方程式になる：
+  \begin{align*}
+    \hb{L}{Q_i}-\bbn{}{t}\hb{L}{\dot{Q}_i}=0\quad(i=1,\dots,f)。\tag{6}\label{eq:6}
+  \end{align*}
+  これが、古典力学のEuler-Lagrange形式の御利益である。
+
+
+  \subsection*{Q4-1（Euler-Lagrange方程式と一般座標変換の限界）}\label{Q4-1}
+  \addcontentsline{toc}{subsection}{Q4-1（Euler-Lagrange方程式と一般座標変換の限界）}
+  古い変数$q_1,\dots,q_f$から新しい変数$Q_1,\dots,Q_f$への変換を\eqref{eq:4}式よりも拡張して、変数変換の引数に速度$\dot{Q}_1,\dots,\dot{Q}_f$も含めてみる：
+  \begin{align*}
+    q_i=q_i(Q_1,\dots,Q_f;\dot{Q}_1,\dots,\dot{Q}_f;t)\quad(i=1,\dots,f)。\tag{7}\label{eq:7}
+  \end{align*}
+  すると、何が起きるのかを調べる。
+  \subsubsection*{(i)}\label{Q4-1-i}
+  新しい変数によるLagrange関数$L$には、一般加速度$\ddot{Q}_1,\dots,\ddot{Q}_f$も現れることを示す。\\
+  まず\eqref{eq:7}式の時間$t$についての全微分を考える：
+  \begin{align*}
+    \dot{q}_i=\bbn{q_i}{t}=\ssum{j}{1}{f}\left(\hb{q_i}{Q_j}\bbn{Q_j}{t}+\hb{q_i}{\dot{Q}_j}\bbn{\dot{Q}_j}{t}\right)+\hb{q_i}{t}=\ssum{j}{1}{f}\left(\hb{q_i}{Q_j}\dot{Q}_j+\hb{q_i}{\dot{Q}_j}\ddot{Q}_j\right)+\hb{q_i}{t}。
+  \end{align*}
+  よって、引数をあらわに表すと、次のようになる：
+  \begin{align*}
+    \dot{q}_i=\dot{q}_i(Q_1,\dots,Q_f;\dot{Q}_1,\dots,\dot{Q}_f;\ddot{Q}_1,\dots,\ddot{Q}_f;t)。\tag{7'}\label{eq:7'}
+  \end{align*}
+  よって、\eqref{eq:7},\eqref{eq:7'}式を\eqref{eq:1}式に代入し、その引数をあらわに表すと、次のようになる：
+  \begin{align*}
+    L=L(Q_1,\dots,Q_f;\dot{Q}_1,\dots,\dot{Q}_f;\ddot{Q}_1,\dots,\ddot{Q}_f;t)。\tag{8}\label{eq:8}
+  \end{align*}
+  よって、新しい変数によるLagrange関数$L$には、一般加速度$\ddot{Q}_1,\dots,\ddot{Q}_f$も現れることが示された。
+
+  \subsubsection*{(ii)}\label{Q4-1-ii}
+  \eqref{eq:8}式の形をした関数$L$はLagrange関数と呼ぶことが普通の意味では出来ない。その理由を説明する。
+  \eqref{eq:8}式の関数$L$が最小作用の原理に従うとして、変分法によって運動方程式を導くと次のようになる：
+  \begin{align*}
+    \hb{L}{Q_i}-\bbn{}{t}\hb{L}{\dot{Q}_i}+\nbbn{2}{}{t}\hb{L}{\ddot{Q}_i}=0\quad(i=1,\dots,f)。
+  \end{align*}
+  $\hb{L}{\ddot{Q}_i}$の項は一般に$\ddot{Q}_i$を含むため、この式は4階微分方程式である。\\
+  もとのLagrange形式の力学では1自由度あたりに2つの初期条件$Q_i(0),\dot{Q}_i(0)$を与えればよかった。一方、上の4階微分方程式では4つの初期条件$Q_i(0),\dot{Q}_i(0),\ddot{Q}_i(0),\dddot{Q}_i(0)$が必要になり、見かけ上自由度が増えてしまう。\\
+  したがって、この方程式によって記述される力学は通常のLagrange形式の力学ではないため、\eqref{eq:8}式の形をした関数$L$はLagrange関数と呼ぶことが普通の意味では出来ない。
+
+  \subsubsection*{(iii)}\label{Q4-1-iii}
+  \eqref{eq:8}式の形をした関数$L$を用いて、新しく運動方程式を求める。最終的に得られる式は\hyperref[Q4-1-ii]{(ii)}の式であるが、それを実際に変分法によって導く過程を示す。\\
+  簡単のために\eqref{eq:8}式において$f=1$として、作用$S$は次のように書ける：
+  \begin{align*}
+    S=\int_{t_1}^{t_2}L(Q;\dot{Q};\ddot{Q};t)dt。
+  \end{align*}
+  これに対して変分を考え、最小作用の原理を適用すると次のようになる：
+  \begin{align*}
+    \delta S=\int_{t_1}^{t_2}\left(\hb{L}{Q}\delta Q+\hb{L}{\dot{Q}}\delta\dot{Q}+\hb{L}{\ddot{Q}}\delta\ddot{Q}\right)dt=0。
+  \end{align*}
+  これを、$\delta \dot{Q}=\bbn{}{t}\delta Q, \delta \ddot{Q}=\nbbn{2}{}{t}\delta Q$を踏まえて第2項を1回、第3項を2回部分積分する：
+  \begin{align*}
+    \delta S= \left[\hb{L}{\dot{Q}}\delta Q + \hb{L}{\ddot{Q}}\delta \dot{Q}-\bbn{}{t}\left(\hb{L}{\ddot{Q}}\delta Q\right)\right]_{t_1}^{t_2} + \int_{t_1}^{t_2}\left(\hb{L}{Q}-\bbn{}{t}\hb{L}{\dot{Q}}+\nbbn{2}{}{t}\hb{L}{\ddot{Q}}\right)\delta Q dt=0。
+  \end{align*}
+  ここで、上式の第1項が消えるためには、変分の取り方として$\delta Q(t_1)=\delta Q(t_2)=0$だけでなく、$\delta \dot{Q}(t_1)=\delta \dot{Q}(t_2)=0$も必要である。この条件で考えると第一項は消えるため、第2項の積分だけが残る：
+  \begin{align*}
+    \delta S=\int_{t_1}^{t_2}\left(\hb{L}{Q}-\bbn{}{t}\hb{L}{\dot{Q}}+\nbbn{2}{}{t}\hb{L}{\ddot{Q}}\right)\delta Q dt=0。
+  \end{align*}
+  これが任意の$\delta Q$に対して成り立つ必要があるため、被積分関数が$0$となる：
+  \begin{align*}
+    \hb{L}{Q}-\bbn{}{t}\hb{L}{\dot{Q}}+\nbbn{2}{}{t}\hb{L}{\ddot{Q}}=0。
+  \end{align*}
+  多自由度の場合においても、それぞれ独立に取った変分に対して最小作用の原理が成り立つため、各自由度ごとに上式が成り立つ：
+  \begin{align*}
+    \hb{L}{Q_i}-\bbn{}{t}\hb{L}{\dot{Q}_i}+\nbbn{2}{}{t}\hb{L}{\ddot{Q}_i}=0\quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、新しい運動方程式が求まった。これは、Euler-Lagrange方程式の形にはなっていないことがわかる。\\
+  また、変分の条件として$\delta Q(t_1)=\delta Q(t_2)=0$だけでなく、$\delta \dot{Q}(t_1)=\delta \dot{Q}(t_2)=0$も必要であることから、通常のLagrange形式の構造とは違うことがわかるだろう。\\
+
+  古い変数と新しい変数の間の変換が一般座標の間の変換に留まり、一般速度が現れない限り、Euler-Lagrange方程式が運動方程式であり続ける。この範囲を超えた変数変を考えると、\hyperref[Q4-1]{Q4-1} において考察したように、一般には、運動方程式がもはやEuler-Lagrange方程式の形を取らないのだ。
+
+  古い変数と新しい変数の間の変換が、一般座標のみならず、一般速度（あるいは、それと書き換えられる一般運動量）を含んでも、運動方程式の形が不変に保たれるような古典力学の定式化はないのか？このような必要性は天体力学の摂動計算などではすぐに現れてくる。
+  このようなより広い変数変換に対する不変性をもつ古典力学の定式化が、以下で学ぶ古典力学のHamilton形式である。古典力学をHamilton形式で表現すると、古い変数と新しい変数の間の変換が、
+  一般座標のみならず、一般運動量を含んでも、この変換が「正準変換」の範囲に留まっている限り、運動方程式はHamilton方程式（正準方程式）という形に不変に保たれるのだ。
+
+  \section{Hamilton形式の理論：非形式的な導入}\label{sec:2}
+  自由度$f$のある物理系のLagrange関数$L$が一般座標$q_1,\dots,q_f$、対応する一般速度$\dot{q}_1,\dots,\dot{q}_f$、時間$t$の関数としていつものように与えられているとする：
+  \begin{align*}
+    L=L(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)。\tag{9}\label{eq:9}
+  \end{align*}
+  一般座標$q_i$に対応する一般運動量$p_i$は次のように定義された：
+  \begin{align*}
+    p_i=\hb{L}{\dot{q}_i}\quad(i=1,\dots,f)。\tag{10}\label{eq:10}
+  \end{align*}
+  \eqref{eq:10}式を計算すれば、一般運動量$p_i$は一般座標$q_1,\dots,q_f$、一般速度$\dot{q}_1,\dots,\dot{q}_f$、時間$t$の関数として表される：
+  \begin{align*}
+    p_i=p_i(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)\quad(i=1,\dots,f)。\tag{11}\label{eq:11}
+  \end{align*}
+  特異的でない系を考えているので、\eqref{eq:11}式は一般速度について解くことが出来る：
+  \begin{align*}
+    \dot{q}_i=\dot{q}_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\quad(i=1,\dots,f)。\tag{12}\label{eq:12}
+  \end{align*}
+  古典力学のEuler-Lagrange形式においては、変数として$f$個の一般座標$q_1,\dots,q_f$が用いられて、運動方程式はEuler-Lagrange方程式から得られる時間$t$について2階の微分方程式になっていた。古典力学のHamilton形式へ移行する第1のアイディアは、変数として一般座標$q_1,\dots,q_f$と一般運動量$p_1,\dots,p_f$を取り上げ、自由度$f$の倍の個数$2f$個の変数を用いる代わりに、運動方程式を時間$t$について1階の微分方程式として表すということにある。
+
+  \subsection*{Q4-2（Hamilton運動方程式の例：3次元空間内をポテンシャル$V(\vect{r},t)$により運動する1個の粒子）}\label{Q4-2}
+  \addcontentsline{toc}{subsection}{Q4-2（Hamilton運動方程式の例：3次元空間内をポテンシャル$V(\vect{r},t)$により運動する1個の粒子）}
+  質量$m$の1個の粒子が3次元空間にあり、ポテンシャル$V(\vect{r},t)$を受けて運動するとする。
+  \subsubsection*{(i)}\label{Q4-2-i}
+  粒子の位置座標を$\vect{r}=r_x\vect{e}_x+r_y\vect{e}_y+r_z\vect{e}_z$として、運動方程式をNewton方程式で書けば次のとおりであることを確認する：
+  \begin{align*}
+    m\nbbn{2}{\vect{r}}{t}=-\nabla V(\vect{r},t)。\tag{13}\label{eq:13}
+  \end{align*}
+  ただし、$\nabla=\vect{e}_x\hb{}{r_x}+\vect{e}_y\hb{}{r_y}+\vect{e}_z\hb{}{r_z}$である。
+
+  Newtonによる力学では運動方程式は位置ベクトル$\vect{r}$と力ベクトル$\vect{F}$を用いて次のように表された：
+  \begin{align*}
+    m\nbbn{2}{\vect{r}}{t}=\vect{F}。
+  \end{align*}
+  Newtonによる力学では、力はポテンシャルの勾配として与えられる：$\vect{F}=-\nabla V(\vect{r},t)$。\\
+  ゆえに、これを代入することで次の式が得られる：
+  \begin{align*}
+    m\nbbn{2}{\vect{r}}{t}=-\nabla V(\vect{r},t)。
+  \end{align*}
+  これは\eqref{eq:13}式と一致する。
+
+  \subsubsection*{(ii)}\label{Q4-2-ii}
+  一般座標として$r_x,r_y,r_z$を用いて、Lagrange関数$L$を次のように与える：
+  \begin{align*}
+    L&=L(r_x,r_y,r_z;\dot{r}_x,\dot{r}_y,\dot{r}_z;t)\\
+    &=T-V\\
+    &=\frac{m}{2}\left\{(\dot{r}_x)^2+(\dot{r}_y)^2+(\dot{r}_z)^2\right\}-V(r_x,r_y,r_z,t)。\tag{14}\label{eq:14}
+  \end{align*}
+  ただし、$\dot{\phantom{r}}=\bbn{}{t}$であり、$V(r_x,r_y,r_z,t)=V(r_x\vect{e}_x+r_y\vect{e}_y+r_z\vect{e}_z,t)$である。\eqref{eq:14}式で与えられたLagrange関数$L$を用いて、Euler-Lagrange方程式を計算すると、Newton方程式\eqref{eq:13}式に一致することを示す。
+
+  まず、一般座標$r_x,r_y,r_z$に対するEuler-Lagrange方程式は次のように表される：
+  \begin{align*}
+    \bbn{}{t}\hb{L}{\dot{r}_i}-\hb{L}{r_i}=0\quad(i=x,y,z)。
+  \end{align*}
+  ここに\eqref{eq:14}式を代入すると、次のようになる：
+  \begin{align*}
+    &\bbn{}{t}\hb{}{\dot{r}_i}\left\{\frac m2\left(\dot{r}_x^2+\dot{r}_y^2+\dot{r}_z^2\right)-V(r_x,r_y,r_z,t)\right\}-\hb{}{r_i}\left\{\frac m2\left(\dot{r}_x^2+\dot{r}_y^2+\dot{r}_z^2\right)-V(r_x,r_y,r_z,t)\right\}\\
+    &\quad=\bbn{}{t}m\dot{r}_i-\hb{V}{r_i}\\
+    &\quad=m\ddot{r}_i-\hb{V}{r_i}=0\quad(i=x,y,z)\\
+    & \quad \therefore \quad m\ddot{r}_i =-\hb{V}{r_i}\quad(i=x,y,z)。
+  \end{align*}
+  これをベクトルで表現すると次の式が得られる：
+  \begin{align*}
+    m\nbbn{2}{\vect{r}}{t}=-\nabla V(\vect{r},t)。
+  \end{align*}
+  これは\eqref{eq:13}式と一致する。
+
+
+  \subsubsection*{(iii)}\label{Q4-2-iii}
+  一般運動量$p_x,p_y,p_z$が次のようになることを示す：
+  \begin{align*}
+    p_x\equiv\hb{L}{\dot{r}_x}=m\dot{r}_x,\tag{15}\label{eq:15}\\
+    p_y\equiv\hb{L}{\dot{r}_y}=m\dot{r}_y,\tag{16}\label{eq:16}\\
+    p_z\equiv\hb{L}{\dot{r}_z}=m\dot{r}_z。\tag{17}\label{eq:17}\\
+  \end{align*}
+  
+  一般運動量の定義\eqref{eq:10}式に、\eqref{eq:14}式のLagrange関数$L$を代入すると、次のようになる：
+  \begin{align*}
+    p_i\equiv\hb{L}{\dot{r}_i}=\hb{}{\dot{r}_i}\left\{\frac m2\left(\dot{r}_x^2+\dot{r}_y^2+\dot{r}_z^2\right)-V(r_x,r_y,r_z,t)\right\}=m\dot{r}_i\quad(i=x,y,z)。
+  \end{align*}
+  実際に$i=x,y,z$としてみれば、これは\eqref{eq:15},\eqref{eq:16},\eqref{eq:17}式と一致する。
+
+  \subsubsection*{(iv)}\label{Q4-2-iv}
+  この系の全エネルギーを$H$とする。ただし、変数として、一般座標$r_x,r_y,r_z$と（一般速度$\dot{r}_x,\dot{r}_y,\dot{r}_z$ではなくて）一般運動量$p_x,p_y,p_z$を用いる。全エネルギー$H$の表式が次のようになることを示す：
+  \begin{align*}
+    H&=H(r_x,r_y,r_z;p_x,p_y,p_z;t)\\
+    &=T+V\\
+    &=\frac{1}{2m}(p_x^2+p_y^2+p_z^2)+V(r_x,r_y,r_z,t)。\tag{18}\label{eq:18}
+  \end{align*}
+
+  全エネルギー$H$は運動エネルギーとポテンシャルエネルギーの和として与えられる。\eqref{eq:14}式に現れる$T,V$がそれぞれ運動エネルギーとポテンシャルエネルギーに当たるため、全エネルギー$H$は次のように表される：
+  \begin{align*}
+    H=T+V=\frac{m}{2}(\dot{r}_x^2+\dot{r}_y^2+\dot{r}_z^2)+V(r_x,r_y,r_z,t)。
+  \end{align*}
+  ここに\eqref{eq:15},\eqref{eq:16},\eqref{eq:17}式を代入すると、次のように$r_x,r_y,r_z,p_x,p_y,p_z,t$の関数として表すことができる：
+  \begin{align*}
+    H&=\frac{m}{2}(\dot{r}_x^2+\dot{r}_y^2+\dot{r}_z^2)+V(r_x,r_y,r_z,t)\\
+    &=\frac{m}{2}\left\{\left(\frac{p_x}{m}\right)^2+\left(\frac{p_y}{m}\right)^2+\left(\frac{p_z}{m}\right)^2\right\}+V(r_x,r_y,r_z,t)\\
+    &=\frac{1}{2m}(p_x^2+p_y^2+p_z^2)+V(r_x,r_y,r_z,t)。
+  \end{align*}
+  これは\eqref{eq:18}式と一致する。
+
+  \subsubsection*{(v)}
+  次の微分方程式系を考える：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{r_x}{t}&=\hb{H}{p_x}, & \displaystyle \bbn{p_x}{t}&=-\hb{H}{r_x}\\
+        \displaystyle \bbn{r_y}{t}&=\hb{H}{p_y}, & \displaystyle \bbn{p_y}{t}&=-\hb{H}{r_y}\\
+        \displaystyle \bbn{r_z}{t}&=\hb{H}{p_z}, & \displaystyle \bbn{p_z}{t}&=-\hb{H}{r_z}。
+      \end{aligned}\tag{19}\label{eq:19}
+    \right.
+  \end{align*}
+  ただし、関数$H$は$r_x,r_y,r_z,p_x,p_y,p_z,t$が独立変数であるとして、偏微分の意味を定義する。このとき、微分方程式系\eqref{eq:19}式が正しい運動方程式を与えることを示す。
+
+  \eqref{eq:19}式に\eqref{eq:18}式を代入する。$i=x,y,z$としてみれば、次のようになる：
+  \begin{align*}
+    \bbn{r_i}{t}&=\hb{H}{p_i}=\frac{p_i}{m}\quad \therefore \nbbn{2}{r_i}{t}=\frac{1}{m}\bbn{p_i}{t},\\
+    \bbn{p_i}{t}&=-\hb{H}{r_i}=-\hb{V}{r_i}。\\
+    &\therefore m\ddot{r}_i=m\nbbn{2}{r_i}{t}=-\hb{p_i}{t}=-\hb{V}{r_i}。
+  \end{align*}
+  これは運動方程式\eqref{eq:13}式の$i$方向成分に他ならない。よって、\eqref{eq:19}式が正しい運動方程式を与えることが示された。
+
+
+  一般座標$r_x,r_y,r_z$、一般運動量$p_x,p_y,p_z$、時間$t$を引数とする全エネルギーを表す関数$H=H(r_x,r_y,r_z;p_x,p_y,p_z;t)$がこの系の「Hamilton関数」（Hamiltonian）である。正しい運動方程式を与える微分方程式系\eqref{eq:19}式が、この系に対して書き下した「Hamilton方程式」（正準方程式）である。変数の数が自由度$f=3$の倍の$2f=6$個になった代わりに、Hamilton方程式の時間$t$に関する微分の階数は1階になったことに注意する。
+
+  \subsection*{Q4-3（正準変換の例：Q4-2を用いて）}\label{Q4-3}
+  \addcontentsline{toc}{subsection}{Q4-3（正準変換の例：Q4-2を用いて）}
+  Q4-2で取り上げた系を引き続き用いる。座標と運動量を混ぜる変換でもHamilton方程式が不変に保たれる変換があることを検証する。古い座標$\vect{r}=r_x\vect{e}_x+r_y\vect{e}_y+r_z\vect{e}_z$と古い運動量$\vect{p}=p_x\vect{e}_x+p_y\vect{e}_y+p_z\vect{e}_z$から新しい座標$\vect{R}=R_x\vect{e}_x+R_y\vect{e}_y+R_z\vect{e}_z$と新しい運動量$\vect{P}=P_x\vect{e}_x+P_y\vect{e}_y+P_z\vect{e}_z$への変換を次のように定義する：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \vect{R}&=\alpha\vect{r}+\beta\vect{p}\\
+        \vect{P}&=-\beta\vect{r}+\alpha\vect{p}。
+      \end{aligned}\tag{20}\label{eq:20}
+    \right.
+  \end{align*}
+  ここで、$\alpha,\beta\in\mathbb{R}$は次の条件を満たす任意の実数である：
+  \begin{align*}
+    \alpha^2+\beta^2=1。\tag{21}\label{eq:21}
+  \end{align*}
+  \eqref{eq:20}式の変換は座標と運動量を混ぜている。
+  \subsubsection*{(i)}\label{}
+  新しい座標と運動量を用いて、Hamilton関数$H$を表す。
+
+  \eqref{eq:20}式を$\vect{r},\vect{p}$について解く：
+  \begin{align*}
+    \vect{r}&=\alpha\vect{R}-\beta\vect{P}=\alpha(R_x\vect{e}_x+R_y\vect{e}_y+R_z\vect{e}_z)-\beta(P_x\vect{e}_x+P_y\vect{e}_y+P_z\vect{e}_z)\\
+    &=(\alpha R_x-\beta P_x)\vect{e}_x+(\alpha R_y-\beta P_y)\vect{e}_y+(\alpha R_z-\beta P_z)\vect{e}_z,\\
+    \vect{p}&=\beta\vect{R}+\alpha\vect{P}=\beta(R_x\vect{e}_x+R_y\vect{e}_y+R_z\vect{e}_z)+\alpha(P_x\vect{e}_x+P_y\vect{e}_y+P_z\vect{e}_z)\\
+    &=(\beta R_x+\alpha P_x)\vect{e}_x+(\beta R_y+\alpha P_y)\vect{e}_y+(\beta R_z+\alpha P_z)\vect{e}_z。\tag{20'}\label{eq:20'}
+  \end{align*}
+  これらを、古い変数で表されたHamilton関数$H$\eqref{eq:18}式に代入する：
+  \begin{align*}
+    H&=\frac{1}{2m}\left(p_x^2+p_y^2+p_z^2\right)+V(r_x,r_y,r_z;t)\\
+    &=\frac{1}{2m}\left\{(\beta R_x+\alpha P_x)^2+(\beta R_y+\alpha P_y)^2+(\beta R_z+\alpha P_z)^2\right\}+V(R_x,R_y,R_z;P_x,P_y,P_z;t)。
+  \end{align*}
+  これが、新しい座標と運動量を用いたHamilton関数$H$である。
+
+  \subsubsection*{(ii)}
+  新しい座標と運動量を用いた運動方程式が次の形を取ることを示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{R_x}{t}&=\hb{H}{P_x}, & \displaystyle \bbn{P_x}{t}&=-\hb{H}{R_x}\\
+        \displaystyle \bbn{R_y}{t}&=\hb{H}{P_y}, & \displaystyle \bbn{P_y}{t}&=-\hb{H}{R_y}\\
+        \displaystyle \bbn{R_z}{t}&=\hb{H}{P_z}, & \displaystyle \bbn{P_z}{t}&=-\hb{H}{R_z}。
+      \end{aligned}\tag{22}\label{eq:22}
+    \right.
+  \end{align*}
+  \eqref{eq:19}式に\eqref{eq:20'}式を代入し、連鎖律を用いる：
+  \begin{align*}
+    \bbn{r_i}{t}&=\hb{H}{p_i}\\
+    &\therefore \hb{r_i}{R_i}\bbn{R_i}{t}+\hb{r_i}{P_i}\bbn{P_i}{t}=\hb{H}{R_i}\hb{R_i}{p_i}+\hb{H}{P_i}\hb{P_i}{p_i}\\
+    &\therefore \alpha\bbn{R_i}{t}-\beta\bbn{P_i}{t}=\beta\hb{H}{R_i}+\alpha\hb{H}{P_i}\\
+    \bbn{p_i}{t}&=-\hb{H}{r_i}\\
+    &\therefore \hb{p_i}{R_i}\bbn{R_i}{t}+\hb{p_i}{P_i}\bbn{P_i}{t}=-\hb{H}{R_i}\hb{R_i}{r_i}-\hb{H}{P_i}\hb{P_i}{r_i}\\
+    &\therefore \beta\bbn{R_i}{t}+\alpha\bbn{P_i}{t}=-\alpha\hb{H}{R_i}+\beta\hb{H}{P_i}。
+  \end{align*}
+  よってこれら2つの式を$\bbn{R_i}{t},\bbn{P_i}{t}$について解く。\\
+  $(前者)\times\alpha+(後者)\times\beta$と$(前者)\times(-\beta)+(後者)\times\alpha$を計算する：
+  \begin{align*}
+    \bbn{R_i}{t}=\hb{H}{P_i},\quad \bbn{P_i}{t}=-\hb{H}{R_i}。
+  \end{align*}
+  これらは各$i=x,y,z$について成り立つ。よって、\eqref{eq:22}式が成り立つことが示された。\\
+  \eqref{eq:22}式は\eqref{eq:19}式と同じ形をしている。この形が運動方程式のHamilton方程式による表現であった。つまり、\eqref{eq:20}式で与えられた座標と運動量を混ぜる変換はHamilton方程式を不変に保つ。\eqref{eq:20}式で与えられた変換は、これから学ぶ正準変換の特別な場合になっている。
+
+  \section{Hamilton形式の理論：形式的な整備}\label{sec:3}
+  自由度$f$の系において、一般座標$q_1,\dots,q_f$、対応する一般速度$\dot{q}_1,\dots,\dot{q}_f$、時間$t$を用いて、Lagrange関数$L$が与えられたとする：
+  \begin{align*}
+    L=L(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)。\tag{23}\label{eq:23}
+  \end{align*}
+  一般座標$q_i$に対応する一般運動量$p_i$は次のとおりであった：
+  \begin{framed}
+    \begin{align*}
+      p_i&=p_i(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)\\
+      &=\hb{L}{\dot{q}_i}\quad(i=1,\dots,f)。\tag{24}\label{eq:24}
+    \end{align*}
+  \end{framed}
+  特異的でない系においては、\eqref{eq:24}式を一般速度について解くことが出来る：
+  \begin{align*}
+    \dot{q}_i=\dot{q}_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\quad(i=1,\dots,f)。\tag{25}\label{eq:25}
+  \end{align*}
+  この系の「Hamilton関数」（Hamiltonian）$H$を次のように定義する：
+  \begin{framed}
+    \begin{align*}
+      H&=H(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+      &=\ssum{i}{1}{f}p_i\dot{q}_i-L。\tag{26}\label{eq:26}
+    \end{align*}
+  \end{framed}
+  ただし、\eqref{eq:26}式の最右辺において、一般速度$\dot{q}_i$は\eqref{eq:25}式を用いて、一般座標$q_1,\dots,q_f$と一般運動量$p_1,\dots,p_f$、時間$t$の関数として表して消去する。つまり、Hamilton関数$H$は一般座標$q_1,\dots,q_f$と一般運動量$p_1,\dots,p_f$と時間$t$を独立変数とする関数である。
+
+  \subsection*{Q4-4（簡単な系のHamilton関数）}\label{Q4-4}
+  \addcontentsline{toc}{subsection}{Q4-4（簡単な系のHamilton関数）}
+  自由度$f$の系において、Lagrange関数$L$が運動エネルギー$T$とポテンシャルエネルギー$V$の差によって与えられるとする：
+  \begin{align*}
+    L=T-V。\tag{27}\label{eq:27}
+  \end{align*}
+  運動エネルギー$T$は一般速度の2次形式であるとする：
+  \begin{align*}
+    T=\frac{1}{2}\ssum{i,j}{1}{f}a_{ij}(q_1,\dots,q_f)\dot{q}_i\dot{q}_j。\tag{28}\label{eq:28}
+  \end{align*}
+  ただし、$a_{ij}=a_{ji}$である。また、ポテンシャルエネルギー$V$は一般速度にはよらない：
+  \begin{align*}
+    V=V(q_1,\dots,q_f;t)。\tag{29}\label{eq:29}
+  \end{align*}
+  このとき、系のHamilton関数$H$は全エネルギーに一致することを示す：
+  \begin{align*}
+    H=T+V。\tag{30}\label{eq:30}
+  \end{align*}
+
+  まず、\eqref{eq:24},\eqref{eq:27},\eqref{eq:28},\eqref{eq:29}により、一般運動量を求める：
+  \begin{align*}
+    p_i&=\hb{L}{\dot{q}_i}\\
+    &=\hb{T}{\dot{q}_i}\\
+    &=\hb{}{\dot{q}_i}\left(\frac12\ssum{j,k}{1}{f}a_{jk}(q_1,\dots,q_f)\dot{q}_j\dot{q}_k\right)\\
+    &=\ssum{j}{1}{f}a_{ij}(q_1,\dots,q_f)\dot{q}_j。
+  \end{align*}
+  これを\eqref{eq:26}式に代入する：
+  \begin{align*}
+    H&=\ssum{i}{1}{f}p_i\dot{q}_i-L\\
+    &=\ssum{i}{1}{f}\ssum{j}{1}{f}a_{ij}(q_1,\dots,q_f)\dot{q}_i\dot{q}_j-\left(T-V\right)\\
+    &=2T-(T-V)\\
+    &=T+V。
+  \end{align*}
+  よって、系のHamilton関数$H$は全エネルギーに一致することが示された。
+
+  \subsection*{Q4-5（重要な恒等式）}\label{Q4-5}
+  \addcontentsline{toc}{subsection}{Q4-5（重要な恒等式）}
+  \eqref{eq:26}式のもとで、次の恒等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+      \displaystyle \hb{H(q_1,\dots,q_f;p_1,\dots,p_f;t)}{p_i}&=\displaystyle \dot{q}_i\\
+      \displaystyle \hb{H(q_1,\dots,q_f;p_1,\dots,p_f;t)}{q_i}&=\displaystyle -\hb{L(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)}{q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f),\tag{31}\label{eq:31}
+  \end{align*}
+  および、
+  \begin{align*}
+    \hb{H(q_1,\dots,q_f;p_1,\dots,p_f;t)}{t}=-\hb{L(q_1,\dots,q_f;\dot{q}_1,\dots,\dot{q}_f;t)}{t}。\tag{32}\label{eq:32}
+  \end{align*}
+  注意：\underline{\eqref{eq:31}式の第2式と\eqref{eq:32}式において、両辺の偏微分で固定される変数は異なる。}
+
+  以下では、固定する変数の組を右下の添字$q,p,\dot{q},t$によって表す。ただし、偏微分する変数自身は固定する変数の組から除くものとする。たとえば、$\left(\hb{H}{p_i}\right)_{q,p,t}$は、一般座標$q_1,\dots,q_f$、時間$t$、および$p_i$以外の一般運動量を固定して$p_i$で偏微分することを表す。\\
+  Hamilton関数$H$は、\eqref{eq:25}式を用いて一般速度を消去することにより、一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$を独立変数とする関数として定義されている。一方で、Lagrange関数$L$は一般座標$q_1,\dots,q_f$、一般速度$\dot{q}_1,\dots,\dot{q}_f$、時間$t$を独立変数とする関数である。したがって、以下では偏微分ごとに固定される変数の違いに注意して計算する。\\
+  まず、\eqref{eq:31}式の第1式を示す。\eqref{eq:26}式を一般座標$q$と時間$t$を固定して$p_i$で偏微分し、連鎖律を用いる：
+  \begin{align*}
+    \left(\hb{H}{p_i}\right)_{q,p,t}
+    &=\left\{\hb{}{p_i}\left(\ssum{j}{1}{f}p_j\dot{q}_j-L\right)\right\}_{q,p,t}\\
+    &=\ssum{j}{1}{f}\left\{\left(\hb{p_j}{p_i}\right)_{p}\dot{q}_j+p_j\left(\hb{\dot{q}_j}{p_i}\right)_{q,p,t}\right\}-\ssum{j}{1}{f}\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\left(\hb{\dot{q}_j}{p_i}\right)_{q,p,t}\\
+    &=\ssum{j}{1}{f}\delta_{ij}\dot{q}_j+\ssum{j}{1}{f}\left\{p_j-\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\right\}\left(\hb{\dot{q}_j}{p_i}\right)_{q,p,t}。
+  \end{align*}
+  ここで、\eqref{eq:24}式より、次の等式が成り立つ：
+  \begin{align*}
+    p_j=\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}。
+  \end{align*}
+  よって、上式の第2項は消え、クロネッカーのデルタの性質により第1項では$j=i$の項だけが残る：
+  \begin{align*}
+    \left(\hb{H}{p_i}\right)_{q,p,t}=\dot{q}_i\quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、\eqref{eq:31}式の第1式が示された。\\
+  次に、\eqref{eq:31}式の第2式を示す。Hamilton関数$H$を$q_i$で偏微分するときには、一般運動量$p$と時間$t$を固定する。一方、右辺に現れる一般速度$\dot{q}_j$は、\eqref{eq:25}式により$q_i$にも依存する。したがって、\eqref{eq:26}式を一般運動量$p$と時間$t$を固定して$q_i$で偏微分し、連鎖律を用いる：
+  \begin{align*}
+    \left(\hb{H}{q_i}\right)_{q,p,t}
+    &=\left\{\hb{}{q_i}\left(\ssum{j}{1}{f}p_j\dot{q}_j-L\right)\right\}_{q,p,t}\\
+    &=\ssum{j}{1}{f}p_j\left(\hb{\dot{q}_j}{q_i}\right)_{q,p,t}-\left(\hb{L}{q_i}\right)_{q,\dot{q},t}-\ssum{j}{1}{f}\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\left(\hb{\dot{q}_j}{q_i}\right)_{q,p,t}\\
+    &=-\left(\hb{L}{q_i}\right)_{q,\dot{q},t}+\ssum{j}{1}{f}\left\{p_j-\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\right\}\left(\hb{\dot{q}_j}{q_i}\right)_{q,p,t}。
+  \end{align*}
+  \eqref{eq:24}式より、総和部分はすべて消える。したがって、次の式を得る：
+  \begin{align*}
+    \left(\hb{H}{q_i}\right)_{q,p,t}=-\left(\hb{L}{q_i}\right)_{q,\dot{q},t}\quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、\eqref{eq:31}式の第2式が示された。\\
+  最後に、\eqref{eq:32}式を示す。Hamilton関数$H$を$t$で偏微分するときには、一般座標$q$と一般運動量$p$を固定する。一方、一般速度$\dot{q}_j$は、\eqref{eq:25}式により時間$t$にも陽に依存し得る。したがって、\eqref{eq:26}式を一般座標$q$と一般運動量$p$を固定して$t$で偏微分し、連鎖律を用いる：
+  \begin{align*}
+    \left(\hb{H}{t}\right)_{q,p}
+    &=\left\{\hb{}{t}\left(\ssum{j}{1}{f}p_j\dot{q}_j-L\right)\right\}_{q,p}\\
+    &=\ssum{j}{1}{f}p_j\left(\hb{\dot{q}_j}{t}\right)_{q,p}-\left(\hb{L}{t}\right)_{q,\dot{q}}-\ssum{j}{1}{f}\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\left(\hb{\dot{q}_j}{t}\right)_{q,p}\\
+    &=-\left(\hb{L}{t}\right)_{q,\dot{q}}+\ssum{j}{1}{f}\left\{p_j-\left(\hb{L}{\dot{q}_j}\right)_{q,\dot{q},t}\right\}\left(\hb{\dot{q}_j}{t}\right)_{q,p}。
+  \end{align*}
+  \eqref{eq:24}式より、総和部分はすべて消える。したがって、次の式を得る：
+  \begin{align*}
+    \left(\hb{H}{t}\right)_{q,p}=-\left(\hb{L}{t}\right)_{q,\dot{q}}。
+  \end{align*}
+  以上より、\eqref{eq:32}式が示された。
+
+
+  \subsection*{Q4-6（とても重要：Euler-Lagrange方程式とHamilton方程式の同値性）}\label{Q4-6}
+  \addcontentsline{toc}{subsection}{Q4-6（とても重要：Euler-Lagrange方程式とHamilton方程式の同値性）}
+  Euler-Lagrange方程式とHamilton方程式が同値であることを変分法でなく\hyperref[Q4-5]{Q4-5}の結果を用いて証明する：
+  \begin{align*}
+    \hb{L}{q_i}-\bbn{}{t}\hb{L}{\dot{q}_i}=0\quad(i=1,\dots,f)
+    \Longleftrightarrow
+    \left\{
+      \begin{aligned}
+      \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+      \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{33}\label{eq:33}
+  \end{align*}
+  命題\eqref{eq:33}式において、\hyperref[Q4-5]{Q4-5}の結果より\eqref{eq:31}式が成り立つ。また、$p_i$は\eqref{eq:24}式によって与えられる。よって、次のようになる：
+  \begin{align*}
+    \hb{L}{q_i}-\bbn{}{t}\hb{L}{\dot{q}}=0\quad(i=1,\dots,f)&\iff
+    \left\{
+      \begin{aligned}
+        &\displaystyle \hb{H}{p_i}=\displaystyle \dot{q}_i &\quad(&\because \eqref{eq:31}式第1式)\\
+        &\displaystyle -\hb{H}{q_i}-\bbn{p_i}{t}=0 &\quad(&\because \eqref{eq:31}式第2式, \eqref{eq:24}式)
+      \end{aligned}
+    \right.\quad(i=1,\dots,f)\\
+    &\iff
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+        \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+    \right.\quad(i=1,\dots,f)。\\
+  \end{align*}
+  よって、\eqref{eq:33}式が示された。
+  
+  \hyperref[Q4-6]{Q4-6}によって、古典力学系の力学を記述する方法として、Hamilton方程式が正しいことが確立された。もともとの力学の創始者NewtonによるNewton方程式による記述、Euler-Lagrange方程式による記述と並んで、3つ目の記述法として、Hamilton方程式による記述を手に入れたのだ。枠で囲って、Hamilton方程式を提示しておく：
+  \begin{framed}
+    \underline{古典力学のHamilton方程式}：
+    \begin{align*}
+      \left\{
+        \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+        \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+      \right.
+      \quad(i=1,\dots,f)。\tag{34}\label{eq:34}
+    \end{align*}
+  \end{framed}
+  Hamilton方程式は「正準方程式」（canonical equation）とも呼ばれる。一般座標$q_1,\dots,q_f$と一般運動量$p_1,\dots,p_f$をまとめて「正準変数」（canonical variables）とも呼ぶ。正準変数により指定される状態点$(q_1,\dots,q_f,p_1,\dots,p_f)$を集めた$2f$次元空間を「相空間」（phase space）と呼ぶ。
+
+  \section{正準変換：物理的な導入}\label{sec:4}
+  \subsection*{Q4-7（変分原理によるHamilton方程式の導出）}\label{Q4-7}
+  \addcontentsline{toc}{subsection}{Q4-7（変分原理によるHamilton方程式の導出）}
+  自由度$f$の系のHamilton関数$H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)$が与えられたとする。一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$の関数$\overline{L}$を次のように定義する：
+  \begin{align*}
+    \overline{L}&=\overline{L}(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+    &=\ssum{i}{1}{f}p_i\dot{q}_i-H(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{35}\label{eq:35}
+  \end{align*}
+  ここで、ドットは時間微分を表す：$\dot{\phantom{q}}=\bbn{}{t}$。
+
+  \subsubsection*{(i)}\label{Q4-7-i}
+  $\overline{L}$は普通のLagrange関数$L$とは独立変数が異なる。その違いを説明する。
+
+  通常のLagrange関数$L$は、一般座標と一般速度、時間$t$の関数である。一方上の\eqref{eq:35}式による$\overline{L}$は、一般座標と一般運動量、時間$t$の関数である。故に2者は独立変数が異なる。\\
+  また、加えて、通常のLagrange関数においては変分を考える際、$q$についての変分$q\rightarrow q+\delta q$のみを考えれば良く、$\dot{q}$についての変分は$\delta \dot{q}=\bbn{}{t}\delta q$とすれば良かった。一方$\overline{L}$においては、$q_i$についての変分$q_i\rightarrow q_i+\delta q_i$と$p_i$についての変分$p_i\rightarrow p_i+\delta p_i$を別々に考える必要があり、故に得られる方程式の数は倍となる。\\
+  以上が、2つの関数の違いである。
+
+  \subsubsection*{(ii)}\label{Q4-7-ii}
+  同じ力学的状態において、$\overline{L}$と普通のLagrange関数$L$の間の独立変数の変換を行えば、$\overline{L}$と$L$は同じ値を取ることを示す。\\
+  Hamilton関数の定義\eqref{eq:26}式を再掲する：
+  \begin{align*}
+    H=\ssum{i}{1}{f}p_i\dot{q}_i-L。
+  \end{align*}
+  ここで、右辺に現れる$L$は、一般速度$\dot{q}_i$を一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$の関数として表し、代入したものである。故に、独立変数は、一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$である。この式を\eqref{eq:35}式に代入する：
+  \begin{align*}
+    \overline{L}
+    &=\ssum{i}{1}{f}p_i\dot{q}_i-H\\
+    &=\ssum{i}{1}{f}p_i\dot{q}_i-\left(\ssum{i}{1}{f}p_i\dot{q}_i-L\right)\\
+    &=L。
+  \end{align*}
+  したがって、一般速度と一般運動量の間で\eqref{eq:24}式および\eqref{eq:25}式による変数変換を行い、同じ力学的状態を表す変数の値を代入すれば、関数$\overline{L}$と普通のLagrange関数$L$は同じ値を取ることが示された。
+
+  関数$q_1(t),\dots,q_f(t)$と関数$p_1(t),\dots,p_f(t)$が与えられたとき、初期時刻$t_{\mathrm{i}}$から終了時刻$t_{\mathrm{f}}$まで$\overline{L}$を時間$t$に関して積分することにより、関数$q_1(t),\dots,q_f(t)$と関数$p_1(t),\dots,p_f(t)$の汎関数$\overline{S}$を定義する：
+  \begin{align*}
+    \overline{S}&=\overline{S}[q_1,\dots,q_f;p_1,\dots,p_f]\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)。\tag{36}\label{eq:36}
+  \end{align*}
+
+  \subsubsection*{(iii)}\label{Q4-7-iii}
+  関数$q_1(t),\dots,q_f(t)$と関数$p_1(t),\dots,p_f(t)$に変分を加えることを考える：
+  \begin{align*}
+    q_i(t)\longrightarrow q_i(t)+\delta q_i(t),\quad p_i(t)\longrightarrow p_i(t)+\delta p_i(t) \quad(i=1,\dots,f,\ t_{\mathrm{i}}\leq t\leq t_{\mathrm{f}})。\tag{37}\label{eq:37}
+  \end{align*}
+  ただし、初期時刻$t_{\mathrm{i}}$と終了時刻$t_{\mathrm{f}}$においては、変分がゼロになる境界条件を課す：
+  \begin{align*}
+    \delta q_i(t_{\mathrm{i}})=\delta q_i(t_{\mathrm{f}})=0,\qquad
+    \delta p_i(t_{\mathrm{i}})=\delta p_i(t_{\mathrm{f}})=0
+    \quad(i=1,\dots,f)。\tag{38}\label{eq:38}
+  \end{align*}
+  このとき、境界条件\eqref{eq:38}式を満たす任意の変分$\delta q_i(t),\delta p_i(t)\ (i=1,\dots,f)$に対して、汎関数$\overline{S}$が極値を取ることを要求すると、Hamilton方程式が導かれることを示す：
+  \begin{gather*}
+    \delta\overline{S}=0 \quad\text{（境界条件\eqref{eq:38}式を満たす任意の変分$\delta q_i(t),\delta p_i(t)\, (i=1,\dots,f)$に対して）}\\
+    \Longrightarrow\\
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+        \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{39}\label{eq:39}
+  \end{gather*}
+
+  汎関数$\overline{S}$の変分を考える：
+  \begin{align*}
+    \delta\overline{S}
+    &=\delta\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\delta\overline{L}(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\left(\sum_{i=1}^{f}\delta(p_i\dot{q}_i)-\delta H\right)\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\left\{\ssum{i}{1}{f}\left(\delta p_i\dot{q}_i+p_i\delta\dot{q}_i\right)-\ssum{i}{1}{f}\hb{H}{p_i}\delta p_i-\ssum{i}{1}{f}\hb{H}{q_i}\delta q_i\right\}\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\left\{\ssum{i}{1}{f}\left(\delta p_i\dot{q}_i+p_i\bbn{}{t}\delta q_i\right)-\ssum{i}{1}{f}\hb{H}{p_i}\delta p_i-\ssum{i}{1}{f}\hb{H}{q_i}\delta q_i\right\}\\
+    &=\ssum{i}{1}{f}\left[p_i\delta q_i\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}+\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\left\{\ssum{i}{1}{f}\left(\delta p_i\dot{q}_i-\dot{p}_i \delta q_i\right)-\ssum{i}{1}{f}\hb{H}{p_i}\delta p_i-\ssum{i}{1}{f}\hb{H}{q_i}\delta q_i\right\}\\
+    &=\ssum{i}{1}{f}\left[p_i\delta q_i\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}+\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\ssum{i}{1}{f}\left\{\left(\dot{q}_i-\hb{H}{p_i}\right)\delta p_i + \left(-\dot{p}_i+\hb{H}{q_i}\right)\delta q_i\right\}。\\
+  \end{align*}
+  境界条件\eqref{eq:38}式より、第1項はゼロとなる。ゆえに、任意の独立な変分$\delta q_i(t),\delta p_i(t)\ (i=1,\dots,f)$に対して、汎関数$\overline{S}$の変分$\delta\overline{S}$がゼロとなるための必要条件は、被積分関数の各項がそれぞれ常にゼロとなることである。つまり、それは次のようにまとめられる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \dot{q}_i-\hb{H}{p_i}=0\\
+        \displaystyle -\dot{p}_i+\hb{H}{q_i}=0
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)
+    \iff
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+        \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:39}式が示された。\\
+  このように、Hamilton方程式もまた変分原理によって導かれる。
+
+  \subsection*{Q4-8（関数$\overline{L}$の任意性）}\label{Q4-8}
+  \addcontentsline{toc}{subsection}{Q4-8（関数$\overline{L}$の任意性）}
+  \hyperref[Q4-7]{Q4-7}において、一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$に関するまったく任意の関数
+  \begin{align*}
+    W=W(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{40}\label{eq:40}
+  \end{align*}
+  を用意して、関数$\overline{L}=\overline{L}(q_1,\dots,q_f;p_1,\dots,p_f;t)$を次のように変更することを考える：
+  \begin{align*}
+    \overline{L}\longrightarrow\overline{L}'
+    =\overline{L}+\bbn{}{t}W(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{41}\label{eq:41}
+  \end{align*}
+  関数$\overline{L}$の代わりに関数$\overline{L}'$を用いて、汎関数に対する変分原理を実行しても、得られるHamilton方程式はまったく同一で変化しないことを示す。
+
+  関数$\overline{L}'$に対する汎関数$\overline{S}'$を考える：
+  \begin{align*}
+    \overline{S}'
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}'(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)+\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\bbn{}{t}W(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)\\
+    &=\overline{S}+\left[W(q_1(t),\dots,q_f(t);p_1(t),\dots,p_f(t);t)\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}。
+  \end{align*}
+  よって、境界条件より変分をとると第2項はゼロとなる。ゆえに、汎関数$\overline{S}'$の変分$\delta\overline{S}'$は、汎関数$\overline{S}$の変分$\delta\overline{S}$と一致する。したがって、どちらの関数に対して変分原理を実行しても、汎関数の変分が一致するため、必要条件として得られるHamilton方程式も全く同一である。
+  
+  
+  このように、関数$\overline{L}$には、一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$のまったく任意な関数$W$の時間に関する完全微分$\bbn{}{t}W$を加える任意性があるのだ。
+
+  \subsection*{Q4-9（正準変数の変換：Hamilton方程式の形が保たれる変換）}\label{Q4-9}
+  \addcontentsline{toc}{subsection}{Q4-9（正準変数の変換：Hamilton方程式の形が保たれる変換）}
+  自由度$f$の系の一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、時間$t$の関数であるHamilton関数$H$が与えられているとする：
+  \begin{align*}
+    H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{42}\label{eq:42}
+  \end{align*}
+  よって、この系の運動方程式は、Hamilton関数$H$によるHamilton方程式により与えられる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\displaystyle \phantom{-}\hb{H}{p_i}\\
+        \displaystyle \bbn{p_i}{t}&=\displaystyle -\hb{H}{q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{43}\label{eq:43}
+  \end{align*}
+  古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換を考える：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+        P_i&=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{44}\label{eq:44}
+  \end{align*}
+  ただし、この変換は非特異的であるとする。つまり、4つの変数のグループ$\{q_1,\dots,q_f\}$、$\{p_1,\dots,p_f\}$、$\{Q_1,\dots,Q_f\}$、$\{P_1,\dots,P_f\}$のどの2つのグループを選んでも、その2つのグループに属する任意の変数は、残り2つのグループのすべての変数と時間$t$の関数として表される。\\
+  我々が興味を持つのは、変数変換\eqref{eq:44}式がいかなる条件を満たしたならば、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$で書いた運動方程式が再びHamilton方程式になるのか、という問題である。このとき、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$のある関数
+  \begin{align*}
+    K=K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)。\tag{45}\label{eq:45}
+  \end{align*}
+  があって、運動方程式はHamilton方程式
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+      \displaystyle \bbn{Q_i}{t}=\phantom{-}\hb{K}{P_i}\\
+      \displaystyle \bbn{P_i}{t}=-\hb{K}{Q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)\tag{46}\label{eq:46}
+  \end{align*}
+  の形を取る。\\
+  新しい変数での運動方程式が\eqref{eq:45}式と\eqref{eq:46}式によって与えられるための十分条件は、ある任意関数$W$が存在して、\hyperref[Q4-7]{Q4-7}と\hyperref[Q4-8]{Q4-8}で議論した関数$\overline{L}$が次のように表されることである：
+  \begin{align*}
+    \overline{L}
+    &=\ssum{i}{1}{f}p_i\dot{q}_i-H(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+    &=\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)+\bbn{W}{t}。\tag{47}\label{eq:47}
+  \end{align*}
+  ただし、\eqref{eq:47}式において、4つの変数のグループ$\{q_1,\dots,q_f\}$、$\{p_1,\dots,p_f\}$、$\{Q_1,\dots,Q_f\}$、$\{P_1,\dots,P_f\}$のうちで独立なのは自由に選んだ2つのグループだと考える。残りの変数は、その2つのグループの変数と時間$t$によって表せる。\\
+  \eqref{eq:47}式が、新しい変数の運動方程式がHamilton方程式になることの十分条件であることを論証する。
+
+  以下では変分を考える変数に注意して論証する。\\
+  \eqref{eq:47}式が成り立つとき、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$を用いた関数を次のように定義する：
+  \begin{align*}
+    \overline{L}_{\mathrm{new}}=\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)。
+  \end{align*}
+  このとき、\eqref{eq:47}式は次のように書ける：
+  \begin{align*}
+    \overline{L}=\overline{L}_{\mathrm{new}}+\bbn{W}{t}。
+  \end{align*}
+  両辺を初期時刻$t_{\mathrm{i}}$から終了時刻$t_{\mathrm{f}}$まで時間$t$について積分する：
+  \begin{align*}
+    \overline{S}
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\overline{L}_{\mathrm{new}}+\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\bbn{W}{t}\\
+    &=\overline{S}_{\mathrm{new}}+\left[W\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}。
+  \end{align*}
+  ここで、新しい変数による汎関数$\overline{S}_{\mathrm{new}}$を次のように定義した：
+  \begin{align*}
+    \overline{S}_{\mathrm{new}}=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\left\{\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)\right\}。
+  \end{align*}
+  端点において古い変数の変分がゼロであることは、新しい変数の変分がゼロであることと同値である。したがって、端点において次の境界条件を課す：
+  \begin{align*}
+    \delta Q_i(t_{\mathrm{i}})=\delta Q_i(t_{\mathrm{f}})=0,\qquad
+    \delta P_i(t_{\mathrm{i}})=\delta P_i(t_{\mathrm{f}})=0
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  この境界条件のもとでは、端点における母関数$W$の変分もゼロとなる：
+  \begin{align*}
+    \delta\left[W\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}=0。
+  \end{align*}
+  よって、作用の変分について次の等式が成り立つ：
+  \begin{align*}
+    \delta\overline{S}=\delta\overline{S}_{\mathrm{new}}。
+  \end{align*}
+  したがって、古い変数に対する変分原理$\delta\overline{S}=0$は、新しい変数に対する変分原理$\delta\overline{S}_{\mathrm{new}}=0$と同値である。
+  次に、汎関数$\overline{S}_{\mathrm{new}}$に対して、新しい変数$Q_i(t)$と$P_i(t)$を独立に変分する：
+  \begin{align*}
+    \delta\overline{S}_{\mathrm{new}}
+    &=\delta\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\left\{\ssum{i}{1}{f}P_i\dot{Q}_i-K\right\}\\
+    &=\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\ssum{i}{1}{f}\left\{\dot{Q}_i\delta P_i+P_i\delta\dot{Q}_i-\hb{K}{Q_i}\delta Q_i-\hb{K}{P_i}\delta P_i\right\}。
+  \end{align*}
+  ここで、$\delta\dot{Q}_i=\bbn{}{t}\delta Q_i$を用い、$P_i\delta\dot{Q}_i$の項を時間$t$について部分積分する：
+  \begin{align*}
+    \int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,P_i\delta\dot{Q}_i
+    =\left[P_i\delta Q_i\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}
+    -\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\dot{P}_i\delta Q_i。
+  \end{align*}
+  したがって、作用の変分は次のように書き換えられる：
+  \begin{align*}
+    \delta\overline{S}_{\mathrm{new}}
+    &=\ssum{i}{1}{f}\left[P_i\delta Q_i\right]_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}\\
+    &\quad+\int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\ssum{i}{1}{f}\left\{\left(\dot{Q}_i-\hb{K}{P_i}\right)\delta P_i-\left(\dot{P}_i+\hb{K}{Q_i}\right)\delta Q_i\right\}。
+  \end{align*}
+  端点において$\delta Q_i=0$であるため、境界項は消える。よって、変分原理$\delta\overline{S}_{\mathrm{new}}=0$は次のようになる：
+  \begin{align*}
+    \int_{t_{\mathrm{i}}}^{t_{\mathrm{f}}}dt\,\ssum{i}{1}{f}\left\{\left(\dot{Q}_i-\hb{K}{P_i}\right)\delta P_i-\left(\dot{P}_i+\hb{K}{Q_i}\right)\delta Q_i\right\}=0。
+  \end{align*}
+  ここで、$\delta Q_i(t)$と$\delta P_i(t)$は境界条件を満たす範囲で互いに独立かつ任意である。したがって、変分法の基本補題より、それぞれの変分の係数が独立にゼロになる：
+  \begin{align*}
+    \dot{Q}_i-\hb{K}{P_i}=0,\qquad
+    \dot{P}_i+\hb{K}{Q_i}=0
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  以上の式を整理すると、新しい変数$Q_i,P_i$に対するHamilton方程式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{Q_i}{t}&=\displaystyle \phantom{-}\hb{K}{P_i}\\
+        \displaystyle \bbn{P_i}{t}&=\displaystyle -\hb{K}{Q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、\eqref{eq:47}式を満たす関数$W$と$K$が存在すれば、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$による運動方程式もHamilton方程式の形を取る。したがって、\eqref{eq:47}式は、新しい変数による運動方程式がHamilton方程式となるための十分条件であることが示された。
+
+  \eqref{eq:47}式を満たす関数$W$が存在するとき、古い変数$q_1,\dots,q_f,p_1,\dots,p_f$と新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の間の変数変換は「正準変換」（canonical transformation）と呼ばれる。関数$W$は正準変換の「母関数」（generator）と呼ばれる。
+  \begin{framed}
+    \underline{正準変換のまとめ}：\\
+    自由度$f$の系が正準変数$q_1,\dots,q_f,p_1,\dots,p_f$を用いたHamilton関数$H(q_1,\dots,q_f;p_1,\dots,p_f;t)$により動力学を記述されているとする。つまり、時間発展はこれらの変数によるHamilton方程式により表される。古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が次の\underline{恒等式}（つまり、運動方程式を仮定しない等式）により定められるとき、この変数変換を「正準変換」と呼ぶ：
+    \begin{align*}
+      \overline{L}
+      &=\ssum{i}{1}{f}p_i\dot{q}_i-H(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+      &=\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)+\bbn{W}{t}。\tag{48}\label{eq:48}
+    \end{align*}
+    ここで、$W$は古い変数$q_i,p_i$と新しい変数$Q_i,P_i$と時間$t$によるある関数であり、$\bbn{W}{t}$はその関数の時間$t$に関する完全微分である。$K$は新しい変数$Q_i,P_i$と時間$t$だけに依存したある関数である。このとき、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$は再び正準変数になり、Hamilton関数$K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)$により系の動力学は記述される。つまり、これらの変数によるHamilton方程式が再び成り立つ。
+  \end{framed}
+  \subsection*{Q4-10（正準変換の母関数$W=W_1$が古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$と時間$t$の関数である場合：タイプ1の正準変換）}\label{Q4-10}
+  \addcontentsline{toc}{subsection}{Q4-10（正準変換の母関数$W=W_1$が古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$と時間$t$の関数である場合：タイプ1の正準変換）}
+  4つの変数のグループ$\{q_1,\dots,q_f\}$、$\{p_1,\dots,p_f\}$、$\{Q_1,\dots,Q_f\}$、$\{P_1,\dots,P_f\}$のうちで、古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数に選ぶ。正準変換の母関数$W=W_1$は、選んだグループの変数と時間$t$の関数であるとする：
+  \begin{align*}
+    W_1=W_1(q_1,\dots,q_f;Q_1,\dots,Q_f;t)。\tag{49}\label{eq:49}
+  \end{align*}
+  この型の正準変換は「タイプ1」と呼ばれる。
+  \subsubsection*{(i)}\label{Q4-10-i}
+  次の等式を示す：
+  \begin{align*}
+    \bbn{W_1}{t}=\ssum{i}{1}{f}\left(\hb{W_1}{q_i}\dot{q}_i+\hb{W_1}{Q_i}\dot{Q}_i\right)+\hb{W_1}{t}。\tag{50}\label{eq:50}
+  \end{align*}
+
+  母関数$W_1$は、古い一般座標$q_1,\dots,q_f$、新しい一般座標$Q_1,\dots,Q_f$、時間$t$の関数である。したがって、連鎖律を用いると、$W_1$の時間についての完全微分は次のように表される：
+  \begin{align*}
+    \bbn{W_1}{t}
+    &=\ssum{i}{1}{f}\left(\hb{W_1}{q_i}\bbn{q_i}{t}+\hb{W_1}{Q_i}\bbn{Q_i}{t}\right)+\hb{W_1}{t}\\
+    &=\ssum{i}{1}{f}\left(\hb{W_1}{q_i}\dot{q}_i+\hb{W_1}{Q_i}\dot{Q}_i\right)+\hb{W_1}{t}。
+  \end{align*}
+  よって、\eqref{eq:50}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-10-ii}
+  次の等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+      \displaystyle p_i=\phantom{-}\hb{W_1}{q_i}\\
+      \displaystyle P_i=-\hb{W_1}{Q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{51}\label{eq:51}
+  \end{align*}
+
+  正準変換を定義する恒等式\eqref{eq:48}式に、\eqref{eq:50}式を代入する：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H
+    &=\ssum{i}{1}{f}P_i\dot{Q}_i-K+\ssum{i}{1}{f}\left(\hb{W_1}{q_i}\dot{q}_i+\hb{W_1}{Q_i}\dot{Q}_i\right)+\hb{W_1}{t}。
+  \end{align*}
+  すべての項を左辺に移項し、$\dot{q}_i$と$\dot{Q}_i$の係数をまとめる：
+  \begin{align*}
+    \ssum{i}{1}{f}\left(p_i-\hb{W_1}{q_i}\right)\dot{q}_i
+    +\ssum{i}{1}{f}\left(-P_i-\hb{W_1}{Q_i}\right)\dot{Q}_i
+    -H+K-\hb{W_1}{t}=0。
+  \end{align*}
+  \eqref{eq:48}式は運動方程式を仮定せずに成り立つ恒等式である。また、ここでは$q_1,\dots,q_f,Q_1,\dots,Q_f$を独立変数として選んでいるため、その時間微分$\dot{q}_1,\dots,\dot{q}_f,\dot{Q}_1,\dots,\dot{Q}_f$の値も各時刻において互いに独立に選ぶことが出来る。したがって、上式が任意の$\dot{q}_i$と$\dot{Q}_i$に対して恒等的に成り立つためには、それぞれの係数が独立にゼロでなければならない：
+  \begin{align*}
+    p_i-\hb{W_1}{q_i}=0,\qquad -P_i-\hb{W_1}{Q_i}=0\quad(i=1,\dots,f)。
+  \end{align*}
+  よって、次の関係式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle p_i&=\phantom{-}\hb{W_1}{q_i}\\
+        \displaystyle P_i&=-\hb{W_1}{Q_i}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、\eqref{eq:51}式が示された。
+  
+  \eqref{eq:51}式は、
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+      p_i&=p_i(q_1,\dots,q_f;Q_1,\dots,Q_f;t)\\
+      P_i&=P_i(q_1,\dots,q_f;Q_1,\dots,Q_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)\tag{52}\label{eq:52}
+  \end{align*}
+  という形をしている。この式を解くことにより、
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+      Q_i &=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+      P_i &=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)\tag{53}\label{eq:53}
+  \end{align*}
+  の形に表すことも出来る。
+  \subsubsection*{(iii)}\label{Q4-10-iii}
+  新しいHamilton関数$K$は古いHamilton関数$H$と正準変換の母関数$W_1$によって、次のように与えられることを示す：
+  \begin{align*}
+    K=H+\hb{W_1}{t}。\tag{54}\label{eq:54}
+  \end{align*}
+
+  \hyperref[Q4-10-ii]{(ii)}で得た関係式により、$\dot{q}_i$と$\dot{Q}_i$の係数はそれぞれゼロとなる。したがって、正準変換を定義する恒等式から、$\dot{q}_i$にも$\dot{Q}_i$にも比例しない残りの部分について、次の等式が成り立つ：
+  \begin{align*}
+    -H+K-\hb{W_1}{t}=0。
+  \end{align*}
+  この式を新しいHamilton関数$K$について解く：
+  \begin{align*}
+    K=H+\hb{W_1}{t}。
+  \end{align*}
+  以上より、新しいHamilton関数$K$は古いHamilton関数$H$と正準変換の母関数$W_1$によって\eqref{eq:54}式のように与えられることが示された。
+
+  \subsection*{Q4-11（タイプ1の正準変換の例1）}\label{Q4-11}
+  \addcontentsline{toc}{subsection}{Q4-11（タイプ1の正準変換の例1）}
+  タイプ1の正準変換の母関数$W_1$の最初の例を次のように与える：
+  \begin{align*}
+    W_1=-\ssum{i}{1}{f}q_iQ_i。\tag{55}\label{eq:55}
+  \end{align*}
+
+  \subsubsection*{(i)}\label{Q4-11-i}
+  この母関数による正準変換を、新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$を古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$で表す形で書くと、次のようになることを示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=-p_i\\
+        P_i&=\phantom{-}q_i
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{56}\label{eq:56}
+  \end{align*}
+
+
+  まず、\eqref{eq:51}式に\eqref{eq:55}式の$W_1$を代入する。$q_i$と$Q_i$は独立な変数であり、また$q_i$と$q_j(j\neq i)$、$Q_i$と$Q_j(j\neq i)$も独立な変数である。よって偏微分を実行すると、
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        p_i&=\hb{W_1}{q_i}=-\hb{}{q_i}\ssum{j}{1}{f}q_jQ_j=-Q_i\\
+        P_i&=-\hb{W_1}{Q_i}=\hb{}{Q_i}\ssum{j}{1}{f}q_jQ_j=q_i
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  これは\eqref{eq:56}式に他ならない。
+
+  \subsubsection*{(ii)}\label{Q4-11-ii}
+  この問題で取り上げた正準変換は、\hyperref[Q4-3]{Q4-3}で取り上げた正準変換を、自由度$f$を一般化する一方で、$\alpha$と$\beta$は特殊化した変換になっている。これを確認する。
+
+  \hyperref[Q4-3]{Q4-3}で取り上げた正準変換\eqref{eq:20}式において、自由度fを一般化し、
+  \begin{align*}
+    \vect{r}=\ssum{i}{1}{f}q_i\vect{e}_i,\,R=\ssum{i}{1}{f}Q_i\vect{e}_i,\,\vect{p}=\ssum{i}{1}{f}p_i\vect{e}_i,\, \vect{P}=\ssum{i}{1}{f}P_i\vect{e}_i
+  \end{align*}
+  とする。このとき、\eqref{eq:20}式は成分ごとに書くと次のようになる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=\alpha q_i+\beta p_i\\
+        P_i&=-\beta q_i+\alpha p_i
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  $\alpha=0,\beta=-1$と選べば、この変換は\eqref{eq:56}式の変換と一致する。もちろんこれは$\alpha$と$\beta$の間の条件$\alpha^2+\beta^2=1$を満たす。
+
+  \eqref{eq:56}式を見ると、正準変換では一般座標と一般運動量を混ぜる変換が許されていることが如実に現れている。\eqref{eq:56}式による変換で古い変数から新しい変数へ移ると、一般座標と一般運動量の役割が交換される。
+  ただし、\eqref{eq:56}式の第1式に$-$の符号があることに注意する。このように、力学のHamiltonによる定式化では、Lagrangeによる定式化では隠れていた一般座標と一般運動量の間にある対称性があらわになるのだ。
+  
+  
+  \subsection*{Q4-12（タイプ1の正準変換の例2：Poincaré変換）}\label{Q4-12}
+  \addcontentsline{toc}{subsection}{Q4-12（タイプ1の正準変換の例2：Poincaré変換）}
+  タイプ1の正準変換の母関数$W_1$の2番目の例を説明する。自由度$f$が1の場合について議論する。$q_1=q,p_1=p,Q_1=Q,P_1=P$と書く。正準変換の母関数を次のように与える：
+  \begin{align*}
+    W_1=\frac{1}{2}q^2\cot Q。\tag{57}\label{eq:57}
+  \end{align*}
+  古い正準変数$q,p$を新しい正準変数$Q,P$で表すと、次のようになることを示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        q&=\sqrt{2P}\sin Q\\
+        p&=\sqrt{2P}\cos Q。
+    \end{aligned}
+    \right.
+    \tag{58}\label{eq:58}
+  \end{align*}
+
+  まず、\eqref{eq:51}式の第２式より、
+  \begin{align*}
+    P=-\hb{W_1}{Q}=\frac{q^2}{2\sin^2 Q}\quad\therefore\quad q=\sqrt{2P}\sin Q。
+  \end{align*}
+  よって、\eqref{eq:51}式の第1式より、
+  \begin{align*}
+    p=\hb{W_1}{q}=q\cot Q=\frac{q}{\tan Q}=\sqrt{2P}\cos Q。
+  \end{align*}
+  以上より、\eqref{eq:58}式が示された。
+
+  この正準変換は「Poincaréの変換」と呼ばれる。
+
+  \subsection*{Q4-13（Poincaréの変換の調和振動子への適用）}\label{Q4-13}
+  \addcontentsline{toc}{subsection}{Q4-13（Poincaré変換の調和振動子への適用）}
+  Poincaréの変換が威力を発揮するのは調和振動子の系に適用したときである。
+  \subsubsection*{(i)}\label{Q4-13-i}
+  古い正準変数$q,p$は通常の位置座標と運動量であるとする。$q=0$が釣り合いの位置である調和振動子の無次元化したHamilton関数$H$は次のようになることを示す：
+  \begin{align*}
+    H=\frac{1}{2}(p^2+q^2)。\tag{59}\label{eq:59}
+  \end{align*}
+
+  一つ前のレポート「解析力学演習レポート1」の(66)式より、角振動数$\omega$の調和振動子$q$の無次元化したLagrange関数$L$は次のようになる：
+  \begin{align*}
+    L=\frac{1}{2}\left(\dot{q}^2-\omega^2q^2\right)。
+  \end{align*}
+  これを用いて、Hamilton関数$H$を計算すると、$p=\hb{L}{\dot{q}}=\dot{q}$より、
+  \begin{align*}
+    H=p\dot{q}-L=p^2-\frac{1}{2}\left(p^2-\omega^2q^2\right)=\frac{1}{2}(p^2+\omega^2q^2)。
+  \end{align*}
+  $\omega=1$と選べば、これは\eqref{eq:59}式に他ならない。以上より、\eqref{eq:59}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-13-ii}
+  この系にPoincaréの変換を施すと、新しい正準変数$Q,P$に対するHamilton関数$K$は新しい運動量$P$と一致して、さらに、それは古いHamilton関数$H$（つまり、エネルギー）に一致することを示す：
+  \begin{align*}
+    K=P=H。\tag{60}\label{eq:60}
+  \end{align*}
+
+  \eqref{eq:54},\eqref{eq:57},\eqref{eq:58},\eqref{eq:59}式より、Poincaré変換を施すと、新しいHamilton関数$K$は次のようになる：
+  \begin{align*}
+    K=H+\hb{W_1}{t}=H=\frac12\left(p^2+q^2\right)=\frac12\left(2P\cos^2 Q+2P\sin^2 Q\right)=P。
+  \end{align*}
+  よって、\eqref{eq:60}式が示された。
+
+  \subsubsection*{(iii)}\label{Q4-13-iii}
+  新しい正準変数$Q,P$に対するHamilton方程式を計算すると、次の運動方程式を得ることを確認する：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \dot{Q}&=1\\
+        \dot{P}&=0。
+      \end{aligned}
+    \right.
+    \tag{61}\label{eq:61}
+  \end{align*}
+
+  \eqref{eq:60}式のHamilton関数$K$に対するHamilton方程式を計算すると、$P$と$Q$は独立な変数であるから、次の運動方程式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \dot{Q}&=\phantom{-}\hb{K}{P}=1\\
+        \dot{P}&=-\hb{K}{Q}=0。
+      \end{aligned}
+    \right.
+  \end{align*}
+  よって、\eqref{eq:61}式が示された。
+
+  \subsubsection*{(iv)}\label{Q4-13-iv}
+  運動方程式を解く：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q(t)&=t+Q(0)\\
+        P(t)&=P(0)。
+      \end{aligned}
+    \right.
+    \tag{62}\label{eq:62}
+  \end{align*}
+
+
+  \eqref{eq:61}式で各式の両辺を積分する：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q(t)&=t+A\\
+        P(t)&=B
+      \end{aligned}
+    \right.\quad(A,Bは任意定数)。
+  \end{align*}
+  それぞれで$t=0$とすると、$Q(0)=A$、$P(0)=B$となる。よって、\eqref{eq:62}式が導かれた。
+
+  つまり、新しい運動量$P(t)$は時間$t$に伴って変化せず、一定である。そして、新しい位置座標$Q(t)$は一定の速さ$1$で「等速直線運動」するだけである。このように、時間的に変化しない運動量$P$と一定の速さで増加する位置座標$Q$からなる正準変数の組は「作用・角変数」と呼ばれる。$P$が「作用変数」（action variable）であり、$Q$が「角変数」（angle variable）である。\\
+  与えられた系において、もともとの正準変数$q,p$を作用・角変数の組$Q,P$へ移す正準変換が求められれば、上で見たように、運動方程式の求積は直ちに実行出来る。Poincaré変換は、調和振動子において、従来の位置座標$q$と運動量$p$を作用変数$P$・角変数$Q$へ移す変換だったのだ。
+
+  \subsection*{Q4-14（タイプ2の正準変換）}\label{Q4-14}
+  \addcontentsline{toc}{subsection}{Q4-14（タイプ2の正準変換）}
+  \eqref{eq:48}式において、正準変換の母関数$W=W_2$が古い一般座標$q_1,\dots,q_f$と新しい一般運動量$P_1,\dots,P_f$と時間$t$の関数である場合を考える：
+  \begin{align*}
+    W_2=W_2(q_1,\dots,q_f;P_1,\dots,P_f;t)。\tag{63}\label{eq:63}
+  \end{align*}
+  この型の正準変換はタイプ2と呼ばれる。
+  \subsubsection*{(i)}\label{Q4-14-i}
+  古い一般運動量$p_i$、新しい一般座標$Q_i$、新しいHamilton関数$K$を与える次の等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle p_i&=\hb{W_2}{q_i},\displaystyle Q_i=\hb{W_2}{P_i} \quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_2}{t}。
+      \end{aligned}
+    \right.
+    \tag{64}\label{eq:64}
+  \end{align*}
+
+  \eqref{eq:48}式に現れる母関数$W$は、選ばれた独立変数の組に応じて表現を変える必要がある。タイプ2では古い一般座標$q_1,\dots,q_f$と新しい一般運動量$P_1,\dots,P_f$を独立変数として用いるため、タイプ2の母関数$W_2$を次のLegendre変換によって定義する：
+  \begin{align*}
+    W_2=W+\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  したがって、\eqref{eq:48}式に現れる母関数$W$は次のように表される：
+  \begin{align*}
+    W=W_2-\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  この式を時間$t$について全微分する。多変数関数の連鎖律および積の微分を用いる：
+  \begin{align*}
+    \bbn{W}{t}
+    &=\bbn{W_2}{t}-\bbn{}{t}\left(\ssum{i}{1}{f}Q_iP_i\right)\\
+    &=\ssum{i}{1}{f}\left(\hb{W_2}{q_i}\dot{q}_i+\hb{W_2}{P_i}\dot{P}_i\right)+\hb{W_2}{t}-\ssum{i}{1}{f}\left(P_i\dot{Q}_i+Q_i\dot{P}_i\right)。
+  \end{align*}
+  これを正準変換を定義する恒等式\eqref{eq:48}式に代入する：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H
+    &=\ssum{i}{1}{f}P_i\dot{Q}_i-K+\ssum{i}{1}{f}\left(\hb{W_2}{q_i}\dot{q}_i+\hb{W_2}{P_i}\dot{P}_i\right)+\hb{W_2}{t}\\
+    &\quad-\ssum{i}{1}{f}\left(P_i\dot{Q}_i+Q_i\dot{P}_i\right)\\
+    &=\ssum{i}{1}{f}\hb{W_2}{q_i}\dot{q}_i+\ssum{i}{1}{f}\left(\hb{W_2}{P_i}-Q_i\right)\dot{P}_i-K+\hb{W_2}{t}。
+  \end{align*}
+  すべての項を左辺に移項し、$\dot{q}_i$と$\dot{P}_i$の係数をまとめる：
+  \begin{align*}
+    \ssum{i}{1}{f}\left(p_i-\hb{W_2}{q_i}\right)\dot{q}_i+\ssum{i}{1}{f}\left(Q_i-\hb{W_2}{P_i}\right)\dot{P}_i-H+K-\hb{W_2}{t}=0。
+  \end{align*}
+  この等式は運動方程式を仮定せずに成り立つ恒等式である。また、タイプ2の正準変換では$q_1,\dots,q_f,P_1,\dots,P_f$を独立変数として選んでいるため、その時間微分$\dot{q}_1,\dots,\dot{q}_f,\dot{P}_1,\dots,\dot{P}_f$も互いに独立に選ぶことが出来る。したがって、上式が任意の$\dot{q}_i$と$\dot{P}_i$に対して成り立つためには、それぞれの係数が独立にゼロでなければならない：
+  \begin{align*}
+    p_i-\hb{W_2}{q_i}=0,\qquad Q_i-\hb{W_2}{P_i}=0\quad(i=1,\dots,f)。
+  \end{align*}
+  また、$\dot{q}_i$にも$\dot{P}_i$にも比例しない残りの部分もゼロでなければならない：
+  \begin{align*}
+    -H+K-\hb{W_2}{t}=0。
+  \end{align*}
+  以上の式を整理すると、タイプ2の正準変換を与える関係式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle p_i&=\hb{W_2}{q_i},\displaystyle Q_i=\hb{W_2}{P_i}\quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_2}{t}。
+      \end{aligned}
+    \right.
+  \end{align*}
+  以上より、\eqref{eq:64}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-14-ii}
+  正準変換にとって意味のない時間に関する完全導関数の不定性を除いて考えると、同一の正準変換を与えるタイプ1の母関数$W_1$とタイプ2の母関数$W_2$は、次のLegendre変換により結びついていることを示す：
+  \begin{align*}
+    W_1=W_2-\ssum{i}{1}{f}Q_iP_i。\tag{65}\label{eq:65}
+  \end{align*}
+
+  タイプ1の正準変換では、古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数として選び、正準変換を定義する\eqref{eq:48}式に現れる母関数$W$を$W_1$とする：
+  \begin{align*}
+    W=W_1(q_1,\dots,q_f;Q_1,\dots,Q_f;t)。
+  \end{align*}
+  一方、タイプ2の正準変換では、古い一般座標$q_1,\dots,q_f$と新しい一般運動量$P_1,\dots,P_f$を独立変数として選ぶ。このとき、同じ母関数$W$は、タイプ2の母関数$W_2$を用いて次のように表される：
+  \begin{align*}
+    W=W_2(q_1,\dots,q_f;P_1,\dots,P_f;t)-\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  したがって、同一の正準変換を与えるタイプ1の母関数$W_1$とタイプ2の母関数$W_2$の間には、次の関係が成り立つ：
+  \begin{align*}
+    W_1=W_2-\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  以上より、\eqref{eq:65}式が示された。
+
+  \subsection*{Q4-15（タイプ3の正準変換）}\label{Q4-15}
+  \addcontentsline{toc}{subsection}{Q4-15（タイプ3の正準変換）}
+  \eqref{eq:48}式において、正準変換の母関数$W=W_3$が古い一般運動量$p_1,\dots,p_f$と新しい一般座標$Q_1,\dots,Q_f$と時間$t$の関数である場合を考える：
+  \begin{align*}
+    W_3=W_3(p_1,\dots,p_f;Q_1,\dots,Q_f;t)。\tag{66}\label{eq:66}
+  \end{align*}
+  この型の正準変換はタイプ3と呼ばれる。
+  \subsubsection*{(i)}\label{Q4-15-i}
+  古い一般座標$q_i$、新しい一般運動量$P_i$、新しいHamilton関数$K$を与える次の等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle q_i&=-\hb{W_3}{p_i},\displaystyle P_i=-\hb{W_3}{Q_i} \quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_3}{t}。
+      \end{aligned}
+    \right.
+    \tag{67}\label{eq:67}
+  \end{align*}
+
+  タイプ3の正準変換では、古い一般運動量$p_1,\dots,p_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数に選ぶ。そこで、\eqref{eq:48}式に現れる母関数$W$に対して、タイプ3の母関数$W_3$を次のLegendre変換によって定義する：
+  \begin{align*}
+    W_3=W-\ssum{i}{1}{f}q_ip_i。
+  \end{align*}
+  したがって、\eqref{eq:48}式に現れる母関数$W$は次のように表される：
+  \begin{align*}
+    W=W_3+\ssum{i}{1}{f}q_ip_i。
+  \end{align*}
+  この式を時間$t$について全微分する。多変数関数の連鎖律および積の微分を用いる：
+  \begin{align*}
+    \bbn{W}{t}
+    &=\bbn{W_3}{t}+\bbn{}{t}\left(\ssum{i}{1}{f}q_ip_i\right)\\
+    &=\ssum{i}{1}{f}\left(\hb{W_3}{p_i}\dot{p}_i+\hb{W_3}{Q_i}\dot{Q}_i\right)+\hb{W_3}{t}+\ssum{i}{1}{f}\left(p_i\dot{q}_i+q_i\dot{p}_i\right)。
+  \end{align*}
+  これを正準変換を定義する恒等式\eqref{eq:48}式に代入する：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H
+    &=\ssum{i}{1}{f}P_i\dot{Q}_i-K+\ssum{i}{1}{f}\left(\hb{W_3}{p_i}\dot{p}_i+\hb{W_3}{Q_i}\dot{Q}_i\right)+\hb{W_3}{t}\\
+    &\quad+\ssum{i}{1}{f}\left(p_i\dot{q}_i+q_i\dot{p}_i\right)。
+  \end{align*}
+  両辺に共通する$\ssum{i}{1}{f}p_i\dot{q}_i$を消去し、$\dot{p}_i$と$\dot{Q}_i$の係数をまとめる：
+  \begin{align*}
+    \ssum{i}{1}{f}\left(q_i+\hb{W_3}{p_i}\right)\dot{p}_i+\ssum{i}{1}{f}\left(P_i+\hb{W_3}{Q_i}\right)\dot{Q}_i+H-K+\hb{W_3}{t}=0。
+  \end{align*}
+  この等式は運動方程式を仮定せずに成り立つ恒等式である。また、タイプ3の正準変換では$p_1,\dots,p_f,Q_1,\dots,Q_f$を独立変数として選んでいるため、その時間微分$\dot{p}_1,\dots,\dot{p}_f,\dot{Q}_1,\dots,\dot{Q}_f$も互いに独立に選ぶことが出来る。したがって、上式が任意の$\dot{p}_i$と$\dot{Q}_i$に対して成り立つためには、それぞれの係数が独立にゼロでなければならない：
+  \begin{align*}
+    q_i+\hb{W_3}{p_i}=0,\qquad P_i+\hb{W_3}{Q_i}=0\quad(i=1,\dots,f)。
+  \end{align*}
+  また、$\dot{p}_i$にも$\dot{Q}_i$にも比例しない部分についても、次の等式が成り立つ：
+  \begin{align*}
+    H-K+\hb{W_3}{t}=0。
+  \end{align*}
+  以上の式を整理すると、タイプ3の正準変換を与える関係式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle q_i&=-\hb{W_3}{p_i},\displaystyle P_i=-\hb{W_3}{Q_i}\quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_3}{t}。
+      \end{aligned}
+    \right.
+  \end{align*}
+  以上より、\eqref{eq:67}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-15-ii}
+  正準変換にとって意味のない時間に関する完全導関数の不定性を除いて考えると、同一の正準変換を与えるタイプ1の母関数$W_1$とタイプ3の母関数$W_3$は、次のLegendre変換により結びついていることを示す：
+  \begin{align*}
+    W_1=W_3+\ssum{i}{1}{f}q_ip_i。\tag{68}\label{eq:68}
+  \end{align*}
+
+  タイプ1の正準変換では、古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数として選び、\eqref{eq:48}式に現れる母関数$W$を$W_1$とする：
+  \begin{align*}
+    W=W_1(q_1,\dots,q_f;Q_1,\dots,Q_f;t)。
+  \end{align*}
+  一方、タイプ3の正準変換では、古い一般運動量$p_1,\dots,p_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数として選ぶ。したがって、タイプ3の母関数$W_3$は、母関数$W$から古い一般座標$q_i$を独立変数から外し、その代わりに古い一般運動量$p_i$を独立変数とするLegendre変換によって定義される：
+  \begin{align*}
+    W_3=W-\ssum{i}{1}{f}q_ip_i。
+  \end{align*}
+  この式を$W$について解く：
+  \begin{align*}
+    W=W_3+\ssum{i}{1}{f}q_ip_i。
+  \end{align*}
+  どちらも同一の正準変換を与えるため、母関数$W$はどちらの式にも共通している。つまり、意味のない時間に関する完全導関数の不定性を除いて考えると、タイプ1の母関数$W_1$とタイプ3の母関数$W_3$は、次のLegendre変換により結びついている：
+  \begin{align*}
+    W_1=W_3+\ssum{i}{1}{f}q_ip_i。
+  \end{align*}
+  以上より、\eqref{eq:68}式が示された。
+
+  \subsection*{Q4-16（タイプ4の正準変換）}\label{Q4-16}
+  \addcontentsline{toc}{subsection}{Q4-16（タイプ4の正準変換）}
+  \eqref{eq:48}式において、正準変換の母関数$W=W_4$が古い一般運動量$p_1,\dots,p_f$と新しい一般運動量$P_1,\dots,P_f$と時間$t$の関数である場合を考える：
+  \begin{align*}
+    W_4=W_4(p_1,\dots,p_f;P_1,\dots,P_f;t)。\tag{69}\label{eq:69}
+  \end{align*}
+  この型の正準変換はタイプ4と呼ばれる。
+  \subsubsection*{(i)}\label{Q4-16-i}
+  古い一般座標$q_i$、新しい一般座標$Q_i$、新しいHamilton関数$K$を与える次の等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle q_i&=-\hb{W_4}{p_i},\displaystyle Q_i=\hb{W_4}{P_i} \quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_4}{t}。
+      \end{aligned}
+    \right.
+    \tag{70}\label{eq:70}
+  \end{align*}
+
+  タイプ4の正準変換では、古い一般運動量$p_1,\dots,p_f$と新しい一般運動量$P_1,\dots,P_f$を独立変数に選ぶ。そこで、\eqref{eq:48}式に現れる母関数$W$に対して、タイプ4の母関数$W_4$を次のLegendre変換によって定義する：
+  \begin{align*}
+    W_4=W-\ssum{i}{1}{f}q_ip_i+\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  したがって、\eqref{eq:48}式に現れる母関数$W$は次のように表される：
+  \begin{align*}
+    W=W_4+\ssum{i}{1}{f}(q_ip_i-Q_iP_i)。
+  \end{align*}
+  この式を時間$t$について全微分する。多変数関数の連鎖律および積の微分を用いる：
+  \begin{align*}
+    \bbn{W}{t}
+    &=\bbn{W_4}{t}+\bbn{}{t}\left\{\ssum{i}{1}{f}(q_ip_i-Q_iP_i)\right\}\\
+    &=\ssum{i}{1}{f}\left(\hb{W_4}{p_i}\dot{p}_i+\hb{W_4}{P_i}\dot{P}_i\right)+\hb{W_4}{t}+\ssum{i}{1}{f}\left(p_i\dot{q}_i+q_i\dot{p}_i-P_i\dot{Q}_i-Q_i\dot{P}_i\right)。
+  \end{align*}
+  これを正準変換を定義する恒等式\eqref{eq:48}式に代入する：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H
+    &=\ssum{i}{1}{f}P_i\dot{Q}_i-K+\ssum{i}{1}{f}\left(\hb{W_4}{p_i}\dot{p}_i+\hb{W_4}{P_i}\dot{P}_i\right)+\hb{W_4}{t}\\
+    &\quad+\ssum{i}{1}{f}\left(p_i\dot{q}_i+q_i\dot{p}_i-P_i\dot{Q}_i-Q_i\dot{P}_i\right)。
+  \end{align*}
+  両辺に共通する$\ssum{i}{1}{f}p_i\dot{q}_i$を消去する。また、右辺の$\ssum{i}{1}{f}P_i\dot{Q}_i$と$-\ssum{i}{1}{f}P_i\dot{Q}_i$も互いに消去される。残った項を$\dot{p}_i$と$\dot{P}_i$についてまとめる：
+  \begin{align*}
+    \ssum{i}{1}{f}\left(q_i+\hb{W_4}{p_i}\right)\dot{p}_i+\ssum{i}{1}{f}\left(\hb{W_4}{P_i}-Q_i\right)\dot{P}_i+H-K+\hb{W_4}{t}=0。
+  \end{align*}
+  この等式は運動方程式を仮定せずに成り立つ恒等式である。また、タイプ4の正準変換では$p_1,\dots,p_f,P_1,\dots,P_f$を独立変数として選んでいるため、その時間微分$\dot{p}_1,\dots,\dot{p}_f,\dot{P}_1,\dots,\dot{P}_f$も互いに独立に選ぶことが出来る。したがって、上式が任意の$\dot{p}_i$と$\dot{P}_i$に対して成り立つためには、それぞれの係数が独立にゼロでなければならない：
+  \begin{align*}
+    q_i+\hb{W_4}{p_i}=0,\qquad \hb{W_4}{P_i}-Q_i=0\quad(i=1,\dots,f)。
+  \end{align*}
+  また、$\dot{p}_i$にも$\dot{P}_i$にも比例しない部分についても、次の等式が成り立つ：
+  \begin{align*}
+    H-K+\hb{W_4}{t}=0。
+  \end{align*}
+  以上の式を整理すると、タイプ4の正準変換を与える関係式を得る：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle q_i&=-\hb{W_4}{p_i},\displaystyle Q_i=\hb{W_4}{P_i}\quad(i=1,\dots,f)\\
+        \displaystyle K&=H+\hb{W_4}{t}。
+      \end{aligned}
+    \right.
+  \end{align*}
+  以上より、\eqref{eq:70}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-16-ii}
+  正準変換にとって意味のない時間に関する完全導関数の不定性を除いて考えると、同一の正準変換を与えるタイプ1の母関数$W_1$とタイプ4の母関数$W_4$は、次のLegendre変換により結びついていることを示す：
+  \begin{align*}
+    W_1=W_4+\ssum{i}{1}{f}(q_ip_i-Q_iP_i)。\tag{71}\label{eq:71}
+  \end{align*}
+  タイプ1の正準変換では、古い一般座標$q_1,\dots,q_f$と新しい一般座標$Q_1,\dots,Q_f$を独立変数として選び、\eqref{eq:48}式に現れる母関数$W$を$W_1$とする：
+  \begin{align*}
+    W=W_1(q_1,\dots,q_f;Q_1,\dots,Q_f;t)。
+  \end{align*}
+  一方、タイプ4の正準変換では、古い一般運動量$p_1,\dots,p_f$と新しい一般運動量$P_1,\dots,P_f$を独立変数として選ぶ。したがって、タイプ4の母関数$W_4$は、母関数$W$から古い一般座標$q_i$を独立変数から外し、その代わりに古い一般運動量$p_i$を独立変数とするLegendre変換によって定義される：
+  \begin{align*}
+    W_4=W-\ssum{i}{1}{f}q_ip_i+\ssum{i}{1}{f}Q_iP_i。
+  \end{align*}
+  この式を$W$について解く：
+  \begin{align*}
+    W=W_4+\ssum{i}{1}{f}(q_ip_i-Q_iP_i)。
+  \end{align*}
+  どちらも同一の正準変換を与えるため、母関数$W$はどちらの式にも共通している。つまり、意味のない時間に関する完全導関数の不定性を除いて考えると、タイプ1の母関数$W_1$とタイプ4の母関数$W_4$は、次のLegendre変換により結びついている：
+  \begin{align*}
+    W_1=W_4+\ssum{i}{1}{f}(q_ip_i-Q_iP_i)。
+  \end{align*}
+  以上より、\eqref{eq:71}式が示された。
+
+  \begin{framed}
+    \underline{タイプ1〜4の正準変換のまとめ}：
+    \begin{align*}
+      \ssum{i}{1}{f}p_i\dot{q}_i-H(q_1,\dots,q_f;p_1,\dots,p_f;t)=\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)+\bbn{W}{t}。\tag{72}\label{eq:72}
+    \end{align*}
+    (1)タイプ1の正準変換：
+    \begin{align*}
+      W&=W_1(q_1,\dots,q_f;Q_1,\dots,Q_f;t)。\tag{73}\label{eq:73}\\
+      p_i&=\hb{W_1}{q_i},\, P_i=-\hb{W_1}{Q_i}\quad(i=1,\dots,f)。\tag{74}\label{eq:74}\\
+      K&=H+\hb{W_1}{t}。\tag{75}\label{eq:75}
+    \end{align*}
+    (2)タイプ2の正準変換：
+    \begin{align*}
+      W&=W_2(q_1,\dots,q_f;P_1,\dots,P_f;t)-\ssum{i}{1}{f}Q_iP_i。\tag{76}\label{eq:76}\\
+      p_i&=\hb{W_2}{q_i},\, Q_i=\hb{W_2}{P_i}\quad(i=1,\dots,f)。\tag{77}\label{eq:77}\\
+      K&=H+\hb{W_2}{t}。\tag{78}\label{eq:78}
+    \end{align*}
+    (3)タイプ3の正準変換：
+    \begin{align*}
+      W&=W_3(p_1,\dots,p_f;Q_1,\dots,Q_f;t)+\ssum{i}{1}{f}q_ip_i。\tag{79}\label{eq:79}\\
+      q_i&=-\hb{W_3}{p_i},\, P_i=-\hb{W_3}{Q_i}\quad(i=1,\dots,f)。\tag{80}\label{eq:80}\\
+      K&=H+\hb{W_3}{t}。\tag{81}\label{eq:81}
+    \end{align*}
+    (4)タイプ4の正準変換：
+    \begin{align*}
+      W&=W_4(p_1,\dots,p_f;P_1,\dots,P_f;t)+\ssum{i}{1}{f}(q_ip_i-Q_iP_i)。\tag{82}\label{eq:82}\\
+      q_i&=-\hb{W_4}{p_i},\, Q_i=\hb{W_4}{P_i}\quad(i=1,\dots,f)。\tag{83}\label{eq:83}\\
+      K&=H+\hb{W_4}{t}。\tag{84}\label{eq:84}
+    \end{align*}
+  \end{framed}
+
+  \subsection*{Q4-17（変数変換が正準であるか否かはHamilton関数によらない）}\label{Q4-17}
+  \addcontentsline{toc}{subsection}{Q4-17（変数変換が正準であるか否かはHamilton関数によらない）}
+  \subsubsection*{(i)}\label{Q4-17-i}
+  自由度$f$の系における古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+        P_i&=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)\tag{85}\label{eq:85}
+  \end{align*}
+  が正準変換であるか否かは、その系の古いHamilton関数$H(q_1,\dots,q_f;p_1,\dots,p_f;t)$がいかなるものであるかとは関係なく決まることを証明する。\\
+  注：もちろん、変換が正準である場合、古いHamilton関数$H(q_1,\dots,q_f;p_1,\dots,p_f;t)$を別のものにしたら、それに応じて、新しいHamilton関数$K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)$も別のものに変化する。
+
+  まず、変数変換\eqref{eq:85}式が正準変換であるための条件を、正準変換を定義する恒等式\eqref{eq:48}式から考える：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H=\ssum{i}{1}{f}P_i\dot{Q}_i-K+\bbn{W}{t}。
+  \end{align*}
+  母関数$W$を古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の関数として表すと、その時間についての完全微分は次のようになる：
+  \begin{align*}
+    \bbn{W}{t}=\ssum{i}{1}{f}\left(\hb{W}{q_i}\dot{q}_i+\hb{W}{p_i}\dot{p}_i\right)+\hb{W}{t}。
+  \end{align*}
+  また、変数変換\eqref{eq:85}式より、新しい一般座標の時間微分は次のように表される：
+  \begin{align*}
+    \dot{Q}_i=\ssum{j}{1}{f}\left(\hb{Q_i}{q_j}\dot{q}_j+\hb{Q_i}{p_j}\dot{p}_j\right)+\hb{Q_i}{t}。
+  \end{align*}
+  これらを正準変換を定義する恒等式に代入し、$\dot{q}_i$と$\dot{p}_i$の係数を比較すると、正準変換であるための条件は次のように与えられる：
+  \begin{align*}
+    p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i}&=0\quad(i=1,\dots,f),\\
+    \ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i}&=0\quad(i=1,\dots,f)。
+  \end{align*}
+  これらの条件には、古いHamilton関数$H$も新しいHamilton関数$K$も現れていない。すなわち、変数変換\eqref{eq:85}式が正準変換であるか否かは、その変数変換と、以上の条件を満たす母関数$W$が存在するか否かだけによって決まる。
+  
+  一方、$\dot{q}_i$にも$\dot{p}_i$にも比例しない部分を比較すると、次の等式を得る：
+  \begin{align*}
+    -H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}=0。
+  \end{align*}
+  よって、新しいHamilton関数$K$は次のように与えられる：
+  \begin{align*}
+    K=H+\ssum{i}{1}{f}P_i\hb{Q_i}{t}+\hb{W}{t}。
+  \end{align*}
+  この式は、変数変換が正準であることを判定する条件ではなく、正準変換が与えられた後に、古いHamilton関数$H$に対応する新しいHamilton関数$K$を定める関係式である。したがって、古いHamilton関数$H$を別の関数に変更すれば、それに応じて新しいHamilton関数$K$も変化するが、変数変換そのものが正準であるか否かは変化しない。
+  
+  以上より、変数変換\eqref{eq:85}式が正準変換であるか否かは、系のHamilton関数がいかなるものであるかとは関係なく決まることが示された。
+
+  \subsubsection*{(ii)}\label{Q4-17-ii}
+  \eqref{eq:85}式で表された変数変換が正準変換であるという言明は、詳しく言えば、すべての時間$t$に関してその変換が正準変換であるということを意味することを確認する。さらに、ある時間$t$においてその変換が正準であることと、別の時間$t'$においてその変換が正準であることは、変換の時間に関する連続性や滑らかさを適切に仮定して細部を除けば、独立であることを説明する。
+
+  変数変換\eqref{eq:85}式は時間$t$に陽に依存し得るため、各時刻$t$を固定すると、古い相空間から新しい相空間への写像が1つ定まる。この時刻$t$における写像を$\Phi_t$と書けば、次のように表される：
+  \begin{align*}
+    \Phi_t\colon(q_1,\dots,q_f,p_1,\dots,p_f)\longmapsto(Q_1,\dots,Q_f,P_1,\dots,P_f)。
+  \end{align*}
+  したがって、\eqref{eq:85}式で表された変数変換が正準変換であるという言明は、各時刻$t$において定まる写像$\Phi_t$が正準変換であるという意味である。すなわち、考えているすべての時刻$t$について、正準変換を定義する恒等式\eqref{eq:48}式を満たす母関数$W$と新しいHamilton関数$K$が存在しなければならない。
+  
+  ここで、ある時刻$t$における変数変換が正準であるか否かは、その時刻における変数変換の$q_i,p_i$に関する依存性によって決まる。実際、\hyperref[Q4-17-i]{(i)}で得た正準変換の条件は次のように表される：
+  \begin{align*}
+    p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i}&=0\quad(i=1,\dots,f),\\
+    \ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i}&=0\quad(i=1,\dots,f)。
+  \end{align*}
+  これらの式において、時間$t$は変数変換を特徴づけるパラメータとして現れている。したがって、ある時刻$t$においてこれらの条件が成り立つことから、別の時刻$t'$においても同じ条件が成り立つとは一般には結論出来ない。
+  
+  例えば、ある時刻$t$では変数変換が正準変換の条件を満たしていても、時間発展に伴って変換の$q_i,p_i$に関する依存性が変化すれば、別の時刻$t'$では正準変換の条件を満たさない可能性がある。変数変換が時間$t$について連続かつ滑らかであると仮定した場合、近い時刻における変換も互いに近いものにはなるが、正準変換の条件が自動的に保存されるわけではない。
+  
+  よって、\eqref{eq:85}式で与えられる時間に依存した変数変換が正準変換であるというためには、すべての時刻$t$において変換が正準変換の条件を満たす必要がある。また、ある時刻$t$において変換が正準であることと、別の時刻$t'$において変換が正準であることは、一般には独立に確認すべき条件である。
+
+  \section{正準変換：本質的な特徴づけ}\label{sec:5}
+  \subsection*{Q4-18（正準変換の本質へ、ステップ1）}\label{Q4-18}
+  \addcontentsline{toc}{subsection}{Q4-18（正準変換の本質へ、ステップ1）}
+  正準変換を定義する\eqref{eq:48}式を再び書く：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H(q_1,\dots,q_f;p_1,\dots,p_f;t)=\ssum{i}{1}{f}P_i\dot{Q}_i-K(Q_1,\dots,Q_f;P_1,\dots,P_f;t)+\bbn{W}{t}。\tag{86}\label{eq:86}
+  \end{align*}
+  \hyperref[Q4-8]{Q4-8}で行ったように、母関数$W$が古い一般座標$q_1,\dots,q_f$と古い一般運動量$p_1,\dots,p_f$と時間$t$の関数である設定で考察を進める：
+  \begin{align*}
+    W=W(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{87}\label{eq:87}
+  \end{align*}
+  \subsubsection*{(i)}\label{Q4-18-i}
+  新しい一般座標$Q_i$は古い一般座標$q_1,\dots,q_f$と古い一般運動量$p_1,\dots,p_f$と時間$t$の関数である：
+  \begin{align*}
+    Q_i=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\quad(i=1,\dots,f)。\tag{88}\label{eq:88}
+  \end{align*}
+  次の等式を確認する：
+  \begin{align*}
+    \dot{Q}_i=\ssum{j}{1}{f}\left(\hb{Q_i}{q_j}\dot{q}_j+\hb{Q_i}{p_j}\dot{p}_j\right)+\hb{Q_i}{t}。\tag{89}\label{eq:89}
+  \end{align*}
+
+  新しい一般座標$Q_i$は古い一般座標$q_1,\dots,q_f$と古い一般運動量$p_1,\dots,p_f$と時間$t$の関数であるため、その時間についての完全微分は、多変数関数の連鎖律より次のように表される：
+  \begin{align*}
+    \dot{Q}_i=\ssum{j}{1}{f}\left(\hb{Q_i}{q_j}\dot{q}_j+\hb{Q_i}{p_j}\dot{p}_j\right)+\hb{Q_i}{t}。
+  \end{align*}
+  これは\eqref{eq:89}式に他ならない。
+  
+  \subsubsection*{(ii)}\label{Q4-18-ii}
+  次の式を示す：
+  \begin{align*}
+    \ssum{i}{1}{f}\left(p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i}\right)\dot{q}_i
+    -\ssum{i}{1}{f}\left(\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i}\right)\dot{p}_i
+    -H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}=0。\tag{90}\label{eq:90}
+  \end{align*}
+
+  母関数$W$は、\eqref{eq:87}式より、古い一般座標$q_1,\dots,q_f$、古い一般運動量$p_1,\dots,p_f$、時間$t$の関数である。したがって、多変数関数の連鎖律を用いると、$W$の時間$t$についての完全微分は次のように表される：
+  \begin{align*}
+    \bbn{W}{t}=\ssum{i}{1}{f}\left(\hb{W}{q_i}\dot{q}_i+\hb{W}{p_i}\dot{p}_i\right)+\hb{W}{t}。
+  \end{align*}
+  また、\eqref{eq:89}式を用いると、\eqref{eq:86}式の右辺に現れる第1項は次のように書ける：
+  \begin{align*}
+    \ssum{i}{1}{f}P_i\dot{Q}_i
+    &=\ssum{i}{1}{f}P_i\left\{\ssum{j}{1}{f}\left(\hb{Q_i}{q_j}\dot{q}_j+\hb{Q_i}{p_j}\dot{p}_j\right)+\hb{Q_i}{t}\right\}\\
+    &=\ssum{i}{1}{f}\ssum{j}{1}{f}P_i\hb{Q_i}{q_j}\dot{q}_j+\ssum{i}{1}{f}\ssum{j}{1}{f}P_i\hb{Q_i}{p_j}\dot{p}_j+\ssum{i}{1}{f}P_i\hb{Q_i}{t}。
+  \end{align*}
+  ここで、第1項と第2項において和を取る添字$i,j$を互いに入れ替える。これらの添字は総和を取るためのダミー添字であるから、この置き換えによって総和の値は変化しない：
+  \begin{align*}
+    \ssum{i}{1}{f}P_i\dot{Q}_i
+    =\ssum{i}{1}{f}\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}\dot{q}_i+\ssum{i}{1}{f}\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}\dot{p}_i+\ssum{i}{1}{f}P_i\hb{Q_i}{t}。
+  \end{align*}
+  以上の式を、正準変換を定義する恒等式\eqref{eq:86}式に代入する：
+  \begin{align*}
+    \ssum{i}{1}{f}p_i\dot{q}_i-H
+    &=\ssum{i}{1}{f}\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}\dot{q}_i+\ssum{i}{1}{f}\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}\dot{p}_i+\ssum{i}{1}{f}P_i\hb{Q_i}{t}-K\\
+    &\quad+\ssum{i}{1}{f}\left(\hb{W}{q_i}\dot{q}_i+\hb{W}{p_i}\dot{p}_i\right)+\hb{W}{t}。
+  \end{align*}
+  すべての項を左辺に移項し、$\dot{q}_i$に比例する項、$\dot{p}_i$に比例する項、およびいずれにも比例しない項に分けて整理する：
+  \begin{align*}
+    &\ssum{i}{1}{f}\left(p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i}\right)\dot{q}_i
+    -\ssum{i}{1}{f}\left(\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i}\right)\dot{p}_i\\
+    &\qquad-H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}=0。
+  \end{align*}
+  以上より、\eqref{eq:90}式が示された。
+
+  \subsubsection*{(iii)}\label{Q4-18-iii}
+  \eqref{eq:90}式において、$\dot{q}_i$の係数、$\dot{p}_i$の係数、$\dot{q}_i$にも$\dot{p}_i$にも比例していないそれ以外の部分が、すべて独立にゼロになっていると結論出来る論理を精密に説明する。よって、次の等式が成り立つ：
+  \begin{alignat*}{2}
+    &\phantom{=}p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i} & &=0\quad(i=1,\dots,f),\tag{91}\label{eq:91}\\
+    &\phantom{=}\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i} & &=0\quad(i=1,\dots,f),\tag{92}\label{eq:92}\\
+    &\phantom{=}-H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t} & &=0。\tag{93}\label{eq:93}
+  \end{alignat*}
+
+  \eqref{eq:90}式は、Hamilton方程式を満たす特定の運動に沿ってのみ成り立つ等式ではなく、正準変換を定義する\eqref{eq:86}式から得られた恒等式である。したがって、ある時刻$t$における$q_i,p_i$の値を固定しても、その点を通る曲線の接ベクトルに相当する$\dot{q}_i,\dot{p}_i$は互いに独立かつ任意に選ぶことが出来る。
+  
+  ここで、\eqref{eq:90}式を簡潔に表すため、$\dot{q}_i$と$\dot{p}_i$の係数、およびそれらに依存しない部分をそれぞれ次のように置く：
+  \begin{align*}
+    A_i&=p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i},\\
+    B_i&=-\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}-\hb{W}{p_i},\\
+    C&=-H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}。
+  \end{align*}
+  この記法を用いると、\eqref{eq:90}式は次のように書ける：
+  \begin{align*}
+    \ssum{i}{1}{f}A_i\dot{q}_i+\ssum{i}{1}{f}B_i\dot{p}_i+C=0。
+  \end{align*}
+  まず、すべての$\dot{q}_i$と$\dot{p}_i$をゼロに選ぶ。このとき、上式より次の等式を得る：
+  \begin{align*}
+    C=0。
+  \end{align*}
+  次に、任意に選んだ添字$k$について、$\dot{q}_k$だけを任意の非零の値とし、それ以外の$\dot{q}_i$とすべての$\dot{p}_i$をゼロに選ぶ。すでに$C=0$が成り立つため、次の式を得る：
+  \begin{align*}
+    A_k\dot{q}_k=0。
+  \end{align*}
+  $\dot{q}_k$は任意の非零の値に選べるため、$A_k=0$でなければならない。添字$k$も任意であるから、すべての$i=1,\dots,f$について$A_i=0$が成り立つ。
+  
+  同様に、任意に選んだ添字$k$について、$\dot{p}_k$だけを任意の非零の値とし、それ以外の$\dot{p}_i$とすべての$\dot{q}_i$をゼロに選ぶ。このとき、次の式を得る：
+  \begin{align*}
+    B_k\dot{p}_k=0。
+  \end{align*}
+  $\dot{p}_k$は任意の非零の値に選べるため、$B_k=0$でなければならない。したがって、すべての$i=1,\dots,f$について$B_i=0$が成り立つ。
+  
+  以上より、$\dot{q}_i$の係数、$\dot{p}_i$の係数、およびこれらのいずれにも比例しない部分は、それぞれ独立にゼロでなければならない。したがって、次の等式を得る：
+  \begin{align*}
+    p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}-\hb{W}{q_i}&=0\quad(i=1,\dots,f),\\
+    \ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\hb{W}{p_i}&=0\quad(i=1,\dots,f),\\
+    -H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}&=0。
+  \end{align*}
+  以上より、\eqref{eq:91},\eqref{eq:92},\eqref{eq:93}式が示された。
+
+  \subsection*{Q4-19（正準変換の本質へ、ステップ2）}\label{Q4-19}
+  \addcontentsline{toc}{subsection}{Q4-19（正準変換の本質へ、ステップ2）}
+  \hyperref[Q4-18]{Q4-18}の設定で考察を続ける。このままでは、母関数$W$に関する古い変数と新しい変数の間の対称性が良くないため、対称性を良くするために、$W$に関連する関数$G$を次のように定義する：
+  \begin{align*}
+    G=2W+\ssum{i}{1}{f}(Q_iP_i-q_ip_i)。\tag{94}\label{eq:94}
+  \end{align*}
+  関数$G$を「対称化した母関数」と呼ぶことにする。
+  \subsubsection*{(i)}\label{Q4-19-i}
+  \eqref{eq:91}式から\eqref{eq:93}式が次のように書き換えられることを示す：
+  \begin{align*}
+    \hb{G}{q_i}&=p_i-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j-\hb{P_j}{q_i}Q_j\right)\quad(i=1,\dots,f),\tag{95}\label{eq:95}\\
+    \hb{G}{p_i}&=-q_i-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j-\hb{P_j}{p_i}Q_j\right)\quad(i=1,\dots,f),\tag{96}\label{eq:96}\\
+    K&=H+\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i-\hb{P_i}{t}Q_i\right)+\frac{1}{2}\hb{G}{t}。\tag{97}\label{eq:97}
+  \end{align*}
+  ここで、\eqref{eq:95}式から\eqref{eq:97}式に現れている偏微分における独立な変数の組は、依然として、古い一般座標$q_1,\dots,q_f$、古い一般運動量$p_1,\dots,p_f$、時間$t$である。
+
+  まず、\eqref{eq:95}式を示す。対称化した母関数$G$の定義\eqref{eq:94}式を$q_i$で偏微分する：
+  \begin{align*}
+    \hb{G}{q_i}
+    &=2\hb{W}{q_i}+\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j+Q_j\hb{P_j}{q_i}\right)-p_i。
+  \end{align*}
+  ここで、\eqref{eq:91}式より、母関数$W$の偏微分は次のように表される：
+  \begin{align*}
+    \hb{W}{q_i}=p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}。
+  \end{align*}
+  これを上式に代入する：
+  \begin{align*}
+    \hb{G}{q_i}
+    &=2\left(p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}\right)+\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j+Q_j\hb{P_j}{q_i}\right)-p_i\\
+    &=p_i-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j-\hb{P_j}{q_i}Q_j\right)\quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:95}式が示された。
+  次に、\eqref{eq:96}式を示す。\eqref{eq:94}式を$p_i$で偏微分する：
+  \begin{align*}
+    \hb{G}{p_i}
+    &=2\hb{W}{p_i}+\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j+Q_j\hb{P_j}{p_i}\right)-q_i。
+  \end{align*}
+  ここで、\eqref{eq:92}式より、母関数$W$の偏微分は次のように表される：
+  \begin{align*}
+    \hb{W}{p_i}=-\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}。
+  \end{align*}
+  これを上式に代入する：
+  \begin{align*}
+    \hb{G}{p_i}
+    &=-2\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}+\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j+Q_j\hb{P_j}{p_i}\right)-q_i\\
+    &=-q_i-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j-\hb{P_j}{p_i}Q_j\right)\quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:96}式が示された。
+  最後に、\eqref{eq:97}式を示す。\eqref{eq:94}式を、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$を固定して時間$t$で偏微分する：
+  \begin{align*}
+    \hb{G}{t}=2\hb{W}{t}+\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i+Q_i\hb{P_i}{t}\right)。
+  \end{align*}
+  したがって、$\hb{W}{t}$は次のように表される：
+  \begin{align*}
+    \hb{W}{t}=\frac{1}{2}\hb{G}{t}-\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i+Q_i\hb{P_i}{t}\right)。
+  \end{align*}
+  また、\eqref{eq:93}式を$K$について解く：
+  \begin{align*}
+    K=H+\ssum{i}{1}{f}P_i\hb{Q_i}{t}+\hb{W}{t}。
+  \end{align*}
+  ここに上で得た$\hb{W}{t}$を代入する：
+  \begin{align*}
+    K
+    &=H+\ssum{i}{1}{f}P_i\hb{Q_i}{t}+\frac{1}{2}\hb{G}{t}-\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i+Q_i\hb{P_i}{t}\right)\\
+    &=H+\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i-\hb{P_i}{t}Q_i\right)+\frac{1}{2}\hb{G}{t}。
+  \end{align*}
+  よって、\eqref{eq:97}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-19-ii}
+  次の論理の鎖を確認する：
+  \begin{align*}
+    \text{\parbox{0.83\linewidth}{
+      「古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数
+      $Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であるならば、
+      \eqref{eq:95}式と\eqref{eq:96}式を満たす関数
+      $G=G(q_1,\dots,q_f;p_1,\dots,p_f;t)$が存在する。
+      そして、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$の動力学を記述する
+      Hamilton関数$H$と、新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の
+      動力学を記述するHamilton関数$K$は、\eqref{eq:97}式により結びついている。」。
+    }}\tag{98}\label{eq:98}
+  \end{align*}
+
+  古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であるとする。正準変換の定義より、\eqref{eq:86}式を満たす母関数$W=W(q_1,\dots,q_f;p_1,\dots,p_f;t)$が存在する。
+  この母関数$W$を用いて、関数$G$を\eqref{eq:94}式によって定義する：
+  \begin{align*}
+    G=2W+\ssum{i}{1}{f}(Q_iP_i-q_ip_i)。
+  \end{align*}
+  \hyperref[Q4-19-i]{(i)}で示したように、正準変換の定義から得られる\eqref{eq:91}式から\eqref{eq:93}式を用いると、この関数$G$は\eqref{eq:95}式と\eqref{eq:96}式を満たす。また、古いHamilton関数$H$と新しいHamilton関数$K$は\eqref{eq:97}式によって結びついている。
+  したがって、古い変数から新しい変数への変数変換が正準変換であるならば、\eqref{eq:95}式と\eqref{eq:96}式を満たす関数$G$が存在し、Hamilton関数$H$と$K$は\eqref{eq:97}式によって結びついている。以上より、\eqref{eq:98}の論理の鎖が確認された。
+
+  \subsubsection*{(iii)}\label{Q4-19-iii}
+  次の逆向きの論理の鎖を確認する：
+  \begin{align*}
+    \text{\parbox{0.83\linewidth}{
+      「関数$G=G(q_1,\dots,q_f;p_1,\dots,p_f;t)$が与えられて、古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が可逆であり、かつ、\eqref{eq:95}式と\eqref{eq:96}式を満たすならば、この変数変換は正準変換である。そして、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$の動力学を記述するHamilton関数$H$と新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の動力学を記述するHamilton関数$K$は\eqref{eq:97}式により結びついている。」。
+    }}\tag{99}\label{eq:99}
+  \end{align*}
+
+  \hyperref[Q4-19-ii]{(ii)}と反対に、関数$G=G(q_1,\dots,q_f;p_1,\dots,p_f;t)$が与えられ、可逆な変数変換が\eqref{eq:95}式と\eqref{eq:96}式を満たすと仮定する。この関数$G$を用いて、母関数$W$を\eqref{eq:94}式から次のように定義する：
+  \begin{align*}
+    W=\frac{1}{2}\left\{G-\ssum{i}{1}{f}(Q_iP_i-q_ip_i)\right\}。
+  \end{align*}
+  まず、この式を$q_i$で偏微分する：
+  \begin{align*}
+    \hb{W}{q_i}
+    &=\frac{1}{2}\left\{\hb{G}{q_i}-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j+Q_j\hb{P_j}{q_i}\right)+p_i\right\}。
+  \end{align*}
+  ここに\eqref{eq:95}式を代入する：
+  \begin{align*}
+    \hb{W}{q_i}
+    &=\frac{1}{2}\left[p_i-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j-\hb{P_j}{q_i}Q_j\right)-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j+Q_j\hb{P_j}{q_i}\right)+p_i\right]\\
+    &=p_i-\ssum{j}{1}{f}P_j\hb{Q_j}{q_i}\quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:91}式が成り立つ。
+  次に、母関数$W$を$p_i$で偏微分する：
+  \begin{align*}
+    \hb{W}{p_i}
+    &=\frac{1}{2}\left\{\hb{G}{p_i}-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j+Q_j\hb{P_j}{p_i}\right)+q_i\right\}。
+  \end{align*}
+  ここに\eqref{eq:96}式を代入する：
+  \begin{align*}
+    \hb{W}{p_i}
+    &=\frac{1}{2}\left[-q_i-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j-\hb{P_j}{p_i}Q_j\right)-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j+Q_j\hb{P_j}{p_i}\right)+q_i\right]\\
+    &=-\ssum{j}{1}{f}P_j\hb{Q_j}{p_i}\quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:92}式が成り立つ。
+  また、母関数$W$を、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$を固定して時間$t$で偏微分する：
+  \begin{align*}
+    \hb{W}{t}=\frac{1}{2}\hb{G}{t}-\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i+Q_i\hb{P_i}{t}\right)。
+  \end{align*}
+  一方、古いHamilton関数$H$と新しいHamilton関数$K$が\eqref{eq:97}式によって結びついていると仮定している：
+  \begin{align*}
+    K=H+\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i-\hb{P_i}{t}Q_i\right)+\frac{1}{2}\hb{G}{t}。
+  \end{align*}
+  上で得た$\hb{W}{t}$を用いて右辺を整理する：
+  \begin{align*}
+    K
+    &=H+\ssum{i}{1}{f}P_i\hb{Q_i}{t}+\frac{1}{2}\hb{G}{t}-\frac{1}{2}\ssum{i}{1}{f}\left(\hb{Q_i}{t}P_i+Q_i\hb{P_i}{t}\right)\\
+    &=H+\ssum{i}{1}{f}P_i\hb{Q_i}{t}+\hb{W}{t}。
+  \end{align*}
+  よって、次の式が成り立つ：
+  \begin{align*}
+    -H+K-\ssum{i}{1}{f}P_i\hb{Q_i}{t}-\hb{W}{t}=0。
+  \end{align*}
+  したがって、\eqref{eq:93}式も成り立つ。
+  以上より、母関数$W$は\eqref{eq:91}式から\eqref{eq:93}式を満たす。\hyperref[Q4-18]{Q4-18}で示した式変形を逆にたどることにより、正準変換を定義する恒等式\eqref{eq:86}式が成り立つ。さらに、変数変換は可逆であると仮定しているため、この変数変換は正準変換である。
+  よって、関数$G$が存在して変数変換が\eqref{eq:95}式と\eqref{eq:96}式を満たし、Hamilton関数$H$と$K$が\eqref{eq:97}式によって結びついているならば、その変数変換は正準変換である。以上より、\eqref{eq:99}の逆向きの論理の鎖が確認された。
+
+  小問\hyperref[Q4-19-ii]{(ii)}と\hyperref[Q4-19-iii]{(iii)}により、次のことが分かった：
+  \begin{align*}
+    \text{\parbox{0.83\linewidth}{
+      「古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であることは、変換が可逆であり、かつ、\eqref{eq:95}式と\eqref{eq:96}式を満たす関数$G=G(q_1,\dots,q_f;p_1,\dots,p_f;t)$の存在と同値である。古い正準変数のHamilton関数$H$と新しい正準変数のHamilton関数$K$は\eqref{eq:97}式により結びついている。」
+    }}\tag{100}\label{eq:100}
+  \end{align*}
+
+  一般座標と一般運動量を束ねた記述法を導入する。古い一般座標$q_1,\dots,q_f$と古い一般運動量$p_1,\dots,p_f$をこの順番に並べて変数$x_1,\dots,x_{2f}$とした上で、変数の全体を$x$と呼ぶ：
+  \begin{align*}
+    x=(x_1,\dots,x_f,x_{f+1},\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)。\tag{101}\label{eq:101}
+  \end{align*}
+  同じく、新しい一般座標$Q_1,\dots,Q_f$と新しい一般運動量$P_1,\dots,P_f$をこの順番に並べて変数$X_1,\dots,X_{2f}$とした上で、変数の全体を$X$と呼ぶ：
+  \begin{align*}
+    X=(X_1,\dots,X_f,X_{f+1},\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)。\tag{102}\label{eq:102}
+  \end{align*}
+  古い変数$x$から新しい変数$X$への変換のJacobi行列を$\hb{X}{x}$と書くことにする：
+  \begin{align*}
+    \hb{X}{x}=\underset{1\leq i,j\leq 2f}{\operatorname{mat}}\hb{X_i}{x_j}。\tag{103}\label{eq:103}
+  \end{align*}
+  ここで、$a_{ij}$を$i$行$j$列要素とする$n$次正方行列を$\underset{1\leq i,j\leq n}{\operatorname{mat}}a_{ij}$と書く記法を用いた。\eqref{eq:103}式右辺の偏微分において、独立変数は古い変数$x_1,\dots,x_{2f}$と考えられている。同じく、新しい変数$X$から古い変数$x$への変換のJacobi行列を$\hb{x}{X}$と書くことにする：
+  \begin{align*}
+    \hb{x}{X}=\underset{1\leq i,j\leq 2f}{\operatorname{mat}}\hb{x_i}{X_j}。\tag{104}\label{eq:104}
+  \end{align*}
+  \eqref{eq:104}式右辺の偏微分において、独立変数は新しい変数$X_1,\dots,X_{2f}$と考えられている。
+
+  \subsection*{Q4-20（1年生のときの実解析学の復習：2つのJacobi行列は互いに逆行列である）}\label{Q4-20}
+  \addcontentsline{toc}{subsection}{Q4-20（1年生のときの実解析学の復習：2つのJacobi行列は互いに逆行列である）}
+  上述の2つのJacobi行列$\hb{X}{x}$と$\hb{x}{X}$が互いに逆行列であることを証明する：
+  \begin{align*}
+    \hb{X}{x}\hb{x}{X}=\hb{x}{X}\hb{X}{x}=I_{2f}。\tag{105}\label{eq:105}
+  \end{align*}
+  ここで、$I_{2f}$は$2f$次単位行列である。
+
+  実際に、2つのJacobi行列の積を計算する：
+  \begin{align*}
+    \left(\hb{X}{x}\hb{x}{X}\right)_{ij}=\ssum{k}{1}{{2f}}\left(\hb{X}{x}\right)_{ik}\left(\hb{x}{X}\right)_{kj}=\ssum{k}{1}{{2f}}\hb{X_i}{x_k}\hb{x_k}{X_j}=\hb{X_i}{X_j}=\delta_{ij}。
+  \end{align*}
+  ここで、上の等式の一部分である$\ssum{k}{1}{{2f}}\hb{X_i}{x_k}\hb{x_k}{X_j}=\hb{X_i}{X_j}$は、連鎖律を逆向きに利用している。上式が意味するところは、行列の対角成分がすべて$1$であり、その他の成分がすべて$0$であるということである。ゆえに、
+  \begin{align*}
+    \hb{X}{x}\hb{x}{X}=I_{2f}。
+  \end{align*}
+  同様に、
+  \begin{align*}
+    \left(\hb{x}{X}\hb{X}{x}\right)_{ij}=\ssum{k}{1}{{2f}}\left(\hb{x}{X}\right)_{ik}\left(\hb{X}{x}\right)_{kj}=\ssum{k}{1}{{2f}}\hb{x_i}{X_k}\hb{X_k}{x_j}=\hb{x_i}{x_j}=\delta_{ij}。
+  \end{align*}
+  ゆえに、
+  \begin{align*}
+    \hb{x}{X}\hb{X}{x}=I_{2f}。
+  \end{align*}
+  以上より、\eqref{eq:105}式が示された。
+
+  これから使用するために、定数である$2f$次正方行列$J_f$をブロック行列を用いて次のように定義する：
+  \begin{align*}
+    J_f=\begin{bmatrix}0_f&I_f\\-I_f&0_f\end{bmatrix}。\tag{106}\label{eq:106}
+  \end{align*}
+  \eqref{eq:106}式において、$0_f$は$f$次のゼロ行列であり、$I_f$は$f$次の単位行列である。以下では、文脈から自由度$f$が分かる場合には、$J_f$を単に$J$と書くことがある。
+
+  \subsection*{Q4-21（行列$J_f$の基礎的性質）}\label{Q4-21}
+  \addcontentsline{toc}{subsection}{Q4-21（行列$J_f$の基礎的性質）}
+  \subsubsection*{(i)}\label{Q4-21-i}
+  次の等式を示す：
+  \begin{align*}
+    J_f^{\mathrm{t}}=J_f^{-1}=-J_f。\tag{107}\label{eq:107}
+  \end{align*}
+  ここで、$A^{\mathrm{t}}$は行列$A$の転置行列である。
+
+  まず転置の計算からする：
+  \begin{align*}
+    J_f^{\mathrm{t}}=\begin{bmatrix}0_f&I_f\\-I_f&0_f\end{bmatrix}^{\mathrm{t}}=\begin{bmatrix}0_f^{\mathrm{t}}&-I_f^{\mathrm{t}}\\I_f^{\mathrm{t}}&0_f^{\mathrm{t}}\end{bmatrix}=\begin{bmatrix}0_f&-I_f\\I_f&0_f\end{bmatrix}=-J_f。
+  \end{align*}
+  次に、逆行列を求める。$J_f^{-1}$をブロック行列を用いて次のようにおく：
+  \begin{align*}
+    J_f^{-1}=\begin{bmatrix}A&B\\C&D\end{bmatrix}。
+  \end{align*}
+  このもとで、$J_f$との積を計算する：
+  \begin{align*}
+    J_f^{-1}J_f=\begin{bmatrix}A&B\\C&D\end{bmatrix}\begin{bmatrix}0_f&I_f\\-I_f&0_f\end{bmatrix}=\begin{bmatrix}A0_f-BI_f&AI_f+B0_f\\C0_f-DI_f&CI_f+D0_f\end{bmatrix}=\begin{bmatrix}-B&A\\-D&C\end{bmatrix}=I_f。
+  \end{align*}
+  よって、$A=D=0_f,B=-I_f,C=I_f$とわかる。ゆえに、
+  \begin{align*}
+    J_f^{-1}=\begin{bmatrix}0_f&-I_f\\I_f&0_f\end{bmatrix}=-J_f。
+  \end{align*}
+  \eqref{eq:107}式が示された。
+
+
+  \subsubsection*{(ii)}\label{Q4-21-ii}
+  次の等式を示す：
+  \begin{align*}
+    \det J_f=1。\tag{108}\label{eq:108}
+  \end{align*}
+
+  行列式の性質として、行を入れ替えた行列の行列式は元の行列の行列式の符号を変えたものになる。行列$J_f$に対して$k$行と$k+f$行の入れ替えを$k=1,\dots,f$に対して行う。このとき、入れ替えの回数は$f$回であるため、得られる行列$\begin{bmatrix}-I_f&0_f\\0_f&I_f\end{bmatrix}$の行列式は、もとの行列式の$(-1)^f$倍である。ゆえに、
+  \begin{align*}
+    \det J_f = (-1)^f \det \begin{bmatrix}-I_f&0_f\\0_f&I_f\end{bmatrix}=(-1)^f(-1)^f1^f=(-1)^{2f}=1。
+  \end{align*}
+  \eqref{eq:108}式が示された。
+
+  古い変数$x$から新しい変数$X$への変換が与えられたとき、この変換によって定まる$2f$個の関数$G_i\ (i=1,\dots,2f)$を次のように定義する：
+  \begin{align*}
+    G_i=\ssum{j}{1}{{2f}}J_{ij}x_j-\frac{1}{2}\ssum{j,k}{1}{{2f}}\left(\hb{X_j}{x_i}J_{jk}X_k-X_jJ_{jk}\hb{X_k}{x_i}\right)\quad(i=1,\dots,2f)。\tag{109}\label{eq:109}
+  \end{align*}
+
+  \subsection*{Q4-22（正準変換の本質へ、ステップ3）}\label{Q4-22}
+  \addcontentsline{toc}{subsection}{Q4-22（正準変換の本質へ、ステップ3）}
+  \hyperref[Q4-19]{Q4-19}の結論を書き直すことにより、次の命題が得られることを示す：
+  \begin{center}
+    \begin{minipage}{0.83\linewidth}
+      「古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であることは、次の2つの性質が成り立つことと同値である：
+      \begin{list}{}{
+        \setlength{\leftmargin}{2.5em}
+        \setlength{\labelwidth}{2em}
+        \setlength{\labelsep}{0.5em}
+        \setlength{\itemindent}{0pt}
+        \setlength{\listparindent}{0pt}
+        \setlength{\topsep}{0.5\baselineskip}
+        \setlength{\itemsep}{0.5\baselineskip}
+        \setlength{\parsep}{0pt}
+      }
+        \item[\textup{(i)}] 変換が可逆である：\label{Q4-22-i}
+        \begin{align*}
+          \det\hb{X}{x}\neq 0。\tag{110}\label{eq:110}
+        \end{align*}
+        \item[\textup{(ii)}] 変換から\eqref{eq:109}式によって定まる$2f$個の関数$G_i\ (i=1,\dots,2f)$について、ある関数$G$が存在して、次の等式が成り立つ：\label{Q4-22-ii}
+        \begin{align*}
+          \hb{G}{x_i}=G_i\quad(i=1,\dots,2f)。」。\tag{111}\label{eq:111}
+        \end{align*}
+      \end{list}
+    \end{minipage}
+  \end{center}
+
+  まず、変換が可逆であるという条件を書き換える。変換のJacobi行列が正則であることは、その行列式がゼロでないことと同値である。したがって、逆関数定理より、変換の逆関数が存在する、つまり変換が可逆であるための条件は次のように表される：
+  \begin{align*}
+    \det\hb{X}{x}\neq 0。
+  \end{align*}
+  よって、\hyperref[Q4-19]{Q4-19}で得られた結論\eqref{eq:100}式における変換の可逆性は、\eqref{eq:110}式により表される。
+  次に、\eqref{eq:109}式で定義された関数$G_i$が、\eqref{eq:95}式および\eqref{eq:96}式の右辺に一致することを示す。行列$J_f$の定義\eqref{eq:106}式より、その成分は次のように表される：
+  \begin{align*}
+    J_{ij}
+    =
+    \begin{cases}
+      \phantom{-}\delta_{i,j-f} & (1\leq i\leq f,\ f+1\leq j\leq 2f),\\
+      -\delta_{i-f,j} & (f+1\leq i\leq 2f,\ 1\leq j\leq f),\\
+      0 & (\text{それ以外})。
+    \end{cases}
+  \end{align*}
+  また、変数$x$と$X$の成分は、\eqref{eq:101}式および\eqref{eq:102}式より次のように対応する：
+  \begin{align*}
+    x_i=q_i,\qquad x_{f+i}=p_i,\qquad
+    X_i=Q_i,\qquad X_{f+i}=P_i
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  まず、\eqref{eq:109}式の第1項を計算する。$i=1,\dots,f$の場合には次の式を得る：
+  \begin{align*}
+    \ssum{j}{1}{{2f}}J_{ij}x_j
+    =\ssum{j}{1}{f}J_{i,f+j}x_{f+j}
+    =\ssum{j}{1}{f}\delta_{ij}p_j
+    =p_i。
+  \end{align*}
+  一方、$i=1,\dots,f$に対して添字を$f+i$とした場合には次の式を得る：
+  \begin{align*}
+    \ssum{j}{1}{{2f}}J_{f+i,j}x_j
+    =-\ssum{j}{1}{f}\delta_{ij}q_j
+    =-q_i。
+  \end{align*}
+  次に、\eqref{eq:109}式の第２項を計算する。行列$J_f$の非零の成分に注目すると、括弧内第1項は次のように書き換えられる：
+  \begin{align*}
+    \ssum{j,k}{1}{{2f}}\hb{X_j}{x_i}J_{jk}X_k
+    &=\ssum{j}{1}{f}\left(\hb{X_j}{x_i}X_{f+j}-\hb{X_{f+j}}{x_i}X_j\right)\\
+    &=\ssum{j}{1}{f}\left(\hb{Q_j}{x_i}P_j-\hb{P_j}{x_i}Q_j\right)。
+  \end{align*}
+  同様に、括弧内第2項は次のように書き換えられる：
+  \begin{align*}
+    \ssum{j,k}{1}{{2f}}X_jJ_{jk}\hb{X_k}{x_i}
+    &=\ssum{j}{1}{f}\left(Q_j\hb{P_j}{x_i}-P_j\hb{Q_j}{x_i}\right)\\
+    &=-\ssum{j}{1}{f}\left(\hb{Q_j}{x_i}P_j-\hb{P_j}{x_i}Q_j\right)。
+  \end{align*}
+  したがって、\eqref{eq:109}式の二重和を含む部分は次のように整理される：
+  \begin{align*}
+    &\frac{1}{2}\ssum{j,k}{1}{{2f}}\left(\hb{X_j}{x_i}J_{jk}X_k-X_jJ_{jk}\hb{X_k}{x_i}\right)\\
+    &\qquad=\ssum{j}{1}{f}\left(\hb{Q_j}{x_i}P_j-\hb{P_j}{x_i}Q_j\right)。
+  \end{align*}
+  以上の結果を\eqref{eq:109}式に代入する。まず、$i=1,\dots,f$では$x_i=q_i$であるため、次の式を得る：
+  \begin{align*}
+    G_i
+    =p_i-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j-\hb{P_j}{q_i}Q_j\right)
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  また、$i=1,\dots,f$について、添字を$f+i$とすれば$x_{f+i}=p_i$であるため、次の式を得る：
+  \begin{align*}
+    G_{f+i}
+    =-q_i-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j-\hb{P_j}{p_i}Q_j\right)
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  したがって、\eqref{eq:111}式を$i=1,\dots,f$の場合と$i=f+1,\dots,2f$の場合に分けると、次のようになる：
+  \begin{align*}
+    \hb{G}{x_i}=G_i
+    &\Longleftrightarrow
+    \hb{G}{q_i}
+    =p_i-\ssum{j}{1}{f}\left(\hb{Q_j}{q_i}P_j-\hb{P_j}{q_i}Q_j\right)
+    \quad(i=1,\dots,f),\\
+    \hb{G}{x_{f+i}}=G_{f+i}
+    &\Longleftrightarrow
+    \hb{G}{p_i}
+    =-q_i-\ssum{j}{1}{f}\left(\hb{Q_j}{p_i}P_j-\hb{P_j}{p_i}Q_j\right)
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  これらは、それぞれ\eqref{eq:95}式および\eqref{eq:96}式に一致する。したがって、\eqref{eq:95}式と\eqref{eq:96}式を満たす関数$G$が存在することは、\eqref{eq:109}式によって定められた$2f$個の関数$G_i$について、次の式を満たす関数$G$が存在することと同値である：
+  \begin{align*}
+    \hb{G}{x_i}=G_i\quad(i=1,\dots,2f)。
+  \end{align*}
+  \hyperref[Q4-19]{Q4-19}より、古い変数から新しい変数への変数変換が正準変換であることは、変換が可逆であり、かつ、\eqref{eq:95}式と\eqref{eq:96}式を満たす関数$G$が存在することと同値である。これらの条件を上で得た表現に書き換えると、変換が正準変換であることは、\eqref{eq:110}式と\eqref{eq:111}式がともに成り立つことと同値である。\\
+  以上より、本副節の命題が示された。
+
+  \subsection*{Q4-23（正準変換の本質へ、ステップ4：正準変換のある必要条件）}\label{Q4-23}
+  \addcontentsline{toc}{subsection}{Q4-23（正準変換の本質へ、ステップ4：正準変換のある必要条件）}
+  古い変数$x$から新しい変数$X$への変換が正準変換であるならば、次の等式が成り立つことを示す：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。\tag{112}\label{eq:112}
+  \end{align*}
+  \hyperref[Q4-22]{Q4-22}の到達地点から出発する。前提として、\eqref{eq:110}式と\eqref{eq:111}式を仮定して、\eqref{eq:112}式を導出する。
+
+  
+  \subsubsection*{(i)}\label{Q4-23-i}
+  次の等式を示す：
+  \begin{align*}
+    \frac{\partial^2G}{\partial x_i\partial x_j}
+    &=J_{ij}-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)\\
+    &\quad-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)\quad(i,j=1,\dots,2f)。\tag{113}\label{eq:113}
+  \end{align*}
+
+  \eqref{eq:111}式より、関数$G_i$は関数$G$の$x_i$による偏微分として与えられる：
+  \begin{align*}
+    G_i=\hb{G}{x_i}。
+  \end{align*}
+  したがって、\eqref{eq:109}式の両辺を$x_j$で偏微分することにより、$\frac{\partial^2G}{\partial x_i\partial x_j}$を求める。まず、\eqref{eq:109}式における総和の添字を$k,l$に書き換える：
+  \begin{align*}
+    \hb{G}{x_i}
+    =\ssum{k}{1}{{2f}}J_{ik}x_k-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}X_l-X_kJ_{kl}\hb{X_l}{x_i}\right)。
+  \end{align*}
+  ここで、行列$J_f$は定数行列であるため、$J_{ik}$および$J_{kl}$の偏微分はゼロである。上式を$x_j$で偏微分し、積の微分を用いる：
+  \begin{align*}
+    \frac{\partial^2G}{\partial x_i\partial x_j}
+    &=\ssum{k}{1}{{2f}}J_{ik}\hb{x_k}{x_j}\\
+    &\quad-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l+\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}\right)\\
+    &\quad+\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}+X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)。
+  \end{align*}
+  独立変数$x_1,\dots,x_{2f}$について$\hb{x_k}{x_j}=\delta_{kj}$が成り立つため、第1項は次のようになる：
+  \begin{align*}
+    \ssum{k}{1}{{2f}}J_{ik}\hb{x_k}{x_j}
+    =\ssum{k}{1}{{2f}}J_{ik}\delta_{kj}
+    =J_{ij}。
+  \end{align*}
+  これを代入し、2階偏微分を含む項と1階偏微分の積を含む項に分けて整理する：
+  \begin{align*}
+    \frac{\partial^2G}{\partial x_i\partial x_j}
+    &=J_{ij}-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)\\
+    &\quad-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)\\
+    &\hspace{9cm}(i,j=1,\dots,2f)。
+  \end{align*}
+  以上より、\eqref{eq:113}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-23-ii}
+  次の等式を示す：
+  \begin{align*}
+    J_{ij}=\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)。\tag{114}\label{eq:114}
+  \end{align*}
+
+  \eqref{eq:113}式を、添字$i$と$j$の交換について対称な部分と反対称な部分に分解する。まず、関数$G$は必要な回数だけ連続偏微分可能であるとする。このとき、偏微分の交換可能性より、左辺は$i$と$j$の交換について対称である：
+  \begin{align*}
+    \frac{\partial^2G}{\partial x_i\partial x_j}
+    =\frac{\partial^2G}{\partial x_j\partial x_i}。
+  \end{align*}
+  また、2階偏微分を含む次の項も、$i$と$j$を交換しても変化しないため対称である：
+  \begin{align*}
+    -\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)。
+  \end{align*}
+  一方、\eqref{eq:107}式より行列$J_f$は反対称行列であるため、次の関係が成り立つ：
+  \begin{align*}
+    J_{ji}=-J_{ij}。
+  \end{align*}
+  さらに、次の項も$i$と$j$を交換すると符号が反転するため、反対称である：
+  \begin{align*}
+    \ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)。
+  \end{align*}
+  したがって、任意の添字$i$と$j$について、\eqref{eq:113}式が成立するため、対称・反対称部分は独立に等式を満足する。よって、次の式を得る：
+  \begin{align*}
+    J_{ij}-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)=0。
+  \end{align*}
+  これを整理する：
+  \begin{align*}
+    J_{ij}=\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)。
+  \end{align*}
+  以上より、\eqref{eq:114}式が示された。
+
+  \subsubsection*{(iii)}\label{Q4-23-iii}
+  次の等式を示す：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}=J_f。\tag{115}\label{eq:115}
+  \end{align*}
+
+  \eqref{eq:115}式を示すには、各成分の一致を示せば良い：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\right\}_{ij}=J_{ij}。
+  \end{align*}
+  左辺を、積を取っている各行列の成分を用いて表す：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\right\}_{ij}&=\ssum{l}{1}{{2f}}\left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\right\}_{il}\left(\hb{X}{x}\right)_{lj}\\
+    &=\ssum{l}{1}{{2f}}\ssum{k}{1}{{2f}}\left(\hb{X}{x}\right)^{\mathrm{t}}_{ik}J_{kl}\left(\hb{X}{x}\right)_{lj}\\
+    &=\ssum{k,l}{1}{{2f}}\left(\hb{X}{x}\right)_{ki}J_{kl}\left(\hb{X}{x}\right)_{lj}=\ssum{k,l}{1}{{2f}}\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}\tag{*}\\
+    &=-\ssum{k,l}{1}{{2f}}\left(\hb{X}{x}\right)_{ki}J_{lk}\left(\hb{X}{x}\right)_{lj}\quad(\because J_fは反対称)\\
+    &=-\ssum{k,l}{1}{{2f}}\left(\hb{X}{x}\right)_{lj}J_{lk}\left(\hb{X}{x}\right)_{ki}\\
+    &=-\ssum{k,l}{1}{{2f}}\left(\hb{X}{x}\right)_{kj}J_{kl}\left(\hb{X}{x}\right)_{li}=-\ssum{k,l}{1}{{2f}}\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\tag{**}。\\
+    \quad(i,j=1,\dots,2f)
+  \end{align*}
+  ここで、最右辺において、総和を取るためのダミー添字$k$と$l$を交換してもよいことを用いた。(*),(**)式を\eqref{eq:114}式に代入する：
+  \begin{align*}
+    J_{ij}&=\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)\\
+    &=\frac{1}{2}\left[\left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\right\}_{ij}+\left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\right\}_{ij}\right]\\
+    &=\left\{\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\right\}_{ij}。
+  \end{align*}
+  よって、各成分が一致するため、
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}=J_f。
+  \end{align*}
+  以上より、\eqref{eq:115}式が示された。
+
+  \subsubsection*{(iv)}\label{Q4-23-iv}
+  \eqref{eq:112}式を示す。
+
+  \eqref{eq:115}式の両辺を転置する：
+  \begin{align*}
+    \hb{X}{x}J_f^{\mathrm{t}}\left(\hb{X}{x}\right)^{\mathrm{t}}&=J_f^{\mathrm{t}}\\
+    \therefore \hb{X}{x}\left(-J_f\right)\left(\hb{X}{x}\right)^{\mathrm{t}}&=-J_f\\
+    \therefore -\hb{X}{x}J_f\left(\hb{X}{x}\right)^{\mathrm{t}}&=-J_f\\
+    \therefore \hb{X}{x}J_f\left(\hb{X}{x}\right)^{\mathrm{t}}&=J_f。
+  \end{align*}
+  よって、\eqref{eq:112}式が示された。
+
+  \subsection*{Q4-24（正準変換の本質へ、ステップ4：Q4-23で考察した正準変換の必要条件は十分条件でもある）}\label{Q4-24}
+  \addcontentsline{toc}{subsection}{Q4-24（正準変換の本質へ、ステップ4：Q4-23で考察した正準変換の必要条件は十分条件でもある）}
+  \hyperref[Q4-23]{Q4-23}において導出した条件\eqref{eq:112}式を仮定して、古い変数$x$から新しい変数$X$への変換が正準変換であることを導く。
+  \subsubsection*{(i)}\label{Q4-24-i}
+  変換が可逆であることを示す：
+  \begin{align*}
+    \det\hb{X}{x}\neq 0。\tag{116}\label{eq:116}
+  \end{align*}
+
+  \eqref{eq:112}式の両辺の行列式を取る：
+  \begin{align*}
+    \det\left\{\left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}=\det J_f。
+  \end{align*}
+  行列式の積に関する性質と、転置しても行列式の値は変わらないことを用いる：
+  \begin{align*}
+    \det\left(\hb{X}{x}\right)\det J_f\det\left\{\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}
+    &=\det J_f\\
+    \left\{\det\left(\hb{X}{x}\right)\right\}^2\det J_f
+    &=\det J_f。
+  \end{align*}
+  ここで、\eqref{eq:108}式より$\det J_f=1$であるため、次の式を得る：
+  \begin{align*}
+    \left\{\det\left(\hb{X}{x}\right)\right\}^2=1。
+  \end{align*}
+  したがって、Jacobi行列の行列式は次の値を取る：
+  \begin{align*}
+    \det\hb{X}{x}=\pm1。
+  \end{align*}
+  特に、Jacobi行列の行列式はゼロではない：
+  \begin{align*}
+    \det\hb{X}{x}\neq0。
+  \end{align*}
+  よって、逆関数定理より、変換は局所的に可逆である。以上より、\eqref{eq:116}式が示された。
+  
+  \subsubsection*{(ii)}\label{Q4-24-ii}
+  \hyperref[Q4-23]{Q4-23}での式変形を逆にたどって、\eqref{eq:114}式を導く。
+
+  次に、仮定した\eqref{eq:112}式から\eqref{eq:114}式を導く。まず、\hyperref[Q4-24-i]{(i)}よりJacobi行列$\hb{X}{x}$は正則であるため、逆行列を持つ。\eqref{eq:112}式の両辺の逆行列を取る：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}^{-1}=J_f^{-1}。
+  \end{align*}
+  行列の積の逆行列では積の順序が逆になるため、次のように書き換えられる：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}^{-1}J_f^{-1}\left(\hb{X}{x}\right)^{-1}=J_f^{-1}。
+  \end{align*}
+  ここで、\eqref{eq:107}式より$J_f^{-1}=-J_f$である。これを代入して両辺に$-1$を掛ける：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}^{-1}J_f\left(\hb{X}{x}\right)^{-1}=J_f。
+  \end{align*}
+  この式の左から$\left(\hb{X}{x}\right)^{\mathrm{t}}$を、右から$\hb{X}{x}$を掛ける：
+  \begin{align*}
+    J_f=\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}。
+  \end{align*}
+  したがって、次の等式を得る：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}=J_f。
+  \end{align*}
+  この等式の$i$行$j$列成分を比較する：
+  \begin{align*}
+    J_{ij}=\ssum{k,l}{1}{{2f}}\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}。
+  \end{align*}
+  一方、行列$J_f$の反対称性、ダミー添字の交換可能性を用いると、次の式が成り立つ：
+  \begin{align*}
+    \ssum{k,l}{1}{{2f}}\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}
+    &=-\ssum{k,l}{1}{{2f}}\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}。
+  \end{align*}
+  よって、上で得た$J_{ij}$の表式は次のように書き換えられる：
+  \begin{align*}
+    J_{ij}
+    &=\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)。
+  \end{align*}
+  以上より、\eqref{eq:114}式が示された。
+
+  \subsubsection*{(iii)}\label{Q4-24-iii}
+  $\hb{G_i}{x_j}$が\eqref{eq:113}式の右辺により与えられることを確かめた上で、\eqref{eq:114}式を用いて、次の式を示す：
+  \begin{align*}
+    \hb{G_i}{x_j}=-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)。\tag{117}\label{eq:117}
+  \end{align*}
+
+  \eqref{eq:109}式で定義された関数$G_i$を$x_j$で偏微分する。まず、第1項については、$\hb{x_k}{x_j}=\delta_{kj}$より次の式を得る：
+  \begin{align*}
+    \hb{}{x_j}\left(\ssum{k}{1}{{2f}}J_{ik}x_k\right)
+    =\ssum{k}{1}{{2f}}J_{ik}\delta_{kj}
+    =J_{ij}。
+  \end{align*}
+  次に、二重和を含む項を積の微分によって偏微分する。行列$J_f$は定数行列であることに注意すると、次の式を得る：
+  \begin{align*}
+    \hb{G_i}{x_j}
+    &=J_{ij}-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)\\
+    &\quad-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\hb{X_k}{x_i}J_{kl}\hb{X_l}{x_j}-\hb{X_k}{x_j}J_{kl}\hb{X_l}{x_i}\right)。
+  \end{align*}
+  これは、\eqref{eq:113}式の右辺と同じ表式である。ここに\eqref{eq:114}式を代入すると、第1項と第3項が消える：
+  \begin{align*}
+    \hb{G_i}{x_j}
+    &=-\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)。
+  \end{align*}
+  以上より、\eqref{eq:117}式が示された。
+
+  \subsubsection*{(iv)}\label{Q4-24-iv}
+  次の等式を示す：
+  \begin{align*}
+    \hb{G_i}{x_j}=\hb{G_j}{x_i}\quad(i,j=1,\dots,2f)。\tag{118}\label{eq:118}
+  \end{align*}
+
+  \eqref{eq:117}式の右辺において、添字$i$と$j$は$X_k$および$X_l$の混合偏微分にのみ現れている。関数$X_k$と$X_l$は必要な回数だけ連続偏微分可能であるとすると、偏微分の交換可能性より次の等式が成り立つ：
+  \begin{align*}
+    \frac{\partial^2X_k}{\partial x_i\partial x_j}
+    =\frac{\partial^2X_k}{\partial x_j\partial x_i},\qquad
+    \frac{\partial^2X_l}{\partial x_i\partial x_j}
+    =\frac{\partial^2X_l}{\partial x_j\partial x_i}。
+  \end{align*}
+  したがって、\eqref{eq:117}式の右辺は$i$と$j$の交換について対称である。よって、次の等式を得る：
+  \begin{align*}
+    \hb{G_i}{x_j}
+    &= -\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_i\partial x_j}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_i\partial x_j}\right)\\
+    &= -\frac{1}{2}\ssum{k,l}{1}{{2f}}\left(\frac{\partial^2X_k}{\partial x_j\partial x_i}J_{kl}X_l-X_kJ_{kl}\frac{\partial^2X_l}{\partial x_j\partial x_i}\right)\\
+    &=\hb{G_j}{x_i}\quad(i,j=1,\dots,2f)。
+  \end{align*}
+  以上より、\eqref{eq:118}式が示された。
+
+  \subsubsection*{(v)}\label{Q4-24-v}
+  次の\hyperref[Q4-25]{Q4-25}で証明する「一般化されたGreenの定理」を今は認めて、次の等式を満たす関数$G$が存在することを確認する：
+  \begin{align*}
+    G_i=\hb{G}{x_i}\quad(i=1,\dots,2f)。\tag{119}\label{eq:119}
+  \end{align*}
+
+  \hyperref[Q4-24-iv]{(iv)}より、\eqref{eq:109}式によって定められた関数$G_i$は次の条件を満たす：
+  \begin{align*}
+    \hb{G_i}{x_j}=\hb{G_j}{x_i}\quad(i,j=1,\dots,2f)。
+  \end{align*}
+  ここで、変数$x=(x_1,\dots,x_{2f})$が属する領域は単連結であり、関数$G_i$は必要な回数だけ連続偏微分可能であるとする。このとき、\hyperref[Q4-25]{Q4-25}で証明する一般化されたGreenの定理を、$n=2f$および$V_i=G_i$として適用できる。
+  したがって、ある関数$G=G(x_1,\dots,x_{2f};t)$が存在して、次の等式が成り立つ：
+  \begin{align*}
+    G_i=\hb{G}{x_i}\quad(i=1,\dots,2f)。
+  \end{align*}
+  ここで、時間$t$は固定されたパラメータ-として扱っている。以上より、\eqref{eq:119}式を満たす関数$G$が存在することが確認された。
+
+  \subsubsection*{(vi)}\label{Q4-24-vi}
+  古い変数$x$から新しい変数$X$への変数変換が正準変換であることを確認する。
+
+  \hyperref[Q4-24-i]{(i)}より、仮定した\eqref{eq:112}式から変換の可逆性を表す次の条件が得られた：
+  \begin{align*}
+    \det\hb{X}{x}\neq0。
+  \end{align*}
+  また、\hyperref[Q4-24-v]{(v)}より、\eqref{eq:109}式によって定められた$2f$個の関数$G_i$について、次の等式を満たす関数$G$が存在する：
+  \begin{align*}
+    \hb{G}{x_i}=G_i\quad(i=1,\dots,2f)。
+  \end{align*}
+  したがって、\hyperref[Q4-22]{Q4-22}で得た正準変換の必要十分条件である\eqref{eq:110}式と\eqref{eq:111}式がともに成り立つ。よって、古い変数$x$から新しい変数$X$への変数変換は正準変換である。
+
+  \hyperref[Q4-23]{Q4-23}と\hyperref[Q4-24]{Q4-24}によって、古い変数$x$から新しい変数$X$への変数変換が正準変換であることは、\eqref{eq:112}式が成り立つことと同値であることが確立された。
+
+  \subsection*{Q4-25（一般化されたGreenの定理）}\label{Q4-25}
+  \addcontentsline{toc}{subsection}{Q4-25（一般化されたGreenの定理）}
+  $n$次元Euclid空間の領域$D\subseteq\mathbb{R}^n$は単連結であるとする。$D$を定義域とする$n$個の関数$V_i(x)=V_i(x_1,\dots,x_n)\ (i=1,\dots,n)$が次の等式を満たすとする：
+  \begin{align*}
+    \hb{V_i}{x_j}=\hb{V_j}{x_i}\quad(x\in D\land i,j=1,2,\dots,n)。\tag{120}\label{eq:120}
+  \end{align*}
+  このとき、次の等式を満たす関数$W(x)=W(x_1,\dots,x_n)$が存在することを示す：
+  \begin{align*}
+    V_i(x)=\hb{W(x)}{x_i}\quad(x\in D\land i=1,2,\dots,n)。\tag{121}\label{eq:121}
+  \end{align*}
+
+  この定理の証明を一つ思いついたが、その証明における仮定が単連結であることよりも強い仮定になってしまっているため、証明としては不十分である。しかし、厳密な証明方法が見当たらなかったため、本問は解けていない。一応思いついた証明を記述しておく。\\
+  \hrulefill\\
+  単連結領域$D\subseteq\mathbb{R}^n$において、$n$個の関数$V_i(x)=V_i(x_1,\dots,x_n)\,(i=1,\dots,n)$が、任意の$i,j=1,\dots,n$に対して\eqref{eq:120}式を満たすとする。ここでは、基準点$a=(a_1,\dots,a_n)\in D$を固定し、任意の点$x=(x_1,\dots,x_n)\in D$に対して、
+  \begin{align*}
+    x
+    &\longrightarrow(a_1,x_2,\dots,x_n)\\
+    &\longrightarrow(a_1,a_2,x_3,\dots,x_n)\\
+    &\longrightarrow\cdots\\
+    &\longrightarrow(a_1,\dots,a_n)
+  \end{align*}
+  と各座標を順に変化させる座標軸に平行な折れ線が、すべて領域$D$内に含まれる場合を考える。このとき、関数$W(x)=W(x_1,\dots,x_n)$を次のように定義する：
+  \begin{align*}
+    W(x)&=\int_{a_1}^{x_1} V_1(x)dx_1+\int_{a_2}^{x_2} V_2(x)\Big|_{x_1=a_1} dx_2+\int_{a_3}^{x_3} V_3(x)\Big|_{x_1=a_1,x_2=a_2} dx_3+\\
+    &\phantom{=}\cdots+\int_{a_n}^{x_n} V_n(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{n-1}=a_{n-1}} dx_n。
+  \end{align*}
+  この関数$W(x)$を$x_1$について偏微分すると、次のようになる：
+  \begin{align*}
+    \hb{W(x)}{x_1}=\hb{}{x_1}\int_{a_1}^{x_1} V_1(x)dx_1=V_1(x)。
+  \end{align*}
+  次に、関数$W(x)$を$x_2$について偏微分すると、次のようになる：
+  \begin{align*}
+    \hb{W(x)}{x_2}&=\hb{}{x_2}\int_{a_1}^{x_1} V_1(x)dx_1+\hb{}{x_2}\int_{a_2}^{x_2} V_2(x)\Big|_{x_1=a_1} dx_2\\
+    &=\int_{a_1}^{x_1} \hb{V_1(x)}{x_2}dx_1+V_2(x)\Big|_{x_1=a_1}\\
+    &=\int_{a_1}^{x_1} \hb{V_2(x)}{x_1}dx_1+V_2(x)\Big|_{x_1=a_1}\\
+    &=V_2(x)-V_2(x)\Big|_{x_1=a_1}+V_2(x)\Big|_{x_1=a_1}\\
+    &=V_2(x)。
+  \end{align*}
+  同様に考えていくと、関数$W(x)$の$x_i$についての偏微分は次のようになる：
+  \begin{align*}
+    \hb{W(x)}{x_i}&=\hb{}{x_i}\int_{a_1}^{x_1} V_1(x)dx_1+\hb{}{x_i}\int_{a_2}^{x_2} V_2(x)\Big|_{x_1=a_1} dx_2+\hb{}{x_i}\int_{a_3}^{x_3} V_3(x)\Big|_{x_1=a_1,x_2=a_2} dx_3+\\
+    &\phantom{=}\cdots+\hb{}{x_i}\int_{a_i}^{x_i} V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}} dx_i\\
+    &=\int_{a_1}^{x_1} \hb{V_1}{x_i}dx_1+\int_{a_2}^{x_2} \hb{V_2}{x_i}\Big|_{x_1=a_1} dx_2+\int_{a_3}^{x_3} \hb{V_3}{x_i}\Big|_{x_1=a_1,x_2=a_2} dx_3+\\
+    &\phantom{=}\cdots+\int_{a_{i-1}}^{x_{i-1}} \hb{V_{i-1}}{x_i}\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-2}=a_{i-2}} dx_{i-1}+V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}}\\
+    &=\int_{a_1}^{x_1} \hb{V_i}{x_1}dx_1+\int_{a_2}^{x_2} \hb{V_i}{x_2}\Big|_{x_1=a_1} dx_2+\int_{a_3}^{x_3} \hb{V_i}{x_3}\Big|_{x_1=a_1,x_2=a_2} dx_3+\\
+    &\phantom{=}\cdots+\int_{a_{i-1}}^{x_{i-1}} \hb{V_i}{x_{i-1}}\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-2}=a_{i-2}} dx_{i-1}+V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}}\\
+    &=V_i(x)-V_i(x)\Big|_{x_1=a_1}+V_i(x)\Big|_{x_1=a_1}-V_i(x)\Big|_{x_1=a_1,x_2=a_2}+\\
+    &\phantom{=}+V_i(x)\Big|_{x_1=a_1,x_2=a_2}-V_i(x)\Big|_{x_1=a_1,x_2=a_2,x_3=a_3}+\\
+    &\phantom{=}\cdots+V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}}-V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}}+V_i(x)\Big|_{x_1=a_1,x_2=a_2,\dots,x_{i-1}=a_{i-1}}\\
+    &=V_i(x)。
+  \end{align*}
+  （上式で、値を代入したものの偏微分を、偏微分してから値を代入したものに交換している。今回、$n$個の変数$x_i\,(i=1,\dots,n)$はそれぞれ独立変数であるため、$V_i(x)$が十分滑らかであると仮定したもとで、交換は可能である。）得られた式は\eqref{eq:121}式そのものである。\\
+  以上より、$n$個の関数$V_i(x)=V_i(x_1,\dots,x_n)\,(i=1,\dots,n)$が\eqref{eq:120}式を満たすならば、\eqref{eq:121}式を満たす関数$W(x)=W(x_1,\dots,x_n)$が存在することが示された。\\
+  \hrulefill\\
+
+  この副節で得られた結果をまとめる：
+  \begin{framed}
+    \underline{まとめ：正準変換の本質的な特徴づけ（表現、その1）}。\\
+    自由度$f$の系において、古い変数$x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変数変換が正準変換であることは、変換のJacobi行列$\hb{X}{x}$が常に次の等式を満たすことと同値である：
+    \begin{align*}
+      \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。\tag{122}\label{eq:122}
+    \end{align*}
+    ただし、
+    \begin{align*}
+      J_f=\begin{bmatrix}0_f&I_f\\-I_f&0_f\end{bmatrix}。\tag{123}\label{eq:123}
+    \end{align*}
+  \end{framed}
+  \eqref{eq:122}式で規定される行列は「シンプレクティック実行列」（symplectic real matrix）と呼ばれる。$f$次のシンプレクティック実行列の全体は$\operatorname{Sp}(f,\mathbb{R})$と書かれ、次のように定義される：
+  \begin{align*}
+    \operatorname{Sp}(f,\mathbb{R})=\left\{S\in M(2f,\mathbb{R})\mid SJ_fS^{\mathrm{t}}=J_f\right\}。\tag{124}\label{eq:124}
+  \end{align*}
+  この定義を用いると、上述のまとめは次のように簡素に表現出来る：
+  \begin{framed}
+    \underline{まとめ：正準変換の本質的な特徴づけ（表現、その2）}。\\
+    自由度$f$の系において、古い変数$x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変数変換が正準変換であることは、変換のJacobi行列$\hb{X}{x}$が常にシンプレクティック行列であること、すなわち$\hb{X}{x}\in\operatorname{Sp}(f,\mathbb{R})$と同値である。
+  \end{framed}
+
+  \section{正準変換：幾何学的意味}\label{sec:6}
+  前副節での考察により、正準変換とは変換のJacobi行列が常にシンプレクティックである変換のことである。よって、正準変換の幾何学的意味を問うことは、変換のJacobi行列が常にシンプレクティックであることがいかなる幾何学的意味を持つかを問うことと等価である。
+
+  \subsection*{Q4-26（正準変換の幾何学的意味）}\label{Q4-26}
+  \addcontentsline{toc}{subsection}{Q4-26（正準変換の幾何学的意味）}
+  自由度$f$の系において、古い変数$x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変数変換を考える。
+  最初からこの変換を正準であるとは仮定しない。古い変数の空間の点$\mathrm{p}_0=\mathrm{p}_0(x)$が新しい変数の空間の点$\mathrm{P}_0=\mathrm{P}_0(X)$にこの変換で送られるとする。
+  古い変数の空間において、点$\mathrm{p}_0$からの座標の微小な変位を2組用意する。それらのずれを$\Delta x=(\Delta x_1,\dots,\Delta x_{2f})=(\Delta q_1,\dots,\Delta q_f,\Delta p_1,\dots,\Delta p_f)$と$\Delta x'=(\Delta x'_1,\dots,\Delta x'_{2f})=(\Delta q'_1,\dots,\Delta q'_f,\Delta p'_1,\dots,\Delta p'_f)$とする。
+  第1の変位を加えた古い空間の点を$\mathrm{p}_1=\mathrm{p}_1(x+\Delta x)$とし、第2の変位を加えた古い空間の点を$\mathrm{p}_2=\mathrm{p}_2(x+\Delta x')$とする。
+  第1と第2の変位を加えた古い空間の点$\mathrm{p}_1$と$\mathrm{p}_2$を変数変換により新しい変数の空間へ送った点を、それぞれ$\mathrm{P}_1=\mathrm{P}_1(X+\Delta X)$と$\mathrm{P}_2=\mathrm{P}_2(X+\Delta X')$とする。
+  ここで、新しい空間での座標の変位$\Delta X=(\Delta X_1,\dots,\Delta X_{2f})=(\Delta Q_1,\dots,\Delta Q_f,\Delta P_1,\dots,\Delta P_f)$と$\Delta X'=(\Delta X'_1,\dots,\Delta X'_{2f})=(\Delta Q'_1,\dots,\Delta Q'_f,\Delta P'_1,\dots,\Delta P'_f)$を導入した。
+  以下では、変位が小さい極限を考え、展開の意味のある最低次数で考察を進める。
+
+  \subsubsection*{(i)}\label{Q4-26-i}
+  新しい空間での座標の変位$\Delta X$と$\Delta X'$は、それぞれ、古い空間での座標の変位$\Delta x$と$\Delta x'$を変換のJacobi行列$\hb{X}{x}$により送ることによって得られることを確認する：
+  \begin{align*}
+    \Delta X&=\hb{X}{x}\Delta x,\tag{125}\label{eq:125}\\
+    \Delta X'&=\hb{X}{x}\Delta x'。\tag{126}\label{eq:126}
+  \end{align*}
+  ただし、$\Delta x,\Delta x',\Delta X,\Delta X'$は列ベクトルとして定義し直している。
+
+  まず、古い変数$x$から新しい変数$X$への変数変換を成分ごとに次のように表す：
+  \begin{align*}
+    X_i=X_i(x_1,\dots,x_{2f})\quad(i=1,\dots,2f)。
+  \end{align*}
+  点$x$の近傍にある点$x+\Delta x$における$X_i$を、点$x$のまわりでTaylor展開する：
+  \begin{align*}
+    X_i(x+\Delta x)
+    =X_i(x)+\ssum{j}{1}{{2f}}\hb{X_i}{x_j}\Delta x_j+O\left(\lVert\Delta x\rVert^2\right)。
+  \end{align*}
+  したがって、新しい変数の空間における変位$\Delta X_i$は、変位の1次まで取れば次のように表される：
+  \begin{align*}
+    \Delta X_i
+    =X_i(x+\Delta x)-X_i(x)
+    =\ssum{j}{1}{{2f}}\hb{X_i}{x_j}\Delta x_j
+    \quad(i=1,\dots,2f)。
+  \end{align*}
+  これを列ベクトルとJacobi行列を用いてまとめる：
+  \begin{align*}
+    \Delta X=\hb{X}{x}\Delta x。
+  \end{align*}
+  同様に、第2の変位$\Delta x'$に対してTaylor展開すると、次の式を得る：
+  \begin{align*}
+    \Delta X'=\hb{X}{x}\Delta x'。
+  \end{align*}
+  以上より、変位が小さい極限において最低次数で打ち切れば、\eqref{eq:125}式と\eqref{eq:126}式が成り立つことが示された。
+
+  \subsubsection*{(ii)}\label{Q4-26-ii}
+  $i=1,2,\dots,f$に対して、古い変数$x$の空間の3つの点$\mathrm{p}_0,\mathrm{p}_1,\mathrm{p}_2$を$(q_i,p_i)$平面に射影した点を、それぞれ$\mathrm{p}_{0i},\mathrm{p}_{1i},\mathrm{p}_{2i}$とする。$(q_i,p_i)$平面における三角形$\triangle\mathrm{p}_{0i}\mathrm{p}_{1i}\mathrm{p}_{2i}$の符号付き面積$\Delta s_i$が次のように与えられることを示す：
+  \begin{align*}
+    \Delta s_i=\frac{1}{2}\left(\Delta q_i\Delta p'_i-\Delta p_i\Delta q'_i\right)\quad(i=1,2,\dots,f)。\tag{127}\label{eq:127}
+  \end{align*}
+  また、この符号付き面積の符号がどのように定められているかを説明する。
+
+  $(q_i,p_i)$平面へ射影した点$\mathrm{p}_{0i},\mathrm{p}_{1i},\mathrm{p}_{2i}$を考える。点$\mathrm{p}_{0i}$を始点とする2つの辺に対応する変位ベクトルは、それぞれ次のように表される：
+  \begin{align*}
+    \begin{bmatrix}
+      \Delta q_i\\
+      \Delta p_i
+    \end{bmatrix},
+    \qquad
+    \begin{bmatrix}
+      \Delta q'_i\\
+      \Delta p'_i
+    \end{bmatrix}。
+  \end{align*}
+  これらを列ベクトルとする$2$次正方行列の行列式の絶対値は、2つの変位ベクトルが張る平行四辺形の面積を与える。したがって、三角形$\triangle\mathrm{p}_{0i}\mathrm{p}_{1i}\mathrm{p}_{2i}$の符号付き面積は、その半分として次のように与えられる：
+  \begin{align*}
+    \Delta s_i
+    &=\frac{1}{2}
+    \det\begin{bmatrix}
+      \Delta q_i&\Delta q'_i\\
+      \Delta p_i&\Delta p'_i
+    \end{bmatrix}\\
+    &=\frac{1}{2}\left(\Delta q_i\Delta p'_i-\Delta p_i\Delta q'_i\right)
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:127}式が示された。\\
+  この符号は、$(q_i,p_i)$平面の向きを$q_i$軸から$p_i$軸へ向かう向きによって定めている。第1の変位$(\Delta q_i,\Delta p_i)$から第2の変位$(\Delta q'_i,\Delta p'_i)$へ向かう回転が、この向きと一致する場合には$\Delta s_i>0$となり、反対向きの場合には$\Delta s_i<0$となる。また、2つの変位ベクトルが平行な場合には$\Delta s_i=0$となる。
+
+  古い変数$x$の空間において、$i=1,2,\dots,f$に対する$(q_i,p_i)$平面での符号付き面積$\Delta s_i$の総和を$\Delta s$とする：
+  \begin{align*}
+    \Delta s=\ssum{i}{1}{f}\Delta s_i=\frac{1}{2}\ssum{i}{1}{f}\left(\Delta q_i\Delta p'_i-\Delta p_i\Delta q'_i\right)。\tag{128}\label{eq:128}
+  \end{align*}
+  新しい変数$X$の空間において、同様の作業を行う。$i=1,2,\dots,f$に対して、新しい変数$X$の空間の3つの点$\mathrm{P}_0,\mathrm{P}_1,\mathrm{P}_2$を$(Q_i,P_i)$平面に射影した点を、それぞれ$\mathrm{P}_{0i},\mathrm{P}_{1i},\mathrm{P}_{2i}$とする。$(Q_i,P_i)$平面における三角形$\triangle\mathrm{P}_{0i}\mathrm{P}_{1i}\mathrm{P}_{2i}$の符号付き面積$\Delta S_i$は次のようになる：
+  \begin{align*}
+    \Delta S_i=\frac{1}{2}\left(\Delta Q_i\Delta P'_i-\Delta P_i\Delta Q'_i\right)\quad(i=1,\dots,f)。\tag{129}\label{eq:129}
+  \end{align*}
+  新しい変数$X$の空間において、$i=1,2,\dots,f$に対する$(Q_i,P_i)$平面での符号付き面積$\Delta S_i$の総和を$\Delta S$とする：
+  \begin{align*}
+    \Delta S=\ssum{i}{1}{f}\Delta S_i=\frac{1}{2}\ssum{i}{1}{f}\left(\Delta Q_i\Delta P'_i-\Delta P_i\Delta Q'_i\right)。\tag{130}\label{eq:130}
+  \end{align*}
+  \subsubsection*{(iii)}\label{Q4-26-iii}
+  常に$\Delta s=\Delta S$が成り立つことが、古い変数$x$から新しい変数$X$への変数変換が正準変換であることと同値であることを証明する：
+  \begin{align*}
+    \Delta s=\Delta S
+    &\Longleftrightarrow
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f\\
+    &\Longleftrightarrow
+    「\text{変数変換$x\longrightarrow X$は正準変換である}。」。\tag{131}\label{eq:131}
+  \end{align*}
+
+  まず、符号付き面積の総和$\Delta s$と$\Delta S$を、行列$J_f$を用いて表す。変位を次の列ベクトルとして並べる：
+  \begin{align*}
+    \Delta x
+    &=(\Delta q_1,\dots,\Delta q_f,\Delta p_1,\dots,\Delta p_f)^{\mathrm{t}},\\
+    \Delta x'
+    &=(\Delta q'_1,\dots,\Delta q'_f,\Delta p'_1,\dots,\Delta p'_f)^{\mathrm{t}}。
+  \end{align*}
+  行列$J_f$の定義\eqref{eq:106}式より、次の式が成り立つ：
+  \begin{align*}
+    \Delta x^{\mathrm{t}}J_f\Delta x'
+    &=\begin{bmatrix}
+      \Delta q^{\mathrm{t}}&\Delta p^{\mathrm{t}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      0_f&I_f\\
+      -I_f&0_f
+    \end{bmatrix}
+    \begin{bmatrix}
+      \Delta q'\\
+      \Delta p'
+    \end{bmatrix}\\
+    &=\Delta q^{\mathrm{t}}\Delta p'-\Delta p^{\mathrm{t}}\Delta q'\\
+    &=\ssum{i}{1}{f}\left(\Delta q_i\Delta p'_i-\Delta p_i\Delta q'_i\right)。
+  \end{align*}
+  したがって、\eqref{eq:128}式は次のように書ける：
+  \begin{align*}
+    \Delta s=\frac{1}{2}\Delta x^{\mathrm{t}}J_f\Delta x'。
+  \end{align*}
+  同様に、新しい変数の空間における符号付き面積の総和は次のように書ける：
+  \begin{align*}
+    \Delta S=\frac{1}{2}\Delta X^{\mathrm{t}}J_f\Delta X'。
+  \end{align*}
+  ここで、\eqref{eq:125}式と\eqref{eq:126}式を代入する：
+  \begin{align*}
+    \Delta S
+    &=\frac{1}{2}\left(\hb{X}{x}\Delta x\right)^{\mathrm{t}}J_f\left(\hb{X}{x}\Delta x'\right)\\
+    &=\frac{1}{2}\Delta x^{\mathrm{t}}\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\Delta x'。
+  \end{align*}
+  したがって、任意の変位$\Delta x,\Delta x'$に対して$\Delta s=\Delta S\iff \Delta x^{\mathrm{t}}J_f\Delta x'=\Delta x^{\mathrm{t}}\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\Delta x'$が成り立つための必要十分条件は、変換のJacobi行列$\hb{X}{x}$が次の等式を満たすことである：
+  \begin{align*}
+    J_f=\left(\hb{X}{x}\right)^{\mathrm{t}}J_f\hb{X}{x}\iff \hb{X}{x}J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  \eqref{eq:122}式より、上式の成立は変数変換$x\longrightarrow X$が正準変換であることと同値である。よって、\eqref{eq:131}式の同値関係が示された。
+
+  微分形式による記法を用いれば、上述の条件$\Delta s=\Delta S$は簡素に表現出来る。古い変数$x$の空間での2-形式$\omega$と新しい変数$X$の空間での2-形式$\Omega$を次のように用意する：
+  \begin{align*}
+    \omega=\ssum{i}{1}{f}dq_i\wedge dp_i,\qquad \Omega=\ssum{i}{1}{f}dQ_i\wedge dP_i。\tag{132}\label{eq:132}
+  \end{align*}
+  古い変数$x$から新しい変数$X$への変換を$X=\phi(x)$とする。このとき、条件$\Delta s=\Delta S$は次の式と同値である：
+  \begin{align*}
+    \phi^*\Omega=\omega。\tag{133}\label{eq:133}
+  \end{align*}
+  ここで、$\phi^*$は写像$\phi$による微分形式の引き戻し（pullback）である。つまり、\eqref{eq:133}式が写像$\phi\colon x\longrightarrow X$が正準であることと同値になる。
+
+  \section{シンプレクティック行列の代数}\label{sec:7}
+  \subsection*{Q4-27（シンプレクティック行列は群をつくる）}\label{Q4-27}
+  \addcontentsline{toc}{subsection}{Q4-27（シンプレクティック行列は群をつくる）}
+  $f$次のシンプレクティック行列の全体$\operatorname{Sp}(f,\mathbb{R})$は群（group）をなすことを示す。
+
+  $\operatorname{Sp}(f,\mathbb{R})$が行列の積について群をなすことを示す。そのために、群の公理：[1]結合法則、[2]積についての閉性、[3]単位元の存在、[4]逆元の存在を順に確認する。
+
+  [1]第一に、行列の積は一般に結合法則を満たすため、任意の$R,S,T\in\operatorname{Sp}(f,\mathbb{R})$について次の等式が成り立つ：
+  \begin{align*}
+    (RS)T=R(ST)。
+  \end{align*}
+  したがって、$\operatorname{Sp}(f,\mathbb{R})$における演算も結合法則を満たす。
+
+  [2]第二に、行列の積についての閉性を示す。任意の$S,T\in\operatorname{Sp}(f,\mathbb{R})$を取る。シンプレクティック行列の定義\eqref{eq:124}式より、次の等式が成り立つ：
+  \begin{align*}
+    SJ_fS^{\mathrm{t}}=J_f,\qquad TJ_fT^{\mathrm{t}}=J_f。
+  \end{align*}
+  積$ST$について、定義式の左辺を計算する。転置行列の積では順序が逆になることを用いる：
+  \begin{align*}
+    (ST)J_f(ST)^{\mathrm{t}}
+    &=(ST)J_f(T^{\mathrm{t}}S^{\mathrm{t}})\\
+    &=S(TJ_fT^{\mathrm{t}})S^{\mathrm{t}}\\
+    &=SJ_fS^{\mathrm{t}}\\
+    &=J_f。
+  \end{align*}
+  したがって、積$ST$もシンプレクティック行列である：
+  \begin{align*}
+    S,T\in\operatorname{Sp}(f,\mathbb{R})
+    \Longrightarrow
+    ST\in\operatorname{Sp}(f,\mathbb{R})。
+  \end{align*}
+  よって、$\operatorname{Sp}(f,\mathbb{R})$は行列の積について閉じている。
+
+  [3]第三に、$2f$次単位行列$I_{2f}$がシンプレクティック行列であることを確認する。単位行列は$I_{2f}^{\mathrm{t}}=I_{2f}$を満たすため、次の等式が成り立つ：
+  \begin{align*}
+    I_{2f}J_fI_{2f}^{\mathrm{t}}=J_f。
+  \end{align*}
+  したがって、単位行列はシンプレクティック行列である：
+  \begin{align*}
+    I_{2f}\in\operatorname{Sp}(f,\mathbb{R})。
+  \end{align*}
+  よって、$\operatorname{Sp}(f,\mathbb{R})$には行列の積に関する単位元が存在する。
+
+  [4]第四に、任意の$S\in\operatorname{Sp}(f,\mathbb{R})$に対して、その逆行列$S^{-1}$が存在し、再びシンプレクティック行列となることを示す。まず、定義式の両辺の行列式を取る：
+  \begin{align*}
+    \det(SJ_fS^{\mathrm{t}})
+    &=\det J_f\\
+    (\det S)^2\det J_f
+    &=\det J_f。
+  \end{align*}
+  \eqref{eq:108}式より$\det J_f=1$であるため、次の式を得る：
+  \begin{align*}
+    (\det S)^2=1。
+  \end{align*}
+  したがって、$\det S\neq0$であり、$S$には逆行列$S^{-1}$が存在する。\\
+  次に、定義式の両辺に、$S^{-1}$を左から、$(S^{-1})^{\mathrm{t}}$を右から掛ける：
+  \begin{align*}
+    S^{-1}SJ_fS^{\mathrm{t}}(S^{-1})^{\mathrm{t}}=S^{-1}J_f(S^{-1})^{\mathrm{t}}。
+  \end{align*}
+  $S^{-1}SJ_fS^{\mathrm{t}}(S^{-1})^{\mathrm{t}}=J_f$であるため、次の式を得る：
+  \begin{align*}
+    S^{-1}J_f(S^{-1})^{\mathrm{t}}=J_f。
+  \end{align*}
+  したがって、$S^{-1}$もシンプレクティック行列である：
+  \begin{align*}
+    S\in\operatorname{Sp}(f,\mathbb{R})
+    \Longrightarrow
+    S^{-1}\in\operatorname{Sp}(f,\mathbb{R})。
+  \end{align*}
+  以上の[1]、[2]、[3]、[4]より、群の公理を満たすため、$\operatorname{Sp}(f,\mathbb{R})$は行列の積を演算として群をなすことが示された。
+
+  \subsection*{Q4-28（シンプレクティック行列の行列式）}\label{Q4-28}
+  \addcontentsline{toc}{subsection}{Q4-28（シンプレクティック行列の行列式）}
+  シンプレクティック行列の行列式は$+1$であることを示す：
+  \begin{align*}
+    S\in\operatorname{Sp}(f,\mathbb{R})\Longrightarrow\det S=+1。\tag{134}\label{eq:134}
+  \end{align*}
+
+  まず、$S\in\operatorname{Sp}(f,\mathbb{R})$に対し、シンプレクティック行列の定義\eqref{eq:124}式より、次の等式が成り立つ：
+  \begin{align*}
+    SJ_fS^{\mathrm{t}}=J_f。
+  \end{align*}
+  この式の両辺の行列式を取る：
+  \begin{align*}
+    \det(SJ_fS^{\mathrm{t}})
+    &=\det J_f\\
+    \det S\det J_f\det S^{\mathrm{t}}
+    &=\det J_f\\
+    (\det S)^2\det J_f
+    &=\det J_f。
+  \end{align*}
+  \eqref{eq:108}式より$\det J_f=1$であるため、次の式を得る：
+  \begin{align*}
+    (\det S)^2=1。
+  \end{align*}
+  したがって、この導き方では符号が決定できない：
+  \begin{align*}
+    \det S=\pm1。
+  \end{align*}
+  反対称行列に対して定義されるPfaffianを用いる。$2f$次反対称行列$A$のPfaffianを$\operatorname{Pf}(A)$と書く。Pfaffianは、任意の$2f$次正方行列$M$と反対称行列$A$に対して、次の性質を満たす：
+  \begin{align*}
+    \operatorname{Pf}(MAM^{\mathrm{t}})
+    =\det M\,\operatorname{Pf}(A)。
+  \end{align*}
+  この性質を、シンプレクティック条件$SJ_fS^{\mathrm{t}}=J_f$に適用する：
+  \begin{align*}
+    \operatorname{Pf}(SJ_fS^{\mathrm{t}})
+    =\operatorname{Pf}(J_f)。
+  \end{align*}
+  左辺にPfaffianの性質を用いる：
+  \begin{align*}
+    \det S\,\operatorname{Pf}(J_f)
+    =\operatorname{Pf}(J_f)。
+  \end{align*}
+  行列$J_f$のPfaffianは、次の関係式を満たす：
+  \begin{align*}
+    (\operatorname{Pf}(J_f))^2=\det J_f。
+  \end{align*}
+  $\det J_f=1\neq0$であるため、$\operatorname{Pf}(J_f)\neq0$である。したがって、先ほどの等式の両辺を$\operatorname{Pf}(J_f)$で割ることが出来る：
+  \begin{align*}
+    \det S=1。
+  \end{align*}
+  以上より、任意のシンプレクティック行列の行列式は必ず$+1$である：
+  \begin{align*}
+    S\in\operatorname{Sp}(f,\mathbb{R})
+    \Longrightarrow
+    \det S=+1。
+  \end{align*}
+  よって、\eqref{eq:134}式が示された。
+
+  \subsection*{Q4-29（正準変換は相空間の体積を保存する）}\label{Q4-29}
+  \addcontentsline{toc}{subsection}{Q4-29（正準変換は相空間の体積を保存する）}
+  古い変数$x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変数変換（写像）を考える。
+  \subsubsection*{(i)}\label{Q4-29-i}
+  古い変数の空間の点$x$の周りの微小な$2f$次元領域$d$を写像により送ると、新しい変数の空間の点$X$の周りの微小な$2f$次元領域$D$になるとする。古い変数の空間の微小領域$d$の$2f$次元体積を$v$とし、新しい変数の空間の微小領域$D$の$2f$次元体積を$V$とする。$V$と$v$の比は、写像のJacobi行列$\hb{X}{x}$の行列式$\det\left(\hb{X}{x}\right)$により与えられることを示す：
+  \begin{align*}
+    V=\det\hb{X}{x}v。\tag{135}\label{eq:135}
+  \end{align*}
+
+  まず、変数変換$x\longrightarrow X$によって、点$x$のまわりの微小変位がどのように変換されるかを考える。古い変数の空間における微小領域$d$を張る$2f$本の互いに独立な微小変位ベクトルを$\Delta x^{(1)},\dots,\Delta x^{(2f)}$とする。これらを列ベクトルとして並べた行列を次のように置く：
+  \begin{align*}
+    A=\begin{bmatrix}
+      \Delta x^{(1)}&\cdots&\Delta x^{(2f)}
+    \end{bmatrix}。
+  \end{align*}
+  この微小領域の符号付き$2f$次元体積$v$は、これらの微小変位ベクトルが張る平行多面体の符号付き体積として次のように与えられる：
+  \begin{align*}
+    v=\det A。
+  \end{align*}
+  \hyperref[Q4-26-i]{Q4-26(i)}と同様に、変位の1次まで考えると、各微小変位ベクトルは変換のJacobi行列によって次のように送られる：
+  \begin{align*}
+    \Delta X^{(k)}=\hb{X}{x}\Delta x^{(k)}
+    \quad(k=1,\dots,2f)。
+  \end{align*}
+  したがって、新しい変数の空間における微小領域$D$を張る微小変位ベクトルを列として並べた行列は次のようになる：
+  \begin{align*}
+    \begin{bmatrix}
+      \Delta X^{(1)}&\cdots&\Delta X^{(2f)}
+    \end{bmatrix}
+    =\hb{X}{x}
+    \begin{bmatrix}
+      \Delta x^{(1)}&\cdots&\Delta x^{(2f)}
+    \end{bmatrix}
+    =\hb{X}{x}A。
+  \end{align*}
+  よって、新しい変数の空間における符号付き$2f$次元体積$V$は、行列式の積に関する性質より次のように与えられる：
+  \begin{align*}
+    V
+    &=\det\left(\hb{X}{x}A\right)\\
+    &=\det\hb{X}{x}\det A\\
+    &=\det\hb{X}{x}v。
+  \end{align*}
+  以上より、\eqref{eq:135}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-29-ii}
+  写像$x\longrightarrow X$が正準であるならば、$2f$次元体積$V$と$v$は一致し、相空間での体積が保存されることを示す：
+  \begin{align*}
+    x\longrightarrow X\text{：正準}
+    \Longrightarrow
+    \det\hb{X}{x}=1。\tag{136}\label{eq:136}
+  \end{align*}
+
+  写像$x\longrightarrow X$が正準変換であるとする。このとき、\eqref{eq:122}式より、変換のJacobi行列はシンプレクティック行列である：
+  \begin{align*}
+    \hb{X}{x}\in\operatorname{Sp}(f,\mathbb{R})。
+  \end{align*}
+  \hyperref[Q4-28]{Q4-28}より、任意のシンプレクティック行列の行列式は$+1$であるため、次の等式が成り立つ：
+  \begin{align*}
+    \det\hb{X}{x}=1。
+  \end{align*}
+  よって\eqref{eq:135}式より$2f$次元体積$V$と$v$は一致する。\\
+  以上より、写像$x\longrightarrow X$が正準変換であるならば、次の関係が成り立ち、相空間での体積が保存されることが示された：
+  \begin{align*}
+    x\longrightarrow X\text{：正準}
+    \Longrightarrow
+    \det\hb{X}{x}=1。
+  \end{align*}
+  これは\eqref{eq:136}式である。
+
+  \eqref{eq:136}式は「Liouvilleの定理」と呼ばれる。
+
+  \section{正準変換の本質的特徴づけを従来の記法で書く}\label{sec:8}
+  \subsection*{Q4-30（正準変換の本質的特徴づけを従来の記法で書く）}\label{Q4-30}
+  \addcontentsline{toc}{subsection}{Q4-30（正準変換の本質的特徴づけを従来の記法で書く）}
+  \subsubsection*{(i)}\label{Q4-30-i}
+  \eqref{eq:122}式が次の条件と同値であることを証明する：
+  \begin{framed}
+    \begin{align*}
+      \left\{
+        \begin{aligned}
+          \displaystyle \hb{Q_i}{q_j}-\hb{p_j}{P_i}&=0, & \hb{Q_i}{p_j}+\hb{q_j}{P_i}&=0\\
+          \displaystyle \hb{P_i}{p_j}-\hb{q_j}{Q_i}&=0, & \hb{P_i}{q_j}+\hb{p_j}{Q_i}&=0
+      \end{aligned}
+      \right.
+      \quad(i,j=1,\dots,f)。\tag{137}\label{eq:137}
+    \end{align*}
+    ここで、偏微分$\hb{}{q_i}$と$\hb{}{p_i}$における独立変数は古い変数$q_1,\dots,q_f,p_1,\dots,p_f$であり、偏微分$\hb{}{Q_i}$と$\hb{}{P_i}$における独立変数は新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$であるとする。  
+  \end{framed}
+
+  まず、古い変数$x=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変換のJacobi行列を、$f$次正方行列を成分とするブロック行列として表す：
+  \begin{align*}
+    \hb{X}{x}
+    &=
+    \begin{bmatrix}
+      \displaystyle \hb{Q}{q} & \displaystyle \hb{Q}{p}\\[2mm]
+      \displaystyle \hb{P}{q} & \displaystyle \hb{P}{p}
+    \end{bmatrix}。
+  \end{align*}
+  ここで、各ブロックの$i$行$j$列成分を次のように定義する：
+  \begin{align*}
+    \left(\hb{Q}{q}\right)_{ij}&=\hb{Q_i}{q_j},&
+    \left(\hb{Q}{p}\right)_{ij}&=\hb{Q_i}{p_j},&
+    \left(\hb{P}{q}\right)_{ij}&=\hb{P_i}{q_j},&
+    \left(\hb{P}{p}\right)_{ij}&=\hb{P_i}{p_j}。
+  \end{align*}
+  同様に、逆変換のJacobi行列は次のように表される：
+  \begin{align*}
+    \hb{x}{X}
+    &=
+    \begin{bmatrix}
+      \displaystyle \hb{q}{Q} & \displaystyle \hb{q}{P}\\[2mm]
+      \displaystyle \hb{p}{Q} & \displaystyle \hb{p}{P}
+    \end{bmatrix}。
+  \end{align*}
+  ただし、各ブロックの$i$行$j$列成分は次のとおりである：
+  \begin{align*}
+    \left(\hb{q}{Q}\right)_{ij}&=\hb{q_i}{Q_j},&
+    \left(\hb{q}{P}\right)_{ij}&=\hb{q_i}{P_j},&
+    \left(\hb{p}{Q}\right)_{ij}&=\hb{p_i}{Q_j},&
+    \left(\hb{p}{P}\right)_{ij}&=\hb{p_i}{P_j}。
+  \end{align*}
+  以下では、式を簡潔に表すため、これらのブロック行列を次のように置く：
+  \begin{align*}
+    A=\hb{Q}{q},\qquad
+    B=\hb{Q}{p},\qquad
+    C=\hb{P}{q},\qquad
+    D=\hb{P}{p}。
+  \end{align*}
+  この記法を用いると、Jacobi行列は次のように書ける：
+  \begin{align*}
+    \hb{X}{x}=
+    \begin{bmatrix}
+      A&B\\
+      C&D
+    \end{bmatrix}。
+  \end{align*}
+  正準変換の本質的な特徴づけ\eqref{eq:122}式は次のとおりである：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  \eqref{eq:107}式より$J_f^{-1}=-J_f$が成り立つため、上式からJacobi行列の逆行列を求める。まず、右から$J_f^{-1}$を掛ける：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f^{-1}
+    =I_{2f}。
+  \end{align*}
+  したがって、Jacobi行列の逆行列は次のように表される：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{-1}
+    &=J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f^{-1}\\
+    &=-J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f。
+  \end{align*}
+  ここにJacobi行列のブロック表示を代入する：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{-1}
+    &=
+    -\begin{bmatrix}
+      0_f&I_f\\
+      -I_f&0_f
+    \end{bmatrix}
+    \begin{bmatrix}
+      A^{\mathrm{t}}&C^{\mathrm{t}}\\
+      B^{\mathrm{t}}&D^{\mathrm{t}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      0_f&I_f\\
+      -I_f&0_f
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      D^{\mathrm{t}}&-B^{\mathrm{t}}\\
+      -C^{\mathrm{t}}&A^{\mathrm{t}}
+    \end{bmatrix}。
+  \end{align*}
+  一方、\eqref{eq:105}式より、Jacobi行列の逆行列は逆変換のJacobi行列に等しい：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{-1}
+    =\hb{x}{X}
+    =
+    \begin{bmatrix}
+      \displaystyle \hb{q}{Q} & \displaystyle \hb{q}{P}\\[2mm]
+      \displaystyle \hb{p}{Q} & \displaystyle \hb{p}{P}
+    \end{bmatrix}。
+  \end{align*}
+  したがって、対応するブロックを比較することにより、次の関係を得る：
+  \begin{align*}
+    \hb{q}{Q}=D^{\mathrm{t}},\qquad
+    \hb{q}{P}=-B^{\mathrm{t}},\qquad
+    \hb{p}{Q}=-C^{\mathrm{t}},\qquad
+    \hb{p}{P}=A^{\mathrm{t}}。
+  \end{align*}
+  これらを成分ごとに書く。まず、$\hb{p}{P}=A^{\mathrm{t}}$より次の式を得る：
+  \begin{align*}
+    \hb{p_j}{P_i}
+    =\left(\hb{p}{P}\right)_{ji}
+    =\left(A^{\mathrm{t}}\right)_{ji}
+    =A_{ij}
+    =\hb{Q_i}{q_j}。
+  \end{align*}
+  よって、次の関係が成り立つ：
+  \begin{align*}
+    \hb{Q_i}{q_j}-\hb{p_j}{P_i}=0。
+  \end{align*}
+  次に、$\hb{q}{P}=-B^{\mathrm{t}}$より次の式を得る：
+  \begin{align*}
+    \hb{q_j}{P_i}
+    =\left(\hb{q}{P}\right)_{ji}
+    =-\left(B^{\mathrm{t}}\right)_{ji}
+    =-B_{ij}
+    =-\hb{Q_i}{p_j}。
+  \end{align*}
+  よって、次の関係が成り立つ：
+  \begin{align*}
+    \hb{Q_i}{p_j}+\hb{q_j}{P_i}=0。
+  \end{align*}
+  また、$\hb{q}{Q}=D^{\mathrm{t}}$より次の式を得る：
+  \begin{align*}
+    \hb{q_j}{Q_i}
+    =\left(\hb{q}{Q}\right)_{ji}
+    =\left(D^{\mathrm{t}}\right)_{ji}
+    =D_{ij}
+    =\hb{P_i}{p_j}。
+  \end{align*}
+  よって、次の関係が成り立つ：
+  \begin{align*}
+    \hb{P_i}{p_j}-\hb{q_j}{Q_i}=0。
+  \end{align*}
+  最後に、$\hb{p}{Q}=-C^{\mathrm{t}}$より次の式を得る：
+  \begin{align*}
+    \hb{p_j}{Q_i}
+    =\left(\hb{p}{Q}\right)_{ji}
+    =-\left(C^{\mathrm{t}}\right)_{ji}
+    =-C_{ij}
+    =-\hb{P_i}{q_j}。
+  \end{align*}
+  よって、次の関係が成り立つ：
+  \begin{align*}
+    \hb{P_i}{q_j}+\hb{p_j}{Q_i}=0。
+  \end{align*}
+  以上の4式をまとめる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \hb{Q_i}{q_j}-\hb{p_j}{P_i}&=0,&
+        \displaystyle \hb{Q_i}{p_j}+\hb{q_j}{P_i}&=0\\
+        \displaystyle \hb{P_i}{p_j}-\hb{q_j}{Q_i}&=0,&
+        \displaystyle \hb{P_i}{q_j}+\hb{p_j}{Q_i}&=0
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。
+  \end{align*}
+  したがって、\eqref{eq:122}式から\eqref{eq:137}式が導かれた。
+
+  逆に、\eqref{eq:137}式が成り立つと仮定する。上の議論を逆にたどることにより、逆変換のJacobi行列は次のように表される：
+  \begin{align*}
+    \hb{x}{X}
+    =
+    \begin{bmatrix}
+      D^{\mathrm{t}}&-B^{\mathrm{t}}\\
+      -C^{\mathrm{t}}&A^{\mathrm{t}}
+    \end{bmatrix}
+    =-J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f。
+  \end{align*}
+  \eqref{eq:105}式より$\hb{x}{X}=\left(\hb{X}{x}\right)^{-1}$であるため、次の等式を得る：
+  \begin{align*}
+    \left(\hb{X}{x}\right)^{-1}
+    =-J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f。
+  \end{align*}
+  この式の左から$\hb{X}{x}$を掛ける：
+  \begin{align*}
+    I_{2f}
+    =-\hb{X}{x}J_f\left(\hb{X}{x}\right)^{\mathrm{t}}J_f。
+  \end{align*}
+  さらに、右から$J_f^{-1}=-J_f$を掛ける：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  これは\eqref{eq:122}式に他ならない。よって、\eqref{eq:137}式から\eqref{eq:122}式も導かれた。
+
+  以上より、\eqref{eq:122}式と\eqref{eq:137}式は同値であることが示された。
+
+  \subsubsection*{(ii)}\label{Q4-30-ii}
+  \eqref{eq:137}式は、古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であることと同値であることを確認する。したがって、\eqref{eq:137}式は正準変換を特徴づける重要な条件である。
+
+  \hyperref[Q4-23]{Q4-23}および\hyperref[Q4-24]{Q4-24}より、古い変数$x=(q_1,\dots,q_f,p_1,\dots,p_f)$から新しい変数$X=(Q_1,\dots,Q_f,P_1,\dots,P_f)$への変数変換が正準変換であることは、変換のJacobi行列が\eqref{eq:122}式を満たすことと同値である：
+  \begin{align*}
+    \text{変数変換$x\longrightarrow X$が正準変換である}
+    \Longleftrightarrow
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  また、\hyperref[Q4-30-i]{(i)}より、\eqref{eq:122}式は\eqref{eq:137}式と同値である。したがって、次の同値関係を得る：
+  \begin{align*}
+    &\text{変数変換$x\longrightarrow X$が正準変換である}\\
+    &\quad\Longleftrightarrow
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f\\
+    &\quad\Longleftrightarrow
+    \left\{
+      \begin{aligned}
+        \displaystyle \hb{Q_i}{q_j}-\hb{p_j}{P_i}&=0,&
+        \displaystyle \hb{Q_i}{p_j}+\hb{q_j}{P_i}&=0\\
+        \displaystyle \hb{P_i}{p_j}-\hb{q_j}{Q_i}&=0,&
+        \displaystyle \hb{P_i}{q_j}+\hb{p_j}{Q_i}&=0
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。
+  \end{align*}
+  よって、\eqref{eq:137}式は、古い変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変数変換が正準変換であることと同値である。
+
+
+  \subsection*{Q4-31（2016年度追加問題）}\label{Q4-31}
+  \addcontentsline{toc}{subsection}{Q4-31（2016年度追加問題）}
+  1自由度（$f=1$）の系の古い正準変数$q,p$から新しい正準変数$Q,P$への線形な正準変換を考える：
+  \begin{align*}
+    \begin{bmatrix}
+      Q\\
+      P
+    \end{bmatrix}
+    =A
+    \begin{bmatrix}
+      q\\
+      p
+    \end{bmatrix}。\tag{138}\label{eq:138}
+  \end{align*}
+  ただし、$A$は2行2列の実行列である：
+  \begin{align*}
+    A=\begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}\in M(2,\mathbb{R})。\tag{139}\label{eq:139}
+  \end{align*}
+  \subsubsection*{(i)}\label{Q4-31-i}
+  \eqref{eq:138}式で与えられる線形変換が正準変換になるという条件は、行列$A$がシンプレクティックであるという条件と同値であることを示す：
+  \begin{align*}
+    A\in\operatorname{Sp}(1,\mathbb{R})。\tag{140}\label{eq:140}
+  \end{align*}
+
+  \eqref{eq:138}式で与えられる線形変換のJacobi行列を求める。まず、\eqref{eq:138}式を成分ごとに書く：
+  \begin{align*}
+    Q&=aq+bp,\\
+    P&=cq+dp。
+  \end{align*}
+  したがって、この変換のJacobi行列は、行列$A$そのものである：
+  \begin{align*}
+    \hb{X}{x}
+    &=
+    \begin{bmatrix}
+      \displaystyle\hb{Q}{q}&\displaystyle\hb{Q}{p}\\[2mm]
+      \displaystyle\hb{P}{q}&\displaystyle\hb{P}{p}
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}\\
+    &=A。
+  \end{align*}
+  一方、\hyperref[Q4-23]{Q4-23}および\hyperref[Q4-24]{Q4-24}より、変数変換が正準変換であるための必要十分条件は、そのJacobi行列がシンプレクティック行列であることが分かっている。したがって、本問の線形変換について次の同値関係が成り立つ：
+  \begin{align*}
+    \text{\eqref{eq:138}式で与えられる変換が正準変換である}
+    &\Longleftrightarrow
+    \left(\hb{X}{x}\right)J_1\left(\hb{X}{x}\right)^{\mathrm{t}}=J_1\\
+    &\Longleftrightarrow
+    AJ_1A^{\mathrm{t}}=J_1\\
+    &\Longleftrightarrow
+    A\in\operatorname{Sp}(1,\mathbb{R})。
+  \end{align*}
+  以上より、\eqref{eq:138}式で与えられる線形変換が正準変換であることは、行列$A$がシンプレクティック行列であることと同値である。よって、\eqref{eq:140}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-31-ii}
+  \eqref{eq:140}式は、行列$A$の行列式が1であるという条件と同値になることを示す：
+  \begin{align*}
+    \det A=1。\tag{141}\label{eq:141}
+  \end{align*}
+
+  1自由度の場合、行列$J_1$は次のように与えられる：
+  \begin{align*}
+    J_1=
+    \begin{bmatrix}
+      0&1\\
+      -1&0
+    \end{bmatrix}。
+  \end{align*}
+  そこで、行列$A$についてシンプレクティック条件の左辺を計算する：
+  \begin{align*}
+    AJ_1A^{\mathrm{t}}
+    &=
+    \begin{bmatrix}
+      a&b\\
+      c&d
+    \end{bmatrix}
+    \begin{bmatrix}
+      0&1\\
+      -1&0
+    \end{bmatrix}
+    \begin{bmatrix}
+      a&c\\
+      b&d
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      -b&a\\
+      -d&c
+    \end{bmatrix}
+    \begin{bmatrix}
+      a&c\\
+      b&d
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      0&ad-bc\\
+      bc-ad&0
+    \end{bmatrix}\\
+    &=(ad-bc)
+    \begin{bmatrix}
+      0&1\\
+      -1&0
+    \end{bmatrix}\\
+    &=(\det A)J_1。
+  \end{align*}
+  したがって、行列$A$がシンプレクティックであるための条件は次のように書ける：
+  \begin{align*}
+    AJ_1A^{\mathrm{t}}=J_1
+    &\Longleftrightarrow
+    (\det A)J_1=J_1\\
+    &\Longleftrightarrow
+    \det A=1。
+  \end{align*}
+  最後の同値関係では、$J_1$が零行列ではないことを用いた。以上より、1自由度の線形変換について、行列$A$がシンプレクティックであることと、その行列式が$1$であることは同値である：
+  \begin{align*}
+    A\in\operatorname{Sp}(1,\mathbb{R})
+    \Longleftrightarrow
+    \det A=1。
+  \end{align*}
+  よって、\eqref{eq:141}式が示された。
+
+  \subsubsection*{(iii)}\label{Q4-31-iii}
+  次の等式を証明する：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_p=c=-\left(\hb{p}{Q}\right)_P。\tag{142}\label{eq:142}
+  \end{align*}
+
+  まず、古い一般運動量$p$を固定して$P=cq+dp$を$q$で偏微分する。このとき、$p$は定数として扱われるため、次の式を得る：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_p
+    =\left\{\hb{}{q}(cq+dp)\right\}_p
+    =c。
+  \end{align*}
+  次に、古い正準変数$q,p$を新しい正準変数$Q,P$で表す。正準変換であるため、\hyperref[Q4-31-ii]{(ii)}より$\det A=ad-bc=1$が成り立つ。したがって、行列$A$の逆行列は次のように与えられる：
+  \begin{align*}
+    A^{-1}
+    &=\frac{1}{ad-bc}
+    \begin{bmatrix}
+      d&-b\\
+      -c&a
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      d&-b\\
+      -c&a
+    \end{bmatrix}。
+  \end{align*}
+  よって、逆変換は次のようになる：
+  \begin{align*}
+    \begin{bmatrix}
+      q\\
+      p
+    \end{bmatrix}
+    &=
+    A^{-1}
+    \begin{bmatrix}
+      Q\\
+      P
+    \end{bmatrix}\\
+    &=
+    \begin{bmatrix}
+      dQ-bP\\
+      -cQ+aP
+    \end{bmatrix}。
+  \end{align*}
+  したがって、新しい一般運動量$P$を固定して$p=-cQ+aP$を$Q$で偏微分する：
+  \begin{align*}
+    \left(\hb{p}{Q}\right)_P
+    =\left\{\hb{}{Q}(-cQ+aP)\right\}_P
+    =-c。
+  \end{align*}
+  以上の結果をまとめる：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_p
+    =c
+    =-\left(\hb{p}{Q}\right)_P。
+  \end{align*}
+  よって、\eqref{eq:142}式が示された。
+
+  \subsubsection*{(iv)}\label{Q4-31-iv}
+  次の等式を証明する：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_Q=-\frac{1}{b}=-\left(\hb{p}{Q}\right)_q。\tag{143}\label{eq:143}
+  \end{align*}
+
+  以下では、\eqref{eq:143}式に$1/b$が現れるため、$b\neq0$である場合を考える。まず、$p,P$を$q,Q$で表す。\eqref{eq:138}式を成分ごとに書くと、
+  \begin{align*}
+    Q=aq+bp,\qquad P=cq+dp。
+  \end{align*}
+  よって次の式が得られる：
+  \begin{align*}
+    p=-\frac{q}{b}q+\frac{1}{b}Q,\qquad P=\left(c-\frac{ad}{b}\right)q+\frac{d}{b}Q。
+  \end{align*}
+  よって、$Q$を固定して$P$を$q$で偏微分する：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_Q=\left\{\hb{}{q}\left(\left(c-\frac{ad}{b}\right)q+\frac{d}{b}Q\right)\right\}_Q=c-\frac{ad}{b}。
+  \end{align*}
+  ここで、\eqref{eq:141}式より$\det A=ad-bc=1$が成り立つため、次のようになる：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_Q=c-\frac{ad}{b}=-\frac{1}{b}。
+  \end{align*}
+  次に、$q$を固定して$p$を$Q$で偏微分する：
+  \begin{align*}
+    \left(\hb{p}{Q}\right)_q=\left\{\hb{}{Q}(-\frac{q}{b}q+\frac{1}{b}Q)\right\}_q=\frac{1}{b}。
+  \end{align*}
+  以上の結果をまとめる：
+  \begin{align*}
+    \left(\hb{P}{q}\right)_Q=-\frac{1}{b}=-\left(\hb{p}{Q}\right)_q。
+  \end{align*}
+  よって、\eqref{eq:143}式が示された。
+
+  \eqref{eq:142}式と\eqref{eq:143}式により、等式$\left(\hb{P}{q}\right)_p=-\left(\hb{p}{Q}\right)_P$と等式$\left(\hb{P}{q}\right)_Q=-\left(\hb{p}{Q}\right)_q$は（少なくともこの場合に）どちらも正しい等式であることが分かる。しかし、両者の値は異なるため、これらは明らかに異なる等式であり、互いにもう一方の代用にはならない。$p=\hb{W_1(q,Q)}{q}$を$Q$で偏微分し、$P=-\hb{W_1(q,Q)}{Q}$を$q$で偏微分して、両者の右辺に現れる混合偏微分が等しいことから得られるのは、後者の等式$\left(\hb{P}{q}\right)_Q=-\left(\hb{p}{Q}\right)_q$であって、前者の等式$\left(\hb{P}{q}\right)_p=-\left(\hb{p}{Q}\right)_P$ではない。
+
+  \section{Poisson括弧}\label{sec:9}
+  自由度$f$の系において、一般座標$q_1,\dots,q_f$、一般運動量$p_1,\dots,p_f$、および時間$t$の任意の関数$A$と$B$が与えられたとする：
+  \begin{align*}
+    A&=A(q_1,\dots,q_f;p_1,\dots,p_f;t),\tag{144}\label{eq:144}\\
+    B&=B(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{145}\label{eq:145}
+  \end{align*}
+  このとき、$q_1,\dots,q_f,p_1,\dots,p_f,t$の関数$\{A,B\}$を次のように定義する：
+  \begin{align*}
+    \{A,B\}=\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{B}{p_i}-\hb{A}{p_i}\hb{B}{q_i}\right)。\tag{146}\label{eq:146}
+  \end{align*}
+  この$\{A,B\}$は、$A$と$B$の「Poisson括弧」（Poisson bracket）と呼ばれる。
+
+  \subsection*{Q4-32（変数を束ねた記法によるPoisson括弧）}\label{Q4-32}
+  \addcontentsline{toc}{subsection}{Q4-32（変数を束ねた記法によるPoisson括弧）}
+  一般座標$q_1,\dots,q_f$と一般運動量$p_1,\dots,p_f$を変数$x$に束ねる記法を再び用いる：
+  \begin{align*}
+    x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)。
+  \end{align*}
+  このとき、Poisson括弧$\{A,B\}$が次のように表されることを示す：
+  \begin{align*}
+    \{A,B\}=\ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}。\tag{147}\label{eq:147}
+  \end{align*}
+
+  まず、束ねた変数$x_i$と正準変数$q_i,p_i$の対応を確認する。\eqref{eq:101}式より、次の関係が成り立つ：
+  \begin{align*}
+    x_i=q_i,\qquad x_{f+i}=p_i\quad(i=1,\dots,f)。
+  \end{align*}
+  また、行列$J_f$は\eqref{eq:123}式より次のように定義されている：
+  \begin{align*}
+    J_f=
+    \begin{bmatrix}
+      0_f&I_f\\
+      -I_f&0_f
+    \end{bmatrix}。
+  \end{align*}
+  したがって、その成分は次のように表される：
+  \begin{align*}
+    J_{i,f+j}&=\delta_{ij},&
+    J_{f+i,j}&=-\delta_{ij},&
+    J_{ij}&=0,&
+    J_{f+i,f+j}&=0
+    \quad(i,j=1,\dots,f)。
+  \end{align*}
+  ここで、\eqref{eq:147}式の右辺を、添字$i,j$がそれぞれ$1,\dots,f$に属する場合と$f+1,\dots,2f$に属する場合に分けて計算する：
+  \begin{align*}
+    \ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}
+    &=\ssum{i,j}{1}{f}\hb{A}{x_i}J_{ij}\hb{B}{x_j}
+    +\ssum{i,j}{1}{f}\hb{A}{x_i}J_{i,f+j}\hb{B}{x_{f+j}}\\
+    &\quad+\ssum{i,j}{1}{f}\hb{A}{x_{f+i}}J_{f+i,j}\hb{B}{x_j}
+    +\ssum{i,j}{1}{f}\hb{A}{x_{f+i}}J_{f+i,f+j}\hb{B}{x_{f+j}}。
+  \end{align*}
+  行列$J_f$の成分を代入すると、第1項と第4項はゼロとなるため、次の式を得る：
+  \begin{align*}
+    \ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}
+    &=\ssum{i,j}{1}{f}\hb{A}{x_i}\delta_{ij}\hb{B}{x_{f+j}}
+    -\ssum{i,j}{1}{f}\hb{A}{x_{f+i}}\delta_{ij}\hb{B}{x_j}\\
+    &=\ssum{i}{1}{f}\left(\hb{A}{x_i}\hb{B}{x_{f+i}}-\hb{A}{x_{f+i}}\hb{B}{x_i}\right)。
+  \end{align*}
+  ここで、$x_i=q_i$および$x_{f+i}=p_i$を用いる：
+  \begin{align*}
+    \ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}
+    &=\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{B}{p_i}-\hb{A}{p_i}\hb{B}{q_i}\right)\\
+    &=\{A,B\}。
+  \end{align*}
+  最後の等号では、Poisson括弧の定義\eqref{eq:146}式を用いた。したがって、Poisson括弧は束ねた変数$x_1,\dots,x_{2f}$を用いて次のように表される：
+  \begin{align*}
+    \{A,B\}=\ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}。
+  \end{align*}
+  以上より、\eqref{eq:147}式が示された。
+
+  この表式を用いると、用いない場合に比べて、この副節で取り扱う多くの問題を簡潔に解くことが出来る。
+
+  \subsection*{Q4-33（正準変数の基本的Poisson括弧）}\label{Q4-33}
+  \addcontentsline{toc}{subsection}{Q4-33（正準変数の基本的Poisson括弧）}
+  次の等式を示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \{q_i,q_j\}&=0\\
+        \{p_i,p_j\}&=0\\
+        \{q_i,p_j\}&=\delta_{ij}
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。\tag{148}\label{eq:148}
+  \end{align*}
+
+  Poisson括弧の定義\eqref{eq:146}式を用いて、正準変数の間のPoisson括弧を順に計算する。まず、一般座標$q_i,q_j$のPoisson括弧は次のように表される：
+  \begin{align*}
+    \{q_i,q_j\}
+    &=\ssum{k}{1}{f}\left(\hb{q_i}{q_k}\hb{q_j}{p_k}-\hb{q_i}{p_k}\hb{q_j}{q_k}\right)。
+  \end{align*}
+  正準変数$q_1,\dots,q_f,p_1,\dots,p_f$は互いに独立であるため、次の偏微分が成り立つ：
+  \begin{align*}
+    \hb{q_i}{q_k}=\delta_{ik},\qquad
+    \hb{q_i}{p_k}=0。
+  \end{align*}
+  したがって、一般座標同士のPoisson括弧は次のようになる：
+  \begin{align*}
+    \{q_i,q_j\}
+    &=\ssum{k}{1}{f}\left(\delta_{ik}\cdot0-0\cdot\delta_{jk}\right)\\
+    &=0。
+  \end{align*}
+  次に、一般運動量$p_i,p_j$のPoisson括弧を計算する：
+  \begin{align*}
+    \{p_i,p_j\}
+    &=\ssum{k}{1}{f}\left(\hb{p_i}{q_k}\hb{p_j}{p_k}-\hb{p_i}{p_k}\hb{p_j}{q_k}\right)。
+  \end{align*}
+  正準変数の独立性より、次の偏微分が成り立つ：
+  \begin{align*}
+    \hb{p_i}{q_k}=0,\qquad
+    \hb{p_i}{p_k}=\delta_{ik}。
+  \end{align*}
+  よって、一般運動量同士のPoisson括弧は次のようになる：
+  \begin{align*}
+    \{p_i,p_j\}
+    &=\ssum{k}{1}{f}\left(0\cdot\delta_{jk}-\delta_{ik}\cdot0\right)\\
+    &=0。
+  \end{align*}
+  最後に、一般座標$q_i$と一般運動量$p_j$のPoisson括弧を計算する：
+  \begin{align*}
+    \{q_i,p_j\}
+    &=\ssum{k}{1}{f}\left(\hb{q_i}{q_k}\hb{p_j}{p_k}-\hb{q_i}{p_k}\hb{p_j}{q_k}\right)\\
+    &=\ssum{k}{1}{f}\left(\delta_{ik}\delta_{jk}-0\cdot0\right)\\
+    &=\delta_{ij}。
+  \end{align*}
+  最後の等号では、Kroneckerのデルタについて成り立つ次の縮約公式を用いた：
+  \begin{align*}
+    \ssum{k}{1}{f}\delta_{ik}\delta_{jk}=\delta_{ij}。
+  \end{align*}
+  以上の結果をまとめる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \{q_i,q_j\}&=0\\
+        \{p_i,p_j\}&=0\\
+        \{q_i,p_j\}&=\delta_{ij}
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。
+  \end{align*}
+  よって、正準変数の基本的Poisson括弧\eqref{eq:148}式が示された。
+
+  \subsection*{Q4-34（束ねた記法における正準変数の基本的Poisson括弧）}\label{Q4-34}
+  \addcontentsline{toc}{subsection}{Q4-34（束ねた記法における正準変数の基本的Poisson括弧）}
+  束ねた変数$x=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f)$を用いると、\eqref{eq:148}式は次の式と同値であることを示す：
+  \begin{align*}
+    \{x_i,x_j\}=J_{ij}\quad(i,j=1,\dots,2f)。\tag{149}\label{eq:149}
+  \end{align*}
+
+  束ねた変数$x=(x_1,\dots,x_{2f})$は、\eqref{eq:101}式より次のように定義されている：
+  \begin{align*}
+    x_i=q_i,\qquad x_{f+i}=p_i\quad(i=1,\dots,f)。
+  \end{align*}
+  したがって、$\{x_i,x_j\}$を求めるためには、添字$i,j$がそれぞれ$1,\dots,f$に属する場合と$f+1,\dots,2f$に属する場合に分ければよい。
+
+  まず、$i,j=1,\dots,f$の場合には$x_i=q_i$および$x_j=q_j$であるため、\eqref{eq:148}式より次の式を得る：
+  \begin{align*}
+    \{x_i,x_j\}=\{q_i,q_j\}=0。
+  \end{align*}
+  一方、行列$J_f$の左上のブロックはゼロ行列$0_f$であるため、この場合には$J_{ij}=0$が成り立つ。よって、次の関係を得る：
+  \begin{align*}
+    \{x_i,x_j\}=J_{ij}\quad(i,j=1,\dots,f)。
+  \end{align*}
+
+  次に、$i,j=1,\dots,f$に対して、$\{x_i,x_{f+j}\}$を考える。このとき、$x_i=q_i$および$x_{f+j}=p_j$であるため、\eqref{eq:148}式より次の式を得る：
+  \begin{align*}
+    \{x_i,x_{f+j}\}=\{q_i,p_j\}=\delta_{ij}。
+  \end{align*}
+  また、行列$J_f$の右上のブロックは単位行列$I_f$であるため、$J_{i,f+j}=\delta_{ij}$が成り立つ。したがって、次の関係を得る：
+  \begin{align*}
+    \{x_i,x_{f+j}\}=J_{i,f+j}\quad(i,j=1,\dots,f)。
+  \end{align*}
+
+  続いて、$i,j=1,\dots,f$に対して、$\{x_{f+i},x_j\}$を考える。このとき、$x_{f+i}=p_i$および$x_j=q_j$である。Poisson括弧の定義\eqref{eq:146}式、または反対称性を用いる：
+  \begin{align*}
+    \{x_{f+i},x_j\}
+    =\{p_i,q_j\}
+    =-\{q_j,p_i\}
+    =-\delta_{ij}。
+  \end{align*}
+  一方、行列$J_f$の左下のブロックは$-I_f$であるため、$J_{f+i,j}=-\delta_{ij}$が成り立つ。よって、次の関係を得る：
+  \begin{align*}
+    \{x_{f+i},x_j\}=J_{f+i,j}\quad(i,j=1,\dots,f)。
+  \end{align*}
+
+  最後に、$i,j=1,\dots,f$に対して、$\{x_{f+i},x_{f+j}\}$を考える。このとき、$x_{f+i}=p_i$および$x_{f+j}=p_j$であるため、\eqref{eq:148}式より次の式を得る：
+  \begin{align*}
+    \{x_{f+i},x_{f+j}\}=\{p_i,p_j\}=0。
+  \end{align*}
+  また、行列$J_f$の右下のブロックはゼロ行列$0_f$であるため、$J_{f+i,f+j}=0$が成り立つ。したがって、次の関係を得る：
+  \begin{align*}
+    \{x_{f+i},x_{f+j}\}=J_{f+i,f+j}\quad(i,j=1,\dots,f)。
+  \end{align*}
+
+  以上の4つの場合をまとめると、任意の$i,j=1,\dots,2f$について次の等式が成り立つ：
+  \begin{align*}
+    \{x_i,x_j\}=J_{ij}\quad(i,j=1,\dots,2f)。
+  \end{align*}
+  以上より、正準変数の基本的Poisson括弧\eqref{eq:148}式は、束ねた変数を用いた\eqref{eq:149}式と同値であることが示された。
+
+  \subsection*{Q4-35（Poisson括弧の基本的な恒等式）}\label{Q4-35}
+  \addcontentsline{toc}{subsection}{Q4-35（Poisson括弧の基本的な恒等式）}
+  $A,B,C$は正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の任意関数である。以下の等式を示す。
+  \subsubsection*{(i)}\label{Q4-35-i}
+  Poisson括弧の反対称性を示す：
+  \begin{align*}
+    \{A,B\}=-\{B,A\}。\tag{150}\label{eq:150}
+  \end{align*}
+  特に、
+  \begin{align*}
+    \{A,A\}=0。\tag{151}\label{eq:151}
+  \end{align*}
+
+  まず、Poisson括弧の反対称性を示す。Poisson括弧の定義\eqref{eq:146}式より、$\{B,A\}$は次のように表される：
+  \begin{align*}
+    \{B,A\}
+    &=\ssum{i}{1}{f}\left(\hb{B}{q_i}\hb{A}{p_i}-\hb{B}{p_i}\hb{A}{q_i}\right)\\
+    &=-\ssum{i}{1}{f}\left(\hb{B}{p_i}\hb{A}{q_i}-\hb{B}{q_i}\hb{A}{p_i}\right)\\
+    &=-\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{B}{p_i}-\hb{A}{p_i}\hb{B}{q_i}\right)\\
+    &=-\{A,B\}。
+  \end{align*}
+  したがって、次の反対称性が成り立つ：
+  \begin{align*}
+    \{A,B\}=-\{B,A\}。
+  \end{align*}
+  以上より、\eqref{eq:150}式が示された。
+
+  特に、$B=A$と置くと、反対称性より次の式を得る：
+  \begin{align*}
+    \{A,A\}=-\{A,A\}。
+  \end{align*}
+  よって、次の式が成り立つ：
+  \begin{align*}
+    \{A,A\}=0。
+  \end{align*}
+  以上より、\eqref{eq:151}式が示された。
+
+  \subsubsection*{(ii)}\label{Q4-35-ii}
+  Poisson括弧の各引数に対する線形性を示す：
+  \begin{align*}
+    \{\alpha A+\beta B,C\}&=\alpha\{A,C\}+\beta\{B,C\},\tag{152}\label{eq:152}\\
+    \{A,\beta B+\gamma C\}&=\beta\{A,B\}+\gamma\{A,C\}。\tag{153}\label{eq:153}
+  \end{align*}
+  ただし、$\alpha,\beta,\gamma$は任意の定数である。
+
+  Poisson括弧の第1引数に関する線形性を示す。Poisson括弧の定義\eqref{eq:146}式に、$\alpha A+\beta B$と$C$を代入する：
+  \begin{align*}
+    \{\alpha A+\beta B,C\}
+    &=\ssum{i}{1}{f}\left\{\hb{\alpha A+\beta B}{q_i}\hb{C}{p_i}-\hb{\alpha A+\beta B}{p_i}\hb{C}{q_i}\right\}\\
+    &=\ssum{i}{1}{f}\left\{\left(\alpha\hb{A}{q_i}+\beta\hb{B}{q_i}\right)\hb{C}{p_i}-\left(\alpha\hb{A}{p_i}+\beta\hb{B}{p_i}\right)\hb{C}{q_i}\right\}\\
+    &=\alpha\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{C}{p_i}-\hb{A}{p_i}\hb{C}{q_i}\right)
+      +\beta\ssum{i}{1}{f}\left(\hb{B}{q_i}\hb{C}{p_i}-\hb{B}{p_i}\hb{C}{q_i}\right)\\
+    &=\alpha\{A,C\}+\beta\{B,C\}。
+  \end{align*}
+  ここで、$\alpha$と$\beta$が正準変数$q_i,p_i$によらない定数であることと、偏微分の線形性を用いた。よって、\eqref{eq:152}式が示された。\\
+  次に、Poisson括弧の第2引数に関する線形性を示す。Poisson括弧の定義\eqref{eq:146}式に、$A$と$\beta B+\gamma C$を代入する：
+  \begin{align*}
+    \{A,\beta B+\gamma C\}
+    &=\ssum{i}{1}{f}\left\{\hb{A}{q_i}\hb{\beta B+\gamma C}{p_i}-\hb{A}{p_i}\hb{\beta B+\gamma C}{q_i}\right\}\\
+    &=\ssum{i}{1}{f}\left\{\hb{A}{q_i}\left(\beta\hb{B}{p_i}+\gamma\hb{C}{p_i}\right)-\hb{A}{p_i}\left(\beta\hb{B}{q_i}+\gamma\hb{C}{q_i}\right)\right\}\\
+    &=\beta\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{B}{p_i}-\hb{A}{p_i}\hb{B}{q_i}\right)
+      +\gamma\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{C}{p_i}-\hb{A}{p_i}\hb{C}{q_i}\right)\\
+    &=\beta\{A,B\}+\gamma\{A,C\}。
+  \end{align*}
+  ここで、$\beta$と$\gamma$が正準変数$q_i,p_i$によらない定数であることと、偏微分の線形性を用いた。よって、\eqref{eq:153}式が示された。以上より、Poisson括弧は各引数に対して線形であることが示された。
+
+  \subsubsection*{(iii)}\label{Q4-35-iii}
+  Jacobiの恒等式を示す：
+  \begin{align*}
+    \{A,\{B,C\}\}+\{B,\{C,A\}\}+\{C,\{A,B\}\}=0。\tag{154}\label{eq:154}
+  \end{align*}
+
+  Jacobiの恒等式を示すため、束ねた変数$x_1,\dots,x_{2f}$によるPoisson括弧の表式\eqref{eq:147}式を用いる。以下では式を簡潔にするため、偏微分を次のように略記する：
+  \begin{align*}
+    A_i=\hb{A}{x_i},\qquad
+    A_{ij}=\frac{\partial^2A}{\partial x_i\partial x_j}。
+  \end{align*}
+  関数$B,C$についても同様の記法を用いる。まず、入れ子になったPoisson括弧を計算する：
+  \begin{align*}
+    \{A,\{B,C\}\}
+    &=\ssum{i,j}{1}{{2f}}A_iJ_{ij}\hb{}{x_j}
+    \left(\ssum{k,l}{1}{{2f}}B_kJ_{kl}C_l\right)\\
+    &=\ssum{i,j,k,l}{1}{{2f}}A_iJ_{ij}J_{kl}
+    \left(B_{kj}C_l+B_kC_{lj}\right)。
+  \end{align*}
+  同様に、文字をサイクリックに入れ替えると、次の式を得る：
+  \begin{align*}
+    \{B,\{C,A\}\}
+    &=\ssum{i,j,k,l}{1}{{2f}}B_iJ_{ij}J_{kl}
+    \left(C_{kj}A_l+C_kA_{lj}\right),\\
+    \{C,\{A,B\}\}
+    &=\ssum{i,j,k,l}{1}{{2f}}C_iJ_{ij}J_{kl}
+    \left(A_{kj}B_l+A_kB_{lj}\right)。
+  \end{align*}
+  これらを足し合わせる。例えば、$B$の2階偏微分を含む項は次の2項である：
+  \begin{align*}
+    T_B
+    &=\ssum{i,j,k,l}{1}{{2f}}A_iJ_{ij}J_{kl}B_{kj}C_l
+    +\ssum{i,j,k,l}{1}{{2f}}C_iJ_{ij}J_{kl}A_kB_{lj}。
+  \end{align*}
+  第2項においてダミー添字を$i\to l\to j\to k \to i$と交換し、行列$J_f$の反対称性$J_{kl}=-J_{lk}$、偏微分の交換可能性$B_{kj}=B_{jk}$を用いる：
+  \begin{align*}
+    \ssum{i,j,k,l}{1}{{2f}}C_iJ_{ij}J_{kl}A_kB_{lj}
+    &=-\ssum{i,j,k,l}{1}{{2f}}C_l J_{kl}J_{ij}A_i B_{kj}\\
+    &=-\ssum{i,j,k,l}{1}{{2f}}A_i J_{ij}J_{kl}B_{kj}C_l。
+  \end{align*}
+  よって、この項は$T_B$の第1項と相殺する。したがって、$B$の2階偏微分を含む項の和はゼロである：
+  \begin{align*}
+    T_B=0。
+  \end{align*}
+  同様に、$A$および$C$の2階偏微分を含む項も、それぞれ行列$J_f$の反対称性と偏微分の交換可能性によって相殺する。よって、巡回和全体がゼロとなる：
+  \begin{align*}
+    \{A,\{B,C\}\}+\{B,\{C,A\}\}+\{C,\{A,B\}\}=T_A+T_B+T_C=0。
+  \end{align*}
+  以上より、Jacobiの恒等式\eqref{eq:154}式が示された。
+
+  \subsubsection*{(iv)}\label{Q4-35-iv}
+  Poisson括弧の時間微分について、次の等式を示す：
+  \begin{align*}
+    \bbn{}{t}\{A,B\}=\left\{\bbn{A}{t},B\right\}+\left\{A,\bbn{B}{t}\right\}。\tag{155}\label{eq:155}
+  \end{align*}
+
+  まず、正準変数$q_i,p_i$が従うHamilton方程式を$H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)$とすると、任意の関数$F(q_1,\dots,q_f;p_1,\dots,p_f;t)$の時間についての完全微分は次のように表される：
+  \begin{align*}
+    \bbn{F}{t}
+    &=\ssum{i}{1}{f}\left(\hb{F}{q_i}\dot{q}_i+\hb{F}{p_i}\dot{p}_i\right)+\hb{F}{t}\\
+    &=\ssum{i}{1}{f}\left(\hb{F}{q_i}\hb{H}{p_i}-\hb{F}{p_i}\hb{H}{q_i}\right)+\hb{F}{t}\\
+    &=\{F,H\}+\hb{F}{t}。
+  \end{align*}
+  この関係を$F=\{A,B\}$に適用する：
+  \begin{align*}
+    \bbn{}{t}\{A,B\}
+    =\{\{A,B\},H\}+\hb{}{t}\{A,B\}。
+  \end{align*}
+  ここで、右辺第2項の偏微分は$q_i,p_i$を固定した時間$t$による偏微分である。Poisson括弧の定義より、この項は次のように書ける：
+  \begin{align*}
+    \hb{}{t}\{A,B\}
+    &=\ssum{i}{1}{f}\hb{}{t}\left(\hb{A}{q_i}\hb{B}{p_i}-\hb{A}{p_i}\hb{B}{q_i}\right)\\
+    &=\left\{\hb{A}{t},B\right\}+\left\{A,\hb{B}{t}\right\}。
+  \end{align*}
+  また、Jacobiの恒等式\eqref{eq:154}式を$A,B,H$に適用する：
+  \begin{align*}
+    \{A,\{B,H\}\}+\{B,\{H,A\}\}+\{H,\{A,B\}\}=0。
+  \end{align*}
+  Poisson括弧の反対称性を用いて整理する：
+  \begin{align*}
+    \{\{A,B\},H\}
+    =\{\{A,H\},B\}+\{A,\{B,H\}\}。
+  \end{align*}
+  以上の結果を時間微分の式に代入する：
+  \begin{align*}
+    \bbn{}{t}\{A,B\}
+    &=\{\{A,H\},B\}+\{A,\{B,H\}\}
+    +\left\{\hb{A}{t},B\right\}+\left\{A,\hb{B}{t}\right\}\\
+    &=\left\{\{A,H\}+\hb{A}{t},B\right\}
+    +\left\{A,\{B,H\}+\hb{B}{t}\right\}。
+  \end{align*}
+  ここで、2つめの等号では、Poisson括弧の線形性を用いた。任意の関数$A,B$について、先ほど得た時間についての完全微分の関係を用いる：
+  \begin{align*}
+    \bbn{A}{t}=\{A,H\}+\hb{A}{t},\qquad
+    \bbn{B}{t}=\{B,H\}+\hb{B}{t}。
+  \end{align*}
+  したがって、Poisson括弧の時間微分は次のように表される：
+  \begin{align*}
+    \bbn{}{t}\{A,B\}
+    =\left\{\bbn{A}{t},B\right\}+\left\{A,\bbn{B}{t}\right\}。
+  \end{align*}
+  以上より、\eqref{eq:155}式が示された。
+
+  \subsubsection*{(v)}\label{Q4-35-v}
+  $a_1,\dots,a_m$が正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の関数であり、$\psi$が$a_1,\dots,a_m$と時間$t$の関数であるとき、次の等式を示す：
+  \begin{align*}
+    \{\psi,A\}=\ssum{k}{1}{m}\hb{\psi}{a_k}\{a_k,A\}。\tag{156}\label{eq:156}
+  \end{align*}
+
+  関数$\psi$は$a_1,\dots,a_m$と時間$t$の関数であり、各$a_k$は正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の関数である。したがって、合成関数として次のように表される：
+  \begin{align*}
+    \psi=\psi\bigl(a_1(q,p,t),\dots,a_m(q,p,t);t\bigr)。
+  \end{align*}
+  多変数関数の連鎖律を用いると、$\psi$の正準変数による偏微分は次のようになる：
+  \begin{align*}
+    \hb{\psi}{q_i}
+    &=\ssum{k}{1}{m}\hb{\psi}{a_k}\hb{a_k}{q_i},\\
+    \hb{\psi}{p_i}
+    &=\ssum{k}{1}{m}\hb{\psi}{a_k}\hb{a_k}{p_i}。
+  \end{align*}
+  これらをPoisson括弧の定義\eqref{eq:146}式に代入する：
+  \begin{align*}
+    \{\psi,A\}
+    &=\ssum{i}{1}{f}\left(\hb{\psi}{q_i}\hb{A}{p_i}-\hb{\psi}{p_i}\hb{A}{q_i}\right)\\
+    &=\ssum{i}{1}{f}\left\{\left(\ssum{k}{1}{m}\hb{\psi}{a_k}\hb{a_k}{q_i}\right)\hb{A}{p_i}
+    -\left(\ssum{k}{1}{m}\hb{\psi}{a_k}\hb{a_k}{p_i}\right)\hb{A}{q_i}\right\}\\
+    &=\ssum{k}{1}{m}\hb{\psi}{a_k}\ssum{i}{1}{f}\left(\hb{a_k}{q_i}\hb{A}{p_i}-\hb{a_k}{p_i}\hb{A}{q_i}\right)\\
+    &=\ssum{k}{1}{m}\hb{\psi}{a_k}\{a_k,A\}。
+  \end{align*}
+  最後の等号では、Poisson括弧の定義を用いた。\\
+  以上より、\eqref{eq:156}式が示された。
+
+  \subsection*{Q4-36（Poisson括弧は正準変数の選択によらない）}\label{Q4-36}
+  \addcontentsline{toc}{subsection}{Q4-36（Poisson括弧は正準変数の選択によらない）}
+  古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への正準変換が与えられたとする：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+        P_i&=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{157}\label{eq:157}
+  \end{align*}
+  新しい正準変数によるPoisson括弧$\{A,B\}'$を定義する：
+  \begin{align*}
+    \{A,B\}'=\ssum{i}{1}{f}\left(\hb{A}{Q_i}\hb{B}{P_i}-\hb{A}{P_i}\hb{B}{Q_i}\right)。\tag{158}\label{eq:158}
+  \end{align*}
+  このとき、古い正準変数によるPoisson括弧$\{A,B\}$と新しい正準変数によるPoisson括弧$\{A,B\}'$が一致することを示す：
+  \begin{align*}
+    \{A,B\}=\{A,B\}'。\tag{159}\label{eq:159}
+  \end{align*}
+
+  古い正準変数を束ねた変数$x$と、新しい正準変数を束ねた変数$X$を次のように表す：
+  \begin{align*}
+    x&=(x_1,\dots,x_{2f})=(q_1,\dots,q_f,p_1,\dots,p_f),\\
+    X&=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)。
+  \end{align*}
+  \eqref{eq:147}式より、古い正準変数によるPoisson括弧は次のように表される：
+  \begin{align*}
+    \{A,B\}
+    =\ssum{i,j}{1}{{2f}}\hb{A}{x_i}J_{ij}\hb{B}{x_j}。
+  \end{align*}
+  ここで、$A$と$B$を新しい正準変数$X_1,\dots,X_{2f}$の関数として表し、多変数関数の連鎖律を用いる：
+  \begin{align*}
+    \hb{A}{x_i}
+    &=\ssum{k}{1}{{2f}}\hb{A}{X_k}\hb{X_k}{x_i},\\
+    \hb{B}{x_j}
+    &=\ssum{l}{1}{{2f}}\hb{B}{X_l}\hb{X_l}{x_j}。
+  \end{align*}
+  これらを古い正準変数によるPoisson括弧に代入する：
+  \begin{align*}
+    \{A,B\}
+    &=\ssum{i,j}{1}{{2f}}
+      \left(\ssum{k}{1}{{2f}}\hb{A}{X_k}\hb{X_k}{x_i}\right)
+      J_{ij}
+      \left(\ssum{l}{1}{{2f}}\hb{B}{X_l}\hb{X_l}{x_j}\right)\\
+    &=\ssum{k,l}{1}{{2f}}\hb{A}{X_k}
+      \left(\ssum{i,j}{1}{{2f}}\hb{X_k}{x_i}J_{ij}\hb{X_l}{x_j}\right)
+      \hb{B}{X_l}。
+  \end{align*}
+  ここで、括弧内の総和は行列
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}
+  \end{align*}
+  の$k$行$l$列成分に等しい。変換\eqref{eq:157}式は正準変換であるため、\eqref{eq:122}式より、次の等式が成り立つ：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  したがって、その$k$行$l$列成分を比較すると、次の式を得る：
+  \begin{align*}
+    \ssum{i,j}{1}{{2f}}\hb{X_k}{x_i}J_{ij}\hb{X_l}{x_j}=J_{kl}。
+  \end{align*}
+  これを先ほど得たPoisson括弧の式に代入する：
+  \begin{align*}
+    \{A,B\}
+    &=\ssum{k,l}{1}{{2f}}\hb{A}{X_k}J_{kl}\hb{B}{X_l}。
+  \end{align*}
+  この右辺は、新しい正準変数によるPoisson括弧$\{A,B\}'$の定義\eqref{eq:158}式を、束ねた変数$X$によって書き直したものに他ならない。よって、次の等式が成り立つ：
+  \begin{align*}
+    \{A,B\}=\{A,B\}'。
+  \end{align*}
+  以上より、\eqref{eq:159}式が示された。
+
+  以上より、次の重要な事実が分かった：
+  \begin{align*}
+    \text{\parbox{0.83\linewidth}{
+      \boxed{「\mathrm{Poisson}括弧$\{A,B\}$の値は、計算する際に用いた正準変数の選択によらない。」}。
+    }}\tag{160}\label{eq:160}
+  \end{align*}
+  つまり、Poisson括弧$\{A,B\}$の値は、正準変数の選択という「座標系の選択」によらない幾何学的な意味を持っているのである。
+
+  \subsection*{Q4-37（正準変換は正準変数の基本的Poisson括弧を保存する）}\label{Q4-37}
+  \addcontentsline{toc}{subsection}{Q4-37（正準変換は正準変数の基本的Poisson括弧を保存する）}
+  古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への正準変換が与えられたとする：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+        P_i&=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{161}\label{eq:161}
+  \end{align*}
+  このとき、新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の間のPoisson括弧は、基本的Poisson括弧のままに保たれることを示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \{Q_i,Q_j\}&=0\\
+        \{P_i,P_j\}&=0\\
+        \{Q_i,P_j\}&=\delta_{ij}
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。\tag{162}\label{eq:162}
+  \end{align*}
+
+  \hyperref[Q4-36]{Q4-36}より、Poisson括弧の値は正準変数の選択によらない。したがって、新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の間のPoisson括弧は、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$を用いて計算しても、新しい正準変数$Q_1,\dots,Q_f,P_1,\dots,P_f$を用いて計算しても同じ値を取る：
+  \begin{align*}
+    \{A,B\}=\{A,B\}'。
+  \end{align*}
+  まず、新しい一般座標$Q_i,Q_j$のPoisson括弧を、新しい正準変数を用いて計算する。定義\eqref{eq:158}式より、次の式を得る：
+  \begin{align*}
+    \{Q_i,Q_j\}'
+    &=\ssum{k}{1}{f}\left(\hb{Q_i}{Q_k}\hb{Q_j}{P_k}-\hb{Q_i}{P_k}\hb{Q_j}{Q_k}\right)\\
+    &=\ssum{k}{1}{f}\left(\delta_{ik}\cdot0-0\cdot\delta_{jk}\right)\\
+    &=0。
+  \end{align*}
+  Poisson括弧の正準不変性より、古い正準変数を用いて計算したPoisson括弧も同じ値を取る：
+  \begin{align*}
+    \{Q_i,Q_j\}=\{Q_i,Q_j\}'=0。
+  \end{align*}
+  次に、新しい一般運動量$P_i,P_j$のPoisson括弧を計算する：
+  \begin{align*}
+    \{P_i,P_j\}'
+    &=\ssum{k}{1}{f}\left(\hb{P_i}{Q_k}\hb{P_j}{P_k}-\hb{P_i}{P_k}\hb{P_j}{Q_k}\right)\\
+    &=\ssum{k}{1}{f}\left(0\cdot\delta_{jk}-\delta_{ik}\cdot0\right)\\
+    &=0。
+  \end{align*}
+  したがって、Poisson括弧の正準不変性より次の式が成り立つ：
+  \begin{align*}
+    \{P_i,P_j\}=\{P_i,P_j\}'=0。
+  \end{align*}
+  最後に、新しい一般座標$Q_i$と新しい一般運動量$P_j$のPoisson括弧を計算する：
+  \begin{align*}
+    \{Q_i,P_j\}'
+    &=\ssum{k}{1}{f}\left(\hb{Q_i}{Q_k}\hb{P_j}{P_k}-\hb{Q_i}{P_k}\hb{P_j}{Q_k}\right)\\
+    &=\ssum{k}{1}{f}\delta_{ik}\delta_{jk}\\
+    &=\delta_{ij}。
+  \end{align*}
+  よって、Poisson括弧の正準不変性より次の式を得る：
+  \begin{align*}
+    \{Q_i,P_j\}=\{Q_i,P_j\}'=\delta_{ij}。
+  \end{align*}
+  以上の結果をまとめる：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \{Q_i,Q_j\}&=0\\
+        \{P_i,P_j\}&=0\\
+        \{Q_i,P_j\}&=\delta_{ij}
+      \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。
+  \end{align*}
+  したがって、正準変換によって得られた新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$も、正準変数の基本的Poisson括弧を満たす。以上より、正準変換は正準変数の基本的Poisson括弧を保存することが示され、\eqref{eq:162}式が得られた。
+
+  \subsection*{Q4-38（正準変数の基本的Poisson括弧を保存する変換は正準変換である）}\label{Q4-38}
+  \addcontentsline{toc}{subsection}{Q4-38（正準変数の基本的Poisson括弧を保存する変換は正準変換である）}
+  \hyperref[Q4-37]{Q4-37}で示した命題の逆を示す。古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変換が与えられたとする：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        Q_i&=Q_i(q_1,\dots,q_f;p_1,\dots,p_f;t)\\
+        P_i&=P_i(q_1,\dots,q_f;p_1,\dots,p_f;t)
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{163}\label{eq:163}
+  \end{align*}
+  そして、この変換の結果として、新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$の間のPoisson括弧は、正準変数に対する基本的Poisson括弧の形を取るとする：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \{Q_i,Q_j\}&=0\\
+        \{P_i,P_j\}&=0\\
+        \{Q_i,P_j\}&=\delta_{ij}
+    \end{aligned}
+    \right.
+    \quad(i,j=1,\dots,f)。\tag{164}\label{eq:164}
+  \end{align*}
+  このとき、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変換が正準変換であることを示す。
+
+  新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$を、次のように束ねる：
+  \begin{align*}
+    X=(X_1,\dots,X_{2f})=(Q_1,\dots,Q_f,P_1,\dots,P_f)。
+  \end{align*}
+  この記法を用いると、仮定した基本的Poisson括弧\eqref{eq:164}式は、\hyperref[Q4-34]{Q4-34}と同様に次のようにまとめられる：
+  \begin{align*}
+    \{X_i,X_j\}=J_{ij}\quad(i,j=1,\dots,2f)。
+  \end{align*}
+  一方、古い正準変数を束ねた変数$x=(x_1,\dots,x_{2f})$を用いると、Poisson括弧は\eqref{eq:147}式より次のように表される：
+  \begin{align*}
+    \{X_i,X_j\}
+    =\ssum{k,l}{1}{{2f}}\hb{X_i}{x_k}J_{kl}\hb{X_j}{x_l}。
+  \end{align*}
+  ここで、右辺は行列
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}
+  \end{align*}
+  の$i$行$j$列成分に等しい。よって、次の関係が成り立つ：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}_{ij}
+    =\ssum{k,l}{1}{{2f}}\hb{X_i}{x_k}J_{kl}\hb{X_j}{x_l}
+    =\{X_i,X_j\}。
+  \end{align*}
+  仮定より$\{X_i,X_j\}=J_{ij}$が成り立つため、すべての$i,j=1,\dots,2f$について次の等式を得る：
+  \begin{align*}
+    \left\{\left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}\right\}_{ij}=J_{ij}。
+  \end{align*}
+  したがって、各成分が一致するため、行列全体として次の等式が成り立つ：
+  \begin{align*}
+    \left(\hb{X}{x}\right)J_f\left(\hb{X}{x}\right)^{\mathrm{t}}=J_f。
+  \end{align*}
+  よって、\eqref{eq:122}式より、古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$への変換は正準変換である。
+
+  \hyperref[Q4-37]{Q4-37}と\hyperref[Q4-38]{Q4-38}によって、次の重要な事実が分かった：
+  \begin{align*}
+    \text{\parbox{0.83\linewidth}{
+      「古い正準変数$q_1,\dots,q_f,p_1,\dots,p_f$から新しい変数
+      $Q_1,\dots,Q_f,P_1,\dots,P_f$への変換が正準変換であることと、
+      新しい変数$Q_1,\dots,Q_f,P_1,\dots,P_f$が正準変数に対する
+      基本的Poisson括弧\eqref{eq:164}式を満たすことは同値である。」。
+    }}\tag{165}\label{eq:165}
+  \end{align*}
+  ある変換が正準変換であることを示す手段として、新しい変数が正準変数に対する基本的Poisson括弧を満たすことを示すことはよく行われる。
+
+  \subsection*{Q4-39（Poisson括弧によって表現されたHamilton運動方程式）}\label{Q4-39}
+  \addcontentsline{toc}{subsection}{Q4-39（Poisson括弧によって表現されたHamilton運動方程式）}
+  Poisson括弧を用いて、正準変数$q_1,\dots,q_f,p_1,\dots,p_f$に対するHamilton方程式を表現すると、次のようになることを示す：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}=\{q_i,H\}\\
+        \displaystyle \bbn{p_i}{t}=\{p_i,H\}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。\tag{166}\label{eq:166}
+  \end{align*}
+  ここで、$H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)$は系のHamilton関数である。
+  
+  まず、一般座標$q_i$とHamilton関数$H$のPoisson括弧を計算する。Poisson括弧の定義\eqref{eq:146}式より、次の式を得る：
+  \begin{align*}
+    \{q_i,H\}
+    &=\ssum{j}{1}{f}\left(\hb{q_i}{q_j}\hb{H}{p_j}-\hb{q_i}{p_j}\hb{H}{q_j}\right)。
+  \end{align*}
+  正準変数$q_1,\dots,q_f,p_1,\dots,p_f$は互いに独立であるため、次の偏微分が成り立つ：
+  \begin{align*}
+    \hb{q_i}{q_j}=\delta_{ij},\qquad \hb{q_i}{p_j}=0。
+  \end{align*}
+  これらをPoisson括弧の式に代入する：
+  \begin{align*}
+    \{q_i,H\}
+    &=\ssum{j}{1}{f}\delta_{ij}\hb{H}{p_j}\\
+    &=\hb{H}{p_i}。
+  \end{align*}
+  一方、一般座標$q_i$に対するHamilton方程式\eqref{eq:34}式より、次の等式が成り立つ：
+  \begin{align*}
+    \bbn{q_i}{t}=\hb{H}{p_i}。
+  \end{align*}
+  したがって、一般座標$q_i$の運動方程式はPoisson括弧を用いて次のように表される：
+  \begin{align*}
+    \bbn{q_i}{t}=\{q_i,H\}。
+  \end{align*}
+  次に、一般運動量$p_i$とHamilton関数$H$のPoisson括弧を計算する。Poisson括弧の定義\eqref{eq:146}式より、次の式を得る：
+  \begin{align*}
+    \{p_i,H\}
+    &=\ssum{j}{1}{f}\left(\hb{p_i}{q_j}\hb{H}{p_j}-\hb{p_i}{p_j}\hb{H}{q_j}\right)。
+  \end{align*}
+  正準変数の独立性より、次の偏微分が成り立つ：
+  \begin{align*}
+    \hb{p_i}{q_j}=0,\qquad \hb{p_i}{p_j}=\delta_{ij}。
+  \end{align*}
+  これらをPoisson括弧の式に代入する：
+  \begin{align*}
+    \{p_i,H\}
+    &=-\ssum{j}{1}{f}\delta_{ij}\hb{H}{q_j}\\
+    &=-\hb{H}{q_i}。
+  \end{align*}
+  一方、一般運動量$p_i$に対するHamilton方程式\eqref{eq:34}式より、次の等式が成り立つ：
+  \begin{align*}
+    \bbn{p_i}{t}=-\hb{H}{q_i}。
+  \end{align*}
+  したがって、一般運動量$p_i$の運動方程式もPoisson括弧を用いて次のように表される：
+  \begin{align*}
+    \bbn{p_i}{t}=\{p_i,H\}。
+  \end{align*}
+  以上の結果をまとめると、正準変数$q_i,p_i$に対するHamilton方程式は次のように表される：
+  \begin{align*}
+    \left\{
+      \begin{aligned}
+        \displaystyle \bbn{q_i}{t}&=\{q_i,H\}\\
+        \displaystyle \bbn{p_i}{t}&=\{p_i,H\}
+      \end{aligned}
+    \right.
+    \quad(i=1,\dots,f)。
+  \end{align*}
+  以上より、Poisson括弧によって表現されたHamilton方程式\eqref{eq:166}式が示された。
+
+  このように、Poisson括弧を用いると、一般座標$q_i$に対する運動方程式と一般運動量$p_i$に対する運動方程式はまったく同じ形になる。
+
+  \subsection*{Q4-40（任意の物理量の時間微分のPoisson括弧による表現）}\label{Q4-40}
+  \addcontentsline{toc}{subsection}{Q4-40（任意の物理量の時間微分のPoisson括弧による表現）}
+  正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の任意の関数$A$を考える：
+  \begin{align*}
+    A=A(q_1,\dots,q_f;p_1,\dots,p_f;t)。\tag{167}\label{eq:167}
+  \end{align*}
+  量$A$の時間変化$\bbn{A}{t}$は次のように表されることを示す：
+  \begin{align*}
+    \bbn{A}{t}=\{A,H\}+\hb{A}{t}。\tag{168}\label{eq:168}
+  \end{align*}
+  ここで、$H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)$は系のHamilton関数である。
+
+  既に\hyperref[Q4-35-iv]{Q4-35(iv)}の過程で簡単に示してしまっているが、ここでもう一度示しておく。\\
+  量$A$は、正準変数$q_1,\dots,q_f,p_1,\dots,p_f$と時間$t$の関数である。また、正準変数$q_i,p_i$は時間$t$とともに変化する。したがって、多変数関数の連鎖律を用いると、量$A$の時間$t$についての全微分は次のように表される：
+  \begin{align*}
+    \bbn{A}{t}
+    =\ssum{i}{1}{f}\left(\hb{A}{q_i}\bbn{q_i}{t}+\hb{A}{p_i}\bbn{p_i}{t}\right)+\hb{A}{t}。
+  \end{align*}
+  正準変数$q_1,\dots,q_f,p_1,\dots,p_f$は、系のHamilton関数$H=H(q_1,\dots,q_f;p_1,\dots,p_f;t)$を用いると、Hamilton方程式\eqref{eq:34}式に従う：
+  \begin{align*}
+    \bbn{q_i}{t}=\hb{H}{p_i},\qquad
+    \bbn{p_i}{t}=-\hb{H}{q_i}\quad(i=1,\dots,f)。
+  \end{align*}
+  これらを量$A$の全時間微分に代入する：
+  \begin{align*}
+    \bbn{A}{t}
+    &=\ssum{i}{1}{f}\left(\hb{A}{q_i}\hb{H}{p_i}-\hb{A}{p_i}\hb{H}{q_i}\right)+\hb{A}{t}\\
+    &=\{A,H\}+\hb{A}{t}。
+  \end{align*}
+  最後の等号では、Poisson括弧の定義\eqref{eq:146}式を用いた。したがって、量$A$の時間変化は次のように表される：
+  \begin{align*}
+    \bbn{A}{t}=\{A,H\}+\hb{A}{t}。
+  \end{align*}
+  以上より、任意の物理量の時間微分をPoisson括弧によって表した\eqref{eq:168}式が示された。
+
+  最後に、古典力学のPoisson括弧$\{A,B\}$を量子力学の交換子$[\widehat{A},\widehat{B}]\equiv\widehat{A}\widehat{B}-\widehat{B}\widehat{A}$へ、次のように読み替えることにより、古典力学から量子力学への移行が歴史的に行われたことを付記しておく：
+  \begin{align*}
+    \{A,B\}\longrightarrow\frac{1}{\sqrt{-1}\hbar}[\widehat{A},\widehat{B}]。\tag{169}\label{eq:169}
+  \end{align*}
+
+  \clearpage
+
+  
+
+\end{document}

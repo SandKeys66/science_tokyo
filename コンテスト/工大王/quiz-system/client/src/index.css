@@ -1,0 +1,61 @@
+body{
+  margin:0;
+  background:#081631;
+  color:white;
+  font-family:sans-serif;
+}
+
+.center{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+}
+
+.container{
+  padding:20px;
+}
+
+.panel{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#113166;
+  border-radius:16px;
+  padding:15px;
+  text-align:center;
+}
+
+.answer{
+  margin-top:12px;
+  font-size:1.5rem;
+  min-height:50px;
+}
+
+.score{
+  color:gold;
+  font-weight:bold;
+}
+
+textarea{
+  width:100%;
+  height:120px;
+  margin-top:20px;
+}
+
+button{
+  margin:6px;
+  padding:10px 16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.admin{
+  margin-top:20px;
+}

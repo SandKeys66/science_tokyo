@@ -1,0 +1,515 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper,10pt]{jsarticle}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float,tikz,caption,array,booktabs,longtable,multicol}
+\usepackage[margin=16mm]{geometry}
+\usepackage[dvipdfmx,setpagesize=false,bookmarks=true,bookmarksdepth=tocdepth,bookmarksnumbered=true,colorlinks=false,pdftitle={熱力学演習試験用サバイバルノート},pdfsubject={熱力学},pdfauthor={25B00729 嶋田 悠音},pdfkeywords={熱力学,試験,公式,フローチャート}]{hyperref}
+\usepackage{pxjahyper}
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+\newcommand{\key}[1]{\begin{framed}\noindent #1\end{framed}}
+\newcommand{\flow}[1]{\begin{center}\begin{minipage}{0.94\textwidth}\centering #1\end{minipage}\end{center}}
+\hypersetup{colorlinks=true,linkcolor=red}
+\setlength{\parindent}{1zw}
+\setlength{\parskip}{0.15em}
+\title{熱力学演習試験用サバイバルノート}
+\author{25B00729　嶋田 悠音}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+本書は、第1回から第6回までの熱力学演習で用いた定義、基本式、証明の出発点、頻出導出、および問題番号からの逆引きを約15ページに圧縮した試験用ノートである。暗記する式と、その場で再導出する式を明確に分け、問題文から解法を選ぶ流れを示した。
+\end{abstract}
+\tableofcontents
+\newpage
+
+\section{このノートの使い方}\label{sec:usage}
+問題を読んだら、次の順で判断する。
+\flow{問題文の指示を読む\\$\Downarrow$\\固定される量と変化する量を確認する\\$\Downarrow$\\自然変数が一致する熱力学関数を選ぶ\\$\Downarrow$\\基本関係式、全微分、Maxwell関係式の順に使う。}
+状態方程式なら第\ref{sec:eos-flow}節、断熱なら第\ref{sec:adiabatic-flow}節、Maxwell関係式なら第\ref{sec:maxwell}節、相転移なら第\ref{sec:phase}節、Joule--Thomson効果なら第\ref{sec:jt}節を参照する。
+
+\key{最初に書く式が分からない場合は、単純圧縮系なら $dU=TdS-pdV+\mu dN$、磁性体なら $dU=TdS+HdM$ に戻る。}
+
+\subsection{暗記と導出の区別}
+暗記するべきものは、熱力学関数の定義、基本関係式、熱容量の定義、系ごとの状態方程式である。Maxwell関係式、Euler関係式、Poisson関係式、Joule--Thomson係数、Clapeyron--Clausius関係式は、試験時間に余裕がなければ結果も覚えるが、導出経路を再現できるようにする。
+
+\newpage
+\section{最低限暗記する定義と基本式}\label{sec:memorize}
+\subsection{単純圧縮系の基本関係式}
+粒子数を含める場合の出発点は次式である：
+\begin{align}
+  dU=TdS-pdV+\mu dN。\label{eq:fundamental}
+\end{align}
+したがって、各係数は次の偏微分で与えられる：
+\begin{align}
+  T&=\left(\frac{\partial U}{\partial S}\right)_{V,N}, &
+  p&=-\left(\frac{\partial U}{\partial V}\right)_{S,N}, &
+  \mu&=\left(\frac{\partial U}{\partial N}\right)_{S,V}。\label{eq:conjugates}
+\end{align}
+
+\subsection{熱力学関数の定義}
+\begin{align}
+  F&=U-TS,\label{eq:Fdef}\\
+  H&=U+pV,\label{eq:Hdef}\\
+  G&=U-TS+pV=H-TS。\label{eq:Gdef}
+\end{align}
+
+\subsection{熱容量と応答係数}
+\begin{align}
+  C_V&=T\left(\frac{\partial S}{\partial T}\right)_V=\left(\frac{\partial U}{\partial T}\right)_V,\label{eq:Cv}\\
+  C_P&=T\left(\frac{\partial S}{\partial T}\right)_p=\left(\frac{\partial H}{\partial T}\right)_p,\label{eq:Cp}\\
+  \alpha&=\frac{1}{V}\left(\frac{\partial V}{\partial T}\right)_p,\qquad
+  \kappa_T=-\frac{1}{V}\left(\frac{\partial V}{\partial p}\right)_T,\qquad
+  \kappa_S=-\frac{1}{V}\left(\frac{\partial V}{\partial p}\right)_S。\label{eq:responses}
+\end{align}
+
+\subsection{理想気体}
+$N$を物質量とする表記では、状態方程式とMayerの関係式は次の通りである：
+\begin{align}
+  pV&=NRT,\label{eq:ideal}\\
+  C_P-C_V&=NR,\label{eq:mayer}\\
+  \gamma&=\frac{C_P}{C_V}。\label{eq:gamma}
+\end{align}
+演習で$C_P,C_V$をモル熱容量としている場合は、式\eqref{eq:mayer}の右辺を$R$とする。
+
+\newpage
+\section{熱力学関数と自然変数}\label{sec:potentials}
+式\eqref{eq:fundamental}と式\eqref{eq:Fdef}--\eqref{eq:Gdef}を微分する：
+\begin{align}
+  dU&=TdS-pdV+\mu dN,\label{eq:dU}\\
+  dF&=-SdT-pdV+\mu dN,\label{eq:dF}\\
+  dH&=TdS+Vdp+\mu dN,\label{eq:dH}\\
+  dG&=-SdT+Vdp+\mu dN。\label{eq:dG}
+\end{align}
+したがって、自然変数と主な用途は次表の通りである。
+\begin{table}[H]
+\centering
+\caption{熱力学関数の自然変数と用途}
+\begin{tabular}{cccc}
+\toprule
+関数 & 自然変数 & 微分の係数 & 主な用途\\
+\midrule
+$U$ & $S,V,N$ & $T,-p,\mu$ & 状態方程式、示量性\\
+$F$ & $T,V,N$ & $-S,-p,\mu$ & 定積系、Maxwell関係式\\
+$H$ & $S,p,N$ & $T,V,\mu$ & 絞り、Joule--Thomson効果\\
+$G$ & $T,p,N$ & $-S,V,\mu$ & 相平衡、化学ポテンシャル\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{関数選択の短い規則}
+\begin{itemize}
+  \item $T,V$が固定される、または$(\partial S/\partial V)_T$が現れる場合は$F$を選ぶ。
+  \item $T,p$が固定される、相平衡、または$(\partial S/\partial p)_T$が現れる場合は$G$を選ぶ。
+  \item 絞り過程、多孔質壁、定エンタルピーなら$H$を選ぶ。
+  \item $S,V,N$を同時に拡大する示量性の問題では$U$を選ぶ。
+\end{itemize}
+
+\key{熱力学関数の選択は、求めたい偏微分の添字と自然変数を一致させる作業である。}
+
+\newpage
+\section{Maxwell関係式早見表}\label{sec:maxwell}
+混合偏微分の交換可能性から、式\eqref{eq:dU}--\eqref{eq:dG}に対応して次の4本を得る：
+\begin{align}
+  \left(\frac{\partial T}{\partial V}\right)_S
+  &=-\left(\frac{\partial p}{\partial S}\right)_V,\label{eq:maxU}\\
+  \left(\frac{\partial S}{\partial V}\right)_T
+  &=\left(\frac{\partial p}{\partial T}\right)_V,\label{eq:maxF}\\
+  \left(\frac{\partial T}{\partial p}\right)_S
+  &=\left(\frac{\partial V}{\partial S}\right)_p,\label{eq:maxH}\\
+  \left(\frac{\partial S}{\partial p}\right)_T
+  &=-\left(\frac{\partial V}{\partial T}\right)_p。\label{eq:maxG}
+\end{align}
+
+\subsection{最もよく使う2本}
+演習で特に頻出なのは式\eqref{eq:maxF}と式\eqref{eq:maxG}である。
+\flow{$(\partial S/\partial V)_T$を見た\\$\Downarrow$\\$F(T,V)$を作る\\$\Downarrow$\\$(\partial p/\partial T)_V$へ置換する。}
+\flow{$(\partial S/\partial p)_T$を見た\\$\Downarrow$\\$G(T,p)$を作る\\$\Downarrow$\\$-(\partial V/\partial T)_p$へ置換する。}
+
+\subsection{偏微分の一般公式}
+逆数関係と循環関係も最低限必要である：
+\begin{align}
+  \left(\frac{\partial x}{\partial y}\right)_z
+  &=\left[\left(\frac{\partial y}{\partial x}\right)_z\right]^{-1},\label{eq:reciprocal}\\
+  \left(\frac{\partial x}{\partial y}\right)_z
+  \left(\frac{\partial y}{\partial z}\right)_x
+  \left(\frac{\partial z}{\partial x}\right)_y&=-1。\label{eq:cyclic}
+\end{align}
+
+\newpage
+\section{状態方程式とエントロピーの導出フロー}\label{sec:eos-flow}
+\subsection{基本式$U(S,V,N)$から状態方程式を出す}
+\flow{$U(S,V,N)$が与えられる\\$\Downarrow$\\式\eqref{eq:conjugates}から$T$と$p$を計算する\\$\Downarrow$\\$S$または指数因子を消去する\\$\Downarrow$\\$p=p(T,V,N)$を得る。}
+理想気体の基本式なら$T=U/(cRN)$と$p=U/(cV)$を組み合わせ、$pV=RNT$を得る。van der Waals気体なら、同様に指数因子を消去して
+\begin{align}
+  \left(p+\frac{aN^2}{V^2}\right)(V-bN)=NRT\label{eq:vdw}
+\end{align}
+を得る。
+
+\subsection{エントロピー差を求める}
+式\eqref{eq:fundamental}で$dN=0$とすれば：
+\begin{align}
+  dS=\frac{dU}{T}+\frac{p}{T}dV。\label{eq:dSgeneral}
+\end{align}
+理想気体では$dU=C_VdT$と式\eqref{eq:ideal}を代入する：
+\begin{align}
+  dS=\frac{C_V}{T}dT+\frac{NR}{V}dV。\label{eq:dSideal}
+\end{align}
+$C_V$を一定として積分すれば：
+\begin{align}
+  S_2-S_1=C_V\ln\frac{T_2}{T_1}+NR\ln\frac{V_2}{V_1}。\label{eq:entropyideal}
+\end{align}
+エントロピーは状態量であるため、実際の過程が不可逆でも、同じ始状態と終状態を結ぶ仮想的な可逆経路を用いて式\eqref{eq:entropyideal}を計算できる。
+
+\newpage
+\section{断熱変化の完全フローチャート}\label{sec:adiabatic-flow}
+問題文に「断熱」とあれば、最初に言えることは
+\begin{align}
+  \delta Q=0\label{eq:adiabatic}
+\end{align}
+だけである。ここから可逆性で分岐する。
+\flow{断熱\\$\Downarrow$\\$\delta Q=0$\\$\Downarrow$\\可逆または準静的か\\$\swarrow$ 可逆 \hspace{3em} 不可逆 $\searrow$\\$dS=0$ \hspace{5em} $\Delta S>0$となり得る\\Poisson関係式を使用 \hspace{2em} Poisson関係式は使用不可。}
+
+\subsection{可逆断熱からPoisson関係式を導く}
+理想気体では、熱力学第1法則と式\eqref{eq:adiabatic}から：
+\begin{align*}
+  C_VdT&=-pdV=-\frac{NRT}{V}dV,\\
+  \frac{dT}{T}&=-(\gamma-1)\frac{dV}{V}。
+\end{align*}
+積分して：
+\begin{align}
+  TV^{\gamma-1}&=\mathrm{const.},\label{eq:poissonTV}\\
+  pV^\gamma&=\mathrm{const.},\label{eq:poissonPV}\\
+  T^\gamma p^{1-\gamma}&=\mathrm{const.}。\label{eq:poissonTp}
+\end{align}
+
+\subsection{不可逆断熱の扱い}
+自由膨張では$Q=0$かつ外圧が零なので$W=0$であり、$\Delta U=0$となる。理想気体なら$T_2=T_1$であるが、式\eqref{eq:entropyideal}より：
+\begin{align*}
+  \Delta S=NR\ln\frac{V_2}{V_1}>0。
+\end{align*}
+したがって、$Q=0$から$dS=0$を結論してはならない。
+
+\newpage
+\section{熱容量と応答係数の証明テンプレート}\label{sec:heat-capacity}
+\subsection{熱容量の微分}
+式\eqref{eq:Cv}を$V$で偏微分し、偏微分の順序を交換して式\eqref{eq:maxF}を使う：
+\begin{align}
+  \left(\frac{\partial C_V}{\partial V}\right)_T
+  &=T\left(\frac{\partial^2p}{\partial T^2}\right)_V。\label{eq:dCvdV}
+\end{align}
+同様に式\eqref{eq:Cp}と式\eqref{eq:maxG}から：
+\begin{align}
+  \left(\frac{\partial C_P}{\partial p}\right)_T
+  &=-T\left(\frac{\partial^2V}{\partial T^2}\right)_p。\label{eq:dCpdp}
+\end{align}
+
+\subsection{$C_P-C_V$の一般形}
+式\eqref{eq:maxF}を用いると：
+\begin{align}
+  C_P-C_V
+  &=T\left(\frac{\partial p}{\partial T}\right)_V
+       \left(\frac{\partial V}{\partial T}\right)_p\label{eq:CpCvGeneral}\\
+  &=\frac{TV\alpha^2}{\kappa_T}。\label{eq:CpCvAlpha}
+\end{align}
+安定な平衡状態では$T,V,\kappa_T>0$なので、通常$C_P\ge C_V$である。
+
+\subsection{圧縮率との関係}
+\begin{align}
+  \frac{C_P}{C_V}=\frac{\kappa_T}{\kappa_S},\label{eq:ratio-compressibility}
+\end{align}
+また、
+\begin{align}
+  \kappa_T-\kappa_S
+  =\frac{T}{VC_P}\left[\left(\frac{\partial V}{\partial T}\right)_p\right]^2\ge0。\label{eq:kdiff}
+\end{align}
+証明では、全微分で固定条件を変換し、式\eqref{eq:maxG}を使う。
+
+\newpage
+\section{内部エネルギーの体積依存性}\label{sec:Uvolume}
+$S=S(T,V)$として式\eqref{eq:fundamental}へ代入し、$dV$の係数を比較する：
+\begin{align*}
+  dU&=T\left(\frac{\partial S}{\partial T}\right)_VdT
+  +\left[T\left(\frac{\partial S}{\partial V}\right)_T-p\right]dV。
+\end{align*}
+式\eqref{eq:maxF}を用いれば：
+\begin{align}
+  \left(\frac{\partial U}{\partial V}\right)_T
+  =T\left(\frac{\partial p}{\partial T}\right)_V-p。\label{eq:UdV}
+\end{align}
+
+\subsection{理想気体}
+式\eqref{eq:ideal}を式\eqref{eq:UdV}へ代入すると：
+\begin{align*}
+  \left(\frac{\partial U}{\partial V}\right)_T=0。
+\end{align*}
+したがって、理想気体の内部エネルギーは温度のみの関数である。
+
+\subsection{van der Waals気体}
+式\eqref{eq:vdw}から：
+\begin{align}
+  \left(\frac{\partial U}{\partial V}\right)_T=\frac{aN^2}{V^2},\qquad
+  U(T,V)=U_0(T)-\frac{aN^2}{V}。\label{eq:Uvdw}
+\end{align}
+
+\subsection{この形を見たときの反射}
+\flow{$(\partial U/\partial V)_T$\\$\Downarrow$\\$dU=TdS-pdV$\\$\Downarrow$\\$S(T,V)$で全微分\\$\Downarrow$\\Maxwell関係式\eqref{eq:maxF}。}
+
+\newpage
+\section{示量性、Euler関係式、Gibbs--Duhem関係式}\label{sec:euler}
+内部エネルギーの示量性は：
+\begin{align}
+  U(\lambda S,\lambda V,\lambda N)=\lambda U(S,V,N)。\label{eq:homogeneous}
+\end{align}
+両辺を$\lambda$で微分し、$\lambda=1$と置く：
+\begin{align*}
+  U&=S\left(\frac{\partial U}{\partial S}\right)_{V,N}
+  +V\left(\frac{\partial U}{\partial V}\right)_{S,N}
+  +N\left(\frac{\partial U}{\partial N}\right)_{S,V}。
+\end{align*}
+式\eqref{eq:conjugates}からEuler関係式を得る：
+\begin{align}
+  U=TS-pV+\mu N。\label{eq:euler}
+\end{align}
+式\eqref{eq:euler}を微分し、式\eqref{eq:fundamental}と比較する：
+\begin{align}
+  SdT-Vdp+Nd\mu=0。\label{eq:gibbs-duhem}
+\end{align}
+
+\subsection{各熱力学関数のEuler形}
+\begin{align}
+  F&=-pV+\mu N,\\
+  H&=TS+\mu N,\\
+  G&=\mu N。\label{eq:euler-potentials}
+\end{align}
+
+\subsection{Legendre変換}
+独立変数$S$を$T$へ変えたい場合、$U-TS$を作る。$V$を$p$へ変えたい場合、$U+pV$を作る。符号は基本関係式で共役な項を相殺するように決まる。
+\flow{$dU=TdS-pdV$\\$S\to T$なら$-TS$を加える\\$V\to p$なら$+pV$を加える。}
+
+\newpage
+\section{相転移とClapeyron--Clausius関係式}\label{sec:phase}
+気液相境界では、同じ$T,p,N$におけるGibbs自由エネルギーが等しい：
+\begin{align}
+  G_G(T,p,N)=G_L(T,p,N)。\label{eq:phaseeq}
+\end{align}
+相境界に沿って隣接点へ移動すると$dG_G=dG_L$である。式\eqref{eq:dG}から：
+\begin{align*}
+  -S_GdT+V_Gdp=-S_LdT+V_Ldp。
+\end{align*}
+したがって：
+\begin{align}
+  \frac{dp}{dT}=\frac{S_G-S_L}{V_G-V_L}。\label{eq:clapeyron1}
+\end{align}
+潜熱$L=T(S_G-S_L)$を代入する：
+\begin{align}
+  \frac{dp}{dT}=\frac{L}{T(V_G-V_L)}。\label{eq:clapeyron2}
+\end{align}
+$V_G\gg V_L$かつ蒸気を理想気体と近似すると：
+\begin{align}
+  \frac{dp}{dT}=\frac{Lp}{RT^2},\qquad
+  \ln\frac{p_2}{p_1}=-\frac{L}{R}\left(\frac{1}{T_2}-\frac{1}{T_1}\right)。\label{eq:clausius-integrated}
+\end{align}
+
+\subsection{証明の型}
+\flow{相平衡\\$\Downarrow$\\$G_G=G_L$\\$\Downarrow$\\両相で$dG=-SdT+Vdp$\\$\Downarrow$\\係数差を整理\\$\Downarrow$\\潜熱$L=T\Delta S$を代入。}
+
+\newpage
+\section{Joule--Thomson効果}\label{sec:jt}
+多孔質壁を通る定常断熱流では、入口で気体を押し込む仕事と出口で気体がする仕事を含めると：
+\begin{align}
+  H_1=H_2。\label{eq:isenthalpic}
+\end{align}
+したがって、Joule--Thomson過程は定エンタルピー過程である。
+
+$H=H(T,p)$として全微分する：
+\begin{align*}
+  dH=C_PdT+\left(\frac{\partial H}{\partial p}\right)_Tdp。
+\end{align*}
+$dH=0$より：
+\begin{align*}
+  \mu_{\mathrm{JT}}
+  =\left(\frac{\partial T}{\partial p}\right)_H
+  =-\frac{1}{C_P}\left(\frac{\partial H}{\partial p}\right)_T。
+\end{align*}
+式\eqref{eq:dH}と式\eqref{eq:maxG}から：
+\begin{align}
+  \mu_{\mathrm{JT}}
+  =\frac{T\left(\frac{\partial V}{\partial T}\right)_p-V}{C_P}。\label{eq:JT}
+\end{align}
+理想気体では$(\partial V/\partial T)_p=V/T$なので$\mu_{\mathrm{JT}}=0$である。
+
+低密度van der Waals気体では：
+\begin{align}
+  \mu_{\mathrm{JT}}\simeq\frac{N}{C_P}\left(\frac{2a}{RT}-b\right),\qquad
+  T_{\mathrm{inv}}=\frac{2a}{Rb}。\label{eq:JTvdw}
+\end{align}
+
+\key{圧力が下がるとき、$\mu_{\mathrm{JT}}>0$なら温度も下がる。$\mu_{\mathrm{JT}}<0$なら温度は上がる。}
+
+\newpage
+\section{van der Waals気体と臨界点}\label{sec:vdw}
+状態方程式は式\eqref{eq:vdw}である。$a$は分子間引力、$b$は排除体積を表す。
+
+\subsection{臨界点}
+臨界等温線は変曲点を持つため：
+\begin{align}
+  \left(\frac{\partial p}{\partial V}\right)_{T_C}=0,
+  \qquad
+  \left(\frac{\partial^2p}{\partial V^2}\right)_{T_C}=0。\label{eq:criticalconditions}
+\end{align}
+$p=NRT/(V-bN)-aN^2/V^2$を微分し、二式を連立すると：
+\begin{align}
+  V_C=3bN,\qquad
+  T_C=\frac{8a}{27Rb},\qquad
+  p_C=\frac{a}{27b^2}。\label{eq:criticalconstants}
+\end{align}
+
+\subsection{断熱関係式}
+van der Waals気体のエントロピー微分は：
+\begin{align*}
+  dS=cRN\frac{dT}{T}+RN\frac{dV}{V-bN}。
+\end{align*}
+可逆断熱では$dS=0$なので：
+\begin{align}
+  T(V-bN)^{1/c}=\mathrm{const.},\qquad
+  \left(p+\frac{aN^2}{V^2}\right)(V-bN)^\gamma=\mathrm{const.}。\label{eq:vdw-poisson}
+\end{align}
+
+\subsection{二つの頻出経路}
+\begin{itemize}
+  \item $U(T,V)$を求めるなら式\eqref{eq:UdV}を状態方程式へ適用する。
+  \item 臨界点なら式\eqref{eq:criticalconditions}を直接使う。
+\end{itemize}
+
+\newpage
+\section{常磁性体、放射場、ゴム}\label{sec:applications}
+\subsection{理想常磁性体}
+基本関係式とCurieの法則は：
+\begin{align}
+  dU=TdS+HdM,\qquad M=\frac{CH}{T}。\label{eq:magnetic}
+\end{align}
+自由エネルギーは$F=U-TS$、$G=U-TS-HM$であり：
+\begin{align*}
+  dF=-SdT+HdM,\qquad dG=-SdT-MdH。
+\end{align*}
+したがって：
+\begin{align}
+  \left(\frac{\partial S}{\partial M}\right)_T
+  =-\left(\frac{\partial H}{\partial T}\right)_M,
+  \qquad
+  \left(\frac{\partial S}{\partial H}\right)_T
+  =\left(\frac{\partial M}{\partial T}\right)_H。\label{eq:magmaxwell}
+\end{align}
+断熱消磁では：
+\begin{align}
+  \left(\frac{\partial T}{\partial H}\right)_S
+  =-\frac{T}{C_H}\left(\frac{\partial M}{\partial T}\right)_H。\label{eq:demag}
+\end{align}
+Curieの法則では$(\partial M/\partial T)_H<0$なので、磁場を下げると温度が下がる。
+
+\subsection{空洞放射}
+$P=u/3$と$U=u(T)V$を式\eqref{eq:UdV}へ代入すると$Tdu/dT=4u$であり：
+\begin{align}
+  U=aVT^4,\qquad P=\frac{aT^4}{3},\qquad S=\frac{4}{3}aVT^3。\label{eq:radiation}
+\end{align}
+
+\subsection{理想ゴム}
+$dU=TdS+\sigma dL$、$\sigma=A(L)T$から：
+\begin{align}
+  \left(\frac{\partial S}{\partial L}\right)_T
+  =-\left(\frac{\partial\sigma}{\partial T}\right)_L=-A(L)<0。\label{eq:rubber}
+\end{align}
+したがって、等温伸長でエントロピーは減少し、断熱伸長では温度が上がる。
+
+\newpage
+\section{試験で使う証明テンプレート一覧}\label{sec:templates}
+\begin{enumerate}
+  \item \textbf{状態方程式}：$U(S,V,N)$を$S,V$で偏微分し、共通因子を消去する。
+  \item \textbf{エントロピー}：式\eqref{eq:dSgeneral}へ状態方程式と$dU$を代入して積分する。
+  \item \textbf{可逆断熱}：$\delta Q=0$と$dS=0$を区別し、理想気体なら式\eqref{eq:poissonTV}へ進む。
+  \item \textbf{Maxwell}：求めたい偏微分の固定変数に自然変数が一致する関数を選ぶ。
+  \item \textbf{熱容量微分}：式\eqref{eq:Cv}または式\eqref{eq:Cp}を微分し、順序交換後にMaxwell関係式を使う。
+  \item \textbf{内部エネルギーの体積依存}：式\eqref{eq:UdV}を再生成する。
+  \item \textbf{Euler}：式\eqref{eq:homogeneous}を$\lambda$微分する。
+  \item \textbf{Gibbs--Duhem}：式\eqref{eq:euler}を微分し、式\eqref{eq:fundamental}と比較する。
+  \item \textbf{相転移}：式\eqref{eq:phaseeq}から式\eqref{eq:clapeyron2}へ進む。
+  \item \textbf{Joule--Thomson}：式\eqref{eq:isenthalpic}と式\eqref{eq:maxG}から式\eqref{eq:JT}へ進む。
+  \item \textbf{臨界点}：式\eqref{eq:criticalconditions}を連立する。
+  \item \textbf{磁性体}：$dU=TdS+HdM$から、必要な自然変数へLegendre変換する。
+\end{enumerate}
+
+\subsection{符号を確認する方法}
+仕事の符号規約は問題文に合わせる。基本関係式を$dU=TdS-pdV$とした場合、$p>0,dV>0$の膨張では系の内部エネルギーが減少する向きに$-pdV$が現れる。磁性体では演習の規約$dU=TdS+HdM$を用いる。
+
+\newpage
+\section{演習問題逆引き索引}\label{sec:index}
+\begin{longtable}{p{0.14\textwidth}p{0.76\textwidth}}
+\toprule
+問題 & 主題と再利用する式\\
+\midrule
+1-1, 1-2 & 偏微分、連鎖律、逆数関係、循環関係。式\eqref{eq:reciprocal}, \eqref{eq:cyclic}。\\
+1-3 & 熱容量、Mayerの関係式、比熱比。式\eqref{eq:Cv}--\eqref{eq:gamma}。\\
+1-4--1-6 & 可逆断熱、Poisson関係式、大気の断熱減率。第\ref{sec:adiabatic-flow}節。\\
+2-1, 2-2 & 一般過程の熱容量、体積弾性率、$C_P/C_V$。第\ref{sec:heat-capacity}節。\\
+2-3, 2-4 & 理想気体のエントロピーと基本式。式\eqref{eq:dSideal}, \eqref{eq:entropyideal}。\\
+2-5 & van der Waals気体の基本式と断熱関係。第\ref{sec:vdw}節。\\
+2-6 & Maxwell--Boltzmann分布、ガウス積分、Gamma関数。\\
+3-1, 3-2 & Carnot、Otto、可逆断熱、効率。式\eqref{eq:poissonTV}, \eqref{eq:poissonPV}。\\
+3-3, 3-4 & 示量性、凸性、エントロピーの状態量性。第\ref{sec:euler}節。\\
+3-5, 3-6 & Legendre変換、自由エネルギー。第\ref{sec:potentials}節。\\
+3-7 & Clausius不等式、ヒートポンプ。第\ref{sec:adiabatic-flow}節の可逆・不可逆の区別。\\
+4-1 & Euler、Gibbs--Duhem。式\eqref{eq:euler}, \eqref{eq:gibbs-duhem}。\\
+4-2--4-4 & Maxwell関係式、熱容量微分、$(\partial U/\partial V)_T$。第\ref{sec:maxwell}節と第\ref{sec:Uvolume}節。\\
+4-5 & 熱力学的温度。式\eqref{eq:UdV}を経験的温度へ適用する。\\
+4-6 & 常磁性体の熱力学関数とMaxwell関係式。第\ref{sec:applications}節。\\
+5-1--5-4 & Curie則、断熱消磁、磁性体Carnotサイクル、二準位系。式\eqref{eq:magnetic}--\eqref{eq:demag}。\\
+5-5 & 空洞放射、Stefan--Boltzmann則。式\eqref{eq:radiation}。\\
+5-6 & 理想ゴム、等温伸長、断熱伸長。式\eqref{eq:rubber}。\\
+6-1, 6-2 & 熱力学的不等式、熱容量、圧縮率。式\eqref{eq:CpCvAlpha}, \eqref{eq:kdiff}。\\
+6-3, 6-4 & Joule--Thomson効果、逆転温度。第\ref{sec:jt}節。\\
+6-5 & Clapeyron--Clausius関係式。第\ref{sec:phase}節。\\
+6-6 & van der Waals臨界点。式\eqref{eq:criticalconditions}, \eqref{eq:criticalconstants}。\\
+6-7, 6-8 & 断熱消磁と磁場一定熱容量。第\ref{sec:applications}節。\\
+\bottomrule
+\end{longtable}
+
+\newpage
+\section{試験直前チェックリスト}\label{sec:checklist}
+\begin{enumerate}
+  \item 基本関係式の符号は問題文の仕事の規約と一致しているか。
+  \item 「断熱」だけから$dS=0$としていないか。可逆性を確認したか。
+  \item 求めたい偏微分の固定変数を確認したか。
+  \item 自然変数に合う熱力学関数を選んだか。
+  \item エントロピーの偏微分を状態方程式の偏微分へ変えるMaxwell関係式を探したか。
+  \item 熱容量が現れたら式\eqref{eq:Cv}, \eqref{eq:Cp}へ戻ったか。
+  \item 示量性なら$\lambda$倍してから微分したか。
+  \item 相平衡なら$G_G=G_L$を最初に書いたか。
+  \item 多孔質壁の絞りなら$H_1=H_2$を最初に書いたか。
+  \item 臨界点なら等温線の一階・二階微分を零としたか。
+  \item 結果の次元と符号は物理的に妥当か。
+\end{enumerate}
+
+\key{最後まで方針が立たない場合は、全微分を書き、問題の固定条件を代入し、係数比較を行う。熱力学の証明問題の多くはこの手順で閉じる。}
+
+\subsection{試験開始直後に余白へ書く式}
+\begin{align*}
+  dU&=TdS-pdV+\mu dN,\\
+  dF&=-SdT-pdV+\mu dN,\\
+  dH&=TdS+Vdp+\mu dN,\\
+  dG&=-SdT+Vdp+\mu dN,\\
+  C_V&=T\left(\frac{\partial S}{\partial T}\right)_V,
+  \qquad C_P=T\left(\frac{\partial S}{\partial T}\right)_p。
+\end{align*}
+この6式を書けば、Maxwell関係式と主要な証明式を必要に応じて再生成できる。
+
+\end{document}

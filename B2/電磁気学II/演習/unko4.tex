@@ -1,0 +1,498 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\subsection*{1}
+
+スカラー場 $\phi(\vect r,t)$ が
+
+\begin{align*}
+\left(
+\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+\right)\phi(\vect r,t)
+=
+\rho(\vect r,t)
+\end{align*}
+
+を満たすとする。
+
+まずグリーン関数 $G(\vect r,t;\vect r',t')$ を
+
+\begin{align*}
+\left(
+\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+\right)
+G(\vect r,t;\vect r',t')
+=
+\delta^{(3)}(\vect r-\vect r')
+\delta(t-t')
+\end{align*}
+
+によって定義する。
+
+空間および時間の並進対称性より、
+
+\begin{align*}
+G(\vect r,t;\vect r',t')
+=
+G(\vect r-\vect r',t-t')
+\end{align*}
+
+である。
+
+このとき波動方程式の特解は
+
+\begin{align*}
+\phi(\vect r,t)
+=
+\int d^3r'
+\int dt'\,
+G(\vect r-\vect r',t-t')
+\rho(\vect r',t')
+\end{align*}
+
+と表される。
+
+\subsection*{2}
+
+グリーン関数のフーリエ変換
+
+\begin{align*}
+G(\vect r-\vect r',t-t')
+=
+\frac{1}{(2\pi)^4}
+\int d^3k
+\int d\omega\,
+\widetilde G(\vect k,\omega)
+e^{i\vect k\cdot(\vect r-\vect r')-i\omega(t-t')}
+\end{align*}
+
+を導入する。
+
+またデルタ関数のフーリエ表示
+
+\begin{align*}
+\delta^{(3)}(\vect r-\vect r')
+\delta(t-t')
+=
+\frac{1}{(2\pi)^4}
+\int d^3k
+\int d\omega\,
+e^{i\vect k\cdot(\vect r-\vect r')-i\omega(t-t')}
+\end{align*}
+
+を用いる。
+
+これらをグリーン関数の定義式へ代入すると、
+
+\begin{align*}
+\left(
+-k^2+\frac{\omega^2}{c^2}
+\right)
+\widetilde G(\vect k,\omega)
+=
+1
+\end{align*}
+
+を得る。
+
+したがって
+
+\begin{align*}
+\widetilde G(\vect k,\omega)
+=
+\frac{1}
+{\omega^2/c^2-k^2}
+=
+-\frac{1}
+{k^2-\omega^2/c^2}
+\end{align*}
+
+である。
+
+よって
+
+\begin{align*}
+G(\vect r-\vect r',t-t')
+=
+-\frac{1}{(2\pi)^4}
+\int d^3k
+\int d\omega\,
+\frac{
+e^{i\vect k\cdot(\vect r-\vect r')-i\omega(t-t')}
+}{
+k^2-\omega^2/c^2
+}
+\end{align*}
+
+となる。
+
+\subsection*{3}
+
+遅延ポテンシャルを求めるため、
+
+\begin{align*}
+G(\vect r-\vect r',t-t')
+=
+0
+\qquad
+(t<t')
+\end{align*}
+
+を課す。
+
+この条件を実現するため、
+
+\begin{align*}
+G_{\mathrm{ret}}(\vect r-\vect r',t-t')
+=
+-\frac{1}{(2\pi)^4}
+\int d^3k
+\int d\omega\,
+\frac{
+e^{i\vect k\cdot(\vect r-\vect r')-i\omega(t-t')}
+}{
+k^2-(\omega+i0)^2/c^2
+}
+\end{align*}
+
+を考える。
+
+分母を因数分解すると、
+
+\begin{align*}
+k^2-\frac{(\omega+i0)^2}{c^2}
+=
+-\frac{1}{c^2}
+(\omega-ck+i0)
+(\omega+ck+i0)
+\end{align*}
+
+であるから、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\frac{c^2}{(2\pi)^4}
+\int d^3k
+\int d\omega\,
+\frac{
+e^{i\vect k\cdot(\vect r-\vect r')-i\omega(t-t')}
+}{
+(\omega-ck+i0)
+(\omega+ck+i0)
+}
+\end{align*}
+
+と書ける。
+
+$t>t'$ とする。このとき指数因子
+
+\begin{align*}
+e^{-i\omega(t-t')}
+\end{align*}
+
+のため、積分路を下半平面で閉じると円弧部分の寄与は消える。
+
+したがって留数定理より、
+
+\begin{align*}
+\int_{-\infty}^{\infty}
+d\omega\,
+\frac{
+e^{-i\omega(t-t')}
+}{
+(\omega-ck+i0)
+(\omega+ck+i0)
+}
+=
+-\frac{\pi i}{ck}
+\left[
+e^{-ick(t-t')}
+-
+e^{ick(t-t')}
+\right]
+\end{align*}
+
+を得る。
+
+これを代入すると、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\Theta(t-t')
+\frac{c}{(2\pi)^3}
+\int d^3k\,
+e^{i\vect k\cdot(\vect r-\vect r')}
+\frac{\sin\!\left[ck(t-t')\right]}{k}
+\end{align*}
+
+となる。
+
+\subsection*{4}
+
+ここで
+
+\begin{align*}
+R=|\vect r-\vect r'|
+\end{align*}
+
+とおく。
+
+$\vect r-\vect r'$ の方向を極軸に選ぶと、
+
+\begin{align*}
+\int d\Omega\,
+e^{i\vect k\cdot(\vect r-\vect r')}
+=
+4\pi
+\frac{\sin(kR)}{kR}
+\end{align*}
+
+であるから、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\Theta(t-t')
+\frac{c}{2\pi^2R}
+\int_0^\infty
+dk\,
+\sin(kR)
+\sin\!\left[ck(t-t')\right]
+\end{align*}
+
+を得る。
+
+積和公式
+
+\begin{align*}
+\sin A\sin B
+=
+\frac12
+\left[
+\cos(A-B)-\cos(A+B)
+\right]
+\end{align*}
+
+を用いると、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\Theta(t-t')
+\frac{c}{4\pi^2R}
+\int_0^\infty
+dk
+\left[
+\cos\!\left(k(R-c(t-t'))\right)
+-
+\cos\!\left(k(R+c(t-t'))\right)
+\right]
+\end{align*}
+
+となる。
+
+さらに
+
+\begin{align*}
+\int_0^\infty \cos(ak)\,dk
+=
+\pi\delta(a)
+\end{align*}
+
+を用いると、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\Theta(t-t')
+\frac{c}{4\pi R}
+\left[
+\delta\!\left(R-c(t-t')\right)
+-
+\delta\!\left(R+c(t-t')\right)
+\right]
+\end{align*}
+
+を得る。
+
+$t>t'$ および $R>0$ のもとでは
+
+\begin{align*}
+\delta\!\left(R+c(t-t')\right)=0
+\end{align*}
+
+なので、
+
+\begin{align*}
+G_{\mathrm{ret}}
+=
+\Theta(t-t')
+\frac{c}{4\pi R}
+\delta\!\left(R-c(t-t')\right)
+\end{align*}
+
+となる。
+
+最後に
+
+\begin{align*}
+\delta\!\left(R-c(t-t')\right)
+=
+\frac1c
+\delta\!\left(
+t-t'-\frac{R}{c}
+\right)
+\end{align*}
+
+を用いると、
+
+\begin{align*}
+G_{\mathrm{ret}}(\vect r-\vect r',t-t')
+=
+\frac{1}{4\pi|\vect r-\vect r'|}
+\delta\!\left(
+t-t'
+-\frac{|\vect r-\vect r'|}{c}
+\right)
+\end{align*}
+
+を得る。
+
+\subsection*{5}
+
+これを特解の表式へ代入する：
+
+\begin{align*}
+\phi(\vect r,t)
+&=
+\int d^3r'
+\int dt'\,
+\frac{
+\delta\!\left(
+t-t'
+-\frac{|\vect r-\vect r'|}{c}
+\right)
+}
+{4\pi|\vect r-\vect r'|}
+\rho(\vect r',t') \\
+&=
+\frac{1}{4\pi}
+\int d^3r'
+\frac{
+\rho\!\left(
+\vect r',
+t-\frac{|\vect r-\vect r'|}{c}
+\right)
+}
+{|\vect r-\vect r'|}。
+\end{align*}
+
+したがって、波動方程式
+
+\begin{align*}
+\left(
+\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+\right)\phi
+=
+\rho
+\end{align*}
+
+の遅延ポテンシャルは
+
+\begin{align*}
+\phi(\vect r,t)
+=
+\frac{1}{4\pi}
+\int d^3r'
+\frac{
+\rho\!\left(
+\vect r',
+t-\frac{|\vect r-\vect r'|}{c}
+\right)
+}
+{|\vect r-\vect r'|}
+\end{align*}
+
+で与えられる。
+
+\subsection*{6}
+
+一般解は、上で求めた特解に斉次方程式
+
+\begin{align*}
+\left(
+\nabla^2-\frac{1}{c^2}\frac{\partial^2}{\partial t^2}
+\right)\phi_{\mathrm{hom}}
+=
+0
+\end{align*}
+
+の解を加えたものである。
+
+しかし、遅延条件
+
+\begin{align*}
+G(\vect r-\vect r',t-t')
+=
+0
+\qquad
+(t<t')
+\end{align*}
+
+および無限遠からの入射波が存在しない放射境界条件を課すと、斉次解は存在しない。
+
+したがって遅延ポテンシャルは上式によって一意に定まり、その値は過去のソース分布のみで決定される。
+
+以上より、グリーン関数法とフーリエ変換を用いて波動方程式の遅延ポテンシャルが導出された。
+\end{document}

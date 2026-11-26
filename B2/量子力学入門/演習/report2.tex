@@ -1,0 +1,340 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{量子力学入門演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\section*{4.2 混合状態と純粋状態}
+\subsection*{(1)}
+
+$\lvert+\rangle$および$\lvert-\rangle$を、それぞれ$\hat{\sigma}_z$の固有値$+1$および$-1$に属する規格化された固有状態とする。すなわち：
+\begin{align*}
+  \hat{\sigma}_z\lvert+\rangle&=\lvert+\rangle,
+  &
+  \hat{\sigma}_z\lvert-\rangle&=-\lvert-\rangle
+\end{align*}
+である。また、これらは正規直交系をなし：
+\begin{align*}
+  \langle+|+\rangle&=\langle-|-\rangle=1,
+  &
+  \langle+|-\rangle&=\langle-|+\rangle=0
+\end{align*}
+を満たす。
+
+ここで、規格化された純粋状態：
+\begin{align*}
+  \lvert\psi\rangle
+  &=c_+\lvert+\rangle+c_-\lvert-\rangle,
+  &
+  \lvert c_+\rvert^2+\lvert c_-\rvert^2
+  &=1
+\end{align*}
+を考える。Bornの確率規則より、$\hat{\sigma}_z$を測定して固有値$+1$を得る確率$p_+$は：
+\begin{align*}
+  p_+
+  &=\lvert\langle+|\psi\rangle\rvert^2 \\
+  &=\left\lvert c_+\langle+|+\rangle+c_-\langle+|-\rangle\right\rvert^2 \\
+  &=\lvert c_+\rvert^2。
+\end{align*}
+同様に、固有値$-1$を得る確率$p_-$は：
+\begin{align*}
+  p_-
+  &=\lvert\langle-|\psi\rangle\rvert^2 \\
+  &=\left\lvert c_+\langle-|+\rangle+c_-\langle-|-\rangle\right\rvert^2 \\
+  &=\lvert c_-\rvert^2。
+\end{align*}
+実際、状態の規格化条件より：
+\begin{align*}
+  p_++p_-
+  =\lvert c_+\rvert^2+\lvert c_-\rvert^2
+  =1
+\end{align*}
+が成り立つ。以上より、$\hat{\sigma}_z$の測定によって固有値$+1$および$-1$を得る確率は、それぞれ$p_+=\lvert c_+\rvert^2$および$p_-=\lvert c_-\rvert^2$である。
+
+\subsection*{(2)}
+
+純粋状態$\lvert\psi\rangle$における物理量$\hat{A}$の期待値と、$\lvert+\rangle$および$\lvert-\rangle$をそれぞれ確率$p_+$および$p_-$で含む混合状態における期待値を比較する。
+
+まず、純粋状態$\lvert\psi\rangle$に対応するbraベクトルは：
+\begin{align*}
+  \langle\psi|
+  =c_+^*\langle+|+c_-^*\langle-|
+\end{align*}
+である。したがって、純粋状態における$\hat{A}$の期待値は：
+\begin{align*}
+  \langle\hat{A}\rangle_\psi
+  &=\langle\psi|\hat{A}|\psi\rangle \\
+  &=
+  \left(c_+^*\langle+|+c_-^*\langle-|\right)
+  \hat{A}
+  \left(c_+\lvert+\rangle+c_-\lvert-\rangle\right) \\
+  &=\lvert c_+\rvert^2\langle+|\hat{A}|+\rangle
+    +\lvert c_-\rvert^2\langle-|\hat{A}|-\rangle
+    +c_+^*c_-\langle+|\hat{A}|-\rangle
+    +c_-^*c_+\langle-|\hat{A}|+\rangle。
+\end{align*}
+
+一方、混合状態では、系は確率$p_+$で状態$\lvert+\rangle$にあり、確率$p_-$で状態$\lvert-\rangle$にある。このとき、$\hat{A}$の期待値は各状態における期待値の確率平均で与えられるため：
+\begin{align*}
+  \langle\hat{A}\rangle_{\mathrm{mix}}
+  &=p_+\langle+|\hat{A}|+\rangle
+    +p_-\langle-|\hat{A}|-\rangle \\
+  &=\lvert c_+\rvert^2\langle+|\hat{A}|+\rangle
+    +\lvert c_-\rvert^2\langle-|\hat{A}|-\rangle。
+\end{align*}
+よって、純粋状態と混合状態における期待値の差は：
+\begin{align*}
+  \langle\hat{A}\rangle_\psi-\langle\hat{A}\rangle_{\mathrm{mix}}
+  =c_+^*c_-\langle+|\hat{A}|-\rangle
+   +c_-^*c_+\langle-|\hat{A}|+\rangle。
+\end{align*}
+ここで、物理量を表す演算子$\hat{A}$はHermite演算子であるため：
+\begin{align*}
+  \langle-|\hat{A}|+\rangle
+  =\langle+|\hat{A}|-\rangle^*
+\end{align*}
+が成り立つ。したがって、期待値の差は：
+\begin{align*}
+  \langle\hat{A}\rangle_\psi-\langle\hat{A}\rangle_{\mathrm{mix}}
+  =2\operatorname{Re}
+  \left[
+    c_+^*c_-\langle+|\hat{A}|-\rangle
+  \right]。
+\end{align*}
+
+この差は、$\lvert+\rangle$と$\lvert-\rangle$の間の干渉項によるものである。純粋状態$\lvert\psi\rangle$は、二つの状態の重ね合わせであるため、係数$c_+$と$c_-$の相対位相の情報を持つ。一方、混合状態では、系がそれぞれの状態にある確率だけが与えられており、二つの状態の間の相対位相の情報は存在しない。したがって、混合状態の期待値には干渉項が現れない。
+
+この違いは、密度演算子を用いるとより明確に表される。純粋状態の密度演算子は：
+\begin{align*}
+  \hat{\rho}_\psi
+  &=\lvert\psi\rangle\langle\psi| \\
+  &=\lvert c_+\rvert^2\lvert+\rangle\langle+|
+    +\lvert c_-\rvert^2\lvert-\rangle\langle-|
+    +c_+c_-^*\lvert+\rangle\langle-|
+    +c_-c_+^*\lvert-\rangle\langle+|
+\end{align*}
+である。一方、混合状態の密度演算子は：
+\begin{align*}
+  \hat{\rho}_{\mathrm{mix}}
+  &=p_+\lvert+\rangle\langle+|
+    +p_-\lvert-\rangle\langle-| \\
+  &=\lvert c_+\rvert^2\lvert+\rangle\langle+|
+    +\lvert c_-\rvert^2\lvert-\rangle\langle-|
+\end{align*}
+である。したがって、純粋状態の密度演算子には相対位相の情報を持つ非対角成分が存在するが、混合状態の密度演算子には存在しない。
+
+特に、$\hat{A}$が基底$\{\lvert+\rangle,\lvert-\rangle\}$に関して対角的であり：
+\begin{align*}
+  \langle+|\hat{A}|-\rangle
+  =\langle-|\hat{A}|+\rangle
+  =0
+\end{align*}
+を満たす場合には：
+\begin{align*}
+  \langle\hat{A}\rangle_\psi
+  =\langle\hat{A}\rangle_{\mathrm{mix}}
+\end{align*}
+となる。一方、$\hat{A}$が非零の非対角行列要素を持つ場合には、一般に純粋状態と混合状態の期待値は異なる。以上より、純粋状態と混合状態の違いは、密度演算子の非対角成分に対応する干渉項に現れることが示された。
+
+\subsection*{(3)}
+
+具体例として、Pauli行列$\hat{\sigma}_z$、$\hat{\sigma}_x$および$\hat{\sigma}_y$の期待値を計算し、純粋状態と混合状態を比較する。基底を$\{\lvert+\rangle,\lvert-\rangle\}$とすると、各演算子および状態の成分表示は：
+\begin{align*}
+  \hat{\sigma}_z
+  &=
+  \begin{pmatrix}
+    1 & 0 \\
+    0 & -1
+  \end{pmatrix},
+  &
+  \hat{\sigma}_x
+  &=
+  \begin{pmatrix}
+    0 & 1 \\
+    1 & 0
+  \end{pmatrix},
+  &
+  \hat{\sigma}_y
+  &=
+  \begin{pmatrix}
+    0 & -i \\
+    i & 0
+  \end{pmatrix},
+  &
+  \lvert\psi\rangle
+  &=
+  \begin{pmatrix}
+    c_+ \\
+    c_-
+  \end{pmatrix}。
+\end{align*}
+
+まず、$\hat{\sigma}_z$の期待値を求める。純粋状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_z\rangle_\psi
+  &=
+  \begin{pmatrix}
+    c_+^* & c_-^*
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & 0 \\
+    0 & -1
+  \end{pmatrix}
+  \begin{pmatrix}
+    c_+ \\
+    c_-
+  \end{pmatrix} \\
+  &=\lvert c_+\rvert^2-\lvert c_-\rvert^2。
+\end{align*}
+一方、混合状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_z\rangle_{\mathrm{mix}}
+  &=p_+\langle+|\hat{\sigma}_z|+\rangle
+    +p_-\langle-|\hat{\sigma}_z|-\rangle \\
+  &=p_+-p_- \\
+  &=\lvert c_+\rvert^2-\lvert c_-\rvert^2。
+\end{align*}
+したがって：
+\begin{align*}
+  \langle\hat{\sigma}_z\rangle_\psi
+  =\langle\hat{\sigma}_z\rangle_{\mathrm{mix}}
+\end{align*}
+が成り立つ。これは、$\hat{\sigma}_z$がこの基底に関して対角的であるためである。
+
+次に、$\hat{\sigma}_x$の期待値を求める。純粋状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_x\rangle_\psi
+  &=
+  \begin{pmatrix}
+    c_+^* & c_-^*
+  \end{pmatrix}
+  \begin{pmatrix}
+    0 & 1 \\
+    1 & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    c_+ \\
+    c_-
+  \end{pmatrix} \\
+  &=c_+^*c_-+c_-^*c_+ \\
+  &=2\operatorname{Re}\left(c_+^*c_-\right)。
+\end{align*}
+一方、$\hat{\sigma}_x$の対角行列要素は：
+\begin{align*}
+  \langle+|\hat{\sigma}_x|+\rangle
+  &=0,
+  &
+  \langle-|\hat{\sigma}_x|-\rangle
+  &=0
+\end{align*}
+である。したがって、混合状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_x\rangle_{\mathrm{mix}}
+  &=p_+\langle+|\hat{\sigma}_x|+\rangle
+    +p_-\langle-|\hat{\sigma}_x|-\rangle \\
+  &=0。
+\end{align*}
+
+さらに、相対位相が$\hat{\sigma}_x$の期待値に現れない場合も調べるため、$\hat{\sigma}_y$の期待値を求める。純粋状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_y\rangle_\psi
+  &=
+  \begin{pmatrix}
+    c_+^* & c_-^*
+  \end{pmatrix}
+  \begin{pmatrix}
+    0 & -i \\
+    i & 0
+  \end{pmatrix}
+  \begin{pmatrix}
+    c_+ \\
+    c_-
+  \end{pmatrix} \\
+  &=-ic_+^*c_-+ic_-^*c_+ \\
+  &=2\operatorname{Im}\left(c_+^*c_-\right)。
+\end{align*}
+一方、$\hat{\sigma}_y$の対角行列要素もゼロであるため、混合状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_y\rangle_{\mathrm{mix}}
+  &=p_+\langle+|\hat{\sigma}_y|+\rangle
+    +p_-\langle-|\hat{\sigma}_y|-\rangle \\
+  &=0。
+\end{align*}
+
+以上の結果をまとめると、純粋状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_z\rangle_\psi
+  &=\lvert c_+\rvert^2-\lvert c_-\rvert^2,
+  &
+  \langle\hat{\sigma}_x\rangle_\psi
+  &=2\operatorname{Re}\left(c_+^*c_-\right),
+  &
+  \langle\hat{\sigma}_y\rangle_\psi
+  &=2\operatorname{Im}\left(c_+^*c_-\right)
+\end{align*}
+である。一方、混合状態における期待値は：
+\begin{align*}
+  \langle\hat{\sigma}_z\rangle_{\mathrm{mix}}
+  &=\lvert c_+\rvert^2-\lvert c_-\rvert^2,
+  &
+  \langle\hat{\sigma}_x\rangle_{\mathrm{mix}}
+  &=0,
+  &
+  \langle\hat{\sigma}_y\rangle_{\mathrm{mix}}
+  &=0
+\end{align*}
+である。
+
+したがって、$\hat{\sigma}_z$の測定では純粋状態と混合状態を区別できない。これに対して、$c_+c_-\neq0$であれば、$\operatorname{Re}(c_+^*c_-)$と$\operatorname{Im}(c_+^*c_-)$が同時にゼロになることはないため、$\hat{\sigma}_x$または$\hat{\sigma}_y$の少なくとも一方の測定によって両者を区別できる。なお、$c_+=0$または$c_-=0$の場合には、重ね合わせは一つの固有状態に一致し、対応する混合状態との間に違いはない。以上より、純粋状態と混合状態の違いは、$\hat{\sigma}_x$および$\hat{\sigma}_y$の期待値に現れる相対位相の情報によって検出できることが示された。
+\end{document}

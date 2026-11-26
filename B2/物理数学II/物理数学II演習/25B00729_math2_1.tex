@@ -1,0 +1,64 @@
+\RequirePackage{plautopatch}
+\documentclass[platex、dvipdfmx、a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学IIレポート1}
+\author{嶋田 悠音}
+\date{2026年6月12日}
+
+\begin{document}
+  \maketitle
+  \subsection*{問題3}
+  \subsubsection*{(i)}
+  (1)式をオイラーの公式によって指数関数で表すと、
+  \begin{align*}
+    f(x) &\sim \frac{a_0}{2} + \sum{m=1}^{\infty} \left( a_m \cos{mx} + b_m \sin{mx} \right)\\
+    &= \frac{a_0}{2} + \sum_{m=1}^{\infty} \left( a_m\frac{e^{imx}-e^{-imx}}{2} + b_m\frac{e^{imx}-e^{-imx}}{2i} \right)\\
+    &= \frac{a_0}{2} + \sum_{m=1}^{\infty} \left( \frac{a_m + ib_m}{2}e^{imx} + \frac{a_m - ib_m}{2}e^{-imx} \right)\\
+    &= \frac{a_0}{2} + \sum_{m=1}^{\infty} \frac{a_m + ib_m}{2}e^{imx} +\sum_{m=-\infty}^{-1}\frac{a_{-m} - ib_{-m}}{2}e^{imx}
+  \end{align*}
+  となる。ここで、$\frac{a_0}{2}$に係数$e^{i0x}$がかかっていると見る。各nに対して、指数関数の係数を$c_n$と書くと、
+  \begin{align*}
+    f(x) &\sim \sum_{m=-\infty}^{\infty} c_m e^{imx} \、 、 \qquad c_m = \begin{cases}
+      \frac{a_0}{2} & (m=0)\\
+      \frac{a_m + ib_m}{2} & (m>0)\\
+      \frac{a_{-m} - ib_{-m}}{2} & (m<0)
+    \end{cases}
+  \end{align*}
+  と書くことができる。
+  \subsubsubsection*{(ii)}
+  引数$x$に対して周期が$2\pi$であるので、引数を$x$から$\frac{2\pi}{\lambda}x$に変えると、周期が$\lambda$になる。すなわち、
+  \begin{align*}
+    f(x) &\sim \sum_{m=-\infty}^{\infty} c_m e^{i\frac{2\pi}{\lambda}mx}
+  \end{align*}
+  と変更すれば良い。
+  \subsubsubsection*{(iii)}
+  まず、フーリエ級数
+  \begin{align*}
+    f(x) &= \sum_{m=-\infty}^{\infty} \left(\frac{1}{\lambda}\int_{-\frac{\lambda}{2}}^{\frac{\lambda}{2}}f(x)e^{-i\frac{2\pi}{\lambda}m x}\、dx\right) e^{i\frac{2\pi}{\lambda}mx}
+  \end{align*}
+  に対して、$k_m=\frac{2\pi m}{\lambda}、 \Delta k =\frac{2\pi}{\lambda}$とおくと、
+  \begin{align*}
+    f(x) &= \sum_{m=-\infty}^{\infty} \left(\frac{1}{2\pi}\int_{-\frac{\lambda}{2}}^{\frac{\lambda}{2}}f(x)e^{-ik_m x}\、dx\right) e^{ik_m x} \Delta k
+  \end{align*}
+  と書くことができる。$\lambda \rightarrow \infty$のとき、$\Delta k \rightarrow 0$となるので、和が積分に変わる。すなわち、
+  \begin{align*}
+    f(x) &= \int_{-\infty}^{\infty} \left(\frac{1}{2\pi}\int_{-\infty}^{\infty}f(x)e^{-ikx}\、dx\right) e^{ikx} \、 dk
+  \end{align*}
+  と書くことができる。ここで、$F(k) = \frac{1}{2\pi}\int_{-\infty}^{\infty}f(x)e^{-ikx}\、dx$とおくと、
+  \begin{align*}
+    f(x) &= \int_{-\infty}^{\infty} F(k) e^{ikx} \、 dk
+  \end{align*}
+  となる。これが示したかった式である。
+\end{document}

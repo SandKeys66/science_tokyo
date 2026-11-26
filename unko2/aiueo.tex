@@ -1,0 +1,30 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{タイトル}
+\author{著者}
+\date{2026年5月13日}
+
+\begin{document}
+  \maketitle
+  左辺第一項について、
+  \begin{align*}
+    \vect{u} \cdot \partial_t \vect{u} = u_1 \partial_t u_1 + u_2 \partial_t u_2
+  \end{align*}
+
+  $\vect{u}$を内積してD上で重積分すると、
+  \begin{align*}
+    \int_D \vect{u}\cdot \right( \nabla \vect{u} \left) &= 
+  \end{align*}
+  まず非線形項について、
+\end{document}
+

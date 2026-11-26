@@ -1,0 +1,320 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{量子力学演習レポート3}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\section*{5.4 確率の保存}
+
+\subsection*{(1)}
+
+1次元Schrödinger方程式に従う波動関数について、確率密度が連続の式を満たすことを示し、確率流束を求める。
+
+波動関数 $\psi(t,x)$ に対するSchrödinger方程式は、次式で与えられる：
+
+\begin{align*}
+  i\hbar\hb{\psi}{t}
+  =-\frac{\hbar^2}{2m}\nhb{2}{\psi}{x}+V(x)\psi。
+\end{align*}
+
+ここで、ポテンシャル $V(x)$ は実数であるとする。この式の複素共役を取る：
+
+\begin{align*}
+  -i\hbar\hb{\psi^*}{t}
+  =-\frac{\hbar^2}{2m}\nhb{2}{\psi^*}{x}+V(x)\psi^*。
+\end{align*}
+
+確率密度を次式で定義する：
+
+\begin{align*}
+  \rho(t,x)=|\psi(t,x)|^2=\psi^*(t,x)\psi(t,x)。
+\end{align*}
+
+この確率密度を時間で偏微分し、Schrödinger方程式とその複素共役を代入する：
+
+\begin{align*}
+  \hb{\rho}{t}
+  &=\hb{\psi^*}{t}\psi+\psi^*\hb{\psi}{t} \\
+  &=\left(
+    -\frac{i\hbar}{2m}\nhb{2}{\psi^*}{x}
+    +\frac{i}{\hbar}V\psi^*
+  \right)\psi
+  +\psi^*\left(
+    \frac{i\hbar}{2m}\nhb{2}{\psi}{x}
+    -\frac{i}{\hbar}V\psi
+  \right) \\
+  &=\frac{i\hbar}{2m}
+  \left(
+    \psi^*\nhb{2}{\psi}{x}
+    -\psi\nhb{2}{\psi^*}{x}
+  \right)。
+\end{align*}
+
+ポテンシャルを含む項は互いに打ち消し合った。ここで、積の微分を用いる：
+
+\begin{align*}
+  \hb{}{x}
+  \left(
+    \psi^*\hb{\psi}{x}
+    -\psi\hb{\psi^*}{x}
+  \right)
+  &=\hb{\psi^*}{x}\hb{\psi}{x}
+  +\psi^*\nhb{2}{\psi}{x}
+  -\hb{\psi}{x}\hb{\psi^*}{x}
+  -\psi\nhb{2}{\psi^*}{x} \\
+  &=\psi^*\nhb{2}{\psi}{x}
+  -\psi\nhb{2}{\psi^*}{x}。
+\end{align*}
+
+したがって、確率密度の時間微分は次式で表される：
+
+\begin{align*}
+  \hb{\rho}{t}
+  &=-\hb{}{x}
+  \left\{
+    \frac{\hbar}{2mi}
+    \left(
+      \psi^*\hb{\psi}{x}
+      -\psi\hb{\psi^*}{x}
+    \right)
+  \right\}。
+\end{align*}
+
+よって、量$j(t,x)$ を次式で定義する：
+
+\begin{align*}
+  j(t,x)
+  &=\frac{\hbar}{2mi}
+  \left(
+    \psi^*\hb{\psi}{x}
+    -\psi\hb{\psi^*}{x}
+  \right) \\
+  &=\frac{\hbar}{m}
+  \operatorname{Im}
+  \left(
+    \psi^*\hb{\psi}{x}
+  \right)。
+\end{align*}
+
+これを用いることで、確率密度は連続の式(5.4.2)を満たすことが示された：
+
+\begin{align*}
+  \hb{}{t}\rho(t,x)+\hb{}{x}j(t,x)=0。
+\end{align*}
+
+次に、量$j(t,x)$の意味を確認するため、任意の区間 $[a,b]$ に粒子が存在する確率を考える。連続の式をこの区間で積分し、微分積分学の基本定理を用いる：
+
+\begin{align*}
+  \bbn{}{t}\int_a^b\rho(t,x)\,dx
+  &=-\int_a^b\hb{j(t,x)}{x}\,dx \\
+  &=j(t,a)-j(t,b)。
+\end{align*}
+
+したがって、区間内の確率の時間変化は、左端から流入する$j(t,a)$と右端から流出する$j(t,b)$との差に等しい。つまり、$j(t,x)$は確率の流れを表しているわけであるから、確率に対する流束と見做していいだろう。
+
+\subsection*{(2)}
+
+確率流束を全空間で積分した量と、運動量の期待値との関係を示す。
+
+位置座標表示における運動量演算子は次式で与えられる：
+
+\begin{align*}
+  \hat{p}=-i\hbar\hb{}{x}。
+\end{align*}
+
+したがって、規格化された状態 $\psi(t,x)$ における運動量の期待値は次式となる：
+
+\begin{align*}
+  \langle\hat{p}\rangle
+  &=\int_{-\infty}^{\infty}
+  \psi^*(t,x)
+  \left(
+    -i\hbar\hb{}{x}
+  \right)
+  \psi(t,x)\,dx \\
+  &=-i\hbar
+  \int_{-\infty}^{\infty}
+  \psi^*\hb{\psi}{x}\,dx。
+\end{align*}
+
+一方、(1)で求めた確率流束を全空間で積分する：
+
+\begin{align*}
+  m\int_{-\infty}^{\infty}j(t,x)\,dx
+  =\frac{\hbar}{2i}
+  \int_{-\infty}^{\infty}
+  \left(
+    \psi^*\hb{\psi}{x}
+    -\psi\hb{\psi^*}{x}
+  \right)dx。
+\end{align*}
+
+第2項に部分積分を用いる。波動関数が $x\to\pm\infty$ で零へ収束するとすれば、境界項は零となる：
+
+\begin{align*}
+  \int_{-\infty}^{\infty}
+  \psi\hb{\psi^*}{x}\,dx
+  &=\left[
+    \psi\psi^*
+  \right]_{-\infty}^{\infty}
+  -\int_{-\infty}^{\infty}
+  \psi^*\hb{\psi}{x}\,dx \\
+  &=-\int_{-\infty}^{\infty}
+  \psi^*\hb{\psi}{x}\,dx。
+\end{align*}
+
+これを確率流束の積分に代入する：
+
+\begin{align*}
+  m\int_{-\infty}^{\infty}j(t,x)\,dx
+  &=\frac{\hbar}{2i}
+  \int_{-\infty}^{\infty}
+  \left(
+    \psi^*\hb{\psi}{x}
+    +\psi^*\hb{\psi}{x}
+  \right)dx \\
+  &=\frac{\hbar}{i}
+  \int_{-\infty}^{\infty}
+  \psi^*\hb{\psi}{x}\,dx \\
+  &=-i\hbar
+  \int_{-\infty}^{\infty}
+  \psi^*\hb{\psi}{x}\,dx \\
+  &=\langle\hat{p}\rangle。
+\end{align*}
+
+以上より、次の関係が示された：
+
+\begin{align*}
+  \int_{-\infty}^{\infty}
+  m j(t,x)\,dx
+  =\langle\hat{p}\rangle。
+\end{align*}
+すなわち、与えられた積分は運動量の期待値に等しい。
+
+\subsection*{(3)}
+
+波動関数を確率密度と位相に分けて表し、確率流束をこれらの量で書き直す。
+
+波動関数を次式で表す：
+
+\begin{align*}
+  \psi(t,x)
+  =\sqrt{\rho(t,x)}e^{i\varphi(t,x)}。
+\end{align*}
+
+この複素共役は次式である：
+
+\begin{align*}
+  \psi^*(t,x)
+  =\sqrt{\rho(t,x)}e^{-i\varphi(t,x)}。
+\end{align*}
+
+まず、波動関数を位置座標で偏微分する：
+
+\begin{align*}
+  \hb{\psi}{x}
+  =\left(
+    \hb{\sqrt{\rho}}{x}
+    +i\sqrt{\rho}\hb{\varphi}{x}
+  \right)e^{i\varphi}。
+\end{align*}
+
+したがって、次式を得る：
+
+\begin{align*}
+  \psi^*\hb{\psi}{x}
+  &=\sqrt{\rho}e^{-i\varphi}
+  \left(
+    \hb{\sqrt{\rho}}{x}
+    +i\sqrt{\rho}\hb{\varphi}{x}
+  \right)e^{i\varphi} \\
+  &=\sqrt{\rho}\hb{\sqrt{\rho}}{x}
+  +i\rho\hb{\varphi}{x}。
+\end{align*}
+
+同様に、複素共役側について次式が成り立つ：
+
+\begin{align*}
+  \psi\hb{\psi^*}{x}
+  =\sqrt{\rho}\hb{\sqrt{\rho}}{x}
+  -i\rho\hb{\varphi}{x}。
+\end{align*}
+
+これらを確率流束の式に代入する：
+
+\begin{align*}
+  j(t,x)
+  &=\frac{\hbar}{2mi}
+  \left(
+    \psi^*\hb{\psi}{x}
+    -\psi\hb{\psi^*}{x}
+  \right) \\
+  &=\frac{\hbar}{2mi}
+  \left(
+    2i\rho\hb{\varphi}{x}
+  \right) \\
+  &=\frac{\hbar}{m}
+  \rho(t,x)\hb{\varphi(t,x)}{x}。
+\end{align*}
+
+以上より、確率流束は確率密度と位相を用いて次式で表されることが示された：
+
+\begin{align*}
+  j(t,x)
+  =\frac{\hbar}{m}
+  \rho(t,x)\hb{\varphi(t,x)}{x}。
+\end{align*}
+
+\end{document}
+

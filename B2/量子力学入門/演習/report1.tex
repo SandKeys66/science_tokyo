@@ -1,0 +1,216 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{量子力学入門演習レポート1}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\section*{3.4 交換関係}
+
+\subsection*{(1)}
+
+2つのHermite演算子 $\hat{X}$ と $\hat{Y}$ が同時対角化可能であることと、両者の交換子が零であることが同値であることを示す。\\
+まず、十分性の証明から始める。$\hat{X}$ と $\hat{Y}$ が同時対角化可能であると仮定する。このとき、両者の共通固有ベクトルからなる完全正規直交基底 $\{|n\rangle\}$ が存在し、各基底ベクトルに対して次式が成り立つ：
+\begin{align*}
+  \hat{X}|n\rangle &= x_n|n\rangle、\\
+  \hat{Y}|n\rangle &= y_n|n\rangle。
+\end{align*}
+したがって、共通固有ベクトルに交換子を作用させる：
+\begin{align*}
+  [\hat{X},\hat{Y}]|n\rangle
+  &= \left(\hat{X}\hat{Y}-\hat{Y}\hat{X}\right)|n\rangle \\
+  &= \hat{X}y_n|n\rangle-\hat{Y}x_n|n\rangle \\
+  &= x_ny_n|n\rangle-y_nx_n|n\rangle \\
+  &= 0。
+\end{align*}
+$\{|n\rangle\}$ は完全系であるため、任意の状態に対して $[\hat{X},\hat{Y}]|\psi\rangle=0$ となる。よって、次式を得る：
+\begin{align*}
+  [\hat{X},\hat{Y}]=0。
+\end{align*}\\
+
+次に、必要性の証明を行う。$[\hat{X},\hat{Y}]=0$ であると仮定する。$\hat{X}$ の固有値 $x_n$ に対応する固有空間を $\mathcal{H}_{x_n}$ とし、この固有空間に属する任意の状態 $|\psi\rangle$ を取る。このとき、次式が成り立つ：
+\begin{align*}
+  \hat{X}|\psi\rangle=x_n|\psi\rangle。
+\end{align*}
+ここで、$\hat{X}$ と $\hat{Y}$ が可換であることを用いる：
+\begin{align*}
+  \hat{X}\hat{Y}|\psi\rangle
+  &= \hat{Y}\hat{X}|\psi\rangle \\
+  &= \hat{Y}x_n|\psi\rangle \\
+  &= x_n\hat{Y}|\psi\rangle。
+\end{align*}
+したがって、$\hat{Y}|\psi\rangle$ も固有値 $x_n$ に対応する $\hat{X}$ の固有空間 $\mathcal{H}_{x_n}$ に属する。すなわち、$\hat{Y}$ は $\hat{X}$ の各固有空間を不変に保つ。
+固有値 $x_n$ が非縮退である場合、$\mathcal{H}_{x_n}$ は1次元であるため、その固有ベクトル $|x_n\rangle$ に対して、ある定数 $y_n$ が存在して次式が成り立つ：
+\begin{align*}
+  \hat{Y}|x_n\rangle=y_n|x_n\rangle。
+\end{align*}
+よって、$|x_n\rangle$ は $\hat{X}$ と $\hat{Y}$ の共通固有ベクトルである。
+一方、固有値 $x_n$ が縮退している場合にも、$\hat{Y}$ は $\mathcal{H}_{x_n}$ を不変に保つ。$\hat{Y}$ はHermite演算子であるから、$\mathcal{H}_{x_n}$ の内部で $\hat{Y}$ を対角化できる。したがって、$\hat{Y}$ の固有ベクトルからなる正規直交基底 $\{|x_n,y_{n,a}\rangle\}_a$ を取ることができる。ここで、$a$ は縮退した固有状態を区別する添字である。これらの基底ベクトルは次式を満たす：
+\begin{align*}
+  \hat{X}|x_n,y_{n,a}\rangle &= x_n|x_n,y_{n,a}\rangle、\\
+  \hat{Y}|x_n,y_{n,a}\rangle &= y_{n,a}|x_n,y_{n,a}\rangle。
+\end{align*}
+すべての $\hat{X}$ の固有空間に対して同じ操作を行えば、$\hat{X}$ と $\hat{Y}$ の共通固有ベクトルからなる完全正規直交基底が得られる。よって、$\hat{X}$ と $\hat{Y}$ は同時対角化可能である。
+以上より、次の同値関係が示された：
+\begin{align*}
+  \hat{X}\ \text{と}\ \hat{Y}\ \text{は同時対角化可能}
+  \quad\Longleftrightarrow\quad
+  [\hat{X},\hat{Y}]=0。
+\end{align*}\\
+
+\subsection*{(2)}
+$\hat{X}$ と $\hat{Y}$ が同時対角化可能である場合に、両者のスペクトル分解を求める。
+$\hat{X}$ と $\hat{Y}$ の共通固有ベクトルからなる完全正規直交基底を $\{|x_n,y_{n,a}\rangle\}$ とする。この基底は次式を満たす：
+\begin{align*}
+  \hat{X}|x_n,y_{n,a}\rangle &= x_n|x_n,y_{n,a}\rangle、\\
+  \hat{Y}|x_n,y_{n,a}\rangle &= y_{n,a}|x_n,y_{n,a}\rangle。
+\end{align*}
+共通固有ベクトルは完全正規直交基底をなすため、恒等演算子は次のように分解される：
+\begin{align*}
+  \hat{1}=\sum_{n,a}|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}|。
+\end{align*}
+この完全性関係を用いると、$\hat{X}$ のスペクトル分解は次式で与えられる：
+\begin{align*}
+  \hat{X}
+  &= \hat{X}\hat{1} \\
+  &= \sum_{n,a}\hat{X}|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}| \\
+  &= \sum_{n,a}x_n|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}|。
+\end{align*}
+同様に、$\hat{Y}$ のスペクトル分解は次式で与えられる：
+\begin{align*}
+  \hat{Y}
+  &= \hat{Y}\hat{1} \\
+  &= \sum_{n,a}\hat{Y}|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}| \\
+  &= \sum_{n,a}y_{n,a}|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}|。
+\end{align*}
+ここで、共通固有状態への射影演算子を次式で定義する：
+\begin{align*}
+  \hat{P}_{n,a}=|x_n,y_{n,a}\rangle\langle x_n,y_{n,a}|。
+\end{align*}
+このとき、両者のスペクトル分解は次のように表せる：
+\begin{align*}
+  \hat{X} &= \sum_{n,a}x_n\hat{P}_{n,a}、\\
+  \hat{Y} &= \sum_{n,a}y_{n,a}\hat{P}_{n,a}。
+\end{align*}
+正規直交性から、射影演算子について次式が成り立つ：
+\begin{align*}
+  \hat{P}_{n,a}\hat{P}_{m,b}=\delta_{nm}\delta_{ab}\hat{P}_{n,a}。
+\end{align*}
+したがって、両者の積は次式となる：
+\begin{align*}
+  \hat{X}\hat{Y}
+  &= \sum_{n,a}\sum_{m,b}x_ny_{m,b}\hat{P}_{n,a}\hat{P}_{m,b} \\
+  &= \sum_{n,a}x_ny_{n,a}\hat{P}_{n,a}、\\
+  \hat{Y}\hat{X}
+  &= \sum_{n,a}y_{n,a}x_n\hat{P}_{n,a} \\
+  &= \sum_{n,a}x_ny_{n,a}\hat{P}_{n,a}。
+\end{align*}
+よって、$\hat{X}\hat{Y}=\hat{Y}\hat{X}$ が確認できる。
+また、$\hat{X}$ の固有値 $x_n$ のみに着目した射影演算子を次式で定義する：
+\begin{align*}
+  \hat{P}_n=\sum_a\hat{P}_{n,a}。
+\end{align*}
+このとき、$\hat{X}$ は次のように書ける：
+\begin{align*}
+  \hat{X}=\sum_n x_n\hat{P}_n。
+\end{align*}
+$\hat{X}$ に縮退がある場合、$\hat{P}_n$ は多次元の固有空間への射影である。$\hat{Y}$ を同時に対角化することにより、この固有空間は1次元の共通固有空間への射影 $\hat{P}_{n,a}$ に分解される。したがって、一方の演算子だけでは区別できない縮退した状態を、もう一方の演算子の固有値によって区別できる場合がある。
+以上より、同時対角化可能なHermite演算子は、共通固有ベクトルへの射影演算子を用いて同時にスペクトル分解できることが示された。\\
+
+\subsection*{(3)}
+交換子のHermite共役、積に対する交換子の公式、およびJacobi恒等式を示す。
+まず、演算子の積に対して $(\hat{A}\hat{B})^\dagger=\hat{B}^\dagger\hat{A}^\dagger$ が成り立つことを用いて、交換子のHermite共役を計算する：
+\begin{align*}
+  [\hat{X},\hat{Y}]^\dagger
+  &= \left(\hat{X}\hat{Y}-\hat{Y}\hat{X}\right)^\dagger \\
+  &= \hat{Y}^\dagger\hat{X}^\dagger-\hat{X}^\dagger\hat{Y}^\dagger \\
+  &= [\hat{Y}^\dagger,\hat{X}^\dagger] \\
+  &= -[\hat{X}^\dagger,\hat{Y}^\dagger]。
+\end{align*}
+特に、$\hat{X}$ と $\hat{Y}$ がHermite演算子である場合には、次式を得る：
+\begin{align*}
+  [\hat{X},\hat{Y}]^\dagger=-[\hat{X},\hat{Y}]。
+\end{align*}
+したがって、Hermite演算子どうしの交換子は反Hermite演算子である。
+次に、積 $\hat{Y}\hat{Z}$ に対する交換子を計算する。途中に $\hat{Y}\hat{X}\hat{Z}$ を加えて引く：
+\begin{align*}
+  [\hat{X},\hat{Y}\hat{Z}]
+  &= \hat{X}\hat{Y}\hat{Z}-\hat{Y}\hat{Z}\hat{X} \\
+  &= \hat{X}\hat{Y}\hat{Z}-\hat{Y}\hat{X}\hat{Z}+\hat{Y}\hat{X}\hat{Z}-\hat{Y}\hat{Z}\hat{X} \\
+  &= \left(\hat{X}\hat{Y}-\hat{Y}\hat{X}\right)\hat{Z}+\hat{Y}\left(\hat{X}\hat{Z}-\hat{Z}\hat{X}\right) \\
+  &= [\hat{X},\hat{Y}]\hat{Z}+\hat{Y}[\hat{X},\hat{Z}]。
+\end{align*}
+同様に、積 $\hat{X}\hat{Y}$ と $\hat{Z}$ の交換子について、途中に $\hat{X}\hat{Z}\hat{Y}$ を加えて引く：
+\begin{align*}
+  [\hat{X}\hat{Y},\hat{Z}]
+  &= \hat{X}\hat{Y}\hat{Z}-\hat{Z}\hat{X}\hat{Y} \\
+  &= \hat{X}\hat{Y}\hat{Z}-\hat{X}\hat{Z}\hat{Y}+\hat{X}\hat{Z}\hat{Y}-\hat{Z}\hat{X}\hat{Y} \\
+  &= \hat{X}\left(\hat{Y}\hat{Z}-\hat{Z}\hat{Y}\right)+\left(\hat{X}\hat{Z}-\hat{Z}\hat{X}\right)\hat{Y} \\
+  &= \hat{X}[\hat{Y},\hat{Z}]+[\hat{X},\hat{Z}]\hat{Y}。
+\end{align*}
+最後に、Jacobi恒等式を示す。各項を展開する：
+\begin{align*}
+  [\hat{X},[\hat{Y},\hat{Z}]]
+  &= \hat{X}\hat{Y}\hat{Z}-\hat{X}\hat{Z}\hat{Y}-\hat{Y}\hat{Z}\hat{X}+\hat{Z}\hat{Y}\hat{X}、\\
+  [\hat{Y},[\hat{Z},\hat{X}]]
+  &= \hat{Y}\hat{Z}\hat{X}-\hat{Y}\hat{X}\hat{Z}-\hat{Z}\hat{X}\hat{Y}+\hat{X}\hat{Z}\hat{Y}、\\
+  [\hat{Z},[\hat{X},\hat{Y}]]
+  &= \hat{Z}\hat{X}\hat{Y}-\hat{Z}\hat{Y}\hat{X}-\hat{X}\hat{Y}\hat{Z}+\hat{Y}\hat{X}\hat{Z}。
+\end{align*}
+これらの3式を加えると、各項は互いに打ち消し合うため、次式を得る：
+\begin{align*}
+  [\hat{X},[\hat{Y},\hat{Z}]]
+  +[\hat{Y},[\hat{Z},\hat{X}]]
+  +[\hat{Z},[\hat{X},\hat{Y}]]
+  =0。
+\end{align*}
+
+以上より、交換子のHermite共役、積に対する交換子の公式、およびJacobi恒等式が示された。\\
+
+
+\end{document}

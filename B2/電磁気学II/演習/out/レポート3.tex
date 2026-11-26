@@ -1,0 +1,271 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\section*{3　モノポール}
+
+原点に磁気単極子が存在すると仮定し、磁場が
+\begin{align*}
+  \vect{B}=\frac{\mu\vect{r}}{r^3}
+  =\frac{\mu}{r^3}
+  \begin{pmatrix}
+    x\\
+    y\\
+    z
+  \end{pmatrix},
+  \qquad
+  r=\sqrt{x^2+y^2+z^2}
+\end{align*}
+で与えられる場合を考える。この磁場について示すべきことは、原点を除いた空間全体では単一の滑らかなベクトルポテンシャルを定義できないが、正または負の \(z\) 軸を除いた各領域では局所的なベクトルポテンシャルを定義できるということである。さらに、二つの局所的なベクトルポテンシャルの関係と、磁気単極子が滑らかな時間発展によって生成され得るかを調べる。
+
+まず、原点を除いた空間全体で単一の滑らかなベクトルポテンシャルを定義できないことを示す。原点を中心とする球面 \(S\) を考える。球面上の外向き面素ベクトルは
+\begin{align*}
+  d\vect{S}=\frac{\vect{r}}{r}dS
+\end{align*}
+であるから、球面を貫く磁束は
+\begin{align*}
+  \int_S\vect{B}\cdot d\vect{S}
+  &=\int_S\frac{\mu\vect{r}}{r^3}\cdot\frac{\vect{r}}{r}dS\\
+  &=\int_S\frac{\mu}{r^2}dS\\
+  &=4\pi\mu。
+\end{align*}
+したがって、原点を囲む閉曲面を貫く磁束はゼロではない。
+
+ここで、原点を除いた空間全体で滑らかなベクトルポテンシャル \(\vect{A}\) が存在し、\(\vect{B}=\operatorname{rot}\vect{A}\) と書けると仮定する。球面 \(S\) を共通の境界を持つ二つの曲面 \(S_+\) と \(S_-\) に分ける。各曲面に外向き法線から定まる向きを入れると、境界の向きは互いに反対になるため、
+\begin{align*}
+  \partial S_-=-\partial S_+
+\end{align*}
+が成り立つ。そこで、それぞれの曲面にStokesの定理を用いる：
+\begin{align*}
+  \int_S\vect{B}\cdot d\vect{S}
+  &=\int_{S_+}\operatorname{rot}\vect{A}\cdot d\vect{S}
+  +\int_{S_-}\operatorname{rot}\vect{A}\cdot d\vect{S}\\
+  &=\oint_{\partial S_+}\vect{A}\cdot d\vect{l}
+  +\oint_{\partial S_-}\vect{A}\cdot d\vect{l}\\
+  &=\oint_{\partial S_+}\vect{A}\cdot d\vect{l}
+  -\oint_{\partial S_+}\vect{A}\cdot d\vect{l}\\
+  &=0。
+\end{align*}
+これは先に求めた磁束 \(4\pi\mu\) と矛盾する。よって、原点を除いただけでは不十分であり、その空間全体を覆う単一の滑らかなベクトルポテンシャルは存在しない。
+
+次に、定義域をさらに制限すれば、磁場を局所的なベクトルポテンシャルから表せることを示す。そのために、まず次の二つのベクトル場を考える：
+\begin{align*}
+  \vect{a}_\pm
+  =\frac{1}{r(r\pm z)}
+  \begin{pmatrix}
+    -y\\
+    x\\
+    0
+  \end{pmatrix}。
+\end{align*}
+以下では、これらの回転が \(\pm\vect{r}/r^3\) となることを直接確かめ、その結果を用いてベクトルポテンシャルを定める。
+
+計算を簡潔にするため、
+\begin{align*}
+  f_\pm=\frac{1}{r(r\pm z)}
+\end{align*}
+と置く。このとき、
+\begin{align*}
+  \vect{a}_\pm
+  =
+  \begin{pmatrix}
+    -yf_\pm\\
+    xf_\pm\\
+    0
+  \end{pmatrix}
+\end{align*}
+である。回転の定義より、
+\begin{align*}
+  \operatorname{rot}\vect{a}_\pm
+  =
+  \begin{pmatrix}
+    \displaystyle -x\hb{f_\pm}{z}\\[4pt]
+    \displaystyle -y\hb{f_\pm}{z}\\[4pt]
+    \displaystyle 2f_\pm+x\hb{f_\pm}{x}+y\hb{f_\pm}{y}
+  \end{pmatrix}。
+\end{align*}
+まず、\(z\) による偏微分を求める。\(\hb{r}{z}=z/r\) であること、および合成関数と積の微分を用いる：
+\begin{align*}
+  \hb{f_\pm}{z}
+  &=-\frac{1}{r^2(r\pm z)^2}\hb{}{z}\{r(r\pm z)\}\\
+  &=-\frac{1}{r^2(r\pm z)^2}
+  \left\{\frac{z}{r}(r\pm z)+r\left(\frac{z}{r}\pm1\right)\right\}\\
+  &=-\frac{1}{r^2(r\pm z)^2}
+  \left\{\pm\frac{(r\pm z)^2}{r}\right\}\\
+  &=\mp\frac{1}{r^3}。
+\end{align*}
+したがって、回転の \(x\) 成分と \(y\) 成分は
+\begin{align*}
+  (\operatorname{rot}\vect{a}_\pm)_x
+  &=-x\hb{f_\pm}{z}
+  =\pm\frac{x}{r^3},\\
+  (\operatorname{rot}\vect{a}_\pm)_y
+  &=-y\hb{f_\pm}{z}
+  =\pm\frac{y}{r^3}。
+\end{align*}
+
+次に、\(x\) および \(y\) による偏微分を求める。\(\hb{r}{x}=x/r\) および \(\hb{r}{y}=y/r\) を用いる：
+\begin{align*}
+  \hb{f_\pm}{x}
+  &=-\frac{1}{r^2(r\pm z)^2}
+  \left\{\frac{x}{r}(r\pm z)+x\right\}\\
+  &=-\frac{x(2r\pm z)}{r^3(r\pm z)^2},\\
+  \hb{f_\pm}{y}
+  &=-\frac{y(2r\pm z)}{r^3(r\pm z)^2}。
+\end{align*}
+よって、\(x^2+y^2=r^2-z^2\) を用いると、回転の \(z\) 成分は
+\begin{align*}
+  (\operatorname{rot}\vect{a}_\pm)_z
+  &=\frac{2}{r(r\pm z)}
+  -\frac{(x^2+y^2)(2r\pm z)}{r^3(r\pm z)^2}\\
+  &=\frac{2r^2(r\pm z)-(r^2-z^2)(2r\pm z)}{r^3(r\pm z)^2}\\
+  &=\frac{\pm z(r\pm z)^2}{r^3(r\pm z)^2}\\
+  &=\pm\frac{z}{r^3}。
+\end{align*}
+以上の三成分をまとめる：
+\begin{align*}
+  \operatorname{rot}\vect{a}_\pm
+  &=\pm\frac{1}{r^3}
+  \begin{pmatrix}
+    x\\
+    y\\
+    z
+  \end{pmatrix}\\
+  &=\pm\frac{\vect{r}}{r^3}。
+\end{align*}
+この計算結果から、目的の磁場を与える局所的なベクトルポテンシャルを
+\begin{align*}
+  \vect{A}_\pm
+  =\pm\mu\vect{a}_\pm
+  =\pm\frac{\mu}{r(r\pm z)}
+  \begin{pmatrix}
+    -y\\
+    x\\
+    0
+  \end{pmatrix}
+\end{align*}
+と定めることができる。実際に、
+\begin{align*}
+  \operatorname{rot}\vect{A}_\pm
+  =\frac{\mu\vect{r}}{r^3}
+  =\vect{B}
+\end{align*}
+が成り立つ。
+
+ただし、これらは空間全体で滑らかなベクトルポテンシャルではない。\(r+z=0\) は負の \(z\) 軸上で、\(r-z=0\) は正の \(z\) 軸上で成り立つため、\(\vect{A}_+\) は負の \(z\) 軸上で、\(\vect{A}_-\) は正の \(z\) 軸上で特異となる。したがって、一方の特異な半軸を他方のベクトルポテンシャルで補うことにより、磁場を局所的には記述できるが、一つのベクトルポテンシャルだけで原点を除いた空間全体を覆うことはできない。
+
+続いて、二つの局所的な記述が重なる領域で、\(\vect{A}_+\) と \(\vect{A}_-\) がどのように接続されるかを調べる。その差は
+\begin{align*}
+  \vect{A}_+-\vect{A}_-
+  &=\mu\left\{\frac{1}{r(r+z)}+\frac{1}{r(r-z)}\right\}
+  \begin{pmatrix}
+    -y\\
+    x\\
+    0
+  \end{pmatrix}\\
+  &=\frac{2\mu}{x^2+y^2}
+  \begin{pmatrix}
+    -y\\
+    x\\
+    0
+  \end{pmatrix}。
+\end{align*}
+ここで、円筒座標の方位角を \(\varphi\) とすると、
+\begin{align*}
+  \operatorname{grad}\varphi
+  =\frac{1}{x^2+y^2}
+  \begin{pmatrix}
+    -y\\
+    x\\
+    0
+  \end{pmatrix}
+\end{align*}
+であるから、
+\begin{align*}
+  \vect{A}_+-\vect{A}_-
+  =2\mu\operatorname{grad}\varphi
+  =\operatorname{grad}(2\mu\varphi)
+\end{align*}
+を得る。したがって、方位角 \(\varphi\) を一価かつ滑らかに選べる局所領域では、二つのベクトルポテンシャルはゲージ関数 \(\chi=2\mu\varphi\) によるゲージ変換で結ばれている。
+
+しかし、\(z\) 軸の周りを一周すると、方位角は
+\begin{align*}
+  \varphi\longmapsto\varphi+2\pi
+\end{align*}
+と変化するため、\(\chi=2\mu\varphi\) は空間全体で一価の関数ではない。実際に、\(z\) 軸を一周する閉曲線 \(C\) に沿って積分すると、
+\begin{align*}
+  \oint_C(\vect{A}_+-\vect{A}_-)\cdot d\vect{l}
+  &=2\mu\oint_C\operatorname{grad}\varphi\cdot d\vect{l}\\
+  &=4\pi\mu\neq0。
+\end{align*}
+一価で滑らかな関数の勾配であれば閉曲線積分はゼロになるため、\(\vect{A}_+-\vect{A}_-\) を空間全体で一価なゲージ関数の勾配として表すことはできない。よって、\(\vect{A}_+\) と \(\vect{A}_-\) は局所的にはゲージ変換で接続されるが、大域的なゲージ変換では一つにまとめられない。このことが、磁気単極子の磁場に単一の大域的なベクトルポテンシャルが存在しないことの具体的な現れである。
+
+最後に、磁気単極子が存在しない滑らかな場から、滑らかな時間発展によって磁気単極子が出現するかを考える。Faradayの法則
+\begin{align*}
+  \hb{\vect{B}}{t}=-\operatorname{rot}\vect{E}
+\end{align*}
+の両辺の発散を取り、ベクトル恒等式 \(\operatorname{div}(\operatorname{rot}\vect{E})=0\) を用いる：
+\begin{align*}
+  \hb{}{t}(\operatorname{div}\vect{B})
+  &=-\operatorname{div}(\operatorname{rot}\vect{E})\\
+  &=0。
+\end{align*}
+したがって、初期時刻に \(\operatorname{div}\vect{B}=0\) であれば、その後も \(\operatorname{div}\vect{B}=0\) が保たれる。よって、通常のMaxwell方程式に従う滑らかな時間発展だけでは、磁気単極子に対応する \(\operatorname{div}\vect{B}\neq0\) の点を新たに生じさせることはできない。
+
+磁気電荷を含むようにMaxwell方程式を拡張する場合には、磁気電荷密度を \(\rho_{\mathrm{m}}\)、磁気電流密度を \(\vect{j}_{\mathrm{m}}\) として、磁気電荷の連続の式
+\begin{align*}
+  \hb{\rho_{\mathrm{m}}}{t}
+  +\operatorname{div}\vect{j}_{\mathrm{m}}=0
+\end{align*}
+が要請される。この場合にも全磁気電荷は保存されるため、磁気電荷を持たない状態から単独の磁気単極子だけが突然生成されることはない。磁気単極子が生成されるならば、全磁気電荷がゼロに保たれるように、互いに反対の磁気電荷を持つ単極子と反単極子が対生成されると予想される。
+
+以上より、磁気単極子の磁場は、原点を除いた空間全体では単一の滑らかなベクトルポテンシャルから表すことができない。一方、正または負の \(z\) 軸をさらに除いた各領域では、\(\vect{A}_-\) または \(\vect{A}_+\) によって同じ磁場を表すことができる。これらは重なり合う局所領域ではゲージ変換によって接続されるが、ゲージ関数が大域的に一価ではないため、一つの大域的なベクトルポテンシャルにはまとめられない。また、通常のMaxwell方程式に従う滑らかな時間発展では磁気単極子は新たに生成されず、磁気電荷を導入する場合にも、生成は単極子と反単極子の対生成になると考えられる。
+
+\end{document}

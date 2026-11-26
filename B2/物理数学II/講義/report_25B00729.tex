@@ -1,0 +1,1485 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{物理数学II期末レポート}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+
+  \subsection*{問題1}
+
+  この問題では、周期$2\pi$の関数
+  \begin{align*}
+    f(x)=|x|\quad(-\pi\leq x<\pi)
+  \end{align*}
+  のFourier級数展開を求める。
+
+  まず、$f(x)=|x|$は偶関数であるため：
+  \begin{align*}
+    f(-x)=f(x)
+  \end{align*}
+  が成り立つ。したがって、一般のFourier級数
+  \begin{align*}
+    f(x)=\frac{a_0}{2}+\sum_{n=1}^{\infty}a_n\cos(nx)+\sum_{n=1}^{\infty}b_n\sin(nx)
+  \end{align*}
+  において、正弦項の係数はすべてゼロとなる：
+  \begin{align*}
+    b_n
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}|x|\sin(nx)\,dx\\
+    &=0。
+  \end{align*}
+
+  次に、定数項の係数$a_0$を求める。被積分関数が偶関数であることを用いる：
+  \begin{align*}
+    a_0
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}|x|\,dx\\
+    &=\frac{2}{\pi}\int_0^\pi x\,dx\\
+    &=\frac{2}{\pi}\left[\frac{x^2}{2}\right]_0^\pi\\
+    &=\pi。
+  \end{align*}
+  したがって、Fourier級数の定数項は次のようになる：
+  \begin{align*}
+    \frac{a_0}{2}=\frac{\pi}{2}。
+  \end{align*}
+
+  続いて、$n\geq1$に対する余弦項の係数$a_n$を求める。被積分関数が偶関数であることを用いる：
+  \begin{align*}
+    a_n
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}|x|\cos(nx)\,dx\\
+    &=\frac{2}{\pi}\int_0^\pi x\cos(nx)\,dx。
+  \end{align*}
+  ここで、部分積分を用いる：
+  \begin{align*}
+    a_n
+    &=\frac{2}{\pi}\left\{
+      \left[\frac{x\sin(nx)}{n}\right]_0^\pi
+      -\frac{1}{n}\int_0^\pi\sin(nx)\,dx
+    \right\}\\
+    &=\frac{2}{\pi}\left\{
+      \left[\frac{x\sin(nx)}{n}\right]_0^\pi
+      +\left[\frac{\cos(nx)}{n^2}\right]_0^\pi
+    \right\}\\
+    &=\frac{2}{\pi n^2}\left\{\cos(n\pi)-1\right\}\\
+    &=\frac{2}{\pi n^2}\left\{(-1)^n-1\right\}。
+  \end{align*}
+  よって、$n$が偶数の場合には$a_n=0$であり、$n$が奇数の場合には次の式が成り立つ：
+  \begin{align*}
+    a_n=-\frac{4}{\pi n^2}\quad(n\text{：奇数})。
+  \end{align*}
+
+  以上のFourier係数を代入することにより、求めるFourier級数を得る：
+  \begin{align*}
+    |x|
+    =\frac{\pi}{2}
+    -\frac{4}{\pi}\sum_{m=0}^{\infty}
+    \frac{\cos\{(2m+1)x\}}{(2m+1)^2}
+    \quad(-\pi\leq x<\pi)。
+  \end{align*}
+  関数$|x|$を周期$2\pi$で延長した関数は連続であるため、このFourier級数はすべての$x$において元の周期関数へ収束する。以上より、$f(x)=|x|$のFourier級数展開が求められた。
+
+  \subsection*{問題2}
+
+  区間$-\infty<x<\infty$および$-\infty<t<\infty$において、熱方程式のGreen関数が満たす方程式
+  \begin{align*}
+    a^2\hb{^2G(x,t;x_0,t_0)}{x^2}
+    -\hb{G(x,t;x_0,t_0)}{t}
+    =-\delta(x-x_0)\delta(t-t_0)
+  \end{align*}
+  を考える。ただし、$a>0$とする。
+
+  \subsubsection*{(1)}
+
+  この小問では、$x$および$t$についてFourier変換を行い、Fourier空間におけるGreen関数$g(k,\omega)$を求める。
+
+  Green関数とデルタ関数を次のようにFourier変換する：
+  \begin{align*}
+    G(x,t;x_0,t_0)
+    &=\frac{1}{(2\pi)^2}
+    \int_{-\infty}^{\infty}dk
+    \int_{-\infty}^{\infty}d\omega\,
+    g(k,\omega)e^{ik(x-x_0)-i\omega(t-t_0)},\\
+    \delta(x-x_0)\delta(t-t_0)
+    &=\frac{1}{(2\pi)^2}
+    \int_{-\infty}^{\infty}dk
+    \int_{-\infty}^{\infty}d\omega\,
+    e^{ik(x-x_0)-i\omega(t-t_0)}。
+  \end{align*}
+
+  Green関数への$x$および$t$による微分は、$x,t$が積分に関係しないことからそれぞれ被積分関数に作用する：
+  \begin{align*}
+    \hb{^2}{x^2}
+    e^{ik(x-x_0)-i\omega(t-t_0)}
+    &=-k^2e^{ik(x-x_0)-i\omega(t-t_0)},\\
+    \hb{}{t}
+    e^{ik(x-x_0)-i\omega(t-t_0)}
+    &=-i\omega e^{ik(x-x_0)-i\omega(t-t_0)}。
+  \end{align*}
+  これらを用いてFourier変換されたGreen関数を与えられた方程式へ代入し、両辺のFourier係数を比較する：
+  \begin{align*}
+    \left(-a^2k^2+i\omega\right)g(k,\omega)=-1。
+  \end{align*}
+  したがって、Fourier空間におけるGreen関数は次のようになる：
+  \begin{align*}
+    g(k,\omega)
+    &=\frac{1}{a^2k^2-i\omega}\\
+    &=\frac{i}{\omega+ia^2k^2}。
+  \end{align*}
+  以上より、$g(k,\omega)$が求められた。
+
+  \subsubsection*{(2)}
+
+  この小問では、時間方向の逆Fourier変換
+  \begin{align*}
+    \int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
+    g(k,\omega)e^{-i\omega(t-t_0)}
+  \end{align*}
+  を計算する。
+
+  時間差を次のように置く：
+  \begin{align*}
+    \tau=t-t_0。
+  \end{align*}
+  (1)で得た$g(k,\omega)$を代入する：
+  \begin{align*}
+    I(k,\tau)
+    &=\int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
+    \frac{i\,e^{-i\omega\tau}}{\omega+ia^2k^2}。
+  \end{align*}
+  被積分関数は複素$\omega$平面の下半平面に単純極
+  \begin{align*}
+    \omega=-ia^2k^2
+  \end{align*}
+  をもつ。
+
+  まず、$\tau>0$の場合を考える。このとき、指数因子$e^{-i\omega\tau}$が減衰する下半平面に積分路を閉じる。閉曲線の向きは時計回りであるため、留数定理より：
+  \begin{align*}
+    I(k,\tau)
+    &=-i\mathop{\mathrm{Res}}_{\omega=-ia^2k^2}
+    \frac{i\,e^{-i\omega\tau}}{\omega+ia^2k^2}\\
+    &=-i\left\{i\,e^{-a^2k^2\tau}\right\}\\
+    &=e^{-a^2k^2\tau}。
+  \end{align*}
+  一方、$\tau<0$の場合には上半平面に積分路を閉じるが、上半平面には極が存在しないため、積分はゼロとなる。したがって、両者をHeaviside関数によってまとめる：
+  \begin{align*}
+    \int_{-\infty}^{\infty}\frac{d\omega}{2\pi}
+    g(k,\omega)e^{-i\omega(t-t_0)}
+    =
+    \theta(t-t_0)e^{-a^2k^2(t-t_0)}。
+  \end{align*}
+  以上より、時間方向の逆Fourier変換が求められた。
+
+  \subsubsection*{(3)}
+
+  この小問では、(2)の結果を用いて実空間におけるGreen関数を求める。
+
+  (2)の結果をGreen関数のFourier表示へ代入する：
+  \begin{align*}
+    G(x,t;x_0,t_0)
+    =
+    \theta(t-t_0)
+    \int_{-\infty}^{\infty}\frac{dk}{2\pi}
+    e^{-a^2k^2(t-t_0)+ik(x-x_0)}。
+  \end{align*}
+  ここで、再び
+  \begin{align*}
+    \tau=t-t_0,
+    \qquad
+    X=x-x_0
+  \end{align*}
+  と置く。$\tau>0$に対して、指数部分を平方完成する：
+  \begin{align*}
+    -a^2\tau k^2+ikX
+    =-a^2\tau\left(k-\frac{iX}{2a^2\tau}\right)^2
+    -\frac{X^2}{4a^2\tau}。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    G(x,t;x_0,t_0)
+    &=
+    \frac{\theta(\tau)}{2\pi}
+    e^{-\frac{X^2}{4a^2\tau}}
+    \int_{-\infty}^{\infty}
+    \exp\left\{
+      -a^2\tau\left(k-\frac{iX}{2a^2\tau}\right)^2
+    \right\}dk。
+  \end{align*}
+  被積分関数は整関数であり、十分遠方で減衰するため、積分路を実軸へ平行移動できる。Gauss積分
+  \begin{align*}
+    \int_{-\infty}^{\infty}e^{-\alpha k^2}\,dk
+    =\sqrt{\frac{\pi}{\alpha}}
+    \qquad(\alpha>0)
+  \end{align*}
+  を$\alpha=a^2\tau$として用いる：
+  \begin{align*}
+    \int_{-\infty}^{\infty}e^{-a^2\tau k^2}\,dk
+    =\frac{\sqrt{\pi}}{a\sqrt{\tau}}。
+  \end{align*}
+  よって、Green関数は次のようになる：
+  \begin{align*}
+    G(x,t;x_0,t_0)
+    =
+    \frac{\theta(t-t_0)}
+    {2a\sqrt{\pi(t-t_0)}}
+    \exp\left\{
+      -\frac{(x-x_0)^2}{4a^2(t-t_0)}
+    \right\}。
+  \end{align*}
+
+  \subsection*{問題3}
+  
+  Laguerre多項式$L_n(x)$の生成関数
+  \begin{align*}
+    G(x,t)
+    =\frac{1}{1-t}\exp\left(-\frac{xt}{1-t}\right)
+    =\sum_{n=0}^{\infty}L_n(x)t^n
+  \end{align*}
+  を用いて、以下の各問を解く。
+
+  \subsubsection*{(1)}
+
+  この小問では、Laguerre多項式の生成関数を用いて、$L_0(x)$および$L_1(x)$を求める。
+
+  まず、生成関数に$t=0$を代入する：
+  \begin{align*}
+    G(x,0)
+    &=\exp(0)\\
+    &=1。
+  \end{align*}
+  一方、生成関数の級数表示に$t=0$を代入すると：
+  \begin{align*}
+    G(x,0)=L_0(x)。
+  \end{align*}
+  したがって、次の式を得る：
+  \begin{align*}
+    L_0(x)=1。
+  \end{align*}
+
+  次に、$L_1(x)$を求める。生成関数の級数表示を$t$で偏微分する：
+  \begin{align*}
+    \hb{G(x,t)}{t}
+    =\sum_{n=1}^{\infty}nL_n(x)t^{n-1}。
+  \end{align*}
+  ここに$t=0$を代入すると、$n=1$の項だけが残るため：
+  \begin{align*}
+    \left.\hb{G(x,t)}{t}\right|_{t=0}=L_1(x)。
+  \end{align*}
+
+  そこで、生成関数の具体的な表式を$t$で偏微分する。積の微分および合成関数の微分を用いる：
+  \begin{align*}
+    \hb{G(x,t)}{t}
+    &=
+    \hb{}{t}\left\{
+      \frac{1}{1-t}\exp\left(-\frac{xt}{1-t}\right)
+    \right\}\\
+    &=
+    \frac{1}{(1-t)^2}\exp\left(-\frac{xt}{1-t}\right)
+    +\frac{1}{1-t}\exp\left(-\frac{xt}{1-t}\right)
+    \hb{}{t}\left(-\frac{xt}{1-t}\right)。
+  \end{align*}
+  指数関数の指数部分を偏微分する。商の微分を用いると：
+  \begin{align*}
+    \hb{}{t}\left(-\frac{xt}{1-t}\right)
+    &=-x\hb{}{t}\left(\frac{t}{1-t}\right)\\
+    &=-x\frac{(1-t)+t}{(1-t)^2}\\
+    &=-\frac{x}{(1-t)^2}。
+  \end{align*}
+  したがって、生成関数の偏微分は次のようになる：
+  \begin{align*}
+    \hb{G(x,t)}{t}
+    &=
+    \frac{1}{(1-t)^2}\exp\left(-\frac{xt}{1-t}\right)
+    -\frac{x}{(1-t)^3}\exp\left(-\frac{xt}{1-t}\right)\\
+    &=
+    \exp\left(-\frac{xt}{1-t}\right)
+    \left\{\frac{1}{(1-t)^2}-\frac{x}{(1-t)^3}\right\}。
+  \end{align*}
+  ここに$t=0$を代入する：
+  \begin{align*}
+    L_1(x)
+    &=\left.\hb{G(x,t)}{t}\right|_{t=0}\\
+    &=\exp(0)(1-x)\\
+    &=1-x。
+  \end{align*}
+  以上より、求めるLaguerre多項式は次のようになる：
+  \begin{align*}
+    L_0(x)=1,
+    \qquad
+    L_1(x)=1-x。
+  \end{align*}
+
+  を得る。以上より、$L_0(x)$および$L_1(x)$が求められた。
+
+  \subsubsection*{(2)}
+
+  この小問では、生成関数の積を含む積分
+  \begin{align*}
+    \int_0^\infty e^{-x}G(x,t)G(x,s)\,dx
+  \end{align*}
+  を計算する。
+
+  生成関数の具体的な表式を代入する：
+  \begin{align*}
+    &\int_0^\infty e^{-x}G(x,t)G(x,s)\,dx\\
+    &\quad=
+    \frac{1}{(1-t)(1-s)}
+    \int_0^\infty
+    \exp\left\{
+      -x-\frac{xt}{1-t}-\frac{xs}{1-s}
+    \right\}dx。
+  \end{align*}
+  指数部分の$x$の係数を整理する：
+  \begin{align*}
+    1+\frac{t}{1-t}+\frac{s}{1-s}
+    &=
+    \frac{(1-t)(1-s)+t(1-s)+s(1-t)}
+    {(1-t)(1-s)}\\
+    &=
+    \frac{1-st}{(1-t)(1-s)}。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    &\int_0^\infty e^{-x}G(x,t)G(x,s)\,dx\\
+    &\quad=
+    \frac{1}{(1-t)(1-s)}
+    \int_0^\infty
+    \exp\left\{
+      -\frac{1-st}{(1-t)(1-s)}x
+    \right\}dx。
+  \end{align*}
+  $|s|<1$および$|t|<1$の範囲では積分が収束する。指数関数の積分を実行する：
+  \begin{align*}
+    \int_0^\infty e^{-x}G(x,t)G(x,s)\,dx
+    &=
+    \frac{1}{(1-t)(1-s)}
+    \frac{(1-t)(1-s)}{1-st}\\
+    &=
+    \frac{1}{1-st}。
+  \end{align*}
+  以上より、求める積分は次のようになる：
+  \begin{align*}
+    \int_0^\infty e^{-x}G(x,t)G(x,s)\,dx
+    =\frac{1}{1-st}。
+  \end{align*}
+
+  \subsubsection*{(3)}
+
+  この小問では、(2)の結果を用いて、Laguerre多項式の内積
+  \begin{align*}
+    \int_0^\infty e^{-x}L_n(x)L_m(x)\,dx
+  \end{align*}
+  を評価する。
+
+  生成関数の級数表示を用いる：
+  \begin{align*}
+    G(x,t)=\sum_{n=0}^{\infty}L_n(x)t^n,
+    \qquad
+    G(x,s)=\sum_{m=0}^{\infty}L_m(x)s^m。
+  \end{align*}
+  これらを積分へ代入する：
+  \begin{align*}
+    \int_0^\infty e^{-x}G(x,t)G(x,s)\,dx
+    &=
+    \int_0^\infty e^{-x}
+    \left\{\sum_{n=0}^{\infty}L_n(x)t^n\right\}
+    \left\{\sum_{m=0}^{\infty}L_m(x)s^m\right\}dx\\
+    &=
+    \sum_{n=0}^{\infty}\sum_{m=0}^{\infty}
+    t^ns^m
+    \int_0^\infty e^{-x}L_n(x)L_m(x)\,dx。
+  \end{align*}
+  一方、(2)の結果を$st$の関数と見てテイラー展開する：
+  \begin{align*}
+    \frac{1}{1-st}
+    =\sum_{\ell=0}^{\infty}(st)^\ell
+    =\sum_{\ell=0}^{\infty}s^\ell t^\ell。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    \sum_{n=0}^{\infty}\sum_{m=0}^{\infty}
+    t^ns^m
+    \int_0^\infty e^{-x}L_n(x)L_m(x)\,dx
+    =
+    \sum_{\ell=0}^{\infty}s^\ell t^\ell。
+  \end{align*}
+  $s^mt^n$の係数を比較する。このとき、右辺では$m=n$の場合にのみ係数が$1$となり、$m\neq n$の場合には係数がゼロとなる。したがって：
+  \begin{align*}
+    \int_0^\infty e^{-x}L_n(x)L_m(x)\,dx
+    =\delta_{nm}。
+  \end{align*}
+  以上より、Laguerre多項式は重み関数$e^{-x}$に関して区間$[0,\infty)$上で直交し、本問の規格化では規格化定数が$1$となることが示された。
+
+  \subsection*{問題4}
+
+  整数$n=0,\pm1,\pm2,\dots$に対して、Bessel関数$J_n(z)$が次の積分表示によって定義されているとする：
+  \begin{align*}
+    J_n(z)
+    =\frac{1}{\pi}\int_0^\pi\cos(z\sin\theta-n\theta)\,d\theta。
+  \end{align*}
+  以下では、この積分表示からBessel関数の対称性、漸化式および微分方程式を導く。
+
+  \subsubsection*{(1)}
+
+  この小問では、整数$n$に対して次の関係を示す：
+  \begin{align*}
+    J_{-n}(z)=(-1)^nJ_n(z)。
+  \end{align*}
+
+  積分表示において$n$を$-n$へ置き換える：
+  \begin{align*}
+    J_{-n}(z)
+    =\frac{1}{\pi}\int_0^\pi\cos(z\sin\theta+n\theta)\,d\theta。
+  \end{align*}
+  ここで、積分変数を
+  \begin{align*}
+    \theta=\pi-\varphi
+  \end{align*}
+  と変換する。このとき、$d\theta=-d\varphi$であり：
+  \begin{align*}
+    \sin\theta=\sin(\pi-\varphi)=\sin\varphi
+  \end{align*}
+  が成り立つ。したがって：
+  \begin{align*}
+    J_{-n}(z)
+    &=\frac{1}{\pi}\int_0^\pi
+    \cos\{z\sin\varphi+n(\pi-\varphi)\}\,d\varphi\\
+    &=\frac{1}{\pi}\int_0^\pi
+    \cos\{z\sin\varphi-n\varphi+n\pi\}\,d\varphi。
+  \end{align*}
+  $n$は整数であるため、$\sin(n\pi)=0$および$\cos(n\pi)=(-1)^n$が成り立つ。加法定理を用いる：
+  \begin{align*}
+    \cos\{z\sin\varphi-n\varphi+n\pi\}
+    =(-1)^n\cos(z\sin\varphi-n\varphi)。
+  \end{align*}
+  よって：
+  \begin{align*}
+    J_{-n}(z)
+    &=\frac{(-1)^n}{\pi}
+    \int_0^\pi\cos(z\sin\varphi-n\varphi)\,d\varphi\\
+    &=(-1)^nJ_n(z)。
+  \end{align*}
+  以上より、$J_{-n}(z)=(-1)^nJ_n(z)$が示された。
+
+  \subsubsection*{(2)}
+
+  この小問では、Bessel関数の導関数について次の漸化式を示す：
+  \begin{align*}
+    \bbn{J_n(z)}{z}
+    =\frac{1}{2}\left\{J_{n-1}(z)-J_{n+1}(z)\right\}。
+  \end{align*}
+
+  Bessel関数の積分表示を$z$で微分する。積分区間は有限であり、被積分関数とその$z$微分は連続であるため、積分と微分を交換できる：
+  \begin{align*}
+    \bbn{J_n(z)}{z}
+    &=-\frac{1}{\pi}\int_0^\pi
+    \sin(z\sin\theta-n\theta)\sin\theta\,d\theta。
+  \end{align*}
+
+  一方、$J_{n-1}(z)$と$J_{n+1}(z)$の差を積分表示によって書く。ここで、
+  \begin{align*}
+    A=z\sin\theta-n\theta
+  \end{align*}
+  と置くと：
+  \begin{align*}
+    J_{n-1}(z)-J_{n+1}(z)
+    &=\frac{1}{\pi}\int_0^\pi
+    \left\{\cos(A+\theta)-\cos(A-\theta)\right\}d\theta。
+  \end{align*}
+  三角関数の加法定理より：
+  \begin{align*}
+    \cos(A+\theta)-\cos(A-\theta)
+    =-2\sin A\sin\theta
+  \end{align*}
+  が成り立つ。したがって：
+  \begin{align*}
+    J_{n-1}(z)-J_{n+1}(z)
+    &=-\frac{2}{\pi}\int_0^\pi
+    \sin(z\sin\theta-n\theta)\sin\theta\,d\theta\\
+    &=2\bbn{J_n(z)}{z}。
+  \end{align*}
+  よって：
+  \begin{align*}
+    \bbn{J_n(z)}{z}
+    =\frac{1}{2}\left\{J_{n-1}(z)-J_{n+1}(z)\right\}。
+  \end{align*}
+  以上より、導関数に関する漸化式が示された。
+
+  \subsubsection*{(3)}
+
+  この小問では、次の漸化式を示す：
+  \begin{align*}
+    \frac{n}{z}J_n(z)
+    =\frac{1}{2}\left\{J_{n-1}(z)+J_{n+1}(z)\right\}。
+  \end{align*}
+
+  まず、位相
+  \begin{align*}
+    A(\theta)=z\sin\theta-n\theta
+  \end{align*}
+  を導入する。$\sin A(\theta)$を$\theta$で微分する：
+  \begin{align*}
+    \bbn{}{\theta}\sin A(\theta)
+    =\left(z\cos\theta-n\right)\cos A(\theta)。
+  \end{align*}
+  この式を$0$から$\pi$まで積分する：
+  \begin{align*}
+    \int_0^\pi
+    \left(z\cos\theta-n\right)
+    \cos(z\sin\theta-n\theta)\,d\theta
+    =
+    \left[\sin(z\sin\theta-n\theta)\right]_0^\pi。
+  \end{align*}
+  $n$が整数であるため、右辺は次のようにゼロとなる：
+  \begin{align*}
+    \left[\sin(z\sin\theta-n\theta)\right]_0^\pi
+    =\sin(-n\pi)-\sin0
+    =0。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    n\int_0^\pi\cos(z\sin\theta-n\theta)\,d\theta
+    =
+    z\int_0^\pi
+    \cos\theta\cos(z\sin\theta-n\theta)\,d\theta。
+  \end{align*}
+  両辺を$\pi z$で割る：
+  \begin{align*}
+    \frac{n}{z}J_n(z)
+    =
+    \frac{1}{\pi}\int_0^\pi
+    \cos\theta\cos(z\sin\theta-n\theta)\,d\theta。
+  \end{align*}
+
+  一方、$A=z\sin\theta-n\theta$と置き、加法定理
+  \begin{align*}
+    \cos(A+\theta)+\cos(A-\theta)=2\cos A\cos\theta
+  \end{align*}
+  を用いる：
+  \begin{align*}
+    J_{n-1}(z)+J_{n+1}(z)
+    &=\frac{1}{\pi}\int_0^\pi
+    \left\{\cos(A+\theta)+\cos(A-\theta)\right\}d\theta\\
+    &=\frac{2}{\pi}\int_0^\pi
+    \cos A\cos\theta\,d\theta\\
+    &=\frac{2n}{z}J_n(z)。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    \frac{n}{z}J_n(z)
+    =\frac{1}{2}\left\{J_{n-1}(z)+J_{n+1}(z)\right\}。
+  \end{align*}
+  以上より、Bessel関数の第2の漸化式が示された。
+
+  \subsubsection*{(4)}
+
+  この小問では、(2)および(3)で得た漸化式を用いて、$J_n(z)$がBesselの微分方程式
+  \begin{align*}
+    \nbbn{2}{J_n}{z}
+    +\frac{1}{z}\bbn{J_n}{z}
+    +\left(1-\frac{n^2}{z^2}\right)J_n
+    =0
+  \end{align*}
+  を満たすことを示す。
+
+  まず、(2)と(3)の式を加える：
+  \begin{align*}
+    \bbn{J_n}{z}+\frac{n}{z}J_n
+    &=J_{n-1}。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    J_{n-1}
+    =\bbn{J_n}{z}+\frac{n}{z}J_n。
+  \end{align*}
+  同様に、添字$n$を$n-1$へ置き換える：
+  \begin{align*}
+    J_{n-2}
+    =\bbn{J_{n-1}}{z}+\frac{n-1}{z}J_{n-1}。
+  \end{align*}
+  よって：
+  \begin{align*}
+    \bbn{J_{n-1}}{z}
+    =J_{n-2}-\frac{n-1}{z}J_{n-1}。
+  \end{align*}
+  また、(3)の漸化式で$n$を$n-1$へ置き換える：
+  \begin{align*}
+    \frac{2(n-1)}{z}J_{n-1}=J_{n-2}+J_n。
+  \end{align*}
+  これを$J_{n-2}$について解く：
+  \begin{align*}
+    J_{n-2}
+    =\frac{2(n-1)}{z}J_{n-1}-J_n。
+  \end{align*}
+  したがって：
+  \begin{align*}
+    \bbn{J_{n-1}}{z}
+    &=\frac{n-1}{z}J_{n-1}-J_n。
+  \end{align*}
+
+  次に、
+  \begin{align*}
+    \bbn{J_n}{z}
+    =J_{n-1}-\frac{n}{z}J_n
+  \end{align*}
+  をもう一度$z$で微分する：
+  \begin{align*}
+    \nbbn{2}{J_n}{z}
+    &=\bbn{J_{n-1}}{z}
+    -\frac{n}{z}\bbn{J_n}{z}
+    +\frac{n}{z^2}J_n\\
+    &=\frac{n-1}{z}J_{n-1}-J_n
+    -\frac{n}{z}\bbn{J_n}{z}
+    +\frac{n}{z^2}J_n。
+  \end{align*}
+  ここに
+  \begin{align*}
+    J_{n-1}
+    =\bbn{J_n}{z}+\frac{n}{z}J_n
+  \end{align*}
+  を代入する：
+  \begin{align*}
+    \nbbn{2}{J_n}{z}
+    &=
+    \frac{n-1}{z}
+    \left(\bbn{J_n}{z}+\frac{n}{z}J_n\right)
+    -J_n
+    -\frac{n}{z}\bbn{J_n}{z}
+    +\frac{n}{z^2}J_n\\
+    &=-\frac{1}{z}\bbn{J_n}{z}
+    +\left(\frac{n^2}{z^2}-1\right)J_n。
+  \end{align*}
+  すべての項を左辺へ移項する：
+  \begin{align*}
+    \nbbn{2}{J_n}{z}
+    +\frac{1}{z}\bbn{J_n}{z}
+    +\left(1-\frac{n^2}{z^2}\right)J_n
+    =0。
+  \end{align*}
+  以上より、(2)および(3)の漸化式を用いることにより、$J_n(z)$が$n$次のBesselの微分方程式を満たすことが示された。
+
+  \subsection*{問題1.10}
+
+  この問題では、矩形関数
+  \begin{align*}
+    f(x)=
+    \begin{cases}
+      1,& |x|<1,\\
+      0,& |x|>1
+    \end{cases}
+  \end{align*}
+  の自分自身とのたたみ込み $(f*f)(x)$ を求め、さらに Fourier 変換 $F(k)$ を計算し、たたみ込み定理が実際に成り立つことを確かめる。
+  \begin{align*}
+    \mathcal{F}[f*f](k)=F(k)^2。
+  \end{align*}
+  まず、たたみ込みの定義より、
+  \begin{align*}
+    (f*f)(x)
+    =
+    \int_{-\infty}^{\infty}
+    f(x-y)f(y)\,dy。
+  \end{align*}
+  ここで被積分関数 $f(x-y)f(y)$ は、
+  \begin{align*}
+    |y|<1,
+    \qquad
+    |x-y|<1
+  \end{align*}
+  を同時に満たすときのみ $1$ となり、それ以外では $0$ となる。したがって $(f*f)(x)$ は、区間$(-1,1)$と区間$(x-1,x+1)$の共通部分の長さに等しい。\\
+  まず、$|x|\ge 2$の場合を考える。このとき2つの区間は互いに重ならないので、
+  \begin{align*}
+    (f*f)(x)=0。
+  \end{align*}
+  次に$0\le x<2$の場合を考える。このとき共通部分は
+  \begin{align*}
+    x-1<y<1
+  \end{align*}
+  であり、その長さは
+  \begin{align*}
+    1-(x-1)
+    =
+    2-x。
+  \end{align*}
+  同様に$-2<x<0$の場合には共通部分は
+  \begin{align*}
+    -1<y<x+1
+  \end{align*}
+  となるので、その長さは、
+  \begin{align*}
+    (x+1)-(-1)
+    =
+    x+2。
+  \end{align*}
+  以上をまとめると、
+  \begin{align*}
+    (f*f)(x)
+    =
+    \begin{cases}
+      x+2,& -2<x<0,\\
+      2-x,& 0\le x<2,\\
+      0,& |x|\ge 2
+    \end{cases}
+  \end{align*}
+  を得る。さらに、この結果は絶対値を用いて
+  \begin{align*}
+    (f*f)(x)
+    =
+    \begin{cases}
+      2-|x|,& |x|<2,\\
+      0,& |x|\ge 2
+    \end{cases}
+  \end{align*}
+  と書くことができる。すなわち、矩形関数を自分自身とたたみ込むと三角形状の関数が得られる。\\
+  次にFourier変換を求める。Fourier変換の定義
+  \begin{align*}
+    F(k)
+    =
+    \int_{-\infty}^{\infty}
+    f(x)e^{-ikx}\,dx
+  \end{align*}
+  を用いると、
+  \begin{align*}
+    F(k)
+    &=
+    \int_{-1}^{1}
+    e^{-ikx}\,dx \\
+    &=
+    \left[
+      \frac{e^{-ikx}}{-ik}
+    \right]_{-1}^{1} \\
+    &=
+    \frac{e^{ik}-e^{-ik}}{ik}。
+  \end{align*}
+  ここでEulerの公式
+  \begin{align*}
+    e^{ik}-e^{-ik}
+    =
+    2i\sin k
+  \end{align*}
+  を用いると、
+  \begin{align*}
+    F(k)
+    =
+    \frac{2\sin k}{k}
+  \end{align*}
+  を得る。したがって、
+  \begin{align*}
+    F(k)^2
+    =
+    \frac{4\sin^2 k}{k^2}。
+  \end{align*}
+  一方、求めたたたみ込み
+  \begin{align*}
+    (f*f)(x)
+    =
+    \begin{cases}
+      2-|x|,& |x|<2,\\
+      0,& |x|\ge 2
+    \end{cases}
+  \end{align*}
+  のFourier変換を直接計算する。\\
+  関数は偶関数であるから、以下のように書ける：
+  \begin{align*}
+    \mathcal{F}[f*f](k)
+    &=
+    \int_{-2}^{2}
+    (2-|x|)e^{-ikx}\,dx \\
+    &=
+    2\int_0^2
+    (2-x)\cos(kx)\,dx。
+  \end{align*}
+  部分積分を用いて積分を計算する：
+  \begin{align*}
+    \int_0^2
+    (2-x)\cos(kx)\,dx
+    &=
+    \left[
+      (2-x)\frac{\sin(kx)}{k}
+    \right]_0^2
+    +
+    \frac{1}{k}
+    \int_0^2
+    \sin(kx)\,dx \\
+    &=
+    \frac{1}{k}
+    \left[
+      -\frac{\cos(kx)}{k}
+    \right]_0^2 \\
+    &=
+    \frac{1-\cos(2k)}{k^2}。
+  \end{align*}
+  よって、
+  \begin{align*}
+    \mathcal{F}[f*f](k)
+    &=
+    \frac{2\{1-\cos(2k)\}}{k^2} \\
+    &=
+    \frac{4\sin^2 k}{k^2}。
+  \end{align*}
+  ここで三角恒等式を用いた：
+  \begin{align*}
+    1-\cos(2k)
+    =
+    2\sin^2 k。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    \mathcal{F}[f*f](k)
+    =
+    \frac{4\sin^2 k}{k^2}
+    =
+    F(k)^2
+  \end{align*}
+  が確かに成り立つ。\\
+  以上より、
+  \begin{align*}
+    (f*f)(x)
+    =
+    \begin{cases}
+      2-|x|,& |x|<2,\\
+      0,& |x|\ge 2
+    \end{cases}
+  \end{align*}
+  であり、そのFourier変換は、
+  \begin{align*}
+    \mathcal{F}[f*f](k)
+    =
+    \frac{4\sin^2 k}{k^2}
+    =
+    F(k)^2
+  \end{align*}
+  となる。
+
+  \subsection*{問題1.12(a)}
+
+  この小問では、周期$2\pi$をもつ関数
+  \begin{align*}
+    \delta_n(x)
+    =
+    \begin{cases}
+      n & \left(|x|<\dfrac{1}{2n}\right),\\
+      0 & \left(|x|>\dfrac{1}{2n}\right)
+    \end{cases}
+  \end{align*}
+  のFourier級数展開を求める。ただし、$|x|=1/(2n)$における関数値はFourier係数に影響しないため、任意に定めてよい。
+  
+  まず、$\delta_n(x)$は次の関係を満たす：
+  \begin{align*}
+    \delta_n(-x)=\delta_n(x)。
+  \end{align*}
+  したがって、$\delta_n(x)$は偶関数である。一般の周期$2\pi$のFourier級数を
+  \begin{align*}
+    \delta_n(x)=\frac{a_0}{2}+\sum_{m=1}^{\infty}a_m\cos(mx)+\sum_{m=1}^{\infty}b_m\sin(mx)
+  \end{align*}
+  と書くと、$\delta_n(x)\sin(mx)$は奇関数であるため、正弦項の係数は次のようになる：
+  \begin{align*}
+    b_m
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}\delta_n(x)\sin(mx)\,dx\\
+    &=0\quad(m=1,2,\dots)。
+  \end{align*}
+  次に、定数項の係数$a_0$を求める。Fourier係数の定義を用いると、$\delta_n(x)$が非零となる区間は$-1/(2n)<x<1/(2n)$であるため：
+  \begin{align*}
+    a_0
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}\delta_n(x)\,dx\\
+    &=\frac{n}{\pi}\int_{-\frac{1}{2n}}^{\frac{1}{2n}}dx\\
+    &=\frac{n}{\pi}\left\{\frac{1}{2n}-\left(-\frac{1}{2n}\right)\right\}\\
+    &=\frac{1}{\pi}。
+  \end{align*}
+  続いて、$m\geq 1$に対する余弦項の係数$a_m$を求める。Fourier係数の定義より：
+  \begin{align*}
+    a_m
+    &=\frac{1}{\pi}\int_{-\pi}^{\pi}\delta_n(x)\cos(mx)\,dx\\
+    &=\frac{n}{\pi}\int_{-\frac{1}{2n}}^{\frac{1}{2n}}\cos(mx)\,dx\\
+    &=\frac{n}{\pi}\left[\frac{\sin(mx)}{m}\right]_{-\frac{1}{2n}}^{\frac{1}{2n}}\\
+    &=\frac{n}{\pi m}\left\{\sin\left(\frac{m}{2n}\right)-\sin\left(-\frac{m}{2n}\right)\right\}。
+  \end{align*}
+  ここで、正弦関数の奇関数性$\sin(-\theta)=-\sin\theta$を用いる：
+  \begin{align*}
+    a_m=\frac{2n}{\pi m}\sin\left(\frac{m}{2n}\right)\quad(m=1,2,\dots)。
+  \end{align*}
+  以上のFourier係数を代入することにより、$\delta_n(x)$のFourier級数を得る：
+  \begin{align*}
+    \delta_n(x)
+    =\frac{1}{2\pi}
+    +\sum_{m=1}^{\infty}\frac{2n}{\pi m}\sin\left(\frac{m}{2n}\right)\cos(mx)。
+  \end{align*}
+  この級数は、$\delta_n(x)$が連続な点では$\delta_n(x)$に収束する。一方、不連続点$x=\pm1/(2n)$およびその周期的な移動で得られる点では、左右極限の平均値
+  \begin{align*}
+    \frac{n+0}{2}=\frac{n}{2}
+  \end{align*}
+  に収束する。以上より、$\delta_n(x)$のFourier級数展開が示された。
+
+  \subsection*{問題1.12(b)}
+
+  この小問では、(a)で求めたFourier級数を用いて、$\delta_n(x)$が$n\longrightarrow\infty$の極限において周期的デルタ関数$\delta_P(x)$へ超関数の意味で収束することを示す。
+  
+  まず、通常の関数としての各点収束を確認しておく。$x\notin2\pi\mathbb{Z}$を固定すると、十分大きな$n$に対して$|x-2\pi k|>1/(2n)$がすべての$k\in\mathbb{Z}$について成り立つため：
+  \begin{align*}
+    \lim_{n\to\infty}\delta_n(x)=0\quad(x\notin2\pi\mathbb{Z})。
+  \end{align*}
+  一方、$x\in2\pi\mathbb{Z}$では$\delta_n(x)=n$であるため、その値は発散する。したがって、$\delta_n(x)$は通常の関数として点ごとに$\delta_P(x)$へ収束するわけではない。以下では、周期的な試験関数に作用させた積分の極限によって、超関数としての収束を示す。\\
+  (a)より、$\delta_n(x)$のFourier級数は次のように表される：
+  \begin{align*}
+    \delta_n(x)
+    =\frac{1}{2\pi}
+    +\sum_{m=1}^{\infty}\frac{2n}{\pi m}\sin\left(\frac{m}{2n}\right)\cos(mx)。
+  \end{align*}
+  ここで、$m\geq1$を固定して$n\longrightarrow\infty$の極限を考える。正弦関数の原点まわりのTaylor展開を用いる：
+  \begin{align*}
+    \sin y=y+O(y^3)\quad(y\longrightarrow0)。
+  \end{align*}
+  ここに$y=m/(2n)$を代入する。$m$を固定しているため：
+  \begin{align*}
+    \sin\left(\frac{m}{2n}\right)
+    =\frac{m}{2n}+O\left(\frac{m^3}{n^3}\right)。
+  \end{align*}
+  したがって、各Fourier係数について：
+  \begin{align*}
+    \frac{2n}{\pi m}\sin\left(\frac{m}{2n}\right)
+    &=\frac{2n}{\pi m}\left\{\frac{m}{2n}+O\left(\frac{m^3}{n^3}\right)\right\}\\
+    &=\frac{1}{\pi}+O\left(\frac{m^2}{n^2}\right)。
+  \end{align*}
+  よって、$m$を固定したとき：
+  \begin{align*}
+    \lim_{n\to\infty}\frac{2n}{\pi m}\sin\left(\frac{m}{2n}\right)=\frac{1}{\pi}。
+  \end{align*}
+  したがって、$\delta_n$の各Fourier係数は、形式的には次のFourier級数の係数へ収束する：
+  \begin{align*}
+    \frac{1}{2\pi}+\frac{1}{\pi}\sum_{m=1}^{\infty}\cos(mx)
+    =\frac{1}{2\pi}\left\{1+2\sum_{m=1}^{\infty}\cos(mx)\right\}。
+  \end{align*}
+  Eulerの公式より：
+  \begin{align*}
+    e^{imx}+e^{-imx}=2\cos(mx)
+  \end{align*}
+  が成り立つため、この形式的な級数は次のように書き換えられる：
+  \begin{align*}
+    \frac{1}{2\pi}\left\{1+2\sum_{m=1}^{\infty}\cos(mx)\right\}
+    =\frac{1}{2\pi}\sum_{m=-\infty}^{\infty}e^{imx}。
+  \end{align*}
+  右辺は周期的デルタ関数$\delta_P(x)$のFourier級数表示である：
+  \begin{align*}
+    \delta_P(x)=\frac{1}{2\pi}\sum_{m=-\infty}^{\infty}e^{imx}。
+  \end{align*}
+  ただし、以上の係数ごとの極限だけでは、無限和と$n\longrightarrow\infty$の極限を交換できることまでは直ちに従わない。そこで、周期的デルタ関数への収束を、周期$2\pi$の連続な試験関数$\varphi(x)$に対する作用によって直接確認する。\\
+  $\delta_n(x)$が区間$[-1/(2n),1/(2n)]$でのみ非零であることを用いる：
+  \begin{align*}
+    \int_{-\pi}^{\pi}\delta_n(x)\varphi(x)\,dx
+    =n\int_{-\frac{1}{2n}}^{\frac{1}{2n}}\varphi(x)\,dx。
+  \end{align*}
+  ここで、$u=nx$と変数変換する。このとき、$x=u/n$および$dx=du/n$であるため：
+  \begin{align*}
+    \int_{-\pi}^{\pi}\delta_n(x)\varphi(x)\,dx
+    &=\int_{-\frac{1}{2}}^{\frac{1}{2}}\varphi\left(\frac{u}{n}\right)\,du。
+  \end{align*}
+  $\varphi$は連続であるため、各$u\in[-1/2,1/2]$について：
+  \begin{align*}
+    \lim_{n\to\infty}\varphi\left(\frac{u}{n}\right)=\varphi(0)
+  \end{align*}
+  が成り立つ。また、$\varphi$はコンパクトな区間$[-\pi,\pi]$上で有界であるから、Lebesgueの優収束定理を適用できる。したがって：
+  \begin{align*}
+    \lim_{n\to\infty}\int_{-\pi}^{\pi}\delta_n(x)\varphi(x)\,dx
+    &=\int_{-\frac{1}{2}}^{\frac{1}{2}}\lim_{n\to\infty}\varphi\left(\frac{u}{n}\right)\,du\\
+    &=\int_{-\frac{1}{2}}^{\frac{1}{2}}\varphi(0)\,du\\
+    &=\varphi(0)。
+  \end{align*}
+  一方、周期的デルタ関数の定義より：
+  \begin{align*}
+    \int_{-\pi}^{\pi}\delta_P(x)\varphi(x)\,dx=\varphi(0)。
+  \end{align*}
+  よって、任意の周期$2\pi$の連続な試験関数$\varphi$に対して：
+  \begin{align*}
+    \lim_{n\to\infty}\int_{-\pi}^{\pi}\delta_n(x)\varphi(x)\,dx
+    =\int_{-\pi}^{\pi}\delta_P(x)\varphi(x)\,dx。
+  \end{align*}
+  これは、$\delta_n$が周期的超関数の意味で$\delta_P$へ収束することを表す。したがって：
+  \begin{align*}
+    \delta_n\xrightarrow[n\to\infty]{}\delta_P
+    \quad\text{（周期的超関数の意味で）}。
+  \end{align*}
+  以上より、(a)で得たFourier係数は周期的デルタ関数のFourier係数へ項別に収束し、さらに$\delta_n$そのものも超関数の意味で周期的デルタ関数$\delta_P$へ収束することが示された。
+
+  \subsection*{問題2.5}
+
+  この問題では、3次元波動方程式の遅延Green関数を$z$方向について積分することにより、2次元波動方程式の遅延Green関数
+  \begin{align*}
+    G(x,y,t;x',y',t')
+    =
+    \frac{c\,\theta\!\left(c(t-t')-\sqrt{(x-x')^2+(y-y')^2}\right)}
+    {2\pi\sqrt{c^2(t-t')^2-(x-x')^2-(y-y')^2}}
+  \end{align*}
+  を導く。
+  
+  3次元波動方程式の遅延Green関数は次のように与えられる：
+  \begin{align*}
+    G_3(\vect{r},t;\vect{r}\,',t')
+    =
+    \frac{1}{4\pi|\vect{r}-\vect{r}\,'|}
+    \delta\left(t-t'-\frac{|\vect{r}-\vect{r}\,'|}{c}\right)。
+  \end{align*}
+  ここで、位置ベクトルを次のように置く：
+  \begin{align*}
+    \vect{r}=(x,y,z),
+    \qquad
+    \vect{r}\,'=(x',y',z')。
+  \end{align*}
+  2次元Green関数は、3次元Green関数を$z$方向について積分することにより得られる：
+  \begin{align*}
+    G(x,y,t;x',y',t')
+    =
+    \int_{-\infty}^{\infty}G_3(\vect{r},t;\vect{r}\,',t')\,dz。
+  \end{align*}
+  以下では、記述を簡潔にするため、平面内の2点間の距離$\rho$と時間差$\tau$を次のように定義する：
+  \begin{align*}
+    \rho=\sqrt{(x-x')^2+(y-y')^2},
+    \qquad
+    \tau=t-t'。
+  \end{align*}
+  さらに、$z$方向の相対座標を
+  \begin{align*}
+    \xi=z-z'
+  \end{align*}
+  と置く。このとき、$dz=d\xi$であり、3次元空間における2点間の距離は次のように表される：
+  \begin{align*}
+    |\vect{r}-\vect{r}\,'|=\sqrt{\rho^2+\xi^2}。
+  \end{align*}
+  したがって、2次元Green関数は次のように書き換えられる：
+  \begin{align*}
+    G
+    =
+    \frac{1}{4\pi}
+    \int_{-\infty}^{\infty}
+    \frac{\delta\left(\tau-\dfrac{\sqrt{\rho^2+\xi^2}}{c}\right)}
+    {\sqrt{\rho^2+\xi^2}}\,d\xi。
+  \end{align*}
+  この積分を計算するため、単純零点$\xi_i$をもつ関数$g(\xi)$について成り立つデルタ関数の公式
+  \begin{align*}
+    \delta(g(\xi))
+    =
+    \sum_i\frac{\delta(\xi-\xi_i)}{|g'(\xi_i)|},
+    \qquad
+    g(\xi_i)=0
+  \end{align*}
+  を用いる。いま、デルタ関数の引数を
+  \begin{align*}
+    g(\xi)=\tau-\frac{\sqrt{\rho^2+\xi^2}}{c}
+  \end{align*}
+  と置く。\\
+  まず、$g(\xi)=0$を満たす零点を求める。零点では次の関係が成り立つ：
+  \begin{align*}
+    \tau
+    &=\frac{\sqrt{\rho^2+\xi^2}}{c},\\
+    c^2\tau^2
+    &=\rho^2+\xi^2。
+  \end{align*}
+  したがって、零点の候補は次の2点である：
+  \begin{align*}
+    \xi_\pm=\pm\sqrt{c^2\tau^2-\rho^2}。
+  \end{align*}
+  右辺の平方根が実数となるためには$c^2\tau^2\geq\rho^2$が必要である。さらに、零点の方程式の右辺は非負であるため、$\tau<0$の場合には実数解が存在しない。したがって、異なる2つの単純零点が存在する領域は
+  \begin{align*}
+    \tau>0,
+    \qquad
+    c\tau>\rho
+  \end{align*}
+  である。\\
+  次に、$g(\xi)$を$\xi$で微分する：
+  \begin{align*}
+    g'(\xi)
+    =-\frac{\xi}{c\sqrt{\rho^2+\xi^2}}。
+  \end{align*}
+  零点$\xi_\pm$においては、
+  \begin{align*}
+    \sqrt{\rho^2+\xi_\pm^2}=c\tau,
+    \qquad
+    |\xi_\pm|=\sqrt{c^2\tau^2-\rho^2}
+  \end{align*}
+  が成り立つ。したがって、零点における導関数の絶対値は次のようになる：
+  \begin{align*}
+    |g'(\xi_\pm)|
+    &=\frac{|\xi_\pm|}{c\sqrt{\rho^2+\xi_\pm^2}}\\
+    &=\frac{\sqrt{c^2\tau^2-\rho^2}}{c^2\tau}。
+  \end{align*}
+  よって、$c\tau>\rho$の領域では、デルタ関数の変数変換公式より：
+  \begin{align*}
+    \delta(g(\xi))
+    =
+    \frac{c^2\tau}{\sqrt{c^2\tau^2-\rho^2}}
+    \left\{
+      \delta\left(\xi-\sqrt{c^2\tau^2-\rho^2}\right)
+      +
+      \delta\left(\xi+\sqrt{c^2\tau^2-\rho^2}\right)
+    \right\}。
+  \end{align*}
+  これをGreen関数の積分表示へ代入する。被積分関数であるデルタ関数において、引数が非零となる$\xi$に対しては、$\sqrt{\rho^2+\xi^2}$をどのようにおいても被積分関数はゼロのままであるため、積分結果は変わらない。ゆえに、
+  \begin{align*}
+    \sqrt{\rho^2+\xi^2}=c\tau
+  \end{align*}
+  と固定して良い。よって、
+  \begin{align*}
+    G
+    &=
+    \frac{1}{4\pi}
+    \int_{-\infty}^{\infty}
+    \frac{1}{c\tau}
+    \frac{c^2\tau}{\sqrt{c^2\tau^2-\rho^2}}
+    \left\{
+      \delta\left(\xi-\sqrt{c^2\tau^2-\rho^2}\right)
+      +
+      \delta\left(\xi+\sqrt{c^2\tau^2-\rho^2}\right)
+    \right\}d\xi\\
+    &=
+    \frac{c}{4\pi\sqrt{c^2\tau^2-\rho^2}}
+    \int_{-\infty}^{\infty}
+    \left\{
+      \delta\left(\xi-\sqrt{c^2\tau^2-\rho^2}\right)
+      +
+      \delta\left(\xi+\sqrt{c^2\tau^2-\rho^2}\right)
+    \right\}d\xi\\
+    &=
+    \frac{c}{2\pi\sqrt{c^2\tau^2-\rho^2}}
+    \qquad(c\tau>\rho)。
+  \end{align*}
+  一方、$c\tau<\rho$ではデルタ関数の引数が零となる実数$\xi$が存在しないため、Green関数はゼロである。以上の結果をHeaviside関数によってまとめる：
+  \begin{align*}
+    G
+    =
+    \frac{c\,\theta(c\tau-\rho)}
+    {2\pi\sqrt{c^2\tau^2-\rho^2}}。
+  \end{align*}
+  ここで、$\rho\geq0$であるため、$\theta(c\tau-\rho)$は$c\tau\geq\rho$と同時に$\tau\geq0$も保証している。したがって、時間方向の因果条件を表す$\theta(\tau)$を別に掛ける必要はない。また、波面$c\tau=\rho$では分母が発散するが、この特異性は局所可積分であり、上式は分布の意味で解釈される。\\
+  最後に、
+  \begin{align*}
+    \tau=t-t',
+    \qquad
+    \rho=\sqrt{(x-x')^2+(y-y')^2}
+  \end{align*}
+  を代入する：
+  \begin{align*}
+    G(x,y,t;x',y',t')
+    =
+    \frac{c\,\theta\left(c(t-t')-\sqrt{(x-x')^2+(y-y')^2}\right)}
+    {2\pi\sqrt{c^2(t-t')^2-(x-x')^2-(y-y')^2}}。
+  \end{align*}
+  以上より、3次元波動方程式の遅延Green関数を$z$方向について積分することにより、式(2.196)で与えられる2次元波動方程式の遅延Green関数が導かれた。
+
+  \subsection*{問題5.1}
+
+  この問題では、Legendre多項式$P_n(x)$の生成関数を用いて、$x=-1$における値$P_n(-1)$を求める。
+  
+  Legendre多項式の生成関数は、$|t|<1$において次のように与えられる：
+  \begin{align*}
+    G(x,t)
+    =\frac{1}{\sqrt{1-2xt+t^2}}
+    =\sum_{n=0}^{\infty}P_n(x)t^n。
+  \end{align*}
+  ここに$x=-1$を代入する：
+  \begin{align*}
+    G(-1,t)
+    &=\frac{1}{\sqrt{1+2t+t^2}}\\
+    &=\frac{1}{\sqrt{(1+t)^2}}。
+  \end{align*}
+  一般に、実数$t$に対して$\sqrt{(1+t)^2}=|1+t|$である。ここでは生成関数を$|t|<1$の範囲で考えているため、$1+t>0$が成り立つ。したがって：
+  \begin{align*}
+    \sqrt{(1+t)^2}=1+t。
+  \end{align*}
+  よって、$x=-1$における生成関数は次のように書ける：
+  \begin{align*}
+    G(-1,t)=\frac{1}{1+t}。
+  \end{align*}
+  次に、$|t|<1$における等比級数の公式を用いる：
+  \begin{align*}
+    \frac{1}{1+t}
+    =\frac{1}{1-(-t)}
+    =\sum_{n=0}^{\infty}(-t)^n
+    =\sum_{n=0}^{\infty}(-1)^nt^n。
+  \end{align*}
+  一方、Legendre多項式の生成関数の定義に$x=-1$を代入すると：
+  \begin{align*}
+    G(-1,t)=\sum_{n=0}^{\infty}P_n(-1)t^n。
+  \end{align*}
+  したがって、$|t|<1$において次の2つの冪級数表示が一致する：
+  \begin{align*}
+    \sum_{n=0}^{\infty}P_n(-1)t^n
+    =\sum_{n=0}^{\infty}(-1)^nt^n。
+  \end{align*}
+  冪級数の係数の一意性より、各次数の係数は一致しなければならない。したがって：
+  \begin{align*}
+    P_n(-1)=(-1)^n\quad(n=0,1,2,\dots)。
+  \end{align*}
+  以上より、Legendre多項式の$x=-1$における値は$P_n(-1)=(-1)^n$であることが示された。
+
+  \subsection*{問題9.1}
+
+  この問題では、Laguerre多項式$L_n(x)$を用いて定義した関数
+  \begin{align*}
+    \phi_n(x)=e^{-x/2}L_n(x)
+  \end{align*}
+  が、次の微分方程式を満たすことを示す：
+  \begin{align*}
+    x\nbbn{2}{\phi_n}{x}
+    +\bbn{\phi_n}{x}
+    +\left(n+\frac{1}{2}-\frac{x}{4}\right)\phi_n
+    =0。
+  \end{align*}
+  まず、Laguerre多項式$L_n(x)$は、Laguerreの微分方程式
+  \begin{align*}
+    x\nbbn{2}{L_n}{x}
+    +(1-x)\bbn{L_n}{x}
+    +nL_n
+    =0
+  \end{align*}
+  を満たす。ここで、$\phi_n(x)=e^{-x/2}L_n(x)$を$x$について微分する。積の微分を用いると、1階導関数は次のようになる：
+  \begin{align*}
+    \bbn{\phi_n}{x}
+    &=-\frac{1}{2}e^{-x/2}L_n+e^{-x/2}\bbn{L_n}{x}\\
+    &=e^{-x/2}\left(\bbn{L_n}{x}-\frac{1}{2}L_n\right)。
+  \end{align*}
+  さらに、上式をもう一度$x$について微分する：
+  \begin{align*}
+    \nbbn{2}{\phi_n}{x}
+    &=-\frac{1}{2}e^{-x/2}\left(\bbn{L_n}{x}-\frac{1}{2}L_n\right)
+    +e^{-x/2}\left(\nbbn{2}{L_n}{x}-\frac{1}{2}\bbn{L_n}{x}\right)\\
+    &=e^{-x/2}\left(\nbbn{2}{L_n}{x}-\bbn{L_n}{x}+\frac{1}{4}L_n\right)。
+  \end{align*}
+  以上で得られた$\phi_n$の1階導関数および2階導関数を、示すべき微分方程式の左辺へ代入する：
+  \begin{align*}
+    &x\nbbn{2}{\phi_n}{x}
+    +\bbn{\phi_n}{x}
+    +\left(n+\frac{1}{2}-\frac{x}{4}\right)\phi_n\\
+    &\quad
+    =xe^{-x/2}\left(\nbbn{2}{L_n}{x}-\bbn{L_n}{x}+\frac{1}{4}L_n\right)
+    +e^{-x/2}\left(\bbn{L_n}{x}-\frac{1}{2}L_n\right)
+    +e^{-x/2}\left(n+\frac{1}{2}-\frac{x}{4}\right)L_n\\
+    &\quad
+    =e^{-x/2}\left\{
+      x\nbbn{2}{L_n}{x}
+      -x\bbn{L_n}{x}
+      +\frac{x}{4}L_n
+      +\bbn{L_n}{x}
+      -\frac{1}{2}L_n
+      +nL_n
+      +\frac{1}{2}L_n
+      -\frac{x}{4}L_n
+    \right\}\\
+    &\quad
+    =e^{-x/2}\left\{
+      x\nbbn{2}{L_n}{x}
+      +(1-x)\bbn{L_n}{x}
+      +nL_n
+    \right\}。
+  \end{align*}
+  最後の中括弧内はLaguerreの微分方程式の左辺に一致するため：
+  \begin{align*}
+    x\nbbn{2}{L_n}{x}
+    +(1-x)\bbn{L_n}{x}
+    +nL_n
+    =0。
+  \end{align*}
+  したがって、次の式を得る：
+  \begin{align*}
+    x\nbbn{2}{\phi_n}{x}
+    +\bbn{\phi_n}{x}
+    +\left(n+\frac{1}{2}-\frac{x}{4}\right)\phi_n
+    =0。
+  \end{align*}
+  以上より、関数$\phi_n(x)=e^{-x/2}L_n(x)$が、与えられた微分方程式を満たすことが示された。
+
+  \subsection*{問題10.2}
+
+  この問題では、既知の半整数次Bessel関数と漸化式を用いて、$J_{5/2}(z)$および$J_{-5/2}(z)$を求める。以下では、平方根を実数として扱うため、$z>0$とする。
+  
+  まず、$\pm 1/2$次Bessel関数は次のように与えられる：
+  \begin{align*}
+    J_{1/2}(z)
+    &=\sqrt{\frac{2}{\pi z}}\sin z,\\
+    J_{-1/2}(z)
+    &=\sqrt{\frac{2}{\pi z}}\cos z。
+  \end{align*}
+  また、Bessel関数の漸化式を用いる：
+  \begin{align*}
+    J_{\nu+1}(z)=\frac{2\nu}{z}J_\nu(z)-J_{\nu-1}(z)。
+  \end{align*}
+  まず、$J_{5/2}(z)$を求める。上の漸化式に$\nu=1/2$を代入する：
+  \begin{align*}
+    J_{3/2}(z)
+    &=\frac{1}{z}J_{1/2}(z)-J_{-1/2}(z)\\
+    &=\sqrt{\frac{2}{\pi z}}
+    \left(\frac{\sin z}{z}-\cos z\right)。
+  \end{align*}
+  次に、漸化式に$\nu=3/2$を代入する：
+  \begin{align*}
+    J_{5/2}(z)
+    &=\frac{3}{z}J_{3/2}(z)-J_{1/2}(z)\\
+    &=\frac{3}{z}\sqrt{\frac{2}{\pi z}}
+    \left(\frac{\sin z}{z}-\cos z\right)
+    -\sqrt{\frac{2}{\pi z}}\sin z\\
+    &=\sqrt{\frac{2}{\pi z}}
+    \left\{\left(\frac{3}{z^2}-1\right)\sin z-\frac{3}{z}\cos z\right\}。
+  \end{align*}
+  したがって、$J_{5/2}(z)$は次のように得られる：
+  \begin{align*}
+    J_{5/2}(z)
+    =\sqrt{\frac{2}{\pi z}}
+    \left\{\left(\frac{3}{z^2}-1\right)\sin z-\frac{3}{z}\cos z\right\}。
+  \end{align*}
+  次に、$J_{-5/2}(z)$を求める。このため、漸化式を次のように書き換える：
+  \begin{align*}
+    J_{\nu-1}(z)=\frac{2\nu}{z}J_\nu(z)-J_{\nu+1}(z)。
+  \end{align*}
+  この式に$\nu=-1/2$を代入する：
+  \begin{align*}
+    J_{-3/2}(z)
+    &=-\frac{1}{z}J_{-1/2}(z)-J_{1/2}(z)\\
+    &=-\sqrt{\frac{2}{\pi z}}
+    \left(\frac{\cos z}{z}+\sin z\right)。
+  \end{align*}
+  さらに、同じ漸化式に$\nu=-3/2$を代入する：
+  \begin{align*}
+    J_{-5/2}(z)
+    &=-\frac{3}{z}J_{-3/2}(z)-J_{-1/2}(z)\\
+    &=\frac{3}{z}\sqrt{\frac{2}{\pi z}}
+    \left(\frac{\cos z}{z}+\sin z\right)
+    -\sqrt{\frac{2}{\pi z}}\cos z\\
+    &=\sqrt{\frac{2}{\pi z}}
+    \left\{\frac{3}{z}\sin z+\left(\frac{3}{z^2}-1\right)\cos z\right\}。
+  \end{align*}
+  したがって、$J_{-5/2}(z)$は次のように得られる：
+  \begin{align*}
+    J_{-5/2}(z)
+    =\sqrt{\frac{2}{\pi z}}
+    \left\{\frac{3}{z}\sin z+\left(\frac{3}{z^2}-1\right)\cos z\right\}。
+  \end{align*}
+  以上より、求める半整数次Bessel関数は次のようになる：
+  \begin{align*}
+    J_{5/2}(z)
+    &=\sqrt{\frac{2}{\pi z}}
+    \left\{\left(\frac{3}{z^2}-1\right)\sin z-\frac{3}{z}\cos z\right\},\\
+    J_{-5/2}(z)
+    &=\sqrt{\frac{2}{\pi z}}
+    \left\{\frac{3}{z}\sin z+\left(\frac{3}{z^2}-1\right)\cos z\right\}。
+  \end{align*}
+  以上より、$J_{5/2}(z)$および$J_{-5/2}(z)$が求められた。
+
+  \subsection*{問題11.1}
+
+  この問題では、双曲線関数$\cosh(kx)$および$\sinh(kx)$のLaplace変換を求める。関数$f(x)$のLaplace変換は、積分が収束する$s$の範囲において次のように定義される：
+  \begin{align*}
+    \mathcal{L}\{f\}(s)=\int_0^\infty e^{-sx}f(x)\,dx。
+  \end{align*}
+  
+  まず、$\cosh(kx)$のLaplace変換を求める。双曲線余弦関数の定義
+  \begin{align*}
+    \cosh(kx)=\frac{e^{kx}+e^{-kx}}{2}
+  \end{align*}
+  を用いる：
+  \begin{align*}
+    \mathcal{L}\{\cosh(kx)\}(s)
+    &=\int_0^\infty e^{-sx}\cosh(kx)\,dx\\
+    &=\frac{1}{2}\int_0^\infty e^{-sx}\left(e^{kx}+e^{-kx}\right)\,dx\\
+    &=\frac{1}{2}\int_0^\infty\left\{e^{-(s-k)x}+e^{-(s+k)x}\right\}\,dx。
+  \end{align*}
+  ここで、2つの積分がともに収束するためには：
+  \begin{align*}
+    s-k>0,
+    \qquad
+    s+k>0
+  \end{align*}
+  が必要である。したがって、$s,k\in\mathbb{R}$の場合の収束条件は次のようになる：
+  \begin{align*}
+    s>|k|。
+  \end{align*}
+  この条件のもとでは、各指数関数は$x\longrightarrow\infty$でゼロへ収束する。したがって、積分を実行する：
+  \begin{align*}
+    \mathcal{L}\{\cosh(kx)\}(s)
+    &=\frac{1}{2}\left(\frac{1}{s-k}+\frac{1}{s+k}\right)\\
+    &=\frac{1}{2}\frac{(s+k)+(s-k)}{(s-k)(s+k)}\\
+    &=\frac{s}{s^2-k^2}。
+  \end{align*}
+  よって、$\cosh(kx)$のLaplace変換は次のように与えられる：
+  \begin{align*}
+    \mathcal{L}\{\cosh(kx)\}(s)
+    =\frac{s}{s^2-k^2}
+    \qquad(s>|k|)。
+  \end{align*}
+  次に、$\sinh(kx)$のLaplace変換を求める。双曲線正弦関数の定義
+  \begin{align*}
+    \sinh(kx)=\frac{e^{kx}-e^{-kx}}{2}
+  \end{align*}
+  を用いる：
+  \begin{align*}
+    \mathcal{L}\{\sinh(kx)\}(s)
+    &=\int_0^\infty e^{-sx}\sinh(kx)\,dx\\
+    &=\frac{1}{2}\int_0^\infty e^{-sx}\left(e^{kx}-e^{-kx}\right)\,dx\\
+    &=\frac{1}{2}\int_0^\infty\left\{e^{-(s-k)x}-e^{-(s+k)x}\right\}\,dx。
+  \end{align*}
+  この場合も、2つの指数関数をそれぞれ積分するための収束条件は$s>|k|$である。この条件のもとで積分を実行する：
+  \begin{align*}
+    \mathcal{L}\{\sinh(kx)\}(s)
+    &=\frac{1}{2}\left(\frac{1}{s-k}-\frac{1}{s+k}\right)\\
+    &=\frac{1}{2}\frac{(s+k)-(s-k)}{(s-k)(s+k)}\\
+    &=\frac{k}{s^2-k^2}。
+  \end{align*}
+  よって、$\sinh(kx)$のLaplace変換は次のように与えられる：
+  \begin{align*}
+    \mathcal{L}\{\sinh(kx)\}(s)
+    =\frac{k}{s^2-k^2}
+    \qquad(s>|k|)。
+  \end{align*}
+  以上より、求めるLaplace変換は次のようになる：
+  \begin{align*}
+    \mathcal{L}\{\cosh(kx)\}(s)
+    &=\frac{s}{s^2-k^2},\\
+    \mathcal{L}\{\sinh(kx)\}(s)
+    &=\frac{k}{s^2-k^2}
+    \qquad(s>|k|)。
+  \end{align*}
+  以上より、$\cosh(kx)$および$\sinh(kx)$のLaplace変換が求められた。
+
+
+
+
+\end{document}

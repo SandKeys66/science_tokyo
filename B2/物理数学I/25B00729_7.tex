@@ -1,0 +1,172 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学演習Iレポート7}
+\author{嶋田 悠音}
+\date{2026年5月31日}
+
+\begin{document}
+  \maketitle
+  \subsection*{問題13.3}
+  \subsubsection*{(i)}
+  \subsubsubsection*{(a)}
+  $f(x)$が以下のようにFourier級数展開できるとする。
+  \begin{align*}
+    f(x)=\frac{a_0}{2}+\sum_{n=1}^\infty \left(a_n \cos nx + b_n \sin nx\right)
+  \end{align*}
+  関数の周期性から、$0<x<\pi$での積分値は$-\pi<x<\pi$での積分値に等しい。両辺を$-\pi<x<\pi$で積分すると、無限級数部分は周期の整数倍の範囲での積分になりその値は0になるため、
+  \begin{align*}
+    \int_{-\pi}^{\pi} f(x)dx=\int_{-\pi}^\pi \frac{a_0}{2}dx=a_0\pi \qquad \therefore \quad a_0=\frac{1}{\pi}\int_{-\pi}^\pi f(x)dx=\frac{2{\pi}^2}{3}
+  \end{align*}
+  である。また、両辺に$\cos{mx}$をかけて$-\pi<x<\pi$で積分すると、$a_0$の項は明らかに積分値が0であり、また無限級数部分は三角関数の直交性から、$a_m$の項のみ残る。したがって、
+  \begin{align*}
+    \int_{-\pi}^{\pi} f(x)\cos{mx}dx &= \int_{-\pi}^{\pi} a_n\cos^2{mx}dx = \pi a_m\\
+    \therefore \qquad a_m &= \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos{mx}dx = \frac{1}{\pi}\int_{-\pi}^{\pi} x^2 \cos{mx}dx\\
+    &= \frac{2}{m^2\pi}\left[x\cos{mx}\right]_{-\pi}^{\pi} = \frac{4(-1)^m}{m^2}
+  \end{align*}
+  である。同様に、両辺に$\sin{mx}$をかけて$-\pi<x<\pi$で積分すると、$b_m$の項のみ残る。したがって、
+  \begin{align*}
+    \int_{-\pi}^{\pi} f(x)\sin{mx}dx &= \int_{-\pi}^{\pi} b_n\sin^2{mx}dx = \pi b_m\\
+    \therefore \qquad b_m &= \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin{mx}dx = \frac{1}{\pi}\int_{-\pi}^{\pi} x^2 \sin{mx}dx\\
+    &= \frac{2}{m^2\pi}\left[x\sin{mx}\right]_{-\pi}^{\pi} = 0
+  \end{align*}
+  である。以上より、$f(x)$のFourier級数は以下のようになる。
+  \begin{align*}
+    f(x)=\frac{\pi^2}{3}+\sum_{n=1}^\infty \frac{4(-1)^n}{n^2}\cos{nx}
+  \end{align*} 
+  \subsubsubsection*{(b)}
+  周期$T=2$なので、Fourier級数は
+  \begin{align*}
+    f(x)=\frac{a_0}{2}+\sum_{n=1}^\infty\left(a_n\cos(n\pi x)+b_n\sin(n\pi x)\right)
+  \end{align*}
+  である。係数は(a)同様に$0<x<2$で積分したもの、$cos(m\pi x)$をかけて積分したもの、$sin(m\pi x)$をかけて積分したものを考えることで以下となる。
+  \begin{align*}
+    a_0&=\int_0^2 x\,dx=2,\\
+    a_n&=\int_0^2 x\cos(n\pi x)\,dx=0\\
+    b_n&=\int_0^2 x\sin(n\pi x)\,dx=-\frac{1}{n\pi}\left[x\cos(n\pi x)\right]_0^2=-\frac{2}{n\pi}. 
+  \end{align*}
+  よってFourier級数は
+  \begin{align*}
+    f(x)=1-\frac{2}{\pi}\sum_{n=1}^\infty\frac{1}{n}\sin(n\pi x).
+  \end{align*}
+  である。
+  \subsubsection*{(ii)}
+
+  \subsubsubsection*{(a)}
+
+  まず，(i)(a)で得られた Fourier 級数
+  \begin{align*}
+    x^2=\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}\cos(nx)
+  \end{align*}
+  を用いる。ここで $x=\pi$ を代入すると，$\cos(n\pi)=(-1)^n$ であるから，
+  \begin{align*}
+    \pi^2=\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}(-1)^n
+        =\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{1}{n^2}
+  \end{align*}
+  となる。よって，
+  \begin{alignat*}{2}
+    &\phantom{\therefore\quad} & \pi^2-\frac{\pi^2}{3} &= 4\sum_{n=1}^{\infty}\frac{1}{n^2}\\
+    &\therefore\quad           & \frac{2\pi^2}{3}      &= 4\sum_{n=1}^{\infty}\frac{1}{n^2}\\
+    &\therefore\quad           & \sum_{n=1}^{\infty}\frac{1}{n^2} &= \frac{\pi^2}{6}
+  \end{alignat*}
+  となる。
+
+  \subsubsubsection*{(b)}
+
+  まず，(i)(a)より
+  \begin{align*}
+    x^2=\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}\cos(nx)
+  \end{align*}
+  を得ている。これを用いて $\ssum{n}{1}{\infty} 1/n^4$ を求めるために、両辺を順に2回積分することで、
+  \begin{align*}
+    \frac{x^4}{12}
+    =\frac{\pi^2}{6}x^2
+    -4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^4}\cos(nx)
+    +4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^4}
+  \end{align*}
+  を得る。右辺第3項の交代級数は、積分定数として加えたものである。ここで $x=\pi$ を代入すると $\cos(n\pi)=(-1)^n$ より、
+  \begin{align*}
+    \frac{\pi^4}{12}
+    =\frac{\pi^4}{6}
+    -4\sum_{n=1}^{\infty}\frac{1}{n^4}
+    +4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^4}
+  \end{align*}
+  となる。ここで
+  \begin{align*}
+    S=\sum_{n=1}^{\infty}\frac{1}{n^4}
+  \end{align*}
+  とおくと，交代級数は次のように求められる。まず偶数項と奇数項に分けると、
+  \begin{align*}
+    S=\sum_{\text{odd}} \frac{1}{n^4}+\sum_{\text{even}} \frac{1}{n^4}
+  \end{align*}
+  であり，
+  \begin{align*}
+    \sum_{\text{even}} \frac{1}{n^4}=\sum_{k=1}^{\infty}\frac{1}{(2k)^4}
+    =\frac{1}{16}S
+  \end{align*}
+  であるから，
+  \begin{align*}
+    \sum_{\text{odd}} \frac{1}{n^4}=\frac{15}{16}S
+  \end{align*}
+  となる。したがって交代級数は、
+  \begin{align*}
+    \sum_{n=1}^{\infty}\frac{(-1)^n}{n^4}
+    =\sum_{\text{even}} \frac{1}{n^4}-\sum_{\text{odd}} \frac{1}{n^4}
+    =\frac{1}{16}S-\frac{15}{16}S
+    =-\frac{7}{8}S
+  \end{align*}
+  である。これを先程の式に代入すると、
+  \begin{align*}
+    \frac{\pi^4}{12}
+    =\frac{\pi^4}{6}-4S+4\left(-\frac{7}{8}S\right)
+    =\frac{\pi^4}{6}-4S-\frac{7}{2}S
+  \end{align*}
+  となる。よって、
+  \begin{alignat*}{2}
+    &\phantom{\therefore\quad} & \frac{\pi^4}{12}-\frac{\pi^4}{6} &=-\frac{15}{2}S\\
+    &\therefore\quad & -\frac{\pi^4}{12}&=-\frac{15}{2}S\\
+    &\therefore\quad & S&=\frac{\pi^4}{90}
+  \end{alignat*}
+  が得られる。したがって、
+  \begin{align*}
+    \sum_{n=1}^{\infty}\frac{1}{n^4}=\frac{\pi^4}{90}
+  \end{align*}
+  が示された。
+
+  \subsubsection*{(iii)}
+  (i)(b)の関数を考える。この関数は $x=\xi=2k(k \in \mathbb{Z})$ において不連続であり，周期性より
+  \begin{align*}
+    f(\xi+0)=0, \quad f(\xi-0)=2
+  \end{align*}
+  である。したがって、その平均値は
+  \begin{align*}
+    \frac{f(\xi-0)+f(\xi+0)}{2}=1
+  \end{align*}
+  となる。一方、Fourier 級数は
+  \begin{align*}
+    F(x)=1-\frac{2}{\pi}\sum_{n=1}^{\infty}\frac{1}{n}\sin(n\pi x)
+  \end{align*}
+  である。ここで $x=\xi$ を代入すると
+  \begin{align*}
+    F(\xi)=1-\frac{2}{\pi}\sum_{n=1}^{\infty}\frac{1}{n}\sin(n\pi \xi)=1-\frac{2}{\pi}\sum_{n=1}^{\infty}\frac{1}{n}\sin(2kn\pi)=1
+  \end{align*}
+  となる。よって、各不連続点$x=\xi$において、
+  \begin{align*}
+    F(\xi)=\frac{f(\xi-0)+f(\xi+0)}{2}
+  \end{align*}
+  が成り立つ。
+  
+  
+\end{document}

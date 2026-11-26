@@ -1,0 +1,82 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学演習Iレポート3}
+\author{嶋田 悠音}
+\date{2026年5月13日}
+
+\begin{document}
+  \maketitle
+  \subsection*{9.2}
+
+  \subsubsection*{(i)}
+  定積分 $I = \int_{0}^{\infty} \frac{dx}{(x^2+1)^2(x^2+2)}$ を求める。被積分関数は偶関数であるため、$I = \frac{1}{2} \int_{-\infty}^{\infty} \frac{dx}{(x^2+1)^2(x^2+2)}$ である。
+  複素関数 $f(z) = \frac{1}{(z^2+1)^2(z^2+2)}$ を考え、実軸上の $[-R, R]$ と上半平面の半径 $R$ の半円 $C_R$ からなる閉曲線 $\mathcal{C}$ を積分路とする。
+
+  このとき、$C_R$ 上の積分について考える。$z = R e^{i\theta} (0 \le \theta \le \pi)$ とおくと、十分に大きな $R$ に対して $|f(z)| \sim \frac{1}{R^6}$ のオーダーで減少する。
+  \begin{align*}
+  \left| \int_{C_R} f(z) dz \right| \le \int_{0}^{\pi} \left| f(Re^{i\theta}) \right| R d\theta \le \int_{0}^{\pi} \frac{1}{R^6} R d\theta = \frac{\pi}{R^5}
+  \end{align*}
+  より、$R \to \infty$ のとき $C_R$ 上の積分は $0$ に収束する。
+
+  $\mathcal{C}$ の内部にある極は $z=i$（2位）と $z=\sqrt{2}i$（1位）である。それぞれの留数は以下の通りである：
+  \begin{itemize}
+      \item $z=i$ における留数：
+      \begin{align*}
+      \text{Res}(f, i) &= \lim_{z \to i} \frac{d}{dz} \left[ \frac{1}{(z+i)^2(z^2+2)} \right] = \lim_{z \to i} \left[ \frac{-2(z+i)(z^2+2) - (z+i)^2(2z)}{(z+i)^4(z^2+2)^2} \right] \\
+      &= \frac{-2(2i)(1) - (2i)^2(2i)}{(2i)^4(1)^2} = \frac{-4i + 8i}{16} = \frac{i}{4}
+      \end{align*}
+      \item $z=\sqrt{2}i$ における留数：
+      \begin{align*}
+      \text{Res}(f, \sqrt{2}i) &= \lim_{z \to \sqrt{2}i} \frac{1}{(z^2+1)^2(z+\sqrt{2}i)} = \frac{1}{(-2+1)^2(2\sqrt{2}i)} = -\frac{\sqrt{2}i}{4}
+      \end{align*}
+  \end{itemize}
+  留数定理より、
+  \begin{align*}
+  \int_{-\infty}^{\infty} f(x) dx &= 2\pi i \left( \frac{i}{4} - \frac{\sqrt{2}i}{4} \right) = \frac{(\sqrt{2}-1)\pi}{2}
+  \end{align*}
+  したがって、$I = \frac{(\sqrt{2}-1)\pi}{4}$ となる。
+
+  \subsubsection*{(ii)}
+  定積分 $I = \int_{-\infty}^{\infty} \frac{\cos ax}{x^2+b^2} dx$ ($a, b > 0$) を求める。
+  複素関数 $f(z) = \frac{e^{iaz}}{z^2+b^2}$ を(i)と同じ積分路 $\mathcal{C}$ で積分する。
+  $C_R$ 上の積分は、ジョルダンの補助定理により、$a > 0$ であるから $R \to \infty$ のとき $0$ に収束する。
+
+  $\mathcal{C}$ 内部の極 $z=bi$ における留数は、
+  \begin{align*}
+  \text{Res}(f, bi) = \frac{e^{ia(bi)}}{2bi} = \frac{e^{-ab}}{2bi}
+  \end{align*}
+  留数定理より、
+  \begin{align*}
+  \int_{-\infty}^{\infty} \frac{e^{iax}}{x^2+b^2} dx = 2\pi i \cdot \frac{e^{-ab}}{2bi} = \frac{\pi e^{-ab}}{b}
+  \end{align*}
+  右辺は実数であるため、両辺の実部をとることで $I = \frac{\pi e^{-ab}}{b}$ を得る。
+
+  \subsubsection*{(iii)}
+  定積分 $I = \int_{0}^{\infty} \frac{x^a}{(x+1)^2} dx$ ($-1 < a < 1, a \neq 0$) を求める。
+  多価関数 $f(z) = \frac{z^a}{(z+1)^2}$ とし、正の実軸上に分岐切断を設けたキーホール積分路 $\mathcal{C}$ を用いる。
+  無限遠の円周 $C_R$ 上では $|f(z)| \sim R^{a-2}$ であり、$a-2 < -1$ より積分は $0$ に収束する。また原点周りの小円 $C_\epsilon$ 上の積分も $a > -1$ より $0$ に収束する。
+
+  内部にある2位の極 $z = -1 = e^{i\pi}$ における留数は、
+  \begin{align*}
+  \text{Res}(f, -1) = \lim_{z \to -1} \frac{d}{dz} (z^a) = a z^{a-1} \big|_{z=e^{i\pi}} = a e^{i\pi(a-1)} = -a e^{ia\pi}
+  \end{align*}
+  分岐切断の上側（$z=x$）と下側（$z=xe^{2\pi i}$）の積分の差から、
+  \begin{align*}
+  \left( 1 - e^{2\pi i a} \right) I = 2\pi i (-a e^{ia\pi})
+  \end{align*}
+  これを $I$ について解くと、
+  \begin{align*}
+  I = \frac{-2\pi i a e^{ia\pi}}{1 - e^{2\pi i a}} = \frac{2\pi i a}{e^{ia\pi} - e^{-ia\pi}} = \frac{\pi a}{\sin a\pi}
+  \end{align*}
+  となる。
+  \end{document}

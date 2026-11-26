@@ -1,0 +1,239 @@
+\RequirePackage{plautopatch}
+\documentclass[platex、dvipdfmx、a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{物理数学II演習レポート2}
+\author{嶋田 悠音}
+\date{2026年6月22日}
+
+\begin{document}
+  \maketitle
+  \subsection*{問題3$\delta$関数}
+  本問では、Diracの$\delta$関数が満たす基本的性質を、$\delta$関数の定義
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\delta(x-a)\,dx = f(a)
+  \end{align*}
+  に基づいて示す。また、Heavisideの階段関数との関係についても確認する。
+
+  \subsubsection*{(i)(a)$\delta(-x)=\delta(x)$}
+  任意の試験関数$f(x)$に対して、次の積分を考える:
+  \begin{align*}
+    I = \int_{-\infty}^{\infty} f(x)\delta(-x)\,dx。
+  \end{align*}
+  ここで変数変換
+  \begin{align*}
+    u=-x
+  \end{align*}
+  を行う。このとき
+  \begin{align*}
+    dx=-du
+  \end{align*}
+  であるから
+  \begin{align*}
+    I
+    &= \int_{\infty}^{-\infty} f(-u)\delta(u)(-du) \\
+    &= \int_{-\infty}^{\infty} f(-u)\delta(u)\,du \\
+    &= f(0)。
+  \end{align*}
+  一方、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\delta(x)\,dx = f(0)
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \delta(-x)=\delta(x)
+  \end{align*}
+  が成り立つ。
+
+  \subsubsection*{(i)(b)$\delta(ax)=\dfrac1{|a|}\delta(x)$}
+
+  任意の試験関数$f(x)$に対して、
+  \begin{align*}
+    I = \int_{-\infty}^{\infty} f(x)\delta(ax)\,dx
+  \end{align*}
+  を考える。
+
+  ここで変数変換
+  \begin{align*}
+    u=ax
+  \end{align*}
+  を用いる。このとき
+  \begin{align*}
+    dx=\frac{du}{|a|}
+  \end{align*}
+  であるから、
+  \begin{align*}
+    I
+    &= \frac{1}{|a|}\int_{-\infty}^{\infty} f\left(\frac{u}{a}\right)\delta(u)\,du \\
+    &= \frac{1}{|a|}f(0)。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    \delta(ax)=\frac{1}{|a|}\delta(x)
+  \end{align*}
+  が成り立つ。
+
+  \subsubsection*{(i)(c)$x\delta(x)=0$}
+
+  任意の試験関数$f(x)$に対して、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)x\delta(x)\,dx
+    &= \int_{-\infty}^{\infty} (xf(x))\delta(x)\,dx \\
+    &= 0 \cdot f(0) \\
+    &= 0。
+  \end{align*}
+  よって、任意の$f(x)$に対して積分値が0となるので、
+  \begin{align*}
+    x\delta(x)=0
+  \end{align*}
+  が成り立つ。
+
+  \subsubsection*{(i)(d)$\delta(x^2-a^2)=\dfrac1{2|a|}\qty[\delta(x+a)+\delta(x-a)]$}
+
+  一般に、関数$g(x)$が単純零点$x_i$を持つとき，
+  \begin{align*}
+    \delta(g(x))
+    =
+    \sum_i
+    \frac{\delta(x-x_i)}{|g'(x_i)|}
+  \end{align*}
+  が成り立つ。
+
+  ここで
+  \begin{align*}
+    g(x)=x^2-a^2
+  \end{align*}
+  とおくと，
+  \begin{align*}
+    g(x)=0
+  \end{align*}
+  の解は
+  \begin{align*}
+    x=\pm a
+  \end{align*}
+  である。また，
+  \begin{align*}
+    g'(x)=2x
+  \end{align*}
+  であるから，
+  \begin{align*}
+    |g'(\pm a)|=2|a|
+  \end{align*}
+  となる。したがって，
+  \begin{align*}
+    \delta(x^2-a^2)
+    &= \frac{\delta(x-a)}{|2a|}
+    + \frac{\delta(x+a)}{|{-2a}|} \\
+    &= \frac{1}{2|a|}\qty[\delta(x+a)+\delta(x-a)]。
+  \end{align*}
+
+  \subsubsection*{(i)(e)$\int_{-\infty}^{\infty}\delta(a-x)\delta(x-b)\,dx=\delta(a-b)$}
+
+  $\delta$関数の偶性
+  \begin{align*}
+    \delta(a-x)=\delta(x-a)
+  \end{align*}
+  を用いると、
+  \begin{align*}
+    \int_{-\infty}^{\infty}\delta(a-x)\delta(x-b)\,dx
+    &= \int_{-\infty}^{\infty}\delta(x-a)\delta(x-b)\,dx \\
+    &= \delta(a-b)。
+  \end{align*}
+  ここで最後の等号では，
+  \begin{align*}
+    f(x)=\delta(x-a)
+  \end{align*}
+  として$\delta$関数の定義を用いた。
+
+  \subsubsection*{(i)(f)$x\delta'(x)=-\delta(x)$}
+
+  $\delta$関数の微分は分布の意味で定義され、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\delta'(x)\,dx
+    = -f'(0)
+  \end{align*}
+  が成り立つ。
+
+  ここで、
+  \begin{align*}
+    g(x)=xf(x)
+  \end{align*}
+  とおく。このとき，
+  \begin{align*}
+    g'(x)=f(x)+xf'(x)
+  \end{align*}
+  であるから，
+  \begin{align*}
+    g'(0)=f(0)
+  \end{align*}
+  となる。
+
+  以上を用いると、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)x\delta'(x)\,dx
+    &= \int_{-\infty}^{\infty} g(x)\delta'(x)\,dx \\
+    &= -g'(0) \\
+    &= -f(0) \\
+    &= \int_{-\infty}^{\infty} f(x)(-\delta(x))\,dx。
+  \end{align*}
+  したがって、
+  \begin{align*}
+    x\delta'(x)=-\delta(x)
+  \end{align*}
+  が成り立つ。
+
+  \subsubsection*{(ii)$\bbn{\theta(x)}{x}=\delta(x)$}
+
+  Heavisideの階段関数
+  \begin{align*}
+    \theta(x)
+    =
+    \begin{cases}
+      0 &(x\le0) \\
+      1 &(x>0)
+    \end{cases}
+  \end{align*}
+  を考える。
+
+  任意の試験関数$f(x)$に対して、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\theta'(x)\,dx
+  \end{align*}
+  を計算する。分布の微分の定義より、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\theta'(x)\,dx
+    &= -\int_{-\infty}^{\infty} f'(x)\theta(x)\,dx \\
+    &= -\int_0^{\infty} f'(x)\,dx \\
+    &= -[f(x)]_0^{\infty}。
+  \end{align*}
+  試験関数$f(x)$は無限遠方で0に収束するので、
+  \begin{align*}
+    f(\infty)=0
+  \end{align*}
+  である。したがって，
+  \begin{align*}
+    -[f(x)]_0^{\infty}
+    &= -(0-f(0)) \\
+    &= f(0)。
+  \end{align*}
+  一方、
+  \begin{align*}
+    \int_{-\infty}^{\infty} f(x)\delta(x)\,dx=f(0)
+  \end{align*}
+  であるから、
+  \begin{align*}
+    \bbn{\theta(x)}{x}=\delta(x)
+  \end{align*}
+  が示された。
+\end{document}

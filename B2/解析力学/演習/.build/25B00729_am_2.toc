@@ -1,0 +1,50 @@
+\contentsline {section}{\numberline {0}自己採点表}{3}{section.0}%
+\contentsline {section}{\numberline {1}Euler-Lagrange方程式と一般座標変換の限界}{4}{section.1}%
+\contentsline {subsection}{Q4-1（Euler-Lagrange方程式と一般座標変換の限界）}{4}{section*.14}%
+\contentsline {section}{\numberline {2}Hamilton形式の理論：非形式的な導入}{6}{section.2}%
+\contentsline {subsection}{Q4-2（Hamilton運動方程式の例：3次元空間内をポテンシャル$V(\boldsymbol {\mathrm {r}},t)$により運動する1個の粒子）}{7}{section*.32}%
+\contentsline {subsection}{Q4-3（正準変換の例：Q4-2を用いて）}{9}{section*.52}%
+\contentsline {section}{\numberline {3}Hamilton形式の理論：形式的な整備}{11}{section.3}%
+\contentsline {subsection}{Q4-4（簡単な系のHamilton関数）}{11}{section*.71}%
+\contentsline {subsection}{Q4-5（重要な恒等式）}{12}{section*.80}%
+\contentsline {subsection}{Q4-6（とても重要：Euler-Lagrange方程式とHamilton方程式の同値性）}{14}{section*.85}%
+\contentsline {section}{\numberline {4}正準変換：物理的な導入}{15}{section.4}%
+\contentsline {subsection}{Q4-7（変分原理によるHamilton方程式の導出）}{15}{section*.90}%
+\contentsline {subsection}{Q4-8（関数$\overline {L}$の任意性）}{17}{section*.104}%
+\contentsline {subsection}{Q4-9（正準変数の変換：Hamilton方程式の形が保たれる変換）}{18}{section*.109}%
+\contentsline {subsection}{Q4-10（正準変換の母関数$W=W_1$が古い一般座標$q_1,\dots ,q_f$と新しい一般座標$Q_1,\dots ,Q_f$と時間$t$の関数である場合：タイプ1の正準変換）}{21}{section*.124}%
+\contentsline {subsection}{Q4-11（タイプ1の正準変換の例1）}{23}{section*.140}%
+\contentsline {subsection}{Q4-12（タイプ1の正準変換の例2：Poincar^^c3^^a9変換）}{24}{section*.147}%
+\contentsline {subsection}{Q4-13（Poincar^^c3^^a9変換の調和振動子への適用）}{24}{section*.152}%
+\contentsline {subsection}{Q4-14（タイプ2の正準変換）}{26}{section*.165}%
+\contentsline {subsection}{Q4-15（タイプ3の正準変換）}{28}{section*.174}%
+\contentsline {subsection}{Q4-16（タイプ4の正準変換）}{30}{section*.183}%
+\contentsline {subsection}{Q4-17（変数変換が正準であるか否かはHamilton関数によらない）}{33}{section*.218}%
+\contentsline {section}{\numberline {5}正準変換：本質的な特徴づけ}{35}{section.5}%
+\contentsline {subsection}{Q4-18（正準変換の本質へ、ステップ1）}{35}{section*.223}%
+\contentsline {subsection}{Q4-19（正準変換の本質へ、ステップ2）}{38}{section*.243}%
+\contentsline {subsection}{Q4-20（1年生のときの実解析学の復習：2つのJacobi行列は互いに逆行列である）}{42}{section*.269}%
+\contentsline {subsection}{Q4-21（行列$J_f$の基礎的性質）}{43}{section*.274}%
+\contentsline {subsection}{Q4-22（正準変換の本質へ、ステップ3）}{44}{section*.283}%
+\contentsline {subsection}{Q4-23（正準変換の本質へ、ステップ4：正準変換のある必要条件）}{46}{section*.288}%
+\contentsline {subsection}{Q4-24（正準変換の本質へ、ステップ4：Q4-23で考察した正準変換の必要条件は十分条件でもある）}{49}{section*.305}%
+\contentsline {subsection}{Q4-25（一般化されたGreenの定理）}{52}{section*.320}%
+\contentsline {section}{\numberline {6}正準変換：幾何学的意味}{55}{section.6}%
+\contentsline {subsection}{Q4-26（正準変換の幾何学的意味）}{55}{section*.331}%
+\contentsline {section}{\numberline {7}シンプレクティック行列の代数}{58}{section.7}%
+\contentsline {subsection}{Q4-27（シンプレクティック行列は群をつくる）}{58}{section*.353}%
+\contentsline {subsection}{Q4-28（シンプレクティック行列の行列式）}{60}{section*.354}%
+\contentsline {subsection}{Q4-29（正準変換は相空間の体積を保存する）}{61}{section*.357}%
+\contentsline {section}{\numberline {8}正準変換の本質的特徴づけを従来の記法で書く}{62}{section.8}%
+\contentsline {subsection}{Q4-30（正準変換の本質的特徴づけを従来の記法で書く）}{62}{section*.364}%
+\contentsline {subsection}{Q4-31（2016年度追加問題）}{66}{section*.369}%
+\contentsline {section}{\numberline {9}Poisson括弧}{69}{section.9}%
+\contentsline {subsection}{Q4-32（変数を束ねた記法によるPoisson括弧）}{69}{section*.392}%
+\contentsline {subsection}{Q4-33（正準変数の基本的Poisson括弧）}{70}{section*.395}%
+\contentsline {subsection}{Q4-34（束ねた記法における正準変数の基本的Poisson括弧）}{71}{section*.398}%
+\contentsline {subsection}{Q4-35（Poisson括弧の基本的な恒等式）}{73}{section*.401}%
+\contentsline {subsection}{Q4-36（Poisson括弧は正準変数の選択によらない）}{77}{section*.421}%
+\contentsline {subsection}{Q4-37（正準変換は正準変数の基本的Poisson括弧を保存する）}{79}{section*.430}%
+\contentsline {subsection}{Q4-38（正準変数の基本的Poisson括弧を保存する変換は正準変換である）}{80}{section*.435}%
+\contentsline {subsection}{Q4-39（Poisson括弧によって表現されたHamilton運動方程式）}{81}{section*.442}%
+\contentsline {subsection}{Q4-40（任意の物理量の時間微分のPoisson括弧による表現）}{83}{section*.445}%

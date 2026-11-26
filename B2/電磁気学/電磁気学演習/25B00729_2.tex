@@ -1,0 +1,323 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{電磁気学演習レポート2}
+\author{嶋田 悠音}
+\date{2026年5月8日}
+
+
+\begin{document}
+  \maketitle
+  \subsection*{Q8}
+  \subsubsection*{Q8-1}
+  (3)の通りに求めると、
+  \begin{align*}
+    \vect{e_r} &= \frac{\hb{\vect{r}(r,\theta,\phi)}{r}}{\|\hb{\vect{r}(r,\theta,\phi)}{r}\|}\\
+               &=\frac{\sin{\theta}\cos{\phi}\vect{e_x}+\sin{\theta}\sin{\phi}\vect{e_y}+\cos{\theta}\vect{e_z}}{\|\sin{\theta}\cos{\phi}\vect{e_x}+\sin{\theta}\sin{\phi}\vect{e_y}+\cos{\theta}\vect{e_z}\|}\\
+               &=\sin{\theta}\cos{\phi}\vect{e_x}+\sin{\theta}\sin{\phi}\vect{e_y}+\cos{\theta}\vect{e_z}\\
+    \vect{e_\theta} &= \frac{\hb{\vect{r}(r,\theta,\phi)}{\theta}}{\|\hb{\vect{r}(r,\theta,\phi)}{\theta}\|}\\
+                    &=\frac{r\cos{\theta}\cos{\phi}\vect{e_x}+r\cos{\theta}\sin{phi}\vect{e_y}-r\sin{\theta}\vect{e_z}}{r}\\
+                    &=\cos{\theta}\cos{\phi}\vect{e_x}+\cos{\theta}\sin{\phi}\vect{e_y}-\sin{\theta}\vect{e_z}\\
+    \vect{e_\phi} &= \frac{\hb{\vect{r}(r,\theta,\phi)}{\phi}}{\|\hb{\vect{r}(r,\theta,\phi)}{\phi}\|}\\
+                  &=\frac{-r\sin{\theta}\sin{\phi}\vect{e_x}+r\sin{\theta}\cos{\phi}\vect{e_y}}{r\sin{\theta}}\\
+                  &=-\sin{\phi}\vect{e_x}+\cos{\phi}\vect{e_y}
+  \end{align*}
+  
+  \subsubsection*{Q8-2}
+  連鎖律の連続使用により、
+  \begin{align*}
+    \hb{f}{x} &=\hb{f}{r}\hb{r}{x}+\hb{f}{\theta}\hb{\theta}{x}+\hb{f}{\phi}\hb{\phi}{x}\\
+              &=\sin{\theta}\cos{\phi}\hb{f}{r}+\frac{\cos{\theta}\cos{\phi}}{r}\hb{f}{\theta}-\frac{\sin{\phi}}{r\sin{\theta}}\hb{f}{\phi}\\
+    \hb{f}{y} &=\hb{f}{r}\hb{r}{y}+\hb{f}{\theta}\hb{\theta}{y}+\hb{f}{\phi}\hb{\phi}{y}\\
+              &=\sin{\theta}\sin{\phi}\hb{f}{r}+\frac{\cos{\theta}\sin{\phi}}{r}\hb{f}{\theta}-\frac{\cos{\phi}}{r\sin{\theta}}\hb{f}{\phi}\\
+    \hb{f}{z} &=\hb{f}{r}\hb{r}{z}+\hb{f}{\theta}\hb{\theta}{z}+\hb{f}{\phi}\hb{\phi}{z}\\
+              &=\cos{\theta}\hb{f}{r}-\frac{\sin{\theta}}{r}\hb{f}{\theta}
+  \end{align*}
+  となる。また、Q8-1より$e_x,e_y,e_z$について解き、それぞれを$e_r,e_{\theta},e_{\phi}$で表すと、
+  \begin{align*}
+    \vect{e_x} &=\sin{\theta}\cos{\phi}\vect{e_r}+\cos{\theta}\cos{\phi}\vect{e_\theta}-\sin{\phi}\vect{e_\phi}\\
+    \vect{e_y} &=\sin{\theta}\sin{\phi}\vect{e_r}+\cos{\theta}\sin{\phi}\vect{e_\theta}+\cos{\phi}\vect{e_\phi}\\
+    \vect{e_z} &=\cos{\theta}\vect{e_r}-\sin{\theta}\vect{e_\theta}
+  \end{align*}
+  である。よってこれらより、
+  \begin{align*}
+    \mathrm{grad} f &=\hb{f}{x}\vect{e_x}+\hb{f}{y}\vect{e_y}+\hb{f}{z}\vect{e_z}\\
+    &=\hb{f}{r}\vect{e_r}+\frac{1}{r}\hb{f}{\theta}\vect{e_\theta}+\frac{1}{r\sin{\theta}}\hb{f}{\phi}\vect{e_\phi}
+  \end{align*}
+  である。これは示すべき(6)式に他ならない。
+
+  \subsubsection*{Q8-3}
+  直交座標系における発散の定義 $\text{div} \vect{A} = \hb{A_x}{x} + \hb{A_y}{y} + \hb{A_z}{z}$ を用いる。
+  Q8-2の結果より、偏微分演算子は次のように書ける。
+  \begin{align*}
+    \hb{}{x} &= \sin{\theta}\cos{\phi}\hb{}{r} + \frac{\cos{\theta}\cos{\phi}}{r}\hb{}{\theta} - \frac{\sin{\phi}}{r\sin{\theta}}\hb{}{\phi} \\
+    \hb{}{y} &= \sin{\theta}\sin{\phi}\hb{}{r} + \frac{\cos{\theta}\sin{\phi}}{r}\hb{}{\theta} + \frac{\cos{\phi}}{r\sin{\theta}}\hb{}{\phi} \\
+    \hb{}{z} &= \cos{\theta}\hb{}{r} - \frac{\sin{\theta}}{r}\hb{}{\theta}
+  \end{align*}
+  また、$\vect{A}$ の各成分 $(A_x, A_y, A_z)$ は Q8-1 の $\vect{e_x}, \vect{e_y}, \vect{e_z}$ を用いて、
+  \begin{align*}
+    A_x &= A_r \sin{\theta}\cos{\phi} + A_\theta \cos{\theta}\cos{\phi} - A_\phi \sin{\phi} \\
+    A_y &= A_r \sin{\theta}\sin{\phi} + A_\theta \cos{\theta}\sin{\phi} + A_\phi \cos{\phi} \\
+    A_z &= A_r \cos{\theta} - A_\theta \sin{\theta}
+  \end{align*}
+  である。これらを定義式に代入し、各項を計算して整理すると、
+  \begin{align*}
+    \text{div} \vect{A} &= \hb{A_r}{r} + \frac{2A_r}{r} + \frac{1}{r}\hb{A_\theta}{\theta} + \frac{\cos{\theta}}{r\sin{\theta}}A_\theta + \frac{1}{r\sin{\theta}}\hb{A_\phi}{\phi} \\
+    &= \frac{1}{r^2}\hb{(r^2 A_r)}{r} + \frac{1}{r\sin{\theta}}\hb{(\sin{\theta} A_\theta)}{\theta} + \frac{1}{r\sin{\theta}}\hb{A_\phi}{\phi}
+  \end{align*}
+  となり、(7)式が示された。
+
+  \subsubsection*{Q8-4}
+  回転の各成分 $(\text{rot} \vect{A})_x = \hb{A_z}{y} - \hb{A_y}{z}$ 等に、Q8-3と同様の演算子と成分を代入する。
+  計算の結果、球座標の各成分は、
+  \begin{align*}
+    (\text{rot} \vect{A})_r &= \frac{1}{r\sin{\theta}} \left( \hb{(\sin{\theta} A_\phi)}{\theta} - \hb{A_\theta}{\phi} \right) \\
+    (\text{rot} \vect{A})_\theta &= \frac{1}{r} \left( \frac{1}{\sin{\theta}}\hb{A_r}{\phi} - \hb{(r A_\phi)}{r} \right) \\
+    (\text{rot} \vect{A})_\phi &= \frac{1}{r} \left( \hb{(r A_\theta)}{r} - \hb{A_r}{\theta} \right)
+  \end{align*}
+  となり、(8)式が得られる。
+
+  \subsubsection*{Q8-5}
+  Q8-2で求めた $(\text{grad} f)_r = \hb{f}{r}, (\text{grad} f)_\theta = \frac{1}{r}\hb{f}{\theta}, (\text{grad} f)_\phi = \frac{1}{r\sin{\theta}}\hb{f}{\phi}$ を、
+  Q8-3で導いた $\text{div} \vect{A}$ の式に代入する。
+  \begin{align*}
+    \Delta f &= \frac{1}{r^2}\hb{}{r}\left( r^2 \hb{f}{r} \right) + \frac{1}{r\sin{\theta}}\hb{}{\theta}\left( \sin{\theta} \cdot \frac{1}{r}\hb{f}{\theta} \right) + \frac{1}{r\sin{\theta}}\hb{}{\phi}\left( \frac{1}{r\sin{\theta}}\hb{f}{\phi} \right) \\
+    &= \frac{1}{r^2}\hb{}{r}\left( r^2 \hb{f}{r} \right) + \frac{1}{r^2 \sin{\theta}}\hb{}{\theta}\left( \sin{\theta}\hb{f}{\theta} \right) + \frac{1}{r^2 \sin^2{\theta}}\hb{^2 f}{\phi^2}
+  \end{align*}
+  各項を展開してまとめると、
+  \begin{align*}
+    \Delta f &= \hb{^2 f}{r^2} + \frac{2}{r}\hb{f}{r} + \frac{1}{r^2}\hb{^2 f}{\theta^2} + \frac{\cos{\theta}}{r^2 \sin{\theta}}\hb{f}{\theta} + \frac{1}{r^2 \sin^2{\theta}}\hb{^2 f}{\phi^2}
+  \end{align*}
+  となり、(9)式が示された。
+
+  \subsubsection*{Q8-7}
+  円柱座標系においても同様に、連鎖律を用いて $\hb{}{x}, \hb{}{y}, \hb{}{z}$ を求める。
+  \begin{align*}
+    \hb{f}{\rho} &= \hb{f}{x}\cos{\phi} + \hb{f}{y}\sin{\phi} \\
+    \hb{f}{\phi} &= -\hb{f}{x}\rho\sin{\phi} + \hb{f}{y}\rho\cos{\phi}
+  \end{align*}
+  これを $\hb{f}{x}, \hb{f}{y}$ について解くと、
+  \begin{align*}
+    \hb{f}{x} &= \cos{\phi}\hb{f}{\rho} - \frac{\sin{\phi}}{\rho}\hb{f}{\phi} \\
+    \hb{f}{y} &= \sin{\phi}\hb{f}{\rho} + \frac{\cos{\phi}}{\rho}\hb{f}{\phi}
+  \end{align*}
+  これらを $\text{grad} f = \hb{f}{x}\vect{e_x} + \hb{f}{y}\vect{e_y} + \hb{f}{z}\vect{e_z}$ に代入し、
+  Q8-6の $\vect{e_x}, \vect{e_y}$ の関係式を用いると、
+  \begin{align*}
+    \text{grad} f &= \hb{f}{\rho}\vect{e_\rho} + \frac{1}{\rho}\hb{f}{\phi}\vect{e_\phi} + \hb{f}{z}\vect{e_z}
+  \end{align*}
+  となり、(15)式が示された。
+
+  \subsubsection*{Q8-8}
+  円柱座標系の発散についても、Q8-7の演算子と成分の関係 $A_x = A_\rho \cos{\phi} - A_\phi \sin{\phi}, A_y = A_\rho \sin{\phi} + A_\phi \cos{\phi}$ を定義式に代入する。
+  \begin{align*}
+    \text{div} \vect{A} &= \left( \cos{\phi}\hb{}{\rho} - \frac{\sin{\phi}}{\rho}\hb{}{\phi} \right) A_x + \left( \sin{\phi}\hb{}{\rho} + \frac{\cos{\phi}}{\rho}\hb{}{\phi} \right) A_y + \hb{A_z}{z} \\
+    &= \hb{A_\rho}{\rho} + \frac{A_\rho}{\rho} + \frac{1}{\rho}\hb{A_\phi}{\phi} + \hb{A_z}{z} \\
+    &= \frac{1}{\rho}\hb{(\rho A_\rho)}{\rho} + \frac{1}{\rho}\hb{A_\phi}{\phi} + \hb{A_z}{z}
+  \end{align*}
+  となり、(16)式が示された。
+
+  \subsubsection*{Q8-9}
+  回転演算子についても、同様の手順で直交座標の定義式から円柱座標の成分を計算すると、
+  \begin{align*}
+    (\text{rot} \vect{A})_\rho &= \frac{1}{\rho}\hb{A_z}{\phi} - \hb{A_\phi}{z} \\
+    (\text{rot} \vect{A})_\phi &= \hb{A_\rho}{z} - \hb{A_z}{\rho} \\
+    (\text{rot} \vect{A})_z &= \frac{1}{\rho}\hb{(\rho A_\phi)}{\rho} - \frac{1}{\rho}\hb{A_\rho}{\phi}
+  \end{align*}
+  が得られ、(17)式が示された。
+
+  \subsubsection*{Q8-10}
+  円柱座標系の勾配(15)式を、発散(16)式の各成分に代入する。
+  \begin{align*}
+    \Delta f &= \frac{1}{\rho}\hb{}{\rho}\left( \rho \hb{f}{\rho} \right) + \frac{1}{\rho}\hb{}{\phi}\left( \frac{1}{\rho}\hb{f}{\phi} \right) + \hb{^2 f}{z^2} \\
+    &= \hb{^2 f}{\rho^2} + \frac{1}{\rho}\hb{f}{\rho} + \frac{1}{\rho^2}\hb{^2 f}{\phi^2} + \hb{^2 f}{z^2}
+  \end{align*}
+  となり、(18)式が示された。
+
+  \subsection*{Q10}
+
+  \subsubsection*{Q10-1}
+  境界のない3次元空間において、電荷分布密度 $\rho(\vect{r'})$ が与えられているとき、位置 $\vect{r}$ における電場 $\vect{E}(\vect{r})$ は、点電荷による電場の重ね合わせの原理によって与えられる。
+  微小体積 $dV(\vect{r'})$ に含まれる電荷 $\rho(\vect{r'})dV(\vect{r'})$ が位置 $\vect{r}$ に作る電場は、Coulombの法則より、
+  \begin{align*}
+    d\vect{E}(\vect{r}) = \frac{1}{4\pi\epsilon_0} \frac{\rho(\vect{r'})}{|\vect{r}-\vect{r'}|^3} (\vect{r}-\vect{r'}) dV(\vect{r'}) \quad (\text{MKSA単位系})
+  \end{align*}
+  である。(7)式の通りに和を取ればいいが、今回求めたいのは連続電荷分布の場合である。よってこれを全空間について積分することで、(12)式が得られる。
+  \begin{align*}
+    \vect{E}(\vect{r}) = \frac{1}{4\pi\epsilon_0} \iiint_{{\mathbb{R}^3}} dV(\vect{r'}) \frac{\rho(\vect{r'})}{|\vect{r}-\vect{r'}|^3} (\vect{r}-\vect{r'})
+  \end{align*}
+  CGSガウス単位系では比例係数が $1$ となり、同様の表式が得られる。
+
+
+  \subsubsection*{Q10-2}
+  MKSA単位系における電場 $\vect{E}(\vect{r})$ の定義式(12)の両辺の発散をとる。ここでのナブラは$\vect{r}$に関する微分である。
+  \begin{align*}
+    \text{div} \vect{E}(\vect{r}) &= \vect{\nabla} \cdot \left( \frac{1}{4\pi\epsilon_0} \iiint_{{\mathbb{R}^3}} \frac{\rho(\vect{r'})}{|\vect{r}-\vect{r'}|^3} (\vect{r}-\vect{r'}) dV' \right) \\
+    &= \frac{1}{4\pi\epsilon_0} \iiint_{{\mathbb{R}^3}} \rho(\vect{r'}) \left( \vect{\nabla} \cdot \frac{\vect{r}-\vect{r'}}{|\vect{r}-\vect{r'}|^3} \right) dV'
+  \end{align*}
+  ここで、デルタ関数に関する公式 $\vect{\nabla} \cdot \frac{\vect{r}-\vect{r'}}{|\vect{r}-\vect{r'}|^3} = 4\pi \Delta(\vect{r}-\vect{r'})$ を用いると、
+  \begin{align*}
+    \text{div} \vect{E}(\vect{r}) &= \frac{1}{4\pi\epsilon_0} \iiint_{{\mathbb{R}^3}} \rho(\vect{r'}) \{ 4\pi \Delta(\vect{r}-\vect{r'}) \} dV' \\
+    &= \frac{1}{\epsilon_0} \rho(\vect{r})
+  \end{align*}
+  が得られ、(13)式が示された。CGSガウス単位系では比例係数の違いにより $4\pi\rho$ となる。
+
+  \subsubsection*{Q10-3}
+  (i)$\vect{R} = \vect{r} - \vect{r'}$、その大きさを $R = |\vect{R}|$ とする。
+  \begin{align*}
+    -\vect{\nabla}_r \frac{1}{R} = -\left( -\frac{1}{R^2} \vect{\nabla}_r R \right) = \frac{1}{R^2} \frac{\vect{R}}{R} = \frac{\vect{R}}{R^3}
+  \end{align*}
+  となる。よって、(15)式が成り立つ。
+
+  (ii) 電場 $\vect{E}(\vect{r})$ への代入
+  電場を与える(12)式に(15)式を代入する。$\vect{r}$を含むのは$\frac{1}{|\vect{r}-\vect{r'}|}$のみであり、また積分がr'に関するものであることから、ナブラ演算子を積分の外へ出すことができる。よって
+  \begin{align*}
+    \vect{E}(\vect{r}) &= \frac{1}{4\pi\epsilon_0} \iiint \rho(\vect{r'}) \left( -\vect{\nabla}_r \frac{1}{|\vect{r}-\vect{r'}|} \right) dV' \\
+    &= -\vect{\nabla}_r \left( \frac{1}{4\pi\epsilon_0} \iiint \frac{\rho(\vect{r'})}{|\vect{r}-\vect{r'}|} dV' \right)
+  \end{align*}
+  である。これは、電場がスカラーポテンシャル $\phi(\vect{r})$ を用いて $\vect{E} = -\vect{\nabla}\phi$ と書けることを示している。
+
+  (iii)(ii)で得た式に $\vect{\nabla}_r \cdot$ を内積で作用させる。
+  \begin{align*}
+    \text{div} \vect{E} &= -\vect{\nabla}_r \cdot \vect{\nabla}_r \left( \frac{1}{4\pi\epsilon_0} \iiint \frac{\rho(\vect{r'})}{|\vect{r}-\vect{r'}|} dV' \right) \\
+    &= -\frac{1}{4\pi\epsilon_0} \iiint \rho(\vect{r'}) \Delta_r \frac{1}{|\vect{r}-\vect{r'}|} dV'
+  \end{align*}
+  $\Delta_r \frac{1}{|\vect{r}-\vect{r'}|} = -4\pi\Delta(\vect{r}-\vect{r'})$ を用いることで、Q10-2と同様に $\frac{1}{\epsilon_0}\rho$ が得られる。
+
+  (iv)(ii)で得た式に $\vect{\nabla}_r$ を左から外積で作用させる。
+  \begin{align*}
+    \text{rot} \vect{E} &= \text{rot} (-\vect{\nabla} \phi) = -\vect{\nabla} \times (\vect{\nabla} \phi)
+  \end{align*}
+  任意のスカラー関数 $f$ に対して $\text{rot}(\text{grad} f) = \vect{0}$ であるというベクトル解析の公式により、
+  \begin{align*}
+    \text{rot} \vect{E} = \vect{0}
+  \end{align*}
+  となり、(14)式が示された。
+
+  \subsubsection*{Q10-4}
+  まずMKSA単位系から。微分形のGaussの法則 $\text{div} \vect{E} = \frac{\rho}{\epsilon_0}$ を任意の体積 $V$ で積分する。
+  \begin{align*}
+    \iiint_V \text{div} \vect{E} dV = \iiint_V \frac{\rho}{\epsilon_0} dV = \frac{1}{\epsilon_0} Q(V)
+  \end{align*}
+  左辺にGaussの定理 $\iiint_V \text{div} \vect{A} dV = \iint_{\sectionial V} \vect{A} \cdot d\vect{S}$ を適用すると、
+  \begin{align*}
+    \iint_{\sectionial V} \vect{E} \cdot d\vect{S} = \frac{1}{\epsilon_0} Q(V)
+  \end{align*}
+  となり、(16)式が示された。CGS単位系では$4\pi\epsilon_0$を掛ければ、同様に示される。
+
+  \subsubsection*{Q10-5}
+  微分形の渦なしの法則 $\text{rot} \vect{E} = \vect{0}$ を、境界 $\sectionial S$ を持つ任意の曲面 $S$ で積分する。
+  \begin{align*}
+    \iint_S (\text{rot} \vect{E}) \cdot d\vect{S} = 0
+  \end{align*}
+  左辺にStokesの定理 $\iint_S (\text{rot} \vect{A}) \cdot d\vect{S} = \oint_{\sectionial S} \vect{A} \cdot d\vect{r}$ を適用すると、
+  \begin{align*}
+    \oint_{\sectionial S} \vect{E} \cdot d\vect{r} = 0
+  \end{align*}
+  となり、(17)式が示された。
+  
+  \subsection*{Q10A}
+  \subsubsection*{Q10A-1}
+  電荷分布 $\rho(\vect{r})$ が原点に関して球対称であるため、電場 $\vect{E}(\vect{r})$ の向きは動径方向（原点から外へ向かう方向、または内へ向かう方向）のみを持ち、その大きさは原点からの距離 $r = |\vect{r}|$ のみに依存する。すなわち、動径方向の単位ベクトルを $\vect{e_r}$ として $\vect{E}(\vect{r}) = E(r)\vect{e_r}$ と書ける。
+
+  原点を中心とする半径 $r$ の球面 $S$ を閉曲面として選び、積分形のGaussの法則（MKSA単位系）を適用する。
+  \begin{align*}
+    \iint_S \vect{E} \cdot d\vect{S} = \frac{1}{\epsilon_0} Q(r)
+  \end{align*}
+  ここで $Q(r)$ は半径 $r$ の球の内部に含まれる全電荷である。
+  球面 $S$ 上では常に $\vect{E}$ と法線ベクトル $d\vect{S}$ が平行であり、$E(r)$ は一定であるため、左辺の面積分は次のように計算できる。
+  \begin{align*}
+    \iint_S E(r)\vect{e_r} \cdot (d\vect{S}\vect{e_r}) = E(r) \iint_S dS = E(r) \cdot 4\pi r^2
+  \end{align*}
+  これをGaussの法則の式に代入すると、
+  \begin{align*}
+    E(r) \cdot 4\pi r^2 &= \frac{1}{\epsilon_0} Q(r) \\
+    E(r) &= \frac{1}{4\pi\epsilon_0} \frac{Q(r)}{r^2}
+  \end{align*}
+  となり、ベクトルとして書けば
+  \begin{align*}
+    \vect{E}(\vect{r}) = \frac{1}{4\pi\epsilon_0} \frac{Q(r)}{r^2} \vect{e_r}
+  \end{align*}
+  となる。これは、半径 $r$ の球内部の全電荷 $Q(r)$ が原点に集中しているとした場合の点電荷の電場の式と完全に一致する。
+  （※CGSガウス単位系の場合は $\vect{E}(\vect{r}) = \frac{Q(r)}{r^2} \vect{e_r}$ となる。）
+
+  \subsubsection*{Q10A-2}
+  電荷分布の球対称性より、Q10A-1の結果を用いることができる。
+  半径 $r$ の球面内の全電荷 $Q(r)$ は、$r$ が球殻の内側か外側かで場合分けされる。
+
+  (i) $r < a$ （球殻の内部）の場合
+  半径 $r$ の球の内部には電荷が存在しないため、$Q(r) = 0$ である。
+  したがって、Gaussの法則より、
+  \begin{align*}
+    E(r) \cdot 4\pi r^2 = 0 \quad \therefore \quad \vect{E}(\vect{r}) = \vect{0}
+  \end{align*}
+
+  (ii) $r > a$ （球殻の外部）の場合
+  半径 $r$ の球の内部には球殻全体の電荷が含まれる。その全電荷は $Q(r) = 4\pi a^2 \sigma$ である。
+  Gaussの法則より、
+  \begin{align*}
+    E(r) \cdot 4\pi r^2 &= \frac{4\pi a^2 \sigma}{\epsilon_0} \\
+    E(r) &= \frac{a^2 \sigma}{\epsilon_0 r^2} \quad \therefore \quad \vect{E}(\vect{r}) = \frac{a^2 \sigma}{\epsilon_0 r^2} \vect{e_r}
+  \end{align*}
+
+  \subsubsection*{Q10A-3}
+  これも球対称であるため、Q10A-1の結果を用いる。
+
+  (i) $r < a$ （球の内部）の場合
+  半径 $r$ の球の内部に含まれる電荷は、その体積に密度 $\rho$ を掛けたものである。
+  \begin{align*}
+    Q(r) = \frac{4}{3}\pi r^3 \rho
+  \end{align*}
+  Gaussの法則に代入すると、
+  \begin{align*}
+    E(r) \cdot 4\pi r^2 &= \frac{1}{\epsilon_0} \left( \frac{4}{3}\pi r^3 \rho \right) \\
+    E(r) &= \frac{\rho r}{3\epsilon_0} \quad \therefore \quad \vect{E}(\vect{r}) = \frac{\rho r}{3\epsilon_0} \vect{e_r}
+  \end{align*}
+
+  (ii) $r > a$ （球の外部）の場合
+  半径 $r$ の球の内部には、半径 $a$ の球全体の電荷が含まれる。
+  \begin{align*}
+    Q(r) = \frac{4}{3}\pi a^3 \rho
+  \end{align*}
+  Gaussの法則に代入すると、
+  \begin{align*}
+    E(r) \cdot 4\pi r^2 &= \frac{1}{\epsilon_0} \left( \frac{4}{3}\pi a^3 \rho \right) \\
+    E(r) &= \frac{\rho a^3}{3\epsilon_0 r^2} \quad \therefore \quad \vect{E}(\vect{r}) = \frac{\rho a^3}{3\epsilon_0 r^2} \vect{e_r}
+  \end{align*}
+
+  \subsubsection*{Q10A-4}
+  電荷の分布する直線を軸とした円柱座標$(r,\theta,z)$をおく。系の軸対称性から、電場は$r$方向のみを向き、その大きさは直線からの距離 $r$ のみに依存する。すなわち $\vect{E}(\vect{r}) = E(r)\vect{e_r}$ である（ここで $\vect{e_r}$ は$r$方向の単位ベクトルとする）。
+
+  z軸を軸とする半径 $r$、長さ $l$ の円柱においてGaussの法則を用いる。円柱側面では電場が面に垂直、上下の底面では平行であるため左辺の面積分は$E(r)\cdot 2\pi rl$である。
+  また内部の全電荷は $Q = \lambda l$ であるから、
+  \begin{align*}
+    E(r) \cdot 2\pi r l &= \frac{\lambda l}{\epsilon_0} \\
+    E(r) &= \frac{\lambda}{2\pi\epsilon_0 r} \quad \therefore \quad \vect{E}(\vect{r}) = \frac{\lambda}{2\pi\epsilon_0 r} \vect{e_r}
+  \end{align*}
+  となる。
+
+  \subsubsection*{Q10A-5}
+  無限に広い平面状の電荷（面密度 $\sigma$）のつくる電場を考える。
+  平面が無限に広いため、系の並進対称性および回転対称性より、電場は平面に垂直な方向のみを向き、その大きさは平面からの垂直距離 $z$ のみに依存する。さらに平面の表裏の対称性から、平面から等距離にある点での電場の大きさは等しく、向きは平面から遠ざかる方向（$\sigma > 0$ の場合）となる。
+  平面を垂直に貫き、平面から上下にそれぞれ距離 $z$ だけ伸びた、断面積 $S$ の柱(断面の形は何でも良い)においてGaussの法則を用いる。
+  柱体の側面では電場と面素ベクトルが垂直であり、上下の底面（合計面積 $2S$）では電場と面素ベクトルが平行であるため、左辺の面積分は$E(z)\cdot 2S$である。
+  柱体内部に含まれる電荷は $Q = \sigma S$ であるから、
+  \begin{align*}
+    E(z) \cdot 2S &= \frac{\sigma S}{\epsilon_0} \\
+    E(z) &= \frac{\sigma}{2\epsilon_0}
+  \end{align*}
+  となる。平面の法線方向の単位ベクトルを $\vect{n}$ とすると、電場は距離 $z$ に依存しない一様電場となり、
+  \begin{align*}
+    \vect{E}(\vect{r}) = \frac{\sigma}{2\epsilon_0} \vect{n}
+  \end{align*}
+  となる。
+ \end{document}

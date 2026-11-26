@@ -1,0 +1,238 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{float}
+
+\usepackage{tikz}
+\usepackage{caption}
+
+% 「%」は以降の内容を「改行コードも含めて」無視するコマンド
+\usepackage[%
+  dvipdfmx,% 欧文ではコメントアウトする
+  setpagesize=false,%
+  bookmarks=true,%
+  bookmarksdepth=tocdepth,%
+  bookmarksnumbered=true,%
+  colorlinks=false,%
+  pdftitle={},%
+  pdfsubject={},%
+  pdfauthor={},%
+  pdfkeywords={}%
+]{hyperref}
+% PDFのしおり機能の日本語文字化けを防ぐ((u)pLaTeXのときのみかく)
+\usepackage{pxjahyper}
+
+\usepackage{framed}
+\setlength{\OuterFrameSep}{0pt}
+
+\usepackage{physics2}
+\usephysicsmodule{ab}
+\usephysicsmodule{ab.braket}
+
+
+\newcommand{\hb}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\nhb}[3]{\frac{\partial^{#1} #2}{\partial #3^{#1}}}
+\newcommand{\nbbn}[3]{\frac{d^{#1} #2}{d #3^{#1}}}
+\newcommand{\vectxy}[2]{\begin{bmatrix}#1\\#2\end{bmatrix}}
+\newcommand{\vectxyz}[3]{\begin{bmatrix}#1\\#2\\#3\end{bmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\newcommand{\veff}{V_{\mathrm{eff}}(r)}
+
+\hypersetup{colorlinks=true}
+\hypersetup{linkcolor=red}
+
+\title{解析力学演習レポート2}
+\author{25B00729　嶋田 悠音}
+
+\begin{document}
+\maketitle
+\subsection*{2}
+
+電気双極子放射の導出では，電荷分布の大きさ $d$ に対して変化の時間尺度 $\tau$ が十分長く，
+
+\begin{align*}
+\frac{d}{c\tau}\ll 1
+\end{align*}
+
+であるとして遅延時間の効果を近似した。ここではその仮定を外し，点電荷
+
+\begin{align*}
+\rho(\vect{r},t)
+=
+q\delta^3(\vect{r}-\vect{s}(t))
+\end{align*}
+
+に対する厳密な遅延ポテンシャルを求める。
+
+与えられた式に空間積分を適用すると，
+
+\begin{align*}
+\phi(\vect{x},t)
+&=
+\frac{q}{4\pi\varepsilon_0}
+\int dt''
+\frac{\delta\!\left(
+t-t''-\frac{R(t'')}{c}
+\right)}
+{R(t'')} ,
+\end{align*}
+
+ただし
+
+\begin{align*}
+R(t'')
+=
+|\vect{x}-\vect{s}(t'')|
+\end{align*}
+
+とおいた。
+
+ここで
+
+\begin{align*}
+f(t'')
+=
+t-t''-\frac{R(t'')}{c}
+\end{align*}
+
+と定義すると，遅延時刻 $t_r$ は
+
+\begin{align*}
+f(t_r)=0
+\end{align*}
+
+すなわち
+
+\begin{align*}
+t-t_r
+=
+\frac{R(t_r)}{c}
+\end{align*}
+
+を満たす。
+
+デルタ関数の公式
+
+\begin{align*}
+\delta(f(t''))
+=
+\frac{\delta(t''-t_r)}
+{|f'(t_r)|}
+\end{align*}
+
+を用いるため，まず $f'(t'')$ を求める。
+
+\begin{align*}
+f'(t'')
+=
+-1-\frac{1}{c}\frac{dR}{dt''}.
+\end{align*}
+
+一方，
+
+\begin{align*}
+R
+=
+|\vect{x}-\vect{s}(t'')|
+\end{align*}
+
+より，
+
+\begin{align*}
+\frac{dR}{dt''}
+&=
+\frac{\vect{x}-\vect{s}}
+{|\vect{x}-\vect{s}|}
+\cdot
+\frac{d(\vect{x}-\vect{s})}{dt''} \\
+&=
+-\hat{\vect{R}}\cdot \vect{v},
+\end{align*}
+
+ただし
+
+\begin{align*}
+\hat{\vect{R}}
+=
+\frac{\vect{x}-\vect{s}(t'')}
+     {|\vect{x}-\vect{s}(t'')|}
+,\qquad
+\vect{v}
+=
+\dot{\vect{s}}(t'')
+\end{align*}
+
+である。
+
+したがって，
+
+\begin{align*}
+f'(t_r)
+=
+-1+\frac{\hat{\vect{R}}\cdot\vect{v}}{c}.
+\end{align*}
+
+よって
+
+\begin{align*}
+|f'(t_r)|
+=
+1-\frac{\hat{\vect{R}}\cdot\vect{v}}{c}
+\end{align*}
+
+となり，
+
+\begin{align*}
+\phi(\vect{x},t)
+&=
+\frac{q}{4\pi\varepsilon_0}
+\frac{1}
+{R(t_r)\left(
+1-\dfrac{\hat{\vect{R}}\cdot\vect{v}}{c}
+\right)}.
+\end{align*}
+
+これが Liénard-Wiechert スカラーポテンシャルである。
+
+同様にベクトルポテンシャルは
+
+\begin{align*}
+\vect{A}(\vect{x},t)
+=
+\frac{\mu_0 q}{4\pi}
+\frac{\vect{v}(t_r)}
+{R(t_r)\left(
+1-\dfrac{\hat{\vect{R}}\cdot\vect{v}}{c}
+\right)}
+\end{align*}
+
+となる。
+
+この結果は，多重極展開が本質的に低速・長波長近似であることを示している。電気双極子放射の導出では，電荷分布全体に対する遅延時間
+
+\begin{align*}
+\frac{|\vect{r}'|}{c}
+\end{align*}
+
+を小さい量として展開した。しかし電荷の運動速度が大きくなる場合や，系の大きさが放射波長と同程度になる場合には，空間の各点から到達する信号の遅延を無視できない。
+
+Liénard-Wiechert ポテンシャルは，各電荷の寄与をそれぞれの遅延時刻 $t_r$ で評価した厳密解であり，多重極展開はこの厳密解を
+
+\begin{align*}
+\frac{d}{\lambda}\ll 1
+\end{align*}
+
+のもとで展開した近似に対応する。したがって高周波放射や相対論的運動では，単純な双極子近似ではなく Liénard-Wiechert ポテンシャルから電磁場を求める必要がある。
+
+以上より，時間変化が十分遅いという仮定を外すと，ポテンシャルは各電荷の遅延時刻を用いて評価される Liénard-Wiechert ポテンシャルで記述され，多重極展開はその長波長近似として理解されることが示された。
+
+\end{document}

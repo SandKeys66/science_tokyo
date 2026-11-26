@@ -1,0 +1,353 @@
+\RequirePackage{plautopatch}
+\documentclass[platex,dvipdfmx,a4paper]{jsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\hb}[2]{\frac{\sectionial #1}{\sectionial #2}}
+\newcommand{\bbn}[2]{\frac{d #1}{d #2}}
+\newcommand{\hhb}[2]{\frac{\sectionial^2 #1}{\sectionial #2^2}}
+\newcommand{\bbbn}[2]{\frac{d^2 #1}{d #2^2}}
+\newcommand{\vectxy}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\vectxyz}[3]{\begin{pmatrix}#1\\#2\\#3\end{pmatrix}}
+\newcommand{\vect}[1]{\boldsymbol{\mathrm{#1}}}
+
+\newcommand{\ssum}[3]{\sum_{#1=#2}^#3}
+
+\title{電磁気学演習レポート3}
+\author{嶋田 悠音}
+\date{2026年5月20日}
+
+\begin{document}
+  \maketitle
+  \subsection*{Q18}
+  \subsubsection*{Q18-1}
+  まず定義に従うと$\Phi$は、
+  \begin{align*}
+    \Phi = \iint_S d\vect{S}(\vect{r}) \cdot \vect{B}(\vect{r})
+  \end{align*}
+  である。$S'$は$S$を$\vect{v}dt$だけ平行移動させたものだから、$\vect{B}$を$-\vect{v}dt$平行移動させれば、$S$上での面積分に変換できる。よって$\Phi'$は、
+  \begin{align*}
+    \Phi' = \iint_S d\vect{S}(\vect{r}) \cdot \vect{B}(\vect{r}+\vect{v}dt)
+  \end{align*}
+  である。よってその差は、
+  \begin{align*}
+    \Phi' - \Phi = \iint_S \left\{ \vect{B}(\vect{r}+\vect{v}dt) - \vect{B}(\vect{r}) \right\} \cdot d\vect{S}(\vect{r})
+  \end{align*}
+  である。$\vect{v}dt$が微小であるとして$\vect{B}(\vect{r}+\vect{v}dt) - \vect{B}(\vect{r})$を一次近似すると、
+  \begin{align*}
+    \vect{B}(\vect{r}+\vect{v}dt) - \vect{B}(\vect{r}) &= \sum_{i,j=x,y,z}\hb{B_i}{j}v_jdt \vect{e}_i \\
+    &= \sum_j \left( v_j dt\hb{}{j}\right) \vect{B}\\
+    &= (\vect{v}dt \cdot \nabla) \vect{B}
+  \end{align*}
+  である。ここで、$\nabla \cdot \vect{B}=0$であり、また$\vect{v}dt$はいま定ベクトルであるから、
+  \begin{align*}
+    \nabla \times (\vect{v}dt \times \vect{B}) &= (\vect{B} \cdot \nabla)\vect{v}dt -(\vect{v}dt \cdot \nabla)\vect{B} + (\nabla \cdot \vect{B})\vect{v}dt - (\nabla \cdot \vect{v}dt)\vect{B}\\
+    &= -(\vect{v}dt \cdot \nabla)\vect{B}
+  \end{align*}
+  である。よって、
+  \begin{align*}
+    \vect{B}(\vect{r}+\vect{v}dt) - \vect{B}(\vect{r}) = -\nabla \times (\vect{v}dt \times \vect{B})
+  \end{align*}
+  である。これを代入し、ストークスの定理を適用することで、
+  \begin{align*}
+    \Phi' - \Phi &= \iint_S \left\{ -\nabla \times (\vect{v}dt \times \vect{B})\right\} \cdot d\vect{S}\\
+    &= \oint_C -(\vect{v}dt \times \vect{B}) \cdot d\vect{s} \qquad\qquad\qquad (*)\\
+    &= \oint_C -\vect{B} \cdot (d\vect{s} \times \vect{v}dt)\\
+    &= \oint_C \vect{B} \cdot (\vect{v}dt \times d\vect{s})
+  \end{align*}
+  である。これで(4)式が示された。\\
+  積分変数は時間に関係ないため、$dt$を外に出すことができる。よって$(*)$式にて$dt\rightarrow 0$の極限をとって両辺$dt$で割ることで、
+  \begin{align*}
+    \bbn{\Phi}{t} = -\oint_C d\vect{s} \cdot (\vect{v} \times \vect{B})
+  \end{align*}
+  である。(5)式が示された。
+  ここで、Galilei不変性を認めると、観測者$O$に対して電磁誘導の法則(2),(3)式が成り立つ。さらに(5)式を用いることで(6)式
+  \begin{align*}
+    \oint_C d\vect{r}\cdot\vect{E}_{ind}(\vect{r}) = -k\bbn{\Phi}{t} = k\oint_C d\vect{s}\cdot(\vect{v}\times\vect{B})
+  \end{align*}
+  が成り立つ。最左辺と最右辺は同じ経路$C$での線積分であり、また任意の閉ループ$C$に対して成り立つので、被積分関数が一致する。よって、
+  \begin{align*}
+    \vect{E}_{ind} = k\vect{v}\times\vect{B}
+  \end{align*}
+  である。これが(7)式だ。つまり静電気力は
+  \begin{align*}
+    \vect{F} = qk\vect{v}\times\vect{B}
+  \end{align*}
+  であり、これとLorentz力の表式
+  \begin{align*}
+    \vect{F} &= q\frac{\vect{v}}{c}\times\vect{B} \qquad &(\mathrm{CGS}ガウス単位系)\\
+    \vect{F} &= q\vect{v}\times\vect{B} \qquad &(\mathrm{MKSA}単位系)
+  \end{align*}
+  と比較することで、
+  \begin{align*}
+    k&=\frac{1}{c} \qquad &(\mathrm{CGS}ガウス単位系)\\
+    k&=1 &(\mathrm{MKSA}単位系)
+  \end{align*}
+
+
+
+
+  \subsubsection*{Q18-2}
+  時刻$t$において面と$\vect{B}$が平行であるとする。回路の面と$\vect{B}$のなす角は$\omega t$であるので、磁束は
+  \begin{align*}
+    \Phi = S|\vect{B}|\sin{\omega t}
+  \end{align*}
+  である。よってFaradayの電磁誘導の法則から
+  \begin{align*}
+    V(t) = -k\bbn{\Phi}{t} = -k\omega S|\vect{B}|\cos{\omega t}
+  \end{align*}
+  である。
+  
+
+
+
+  \subsubsection*{Q18-3}
+  いま、$\vect{B}$が時間変化する場合を考える。(1),(2),(3)式より、
+  \begin{align*}
+    \oint_C d\vect{r}\cdot\vect{E}(\vect{r}) = -k\bbn{\Phi}{t} = -k\bbn{}{t}\iint_S \vect{B}\cdot d\vect{S}
+  \end{align*}
+  である。ここで、右辺で積分と時間微分を入れ替えることによって、
+  \begin{align*}
+    \oint_C d\vect{r}\cdot\vect{E}(\vect{r}) = -k\iint_S \hb{B}{t}\cdot d\vect{S}
+  \end{align*}
+  となる。左辺にストークスの定理を適用することによって$S$上での面積分に変換すると、
+  \begin{align*}
+    \iint_S \mathrm{rot}{\vect{E}}\cdot d\vect{S} = -k\iint_S \hb{B}{t}\cdot d\vect{S}
+  \end{align*}
+  である。これが任意の曲面Sに対して成り立つので、被積分関数が一致し、
+  \begin{align*}
+    \mathrm{rot}\vect{E} = -k\hb{B}{t}
+  \end{align*}
+  が導かれる。(9)式より$k$を具体的に代入すると、
+  \begin{align*}
+    \mathrm{rot}\vect{E} &= -\frac{1}{c}\hb{B}{t} \quad &(\mathrm{CGS}ガウス単位系)\\
+    \mathrm{rot}\vect{E} &= -\hb{B}{t} \quad &(\mathrm{MKSA}単位系)
+  \end{align*}
+  となる。これが(10),(11)式である。
+
+
+
+
+  \subsection*{Q19}
+  \subsubsection*{Q19-1}
+  電流の定義とは、ある曲面を、単位時間あたりに通過する電荷の量である。これを任意の閉曲面$S$に囲まれた領域$V$で考えると、$I=\int_S \vect{J}\cdot d\vect{S}$は$V$の全電荷$Q$の単位時間あたりの流出分$-\bbn{Q}{t}$である。つまり、
+  \begin{align*}
+    \int_S \vect{J}\cdot d\vect{S} = -\bbn{Q}{t}
+  \end{align*}
+  である。$Q$は電荷密度$\rho$を用いて
+  \begin{align*}
+    Q=\int_V \rho dV
+  \end{align*}
+  であるので、
+  \begin{align*}
+    \int_S \vect{J}\cdot d\vect{S} = -\bbn{}{t}\int_V \rho dV = \int_V \left(-\hb{\rho}{t}\right)dV
+  \end{align*}
+  となる(時間微分を時間での偏微分に置き換えることで、体積積分との交換をした。)。この左辺にGaussの発散定理を適用することで、
+  \begin{align*}
+    \int_V \mathrm{div}{J}dV = \int_V \left(-\hb{\rho}{t}\right)dV
+  \end{align*}
+  である。これが任意の領域Vに対して成り立つことから、被積分関数が一致するため、
+  \begin{align*}
+    \mathrm{div}{J} = -\hb{\rho}{t} \qquad \therefore \qquad \hb{\rho}{t} + \mathrm{div}{J} = 0
+  \end{align*}
+  である。よって(1)式が示された。
+
+  
+
+
+  \subsubsection*{Q19-2}
+  (3)式の両辺の発散を考えると、((2)式でももちろん良い)
+  \begin{align*}
+    \mathrm{div}\,\mathrm{rot}\vect{B} = \mu_0 \mathrm{div}\vect{J}
+  \end{align*}
+  である。ここにQ5-1の(6)式を適用すると、左辺は0であるから、$\mathrm{div}\vect{J} = 0$である。また(1)から$\hb{\rho}{t}=-\mathrm{div}\vect{J}=0$である。(4),(5)式が示された。\\
+  次に、偏微分の交換可能性から(8)式の左辺で時間微分と発散を入れ替える。すると、
+  \begin{align*}
+    (左辺)=\mu_0\mathrm{div}\vect{J} + \epsilon_0\mu_0\hb{}{t}\mathrm{div}\vect{E}
+  \end{align*}
+  である。次に(1),(6)式より、
+  \begin{align*}
+    (左辺)=-\mu_0\hb{\rho}{t}+\epsilon_0\mu_0\hb{}{t}\frac{\rho}{\epsilon_0} =0
+  \end{align*}
+  となる。よって(8)式は示された。
+  
+
+
+
+
+  \subsubsection*{Q19-3}
+  (10)式で$\hb{\vect{E}}{t}=\vect{0}$とすると、即座に(3)式となり示せた。\\
+  また、(10)式の両辺の発散を考えると、左辺が$\mathrm{div}\,\mathrm{rot}\vect{B}=0$より(8)式となる。よって示された。
+
+
+
+
+  \subsection*{Q20}
+  \subsubsection*{Q20-1}
+  \subsubsubsection*{(i)}
+  $\mathrm{div}\vect{E}=\frac{\rho}{\epsilon_0}$の両辺を$t$で偏微分し、$\mathrm{rot}\vect{B}=\mu_0 \vect{J}+\epsilon_0\mu_0\hb{\vect{E}}{t}$の両辺の発散をとると、
+  \begin{align*}
+    \hb{\mathrm{div}\vect{E}}{t} &= \frac{1}{\epsilon_0}\hb{\rho}{t}\\
+    \mathrm{div}\,\mathrm{rot}\vect{B} &= \mu_0\mathrm{div}\vect{J}+\epsilon_0\mu_0\mathrm{div}\hb{\vect{E}}{t}
+  \end{align*}
+  である。偏微分の交換可能性から$\hb{\mathrm{div}\vect{E}}{t}=\mathrm{div}\hb{\vect{E}}{t}$であり、またQ5-1(6)式より$\mathrm{div}\,\mathrm{rot}\vect{B}=0$であるので、
+  \begin{align*}
+    0 = \mu_0\mathrm{div}\vect{J}+\epsilon_0\mu_0\cdot\frac{1}{\epsilon_0}\hb{\rho}{t}\\
+    \therefore \qquad \hb{\rho}{t}+\mathrm{div}\vect{J}=0
+  \end{align*}
+  である。(5)式が示された。
+  \subsubsubsection*{(ii)}
+  少し粗暴であるが、別の問題から引用する。Q19-1より、(5)式は電荷保存則を表している。感覚的な説明を付け加えるのならば、「ある任意の点において、電荷が減った分だけ電流が流出しており、新たに電荷が出現・消滅することはない」ということである。
+
+
+
+
+
+  \subsection*{Q21}
+  \subsubsection*{Q21-1}
+  まず、$\mathrm{rot}\vect{E}=-\hb{\vect{B}}{t}$の両辺の回転をとると、
+  \begin{align*}
+    \mathrm{rot}\,\mathrm{rot}\vect{E}&=-\mathrm{rot}\hb{\vect{B}}{t}\\
+    &=-\hb{\mathrm{rot}\vect{B}}{t}\\
+    &=-\hb{}{t}\epsilon_0\mu_0\hb{\vect{E}}{t}\\
+    &=-\epsilon_0\mu_0\hhb{\vect{E}}{t}
+  \end{align*}
+  である。
+  次に、Q5-1(7)式$\mathrm{rot}\,\mathrm{rot}\vect{A}=\mathrm{grad}\,\mathrm{div}\vect{A}-\Delta\vect{A}$を用いると、真空中であるので、
+  \begin{align*}
+    \mathrm{rot}\,\mathrm{rot}\vect{E} &= \mathrm{grad}\,\mathrm{div}\vect{E}-\Delta\vect{E}\\
+    &= - \Delta\vect{E}
+  \end{align*}
+  である。これらを組み合わせると、
+  \begin{align*}
+    \epsilon_0\mu_0\hhb{\vect{E}}{t} - \Delta\vect{E} = \vect{0}
+  \end{align*}
+  である。次に、$\vect{B}$でも同様の操作を行う。$\mathrm{rot}\vect{B}=\epsilon_0\mu_0\hb{\vect{E}}{t}$の両辺の回転をとると、
+  \begin{align*}
+    \mathrm{rot}\,\mathrm{rot}\vect{B} &= \epsilon_0\mu_0\mathrm{rot}\hb{\vect{E}}{t}\\
+    &= \epsilon_0\mu_0\hb{\mathrm{rot}\vect{E}}{t}\\
+    &= -\epsilon_0\mu_0\hb{}{t}\hb{\vect{B}}{t}\\
+    &=-\epsilon_0\mu_0\hhb{\vect{B}}{t}
+  \end{align*}
+  である。Q5-1(7)式を用いると、
+  \begin{align*}
+    \mathrm{rot}\,\mathrm{rot}\vect{B} &= \mathrm{grad}\,\mathrm{div}\vect{B}-\Delta\vect{B}\\
+    &= -\Delta\vect{B}
+  \end{align*}
+  である。これらを組み合わせると、
+  \begin{align*}
+    \epsilon_0\mu_0\hhb{\vect{B}}{t} - \Delta\vect{B} = \vect{0}
+  \end{align*}
+  である。これが(1)式である。
+
+
+
+
+
+  \subsubsection*{Q21-2}
+  (6)式において、$\hhb{}{t}$はもちろん各成分に作用する。ラプラシアン$\Delta$もスカラー的に作用する演算子であるから、同様に各成分に同じように作用する。よって、$\vect{F}(\vect{r},t)$が(6)式を満たすことは、各成分$F_i(\vect{r},t)$が同じ形の方程式である(8)式を満たすことと同値である。
+
+  \subsubsection*{Q21-3}
+  (9)の被積分関数を$f_i$とする。$F_i=\iiint_{\mathbb{R}^3} d\vect{k}f_i$を(8)式の左辺、つまり$\frac{1}{c^2}\hhb{F_i}{t}-\Delta F_i$に代入する。$t,x,y,z$はkに依存しない変数であるから、偏微分と積分の順序を入れ替えることができる。すると、
+  \begin{align*}
+    (左辺) &= \frac{1}{c^2}\iiint_{\mathbb{R}^3} d\vect{k}\hhb{f_i}{t} - \sum_{j=x,y,z}\iiint_{\mathbb{R}^3} d\vect{k}\hhb{f_i}{j}\\
+    &= -\frac{1}{c^2}\iiint_{\mathbb{R}^3} d\vect{k} \omega^2(\vect{k})f_i + \sum_{j=x,y,z}\iiint_{\mathbb{R}^3}d\vect{k}k_j^2 f_i\\
+    &= \iiint_{\mathbb{R}^3} d\vect{k}\left\{ -\frac{1}{c^2}\omega^2(\vect{k}) + \sum_{j=x,y,z}k_j^2\right\}f_i \\
+    &= \iiint_{\mathbb{R}^3} d\vect{k}\left\{ -\frac{1}{c^2}c^2|\vect{k}|^2 + |\vect{k}|^2\right\}f_i \\
+    &= \vect{0}
+  \end{align*}
+  である。よって(9)式は方程式(8)式の解である。(9)式は任意定数として$a_i(\vect{k}), b_i(\vect{k})$の2つを含むため、2階の微分方程式である(8)式の一般解である。
+  \subsubsection*{Q21-4}
+  $\sin(\vect{k}\cdot\vect{r} - \omega(\vect{k}) t)$は、$\vect{r}$の$\vect{k}$方向成分を$r_\parallel$とすると、$\sin(|\vect{k}|r_\parallel-\omega(\vect{k})t)$である。よって、この波の座標依存性は$\vect{k}$に平行な方向に対してのみ、であり、その波数は$|\vect{k}|$に他ならない。つまり、$\vect{k}$方向、波数$|\vect{k}|$の平面波。また、周期が$\frac{1}{\omega(\vect{k})}$であるから、角振動数は$\omega(\vect{k})$である。振幅は係数の1である。\\
+  $\cos(\vect{k}\cdot\vect{r} - \omega(\vect{k}) t)$も同じであり、よって$\exp\{i(\vect{k}\cdot\vect{r} - \omega(\vect{k}) t)\}=\sin(\vect{k}\cdot\vect{r} - \omega(\vect{k}) t)+i\cos(\vect{k}\cdot\vect{r} - \omega(\vect{k}) t)$も同様だとわかる。
+
+  \subsubsection*{Q21-5}
+  (16)式を$\mathrm{div}\vect{E}=0$に代入すると、$\vect{r}$に関する偏微分と$\vect{k}$に関する積分を入れ替えられるので、
+  \begin{align*}
+    \mathrm{div}\vect{E} &= \mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k} \vect{E}(\vect{k}) \exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)\\
+    &= \mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k}\sum_{j=x,y,z}E_j(\vect{k})\hb{}{j}\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)\\
+    &= \mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k} \sum_j E_j(\vect{k})ik_j\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)\\
+    &= -\mathrm{Im}\left(\iiint_{\mathbb{R}^3} d\vect{k}\quad\vect{k}\cdot\vect{E}(\vect{k})\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)=0
+  \end{align*}
+  である。これが任意の$\vect{r},t$に対して成り立つため、任意の$\vect{k}\in{\mathbb{R}^3}$に対して被積分関数が$0$である、つまり$\vect{k}\cdot\vect{E}(\vect{k})=0$である。$|\vect{k}|$でわると、$\hat{\vect{k}}\cdot\vect{E}(\vect{k})=0$である。これが(18)式の第一式だ。\\
+  $\mathrm{div}\vect{B}=0$についても、$\vect{E}(\vect{k})$を$\vect{B}(\vect{k})$に置き換えただけの式である(17)式を代入することで、同様の議論ができる。よって、$\hat{\vect{k}}\cdot\vect{B}(\vect{k})=0$である。これが(18)式の第二式だ。\\
+  次に、$\mathrm{rot}\vect{E}=-\frac{1}{c}\hb{\vect{B}}{t}$に(16),(17)式を代入すると、$t$に関する偏微分と$\vect{k}$に関する積分を入れ替えることができるから、
+  \begin{align*}
+    \mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k}\quad i\vect{k}\times\vect{E}(\vect{k})\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right) &= -\frac{1}{c}\mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k}(-i\omega(\vect{k}))\vect{B}(\vect{k})\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)\\
+    &= \frac{1}{c}\mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k}ic|\vect{k}|\vect{B}(\vect{k})\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)\\
+    &= \mathrm{Re}\left(\iiint_{\mathbb{R}^3} d\vect{k}i|\vect{k}|\vect{B}(\vect{k})\exp\{i(\vect{k}\cdot\vect{r}-\omega(\vect{k})t)\}\right)
+  \end{align*}
+  である。これが任意の$\vect{r},t$に対して成り立つため、任意の$\vect{k}\in{\mathbb{R}^3}$に対して被積分関数が一致する。つまり、
+  \begin{align*}
+    \vect{k}\times\vect{E}(\vect{k}) &= |\vect{k}|\vect{B}(\vect{k}) \qquad \therefore \qquad \hat{\vect{k}}\times\vect{E}(\vect{k}) = \vect{B}(\vect{k})
+  \end{align*}
+  である。これは(18)式の第三式である。また、$\mathrm{rot}\vect{B}=\frac{1}{c}\hb{\vect{E}}{t}$についても電場と磁場を入れ替えて符号を反転させただけのものなので、導かれる条件も第三式の$\vect{E}(\vect{k})$と$\vect{B}(\vect{})$を入れ替え、右辺の符号を反転させれば良い。つまり導かれる条件式は、
+  \begin{align*}
+    \hat{\vect{k}}\times\vect{B}(\vect{k}) = -\vect{E}(\vect{k})
+  \end{align*}
+  である。これが(18)式の第四式だ。
+
+  \subsubsection*{Q21-6}
+  Q21-5の結果より、真空中において $\vect{k} \cdot \vect{E}(\vect{k}) = 0$ が成り立つ。これは、電場ベクトル $\vect{E}(\vect{k})$ が波数の進行方向 $\hat{\vect{k}}$ に垂直な平面内に存在することを意味する。
+  したがって、この平面を張る互いに直交する単位ベクトル $\vect{e}^{(1)}(\vect{k})$ と $\vect{e}^{(2)}(\vect{k})$ を用いて、$\vect{E}(\vect{k})$ は次のように展開できる。
+  \begin{align*}
+    \vect{E}(\vect{k}) = E^{(1)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(2)}(\vect{k})\vect{e}^{(2)}(\vect{k})
+  \end{align*}
+  これを電場の一般解である(16)式に代入すると、(25)式が得られる。
+  \begin{align*}
+    \vect{E}(\vect{r},t) = \Re \iiint_{\mathbb{R}^3} dk \left\{ E^{(1)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(2)}(\vect{k})\vect{e}^{(2)}(\vect{k}) \right\} \exp\{i(\vect{k} \cdot \vect{r} - \omega(\vect{k})t)\}
+  \end{align*}
+
+  次に磁場について考える。Q21-5より、$\hat{\vect{k}} \times \vect{E}(\vect{k}) = \vect{B}(\vect{k})$ (CGS単位系)、または $\hat{\vect{k}} \times \vect{E}(\vect{k}) = c\vect{B}(\vect{k})$ (MKSA単位系) が成り立つ。
+  ここで、外積 $\hat{\vect{k}} \times \vect{E}(\vect{k})$ を計算する。
+  \begin{align*}
+    \hat{\vect{k}} \times \vect{E}(\vect{k}) = \hat{\vect{k}} \times \left( E^{(1)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(2)}(\vect{k})\vect{e}^{(2)}(\vect{k}) \right)
+  \end{align*}
+  $(\vect{e}^{(1)}(\vect{k}), \vect{e}^{(2)}(\vect{k}), \hat{\vect{k}})$ はこの順で右手系をなす直交単位ベクトルであるため、以下の関係が成り立つ。
+  \begin{align*}
+    \hat{\vect{k}} \times \vect{e}^{(1)}(\vect{k}) &= \vect{e}^{(2)}(\vect{k}) \\
+    \hat{\vect{k}} \times \vect{e}^{(2)}(\vect{k}) &= -\vect{e}^{(1)}(\vect{k})
+  \end{align*}
+  これを用いると、外積は次のように展開される。
+  \begin{align*}
+    \hat{\vect{k}} \times \vect{E}(\vect{k}) &= E^{(1)}(\vect{k})\vect{e}^{(2)}(\vect{k}) - E^{(2)}(\vect{k})\vect{e}^{(1)}(\vect{k}) \\
+    &= -E^{(2)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(1)}(\vect{k})\vect{e}^{(2)}(\vect{k})
+  \end{align*}
+
+  CGS単位系の場合、$\vect{B}(\vect{k}) = \hat{\vect{k}} \times \vect{E}(\vect{k})$ であるから、これを磁場の一般解である(17)式に代入すると(26)式が得られる。
+  \begin{align*}
+    \vect{B}(\vect{r},t) = \Re \iiint_{\mathbb{R}^3} dk \left\{ -E^{(2)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(1)}(\vect{k})\vect{e}^{(2)}(\vect{k}) \right\} \exp\{i(\vect{k} \cdot \vect{r} - \omega(\vect{k})t)\}
+  \end{align*}
+
+  MKSA単位系の場合、$\vect{B}(\vect{k}) = \frac{1}{c} \hat{\vect{k}} \times \vect{E}(\vect{k})$ であるから、同様に代入すると(27)式が得られる。
+  \begin{align*}
+    \vect{B}(\vect{r},t) = \Re \iiint_{\mathbb{R}^3} dk \frac{1}{c} \left\{ -E^{(2)}(\vect{k})\vect{e}^{(1)}(\vect{k}) + E^{(1)}(\vect{k})\vect{e}^{(2)}(\vect{k}) \right\} \exp\{i(\vect{k} \cdot \vect{r} - \omega(\vect{k})t)\}
+  \end{align*}
+
+
+
+  \subsubsection*{Q21-7}
+  Q21-6で導出した通り、特定の波数 $\vect{k}$ における電場 $\vect{E}(\vect{r},t)$ と磁場 $\vect{B}(\vect{r},t)$ は、すべて $\vect{e}^{(1)}(\vect{k})$ と $\vect{e}^{(2)}(\vect{k})$ という2つのベクトルの線形結合で表されている。これらの単位ベクトルは波の進行方向 $\hat{\vect{k}}$ に垂直な平面内に定義されているため、電場と磁場の振動面はどちらも波の進行方向に対して常に垂直になる。したがって、電場と磁場は横波である。
+
+  また、特定の波数 $\vect{k}$ における電場の振幅ベクトル $\vect{E}(\vect{k})$ と磁場の振幅ベクトル $\vect{B}(\vect{k})$ の内積を計算すると、
+  \begin{align*}
+    \vect{E}(\vect{k}) \cdot \vect{B}(\vect{k}) &\propto \left( E^{(1)}\vect{e}^{(1)} + E^{(2)}\vect{e}^{(2)} \right) \cdot \left( -E^{(2)}\vect{e}^{(1)} + E^{(1)}\vect{e}^{(2)} \right) \\
+    &= -E^{(1)}E^{(2)}(\vect{e}^{(1)} \cdot \vect{e}^{(1)}) + E^{(1)}E^{(1)}(\vect{e}^{(1)} \cdot \vect{e}^{(2)}) \\
+    &\quad - E^{(2)}E^{(2)}(\vect{e}^{(2)} \cdot \vect{e}^{(1)}) + E^{(2)}E^{(1)}(\vect{e}^{(2)} \cdot \vect{e}^{(2)})
+  \end{align*}
+  $\vect{e}^{(1)}$ と $\vect{e}^{(2)}$ は直交する単位ベクトルなので、$\vect{e}^{(1)} \cdot \vect{e}^{(1)} = \vect{e}^{(2)} \cdot \vect{e}^{(2)} = 1$、$\vect{e}^{(1)} \cdot \vect{e}^{(2)} = \vect{e}^{(2)} \cdot \vect{e}^{(1)} = 0$ となる。これを適用すると、
+  \begin{align*}
+    \vect{E}(\vect{k}) \cdot \vect{B}(\vect{k}) \propto -E^{(1)}E^{(2)} + E^{(2)}E^{(1)} = 0
+  \end{align*}
+  内積が $0$ になるため、電場と磁場の振動面も常に互いに垂直であることがわかる。
+
+  振幅の大きさについては、電場の振幅は $|\vect{E}(\vect{k})| = \sqrt{(E^{(1)})^2 + (E^{(2)})^2}$ である。
+  CGSガウス単位系の場合、磁場の振幅は $|\vect{B}(\vect{k})| = \sqrt{(-E^{(2)})^2 + (E^{(1)})^2} = \sqrt{(E^{(1)})^2 + (E^{(2)})^2}$ となり、$|\vect{E}(\vect{k})| = |\vect{B}(\vect{k})|$ として数値が完全に一致する。
+  一方、MKSA単位系の場合、磁場の振幅は $|\vect{B}(\vect{k})| = \frac{1}{c} \sqrt{(-E^{(2)})^2 + (E^{(1)})^2} = \frac{1}{c} |\vect{E}(\vect{k})|$ となり、$|\vect{E}(\vect{k})| = c |\vect{B}(\vect{k})|$ というアンバランスが生じる。
+
+  このアンバランスが生じた理由は、MKSA単位系が力学単位（$\mathrm{m, kg, s}$）と電気工学の実用単位（$\mathrm{A, V, \Omega}$など）を直結させる「実用性」を最優先して設計されたためである。その結果として真空の誘電率 $\epsilon_0$ や透磁率 $\mu_0$ を導入し、電場と磁場に異なる次元を割り当てることになった。これに対しCGSガウス単位系は、電磁場の基本法則から出発し、相対論的に対等な存在である電場と磁場が同じ次元を持つように理論的な対称性を優先して設計されているため、振幅が一致するのである。
+
+
+
+
+\end{document}
